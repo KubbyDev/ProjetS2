@@ -479,9 +479,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpStrength: 10
-  movementSpeed: 5
+  movementSpeed: 500
   maxJumps: 3
   pitchLimit: 60
+  inAirControl: 1.2
   camAnchor: {fileID: 4047230617074804}
 --- !u!136 &136245649870315834
 CapsuleCollider:

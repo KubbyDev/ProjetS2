@@ -4,11 +4,11 @@
 
 public class MovementManager : MonoBehaviour
 {
-	public float jumpStrength = 1000;     //La force des sauts
-	public float movementSpeed = 600;     //La vitesse des deplacements au sol
+	public float jumpStrength = 10;       //La force des sauts
+	public float movementSpeed = 500;     //La vitesse des deplacements au sol
     public int maxJumps = 3;              //Le nombre max de sauts sans toucher le sol
     public float pitchLimit = 60;         //L'angle max de camera en vertical (Entre 0 et 90)
-    public float inAirControl = 0.2f;     //Le pourcentage de control en l'air (1 = comme au sol)
+    public float inAirControl = 1.2f;     //La force des inputs en l'air (en l'air: inputs *= inAirControl/vitesse^2)
     public Transform camAnchor;
 
     private CharacterController cc;
@@ -27,7 +27,7 @@ public class MovementManager : MonoBehaviour
         velocity += Physics.gravity * Time.fixedDeltaTime * (velocity.y < 0 ? 2f : 1.0f);
 
         //Fait bouger le joueur
-        CollisionFlags cf = cc.Move(velocity * Time.fixedDeltaTime);
+        cc.Move(velocity * Time.fixedDeltaTime);
 
         if (cc.isGrounded) //Quand le joueur est au sol
         {
@@ -36,10 +36,7 @@ public class MovementManager : MonoBehaviour
         }
         else               //Quand le joueur est en l'air
         {
-            if (cf != CollisionFlags.None)
-                velocity = cc.velocity;
-
-            if (cf != CollisionFlags.None) Debug.Log("Collision");
+            velocity = cc.velocity;
         }
     }
 
@@ -48,7 +45,10 @@ public class MovementManager : MonoBehaviour
 	{
         input = input.z*transform.forward + input.x*transform.right;
         input.y = 0;
-        velocity += input.normalized * Time.fixedDeltaTime * movementSpeed * (cc.isGrounded ? 1 : inAirControl);
+
+        velocity += input.normalized * Time.fixedDeltaTime * movementSpeed      //Le vecteur d'inputs en temps normal
+            * (cc.isGrounded ? 1 : inAirControl / (velocity.sqrMagnitude+2));   //Quand le joueur est en l'air on multiplie par
+                                 //inAirControl/velocity.sqrMagnitude, +2 pour eviter la division par 0 et les a coups
     }
 
     //Appellee par InputManager
