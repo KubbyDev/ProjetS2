@@ -4,23 +4,23 @@
 
 public class MovementManager : MonoBehaviour
 {
-	public float jumpStrength = 10;       //La force des sauts
-	public float movementSpeed = 500;     //La vitesse des deplacements au sol
-    public int maxJumps = 3;              //Le nombre max de sauts sans toucher le sol
-    public float pitchLimit = 60;         //L'angle max de camera en vertical (Entre 0 et 90)
-    public float inAirControl = 1.2f;     //La force des inputs en l'air (en l'air: inputs *= inAirControl/vitesse^2)
-    public Transform camAnchor;
+    [SerializeField] private float jumpStrength = 10;       //La force des sauts
+    [SerializeField] private float movementSpeed = 500;     //La vitesse des deplacements au sol
+    [SerializeField] private int maxJumps = 3;              //Le nombre max de sauts sans toucher le sol
+    [SerializeField] private float pitchLimit = 60;         //L'angle max de camera en vertical (Entre 0 et 90)
+    [SerializeField] private float inAirControl = 1.2f;     //La force des inputs en l'air (en l'air: inputs *= inAirControl/vitesse^2)
+    [SerializeField] private Transform camAnchor;
 
     private CharacterController cc;
-    private Vector3 velocity;              //La vitesse actuelle du joueur
-    private int usableJumps;               //Le nombre de sauts restants (Reset quand le sol est touche)
+    private Vector3 velocity;             //La vitesse actuelle du joueur
+    private int usableJumps;              //Le nombre de sauts restants (Reset quand le sol est touche)
 
 	void Start()
 	{
         cc = GetComponent<CharacterController>();
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         //Gravity
         //Pour supprimer l'impression de faible gravite on l'augmente quand le joueur tombe

@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
-using UnityEngine.Networking;
 
-public class InputManager : NetworkBehaviour
+public class InputManager : MonoBehaviour
 {
-    public bool invertY = false;
-    public float sensivityY = 2;
-    public float sensivityX = 2;
+    [SerializeField] private bool invertY = false;
+    [SerializeField] private float sensivityY = 2;
+    [SerializeField] private float sensivityX = 2;
 
     private MovementManager movement;
     private Spell_BasicBullet basicBullet;
@@ -18,9 +17,6 @@ public class InputManager : NetworkBehaviour
     
     void FixedUpdate()
     {
-        if (!isLocalPlayer)
-            return;
-
         if (Input.GetKeyDown(KeyCode.Space))
             movement.Jump();
 
