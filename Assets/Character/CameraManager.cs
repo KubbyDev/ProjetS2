@@ -7,7 +7,13 @@ public class CameraManager : MonoBehaviour {
     [SerializeField] private float pitchLimit = 60;         //L'angle max de camera en vertical (Entre 0 et 90)
     [SerializeField] private float camDistance = 4;         //La distance entre la camera et la tete du joueur
     [SerializeField] private float camRigidity = 0.95f;     //La rigidite de la camera (si cette valeur est basse, les mouvements seront plus fluides)
-    [SerializeField] private Transform camAnchor;
+
+    private Transform camAnchor;
+
+    void Start()
+    {
+        camAnchor = transform.Find("CameraAnchor");
+    }
 
     void FixedUpdate()
     {

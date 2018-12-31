@@ -17,10 +17,18 @@ public class InputManager : MonoBehaviour
     
     void FixedUpdate()
     {
+        //Deplacements (ZQSD)
+        Vector3 move = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+        if(move.sqrMagnitude > 0)
+            movement.Move(move);
+
+        //Rotation de la camera
+        Vector3 rot = new Vector3(Input.GetAxisRaw("Mouse X") * sensivityX, Input.GetAxisRaw("Mouse Y") * sensivityY * (invertY ? 1 : -1), 0);
+        if (rot.sqrMagnitude > 0)
+            cam.Rotate(rot);
+
+        //Sauts
         if (Input.GetKeyDown(KeyCode.Space))
             movement.Jump();
-
-        movement.Move(new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")));
-        cam.Rotate(new Vector3(Input.GetAxisRaw("Mouse X") * sensivityX,  Input.GetAxisRaw("Mouse Y") * sensivityY * (invertY ? 1 : -1), 0));
     }
 }
