@@ -16,8 +16,6 @@ public class PlayerSetup : NetworkBehaviour {
         //Components of childs of the player
         foreach(Behaviour b in compToDisable)
             b.enabled = false;
-
-        Camera.main.gameObject.SetActive(false);
     }
 
 }

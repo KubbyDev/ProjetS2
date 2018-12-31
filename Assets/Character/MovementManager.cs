@@ -7,9 +7,7 @@ public class MovementManager : MonoBehaviour
     [SerializeField] private float jumpStrength = 10;       //La force des sauts
     [SerializeField] private float movementSpeed = 500;     //La vitesse des deplacements au sol
     [SerializeField] private int maxJumps = 3;              //Le nombre max de sauts sans toucher le sol
-    [SerializeField] private float pitchLimit = 60;         //L'angle max de camera en vertical (Entre 0 et 90)
     [SerializeField] private float inAirControl = 1.2f;     //La force des inputs en l'air (en l'air: inputs *= inAirControl/vitesse^2)
-    [SerializeField] private Transform camAnchor;
 
     private CharacterController cc;
     private Vector3 velocity;             //La vitesse actuelle du joueur
@@ -49,22 +47,6 @@ public class MovementManager : MonoBehaviour
         velocity += input.normalized * Time.fixedDeltaTime * movementSpeed      //Le vecteur d'inputs en temps normal
             * (cc.isGrounded ? 1 : inAirControl / (velocity.sqrMagnitude+2));   //Quand le joueur est en l'air on multiplie par
                                  //inAirControl/velocity.sqrMagnitude, +2 pour eviter la division par 0 et les a coups
-    }
-
-    //Appellee par InputManager
-    public void Rotate(Vector3 rotation)
-    {
-        //Tourne le joueur sur l'axe horizontal
-        transform.rotation *= Quaternion.Euler(new Vector3(0, rotation.x, 0));
-
-        //Tourne la camera sur l'axe vertical (Et la bloque a <pitchLimit>)
-        float newCamRot = camAnchor.transform.localEulerAngles.x + rotation.y;
-        if (newCamRot > pitchLimit && newCamRot < 180)
-            newCamRot = pitchLimit;
-        if (newCamRot < 360 - pitchLimit && newCamRot > 180)
-            newCamRot = -pitchLimit;
-
-        camAnchor.transform.localEulerAngles = new Vector3(newCamRot, 0, 0);
     }
 
     //Appellee par InputManager
