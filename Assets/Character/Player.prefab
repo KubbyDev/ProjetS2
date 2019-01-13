@@ -402,8 +402,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpStrength: 10
-  movementSpeed: 500
   maxJumps: 3
+  movementSpeed: 500
   inAirControl: 1.2
 --- !u!114 &114994667824945418
 MonoBehaviour:
@@ -416,9 +416,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d689170e41996c34e8cb6532d7cab059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  componentsToKeep:
+  scriptsToKeep: 
   - {fileID: 114254347113718070}
   - {fileID: 114769800382085598}
+  componentsToDisable: []
 --- !u!136 &136250258134974884
 CapsuleCollider:
   m_ObjectHideFlags: 1

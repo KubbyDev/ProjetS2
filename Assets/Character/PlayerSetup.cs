@@ -5,7 +5,8 @@ using UnityEngine.Networking;
 
 public class PlayerSetup : NetworkBehaviour {
 
-    [SerializeField] Behaviour[] componentsToKeep;
+    [SerializeField] private Behaviour[] scriptsToKeep;
+    [SerializeField] private Behaviour[] componentsToDisable;
 
     void Start()
     {
@@ -14,12 +15,12 @@ public class PlayerSetup : NetworkBehaviour {
             return;
 
         //Sinon on desactive les components qui doivent l'etre
+        foreach (Behaviour comp in componentsToDisable)
+            comp.enabled = false;
+
         List<Behaviour> scripts = new List<Behaviour>(GetComponents<Behaviour>());
-
-        Debug.Log(scripts.Count);
-
-        foreach (Behaviour comp in scripts)
-            if ( ! Array.Exists(componentsToKeep, e => e == comp))
-                comp.enabled = false;
+        foreach (Behaviour script in scripts)
+            if ( ! Array.Exists(scriptsToKeep, e => e == script))
+                script.enabled = false;
     }
 }

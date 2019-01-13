@@ -4,10 +4,12 @@
 
 public class MovementManager : MonoBehaviour
 {
-    [SerializeField] private float jumpStrength = 10;       //La force des sauts
-    [SerializeField] private float movementSpeed = 500;     //La vitesse des deplacements au sol
-    [SerializeField] private int maxJumps = 3;              //Le nombre max de sauts sans toucher le sol
-    [SerializeField] private float inAirControl = 1.2f;     //La force des inputs en l'air (en l'air: inputs *= inAirControl/vitesse^2)
+    [Header("Jumps")]
+    [SerializeField] [Range(0, 50)] private float jumpStrength = 10;      //La force des sauts
+    [SerializeField] [Range(0, 10)] private int maxJumps = 3;             //Le nombre max de sauts sans toucher le sol
+    [Space] [Header("Movements")]
+    [SerializeField] [Range(0, 2000)] private float movementSpeed = 500;  //La vitesse des deplacements au sol
+    [SerializeField] [Range(0, 2)] private float inAirControl = 1.2f;     //La force des inputs en l'air (en l'air: inputs *= inAirControl/vitesse^2)
 
     private CharacterController cc;
     private Vector3 velocity;             //La vitesse actuelle du joueur

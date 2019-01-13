@@ -3,8 +3,8 @@
 public class InputManager : MonoBehaviour
 {
     [SerializeField] private bool invertY = false;
-    [SerializeField] private float sensivityY = 2;
-    [SerializeField] private float sensivityX = 2;
+    [SerializeField] [Range(0, 10)] private float sensivityY = 2;
+    [SerializeField] [Range(0, 10)] private float sensivityX = 2;
 
     private MovementManager movement;
     private CameraManager cam;

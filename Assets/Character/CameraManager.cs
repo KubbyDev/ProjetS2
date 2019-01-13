@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour {
 
-    [SerializeField] private float pitchLimit = 60;         //L'angle max de camera en vertical (Entre 0 et 90)
-    [SerializeField] private float camDistance = 4;         //La distance entre la camera et la tete du joueur
-    [SerializeField] private float camRigidity = 0.95f;     //La rigidite de la camera (si cette valeur est basse, les mouvements seront plus fluides)
+    [SerializeField] [Range(0,90)] private float pitchLimit = 60;     //L'angle max de camera en vertical
+    [SerializeField] [Range(0,10)] private float camDistance = 4;     //La distance entre la camera et la tete du joueur
+    [SerializeField] [Range(0, 1)] private float camRigidity = 0.95f; //La rigidite de la camera (si cette valeur est basse, les mouvements seront plus fluides)
 
     private Transform camAnchor;
 

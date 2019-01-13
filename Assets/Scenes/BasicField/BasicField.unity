@@ -241,7 +241,7 @@ GameObject:
   - component: {fileID: 332294161}
   - component: {fileID: 332294160}
   m_Layer: 0
-  m_Name: Directional Light
+  m_Name: Sun Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -351,6 +351,10 @@ Prefab:
     - target: {fileID: 100000, guid: f8ba203fb85dbb74e8b8f497a44f0dc1, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: f8ba203fb85dbb74e8b8f497a44f0dc1, type: 3}
+      propertyPath: m_Name
+      value: Terrain
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f8ba203fb85dbb74e8b8f497a44f0dc1, type: 3}
@@ -474,7 +478,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1475572244954566, guid: 5ca72a5b37fc7334f9d3be3abe2e6f74, type: 2}
       propertyPath: m_Name
-      value: Goal (2)
+      value: Goal zp
       objectReference: {fileID: 0}
     - target: {fileID: 1475572244954566, guid: 5ca72a5b37fc7334f9d3be3abe2e6f74, type: 2}
       propertyPath: m_StaticEditorFlags
@@ -536,7 +540,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1475572244954566, guid: 5ca72a5b37fc7334f9d3be3abe2e6f74, type: 2}
       propertyPath: m_Name
-      value: Goal (1)
+      value: Goal zm
       objectReference: {fileID: 0}
     - target: {fileID: 1475572244954566, guid: 5ca72a5b37fc7334f9d3be3abe2e6f74, type: 2}
       propertyPath: m_StaticEditorFlags
