@@ -56,6 +56,8 @@ public class MovementManager : MonoBehaviour
     //Appellee par InputManager
     public void Jump()
     {
+        Debug.Log("Jump asked");
+
         if (usableJumps > 0)
         {
             AddForce(new Vector3(0, jumpStrength, 0));

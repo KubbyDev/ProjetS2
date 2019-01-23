@@ -1,18 +1,17 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
+using Photon.Pun;
 
-public class BallTesting : NetworkBehaviour
+public class BallTesting : MonoBehaviour
 {
-    [SyncVar] private Vector3 velocity;
-
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.A))
-            CmdAddForceBall(Camera.main.transform.forward * 1000);
+            RPC_AddForceBall(Camera.main.transform.forward * 1000);
     }
 
-    [Command]
-    void CmdAddForceBall(Vector3 force)
+    [PunRPC]
+    void RPC_AddForceBall(Vector3 force) 
     {
         GetComponent<Rigidbody>().AddForce(force);
     }

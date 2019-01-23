@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Photon.Pun;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
-public class PlayerSetup : NetworkBehaviour {
+public class PlayerSetup : MonoBehaviour {
 
     [SerializeField] private Behaviour[] scriptsToKeep;
     [SerializeField] private Behaviour[] componentsToDisable;
@@ -11,7 +11,7 @@ public class PlayerSetup : NetworkBehaviour {
     void Start()
     {
         //Si le joueur qui vient de spawn est celui du client on laisse tout active
-        if (isLocalPlayer)
+        if (GetComponent<PhotonView>().IsMine)
             return;
 
         //Sinon on desactive les components qui doivent l'etre
