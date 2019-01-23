@@ -2,9 +2,7 @@
 using UnityEngine.Networking;
 
 public class BallTesting : NetworkBehaviour
-{
-    [SyncVar] private Vector3 velocity;
-
+{ 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.A))
