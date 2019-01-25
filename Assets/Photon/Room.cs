@@ -51,7 +51,7 @@ public class Room : MonoBehaviourPunCallbacks, IInRoomCallbacks
     {
         Debug.Log("Creation d'un joueur");
 
-        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), transform.position, Quaternion.identity);
+        PhotonNetwork.Instantiate(Path.Combine("Character", "Player"), transform.position, Quaternion.identity);
     }
 
     public int getPlayerNumber()

@@ -9,9 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7742924780462279433}
-  - component: {fileID: 7742924780462279432}
   - component: {fileID: 7742924780462279435}
-  - component: {fileID: 6599237076771020620}
+  - component: {fileID: 2940506488818727626}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -33,18 +32,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7742924780462279432
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7742924780462279434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db198d1215924e54d81b48e016e3beef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &7742924780462279435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,10 +51,10 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 0}
-  viewIdField: 999
+  viewIdField: 0
   InstantiationId: 999
   isRuntimeInstantiated: 0
---- !u!114 &6599237076771020620
+--- !u!114 &2940506488818727626
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -76,7 +63,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 7742924780462279434}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a551e3b3c392be41ad9ec8e7b2b06c7, type: 3}
+  m_Script: {fileID: 11500000, guid: db198d1215924e54d81b48e016e3beef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxPlayers: 10
