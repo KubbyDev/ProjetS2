@@ -7,7 +7,7 @@ public class BallTesting : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.A))
-            RPC_AddForceBall(Camera.main.transform.forward * 1000);
+            GetComponent<PhotonView>().RPC("RPC_AddForceBall", RpcTarget.All, Camera.main.transform.forward * 1000);
     }
 
     [PunRPC]
