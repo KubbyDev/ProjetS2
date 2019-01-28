@@ -9,10 +9,13 @@ using UnityEngine.UI;
 public class ServerSelectionMenu : MonoBehaviourPunCallbacks
 {
     [SerializeField] [Range(1, 100)] private byte maxPlayers = 10;       //Le nombre de joueurs que peuvent contenir les rooms creees par le bouton quick play (temporaire)
-    [SerializeField] private Button quickPlay;
-    [SerializeField] private Text connectingText;
+    [SerializeField] private Canvas online;
+    [SerializeField] private Canvas offline;
+    [SerializeField] private Text CreateRoomInput;
+    [SerializeField] private Text JoinRoomInput;
 
     // Connection au serveur -------------------------------------------------------------------
+
     void Start()
     {
         PhotonNetwork.ConnectUsingSettings();
@@ -22,37 +25,57 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
     {
         Debug.Log("Connection au serveur reussie");
 
-        quickPlay.gameObject.SetActive(true);
-        connectingText.gameObject.SetActive(false);
+        online.gameObject.SetActive(true);
+        offline.gameObject.SetActive(false);
         PhotonNetwork.AutomaticallySyncScene = true;
     }
 
-    // Quick Play ------------------------------------------------------------------------------
-    public void OnQuickPlayButtonClicked()
+    // Events des boutons ----------------------------------------------------------------------
+
+    public void OnJoinRandomRoomClicked()
     {
         Debug.Log("Recherche d'une salle...");
 
         PhotonNetwork.JoinRandomRoom();
     }
 
-    public void OnCancelButtonClicked()
+    public void OnJoinRoomClicked()
     {
-        
+        Debug.Log("Recherche d'une salle...");
+
+        PhotonNetwork.JoinRoom(JoinRoomInput.text);
+    }
+
+    public void OnCreateRoomClicked()
+    {
+        //Si le field est rempli on donne a la salle le nom choisi, sinon on donne un nom random
+        string name = (CreateRoomInput.text != "") ? CreateRoomInput.text : "Room" + (int)Random.Range(0, 1000000);
+
+        Debug.Log("Creation d'une salle... " + name);
+
+        CreateRoom(name);
+    }
+
+    // Connection aux salles ------------------------------------------------------------------
+
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        Debug.Log("Aucune salle trouvee");
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         Debug.Log("Aucune salle trouvee");
 
-        CreateRoom();
+        //CreateRoom();
     }
 
-    private void CreateRoom()
-    {
-        Debug.Log("Creation d'une salle...");
+    // Creation de salles ---------------------------------------------------------------------
 
+    private void CreateRoom(string name)
+    {
         RoomOptions rops = new RoomOptions() { IsVisible = true, IsOpen = true, MaxPlayers = maxPlayers };
-        PhotonNetwork.CreateRoom("Room" + (int) Random.Range(0, 1000000), rops);
+        PhotonNetwork.CreateRoom(name, rops);
     }
 
     public override void OnCreatedRoom()
@@ -65,6 +88,6 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
     {
         Debug.Log("Echec de la creation de la salle");
 
-        CreateRoom();
+        //CreateRoom();
     }
 }
