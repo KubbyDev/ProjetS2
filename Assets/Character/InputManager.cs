@@ -8,11 +8,13 @@ public class InputManager : MonoBehaviour
 
     private MovementManager movement;
     private CameraManager cam;
+    private BasicSpell spell;
 
     void Start()
     {
         movement = GetComponent<MovementManager>();
         cam = GetComponent<CameraManager>();
+        spell = GetComponent<BasicSpell>();
     }
     
     void FixedUpdate()
@@ -30,5 +32,8 @@ public class InputManager : MonoBehaviour
         //Sauts
         if (Input.GetKeyDown(KeyCode.Space))
             movement.Jump();
+
+        if (Input.GetKeyDown(KeyCode.A))
+            spell.Shoot();
     }
 }

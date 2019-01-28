@@ -22,7 +22,6 @@ public class MovementManager : MonoBehaviour
 
     void FixedUpdate()
     {
-
         //Gravity
         //Pour supprimer l'impression de faible gravite on l'augmente quand le joueur tombe
         velocity += Physics.gravity * Time.fixedDeltaTime * (velocity.y < 0 ? 2f : 1.0f);
