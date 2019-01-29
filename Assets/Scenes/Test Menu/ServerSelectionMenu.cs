@@ -1,32 +1,34 @@
 ﻿using Photon.Pun;
 using Photon.Realtime;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ServerSelectionMenu : MonoBehaviourPunCallbacks
 {
     [SerializeField] [Range(1, 100)] private byte maxPlayers = 10;       //Le nombre de joueurs que peuvent contenir les rooms creees par le bouton quick play (temporaire)
-    [SerializeField] private Canvas online;
-    [SerializeField] private Canvas offline;
-    [SerializeField] private Text CreateRoomInput;
-    [SerializeField] private Text JoinRoomInput;
+    [SerializeField] private Canvas online;                              //Le menu avant la connection au serveur
+    [SerializeField] private Canvas offline;                             //Le menu apres la connection au serveur
+    [SerializeField] private Text CreateRoomInput;                       //Le texte tappe dans le champ room name de create room
+    [SerializeField] private Text JoinRoomInput;                         //Le texte tappe dans le champ room name de join room
+
+    [SerializeField] private ErrorMessage errorMessage;                  //Le script qui gere l'affichage des messages d'erreur
 
     // Connection au serveur -------------------------------------------------------------------
 
     void Start()
     {
+        //Demande de connection
         PhotonNetwork.ConnectUsingSettings();
     }
 
+    //Quand la connection est etablie
     public override void OnConnectedToMaster()
     {
-        Debug.Log("Connection au serveur reussie");
-
+        //On cache le menu offline et on montre le menu online
         online.gameObject.SetActive(true);
         offline.gameObject.SetActive(false);
+
+        //Quand le serveur change de scene, les clients aussi
         PhotonNetwork.AutomaticallySyncScene = true;
     }
 
@@ -34,24 +36,19 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
 
     public void OnJoinRandomRoomClicked()
     {
-        Debug.Log("Recherche d'une salle...");
-
         PhotonNetwork.JoinRandomRoom();
     }
 
     public void OnJoinRoomClicked()
     {
-        Debug.Log("Recherche d'une salle...");
-
+        //On rejoint la salle qui a le nom que le joueur a passe en parametre
         PhotonNetwork.JoinRoom(JoinRoomInput.text);
     }
 
     public void OnCreateRoomClicked()
     {
-        //Si le field est rempli on donne a la salle le nom choisi, sinon on donne un nom random
+        //Si le champ est rempli on donne a la salle le nom choisi, sinon on donne un nom random
         string name = (CreateRoomInput.text != "") ? CreateRoomInput.text : "Room" + (int)Random.Range(0, 1000000);
-
-        Debug.Log("Creation d'une salle... " + name);
 
         CreateRoom(name);
     }
@@ -60,14 +57,12 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
 
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
-        Debug.Log("Aucune salle trouvee");
+        errorMessage.Display("No room found with that name");
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        Debug.Log("Aucune salle trouvee");
-
-        //CreateRoom();
+        errorMessage.Display("No room found");
     }
 
     // Creation de salles ---------------------------------------------------------------------
@@ -80,14 +75,12 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
 
     public override void OnCreatedRoom()
     {
-        Debug.Log("Salle créée !");
+        //On charge le BasicField
         PhotonNetwork.LoadLevel(1);
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
-        Debug.Log("Echec de la creation de la salle");
-
-        //CreateRoom();
+        errorMessage.Display("Room creation failed");
     }
 }
