@@ -66,4 +66,9 @@ public class MovementManager : MonoBehaviour
 	{
         velocity += force;
 	}
+
+    public void MultiplySpeed(float multiplier)
+    {
+        movementSpeed += multiplier;
+    }
 }
