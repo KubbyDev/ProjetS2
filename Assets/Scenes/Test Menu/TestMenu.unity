@@ -1474,7 +1474,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0bd96a0b1a8f684aa592ef41acf116e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayTime: 1
+  displayTime: 1.99
+  fadeTime: 0.155
   errorMessage: {fileID: 2114132480}
 --- !u!114 &1275618746
 MonoBehaviour:
