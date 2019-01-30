@@ -9,12 +9,14 @@ public class InputManager : MonoBehaviour
     private MovementManager movement;
     private CameraManager cam;
     private BasicSpell spell;
+    private Stricker stricker;
 
     void Start()
     {
         movement = GetComponent<MovementManager>();
         cam = GetComponent<CameraManager>();
         spell = GetComponent<BasicSpell>();
+        stricker = GetComponent<Stricker>();
     }
     
     void FixedUpdate()
@@ -36,6 +38,6 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.A))
             spell.Shoot();
         if (Input.GetKeyDown(KeyCode.R))
-            spell.Speed;
+            stricker.Speed();
     }
 }
