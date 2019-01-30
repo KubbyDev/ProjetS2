@@ -8,13 +8,14 @@ public class ErrorMessage : MonoBehaviour
     [SerializeField] [Range(0.5f,5)] private float displayTime = 1;      //Le temps durant lequel l'erreur reste affichee
     [SerializeField] [Range(0, 1)]   private float fadeTime = 0.8f;      //La proportion du temps total prise par le fondu
 
-    [SerializeField] private Text errorMessage;
+    private Text errorMessage;
     private float lastUpdate;
 
-    void Start()
+    void Awake()
     {
+        errorMessage = GetComponentInChildren<Text>(true);
     }
-
+    
     void Update()
     {
         //L'avancement de l'animation (de 0 a 1)
@@ -31,15 +32,14 @@ public class ErrorMessage : MonoBehaviour
 
     public void Display(string message)
     {
+        this.gameObject.SetActive(true);
+
         //Reset de la transparence
         modifyAlpha(1);
 
         //Mise a jour du texte et du temps de depart
         errorMessage.text = message;
         lastUpdate = Time.time;
-
-        //Affichage du message
-        this.gameObject.SetActive(true);
     }
 
     //Modifie la transparence de l'image et du texte du message d'erreur

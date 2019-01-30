@@ -11,7 +11,7 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
     [SerializeField] private Text CreateRoomInput;                       //Le texte tappe dans le champ room name de create room
     [SerializeField] private Text JoinRoomInput;                         //Le texte tappe dans le champ room name de join room
 
-    [SerializeField] private ErrorMessage errorMessage;                  //Le script qui gere l'affichage des messages d'erreur
+    private ErrorMessage errorMessage;                                   //Le script qui gere l'affichage des messages d'erreur
 
     // Connection au serveur -------------------------------------------------------------------
 
@@ -19,6 +19,8 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
     {
         //Demande de connection
         PhotonNetwork.ConnectUsingSettings();
+
+        errorMessage = online.GetComponentInChildren<ErrorMessage>(true);
     }
 
     //Quand la connection est etablie
@@ -41,8 +43,11 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
 
     public void OnJoinRoomClicked()
     {
-        //On rejoint la salle qui a le nom que le joueur a passe en parametre
-        PhotonNetwork.JoinRoom(JoinRoomInput.text);
+        if(JoinRoomInput.text != "")
+            //On rejoint la salle qui a le nom que le joueur a passe en parametre
+            PhotonNetwork.JoinRoom(JoinRoomInput.text);
+        else
+            errorMessage.Display("No room found with that name");
     }
 
     public void OnCreateRoomClicked()

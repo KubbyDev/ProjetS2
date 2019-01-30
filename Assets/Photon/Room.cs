@@ -11,7 +11,6 @@ public class Room : MonoBehaviourPunCallbacks, IInRoomCallbacks
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
-        Debug.Log("Salle rejointe");
 
         //Met a jour le nombre de joueurs dans la salle
         playerNumber = PhotonNetwork.CurrentRoom.PlayerCount;
@@ -23,11 +22,11 @@ public class Room : MonoBehaviourPunCallbacks, IInRoomCallbacks
         RPC_CreatePlayer();
     }
 
+    //Quand un joueur entre dans la salle
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         base.OnPlayerEnteredRoom(newPlayer);
 
-        Debug.Log("Un joueur a rejoint la salle");
         playerNumber++;
     }
 
@@ -35,8 +34,6 @@ public class Room : MonoBehaviourPunCallbacks, IInRoomCallbacks
     //Cree un avatar pour le joueur
     private void RPC_CreatePlayer()
     {
-        Debug.Log("Creation d'un joueur");
-
         PhotonNetwork.Instantiate(Path.Combine("Character", "Player"), transform.position, Quaternion.identity);
     }
 
