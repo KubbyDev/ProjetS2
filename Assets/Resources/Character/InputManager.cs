@@ -40,5 +40,7 @@ public class InputManager : MonoBehaviour
             spell.Shoot();
         if (Input.GetKeyDown(KeyCode.R))
             stricker.Speed();
+        if (Input.GetKeyDown(KeyCode.E))
+            stricker.escape();
     }
 }
