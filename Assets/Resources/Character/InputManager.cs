@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
@@ -40,6 +40,8 @@ public class InputManager : MonoBehaviour
             spell.Shoot();
         if (Input.GetKeyDown(KeyCode.R))
             stricker.Speed();
+        if (Input.GetKeyDown(KeyCode.E))
+            stricker.escape();
 
         //Changement de camera
         if (Input.GetKeyDown(KeyCode.F1))
