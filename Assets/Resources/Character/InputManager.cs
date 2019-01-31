@@ -40,5 +40,9 @@ public class InputManager : MonoBehaviour
             spell.Shoot();
         if (Input.GetKeyDown(KeyCode.R))
             stricker.Speed();
+
+        //Changement de camera
+        if (Input.GetKeyDown(KeyCode.F1))
+            cam.changeCamera();
     }
 }

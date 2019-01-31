@@ -6,8 +6,9 @@ public class CameraManager : MonoBehaviour {
 
     [SerializeField] [Range(0,90)] private float pitchLimit = 60;     //L'angle max de camera en vertical
     [SerializeField] [Range(0,10)] private float camDistance = 4;     //La distance entre la camera et la tete du joueur
-    [SerializeField] [Range(0, 1)] private float camRigidity = 0.95f; //La rigidite de la camera (si cette valeur est basse, les mouvements seront plus fluides)
+    [SerializeField] [Range(0, 1)] private float camRigidity = 0.95f; //(En 3e personne) La rigidite de la camera (si cette valeur est basse, les mouvements seront plus fluides)
 
+    private bool isFps;               //true: Premiere personne, false: 3e personne
     private Transform camAnchor;
 
     void Start()
@@ -17,21 +18,48 @@ public class CameraManager : MonoBehaviour {
 
     void FixedUpdate()
     {
+        if (isFps)
+            FirstPerson();
+        else
+            ThirdPerson();
+    }
+
+    public void changeCamera()
+    {
+        //On passe a l'autre camera
+        isFps = !isFps;
+
+        //On affiche l'avatar du joueur en tps, pas en fps
+        if (isFps)
+            GetComponent<MeshRenderer>().enabled = false;
+        else
+            GetComponent<MeshRenderer>().enabled = true;
+    }
+
+    private void ThirdPerson()
+    {
         //On tourne le pivot de la camera dans la bonne orientation
         Camera.main.transform.rotation = camAnchor.transform.rotation;
 
         Vector3 newPosition;
         //On trace un raycast en arriere
         RaycastHit hitInfo;
-        if (Physics.Raycast(camAnchor.transform.position, -1 * camAnchor.transform.forward, out hitInfo, camDistance+1))
+        if (Physics.Raycast(camAnchor.transform.position, -1 * camAnchor.transform.forward, out hitInfo, camDistance + 1))
             //s'il touche un mur on place la camera un peu avant le point d'impact
-            newPosition = camAnchor.transform.position - Mathf.Min(hitInfo.distance-0.5f, camDistance) * camAnchor.transform.forward;
+            newPosition = camAnchor.transform.position - Mathf.Min(hitInfo.distance - 0.5f, camDistance) * camAnchor.transform.forward;
         else
             //Si aucun mur n'est detecte, on place la camera a la bonne distance
             newPosition = camAnchor.transform.position - camDistance * camAnchor.transform.forward;
 
         //On deplace la camera sur sa nouvelle position en appliquant un petit smooth
         Camera.main.transform.position = newPosition * camRigidity + Camera.main.transform.position * (1 - camRigidity);
+    }
+
+    private void FirstPerson()
+    {
+        //On tourne la camera dans la bonne orientation et on la place au bon endroit
+        Camera.main.transform.rotation = transform.rotation;
+        Camera.main.transform.position = camAnchor.transform.position + new Vector3(0,-0.4f,0);
     }
 
     //Appellee par InputManager
