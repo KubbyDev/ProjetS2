@@ -35,6 +35,7 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
             movement.Jump();
 
+        //Spells
         if (Input.GetKeyDown(KeyCode.A))
             spell.Shoot();
         if (Input.GetKeyDown(KeyCode.R))

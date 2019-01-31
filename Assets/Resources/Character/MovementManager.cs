@@ -64,13 +64,15 @@ public class MovementManager : MonoBehaviour
         }
     }
 
-	public void AddForce(Vector3 force)  
+    //Applique une force sur le joueur
+    public void AddForce(Vector3 force)  
 	{
         velocity += force;
 	}
 
+    //Multiplie la vitesse de deplacement par multiplier
     public void MultiplySpeed(float multiplier)
     {
-        movementSpeed += multiplier;
+        movementSpeed *= multiplier;
     }
 }
