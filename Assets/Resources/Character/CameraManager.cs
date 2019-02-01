@@ -58,7 +58,7 @@ public class CameraManager : MonoBehaviour {
     private void FirstPerson()
     {
         //On tourne la camera dans la bonne orientation et on la place au bon endroit
-        Camera.main.transform.rotation = transform.rotation;
+        Camera.main.transform.eulerAngles = new Vector3(camAnchor.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0);
         Camera.main.transform.position = camAnchor.transform.position + new Vector3(0,-0.4f,0);
     }
 

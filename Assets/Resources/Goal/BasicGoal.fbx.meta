@@ -1,25 +1,18 @@
 fileFormatVersion: 2
-guid: 6cd8209fc6cc7624ba2f83eff3956b18
+guid: 3dfc2afba5cfc4f4780aee1c3eb422da
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: Camera
-    100002: //RootNode
-    100004: Lamp
-    100006: Torus
-    400000: Camera
-    400002: //RootNode
-    400004: Lamp
-    400006: Torus
-    2000000: Camera
+    100000: //RootNode
+    400000: //RootNode
     2100000: No Name
-    2300000: Torus
-    3300000: Torus
+    2300000: //RootNode
+    3300000: //RootNode
     4300000: Torus
-    10800000: Lamp
+    6400000: //RootNode
   externalObjects: {}
   materials:
-    importMaterials: 1
+    importMaterials: 0
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -50,8 +43,9 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 0
-    importVisibility: 1
+    addColliders: 1
+    useSRGBMaterialColor: 1
+    importVisibility: 0
     importBlendShapes: 1
     importCameras: 0
     importLights: 0
@@ -75,7 +69,10 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
-  importAnimation: 1
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 0
   copyAvatar: 0
   humanDescription:
     serializedVersion: 2
