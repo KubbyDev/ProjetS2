@@ -44,7 +44,7 @@ public class CameraManager : MonoBehaviour {
         Vector3 newPosition;
         //On trace un raycast en arriere
         RaycastHit hitInfo;
-        if (Physics.Raycast(camAnchor.transform.position, -1 * camAnchor.transform.forward, out hitInfo, camDistance + 1))
+        if (Physics.SphereCast(camAnchor.transform.position, 0.25f, -1 * camAnchor.transform.forward, out hitInfo, camDistance +1))
             //s'il touche un mur on place la camera un peu avant le point d'impact
             newPosition = camAnchor.transform.position - Mathf.Min(hitInfo.distance - 0.5f, camDistance) * camAnchor.transform.forward;
         else
@@ -59,7 +59,7 @@ public class CameraManager : MonoBehaviour {
     {
         //On tourne la camera dans la bonne orientation et on la place au bon endroit
         Camera.main.transform.eulerAngles = new Vector3(camAnchor.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0);
-        Camera.main.transform.position = camAnchor.transform.position + new Vector3(0,-0.4f,0);
+        Camera.main.transform.position = camAnchor.transform.position + new Vector3(0,-0.6f,0);
     }
 
     //Appellee par InputManager

@@ -7,9 +7,11 @@ public class MovementManager : MonoBehaviour
     [Header("Jumps")]
     [SerializeField] [Range(0, 50)] private float jumpStrength = 10;      //La force des sauts
     [SerializeField] [Range(0, 10)] private int maxJumps = 3;             //Le nombre max de sauts sans toucher le sol
+    [SerializeField] [Range(0, 50)] private float dashesStrength = 10f;   //La force des dashes (forces horizontales quand le joueur appuie sur espace + ZQSD)
     [Space] [Header("Movements")]
     [SerializeField] [Range(0, 2000)] private float movementSpeed = 500;  //La vitesse des deplacements au sol
     [SerializeField] [Range(0, 2)] private float inAirControl = 1.2f;     //La force des inputs en l'air (en l'air: inputs *= inAirControl/vitesse^2)
+    [SerializeField] [Range(1, 100)] private float maxSpeed = 20f;    //La vitesse maximale de deplacement du joueur
 
     private CharacterController cc;
     private Vector3 velocity;             //La vitesse actuelle du joueur
@@ -22,6 +24,10 @@ public class MovementManager : MonoBehaviour
 
     void FixedUpdate()
     {
+        //Vitesse max
+        if(velocity.sqrMagnitude > maxSpeed*maxSpeed)
+            velocity -= velocity * Time.fixedDeltaTime; //Revient a la vitesse max autorisee
+
         //Gravity
         //Pour supprimer l'impression de faible gravite on l'augmente quand le joueur tombe
         velocity += Physics.gravity * Time.fixedDeltaTime * (velocity.y < 0 ? 2f : 1.0f);
@@ -53,13 +59,18 @@ public class MovementManager : MonoBehaviour
     }
 
     //Appellee par InputManager
-    public void Jump()
+    public void Jump(Vector3 movementInput)  //On prend en parametre les inputs ZQSD pour savoir si on doit appliquer une force horizontale
     {
         Debug.Log("Jump asked");
 
         if (usableJumps > 0)
         {
-            AddForce(new Vector3(0, jumpStrength, 0));
+            //On reduit la vitesse verticale si le joueur est en chute
+            if (velocity.y < 0)
+                velocity.y /= 2;
+
+            AddForce(new Vector3(0, jumpStrength, 0) 
+                   + (movementInput.z*transform.forward + movementInput.x*transform.right).normalized * dashesStrength);
             usableJumps--;
         }
     }

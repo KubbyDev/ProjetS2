@@ -33,7 +33,7 @@ public class InputManager : MonoBehaviour
 
         //Sauts
         if (Input.GetKeyDown(KeyCode.Space))
-            movement.Jump();
+            movement.Jump(move);       //Cette fonction prend en parametre les inputs ZQSD pour les dashes
 
         //Spells
         if (Input.GetKeyDown(KeyCode.A))
