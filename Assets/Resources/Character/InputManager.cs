@@ -10,11 +10,13 @@ public class InputManager : MonoBehaviour
     private CameraManager cam;
     private BasicSpell spell;
     private Stricker stricker;
+    private BallManager ball;
 
     void Start()
     {
         movement = GetComponent<MovementManager>();
         cam = GetComponent<CameraManager>();
+        ball = GetComponent<BallManager>();
         spell = GetComponent<BasicSpell>();
         stricker = GetComponent<Stricker>();
     }
@@ -46,5 +48,9 @@ public class InputManager : MonoBehaviour
         //Changement de camera
         if (Input.GetKeyDown(KeyCode.F1))
             cam.changeCamera();
+
+        //Recuperation de la balle
+        if (Input.GetMouseButtonDown(0))
+            ball.Catch();
     }
 }
