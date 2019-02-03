@@ -19,9 +19,13 @@ public class InputManager : MonoBehaviour
         ball = GetComponent<BallManager>();
         spell = GetComponent<BasicSpell>();
         stricker = GetComponent<Stricker>();
+
+        //Bloque la souris
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
     
-    void FixedUpdate()
+    void Update()
     {
         //Deplacements (ZQSD)
         Vector3 move = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
@@ -49,8 +53,12 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F1))
             cam.changeCamera();
 
-        //Recuperation de la balle
+        //Balle
+        //Recuperation
         if (Input.GetMouseButtonDown(0))
             ball.Catch();
+        //Tir
+        if (Input.GetMouseButtonDown(1))
+            ball.Shoot();
     }
 }

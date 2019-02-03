@@ -444,6 +444,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pullStrength: 9
+  launchStrength: 2
   maxCatchDistance: 10
 --- !u!114 &6353839142805049967
 MonoBehaviour:
