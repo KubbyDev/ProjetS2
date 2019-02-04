@@ -3,16 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TeleportBullet : MonoBehaviour
+    
 {
+    private Vector3 spawnPos;
     // Start is called before the first frame update
     void Start()
     {
-        
+        spawnPos = transform.position; 
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if ((transform.position - spawnPos).magnitude > 15)
+            Destroy(this.gameObject);
     }
+
+    
 }
+
+    
