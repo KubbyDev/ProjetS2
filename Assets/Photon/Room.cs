@@ -16,7 +16,7 @@ public class Room : MonoBehaviourPunCallbacks, IInRoomCallbacks
         playerNumber = PhotonNetwork.CurrentRoom.PlayerCount;
 
         //Le pseudo du joueur dans la salle
-        PhotonNetwork.NickName = playerNumber.ToString();
+        PhotonNetwork.NickName = "Player" + playerNumber.ToString();
 
         //Cree l'avatar du joueur
         RPC_CreatePlayer();

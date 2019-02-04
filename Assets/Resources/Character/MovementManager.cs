@@ -61,8 +61,6 @@ public class MovementManager : MonoBehaviour
     //Appellee par InputManager
     public void Jump(Vector3 movementInput)  //On prend en parametre les inputs ZQSD pour savoir si on doit appliquer une force horizontale
     {
-        Debug.Log("Jump asked");
-
         if (usableJumps > 0)
         {
             //On reduit la vitesse verticale si le joueur est en chute

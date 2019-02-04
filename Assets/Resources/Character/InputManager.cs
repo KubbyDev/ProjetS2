@@ -11,6 +11,7 @@ public class InputManager : MonoBehaviour
     private BasicSpell spell;
     private Stricker stricker;
     private BallManager ball;
+    private GameObject menus;
 
     void Start()
     {
@@ -19,6 +20,7 @@ public class InputManager : MonoBehaviour
         ball = GetComponent<BallManager>();
         spell = GetComponent<BasicSpell>();
         stricker = GetComponent<Stricker>();
+        menus = GameObject.Find("Menus");
 
         //Bloque la souris
         Cursor.lockState = CursorLockMode.Locked;
@@ -60,5 +62,12 @@ public class InputManager : MonoBehaviour
         //Tir
         if (Input.GetMouseButtonDown(1))
             ball.Shoot();
+
+        //Menu Tab
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            GameObject tabMenu = menus.transform.GetChild(0).gameObject;
+            tabMenu.SetActive(!tabMenu.activeSelf);
+        }
     }
 }
