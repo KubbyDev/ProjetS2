@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 33562832816581194}
   - component: {fileID: 23141138850289098}
   - component: {fileID: 136250258134974884}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +101,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4093666641873886}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BulletSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 33538459110673872}
   - component: {fileID: 23399603192436946}
   - component: {fileID: 65700178675441858}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lunettes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -222,7 +222,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4364746974720590}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: CameraAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -237,7 +237,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1164550442071758}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.2, z: 0}
+  m_LocalPosition: {x: 0, y: 0.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4785009789170408}
@@ -265,7 +265,7 @@ GameObject:
   - component: {fileID: 4001294113282694583}
   - component: {fileID: 8351139209231094905}
   - component: {fileID: 3406966745709156374}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
