@@ -77,4 +77,10 @@ public class CameraManager : MonoBehaviour {
 
         camAnchor.transform.localEulerAngles = new Vector3(newCamRot, 0, 0);
     }
+
+    //Renvoie l'orientation de la camera
+    public Quaternion GetRotation()
+    {
+        return camAnchor.rotation;
+    }
 }

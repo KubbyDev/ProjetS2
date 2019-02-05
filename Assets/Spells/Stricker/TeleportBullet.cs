@@ -2,24 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TeleportBullet : MonoBehaviour
-    
+public class TeleportBullet : MonoBehaviour    
 {
-    private Vector3 spawnPos;
-    // Start is called before the first frame update
-    void Start()
-    {
-        spawnPos = transform.position; 
-    }
+    private GameObject shooter;    //Reference au joueur
 
-    // Update is called once per frame
     void Update()
     {
-        if ((transform.position - spawnPos).magnitude > 15)
+        //Quand la balle arrive a la fin de son chemin
+        if ((transform.position - shooter.transform.position).magnitude > 15)
+        {
+            shooter.transform.position = transform.position;
             Destroy(this.gameObject);
+        }
     }
 
-    
+    public void SetShooter(GameObject pShooter)
+    {
+        shooter = pShooter;
+    }
 }
 
     

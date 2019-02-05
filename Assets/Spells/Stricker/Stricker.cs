@@ -4,21 +4,19 @@ using UnityEngine;
 
 public class Stricker : MonoBehaviour
 {
+    [SerializeField] private float TimeSpeedSpell = 3f;        //Le temps que le speed dure
+    [SerializeField] private float TimeSpeedCooldown = 8f;     //Cooldown du spell
+    [SerializeField] private float speedMultiplier = 1.5f;     //Force du speed
+    [SerializeField] private GameObject escapeBullet;          //Prefab de la balle pour escape
+
     private MovementManager movement;
-    [SerializeField]private float TimeSpeedSpell = 3f;
-    [SerializeField] private float TimeSpeedCooldown = 8f;
-    [SerializeField]private float speedMultiplier = 1.5f;
-    private bool canSpeed = true ;
-    [SerializeField] private GameObject escapeBullet;
+    private CameraManager cam;
+    private bool canSpeed = true;
 
     void Start()
     {
         movement = GetComponent<MovementManager>();
-    }
-
-    void Update()
-    {
-        
+        cam = GetComponent<CameraManager>();
     }
 
     public void Speed()
@@ -41,7 +39,9 @@ public class Stricker : MonoBehaviour
 
     public void escape()
     {
-        GameObject _object = Instantiate(escapeBullet, transform.position + new Vector3(0, 1.5f, 0) + transform.forward, transform.rotation);
-        _object.GetComponent<Rigidbody>().AddForce(transform.forward * 1000); //cree escapeBullet 
+        //Cree escapeBullet
+        GameObject bullet = Instantiate(escapeBullet, transform.position + new Vector3(0, 1.5f, 0) + transform.forward, cam.GetRotation());
+        bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * 1000);  //Applique une force
+        bullet.GetComponent<TeleportBullet>().SetShooter(this.gameObject);
     }
 }
