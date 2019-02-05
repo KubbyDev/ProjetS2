@@ -5,13 +5,14 @@ using UnityEngine;
 public class Stricker : MonoBehaviour
 {
     [SerializeField] private float TimeSpeedSpell = 3f;        //Le temps que le speed dure
-    [SerializeField] private float TimeSpeedCooldown = 8f;     //Cooldown du spell
+    [SerializeField] private float TimeSpeedCooldown = 3f;     //Cooldown du spell
     [SerializeField] private float speedMultiplier = 1.5f;     //Force du speed
     [SerializeField] private GameObject escapeBullet;          //Prefab de la balle pour escape
 
     private MovementManager movement;
     private CameraManager cam;
     private bool canSpeed = true;
+    private bool canEscape = true;
 
     void Start()
     {
@@ -39,9 +40,21 @@ public class Stricker : MonoBehaviour
 
     public void escape()
     {
-        //Cree escapeBullet
-        GameObject bullet = Instantiate(escapeBullet, transform.position + new Vector3(0, 1.5f, 0) + transform.forward, cam.GetRotation());
-        bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * 1000);  //Applique une force
-        bullet.GetComponent<TeleportBullet>().SetShooter(this.gameObject);
+        StartCoroutine(escapeCouroutine()); //Lance la coroutine 
+    }
+
+    IEnumerator escapeCouroutine()
+    {
+        if (canEscape)
+        {
+            //Cree escapeBullet
+            GameObject bullet = Instantiate(escapeBullet, transform.position + new Vector3(0, 1.5f, 0) + transform.forward, cam.GetRotation());
+            bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * 1000);  //Applique une force
+            bullet.GetComponent<TeleportBullet>().SetShooter(this.gameObject);
+            //escape(); //multiplie la vitess
+            canEscape = false;
+            yield return new WaitForSeconds(TimeSpeedCooldown); //la duree du cooldown
+            canEscape = true;
+        }
     }
 }
