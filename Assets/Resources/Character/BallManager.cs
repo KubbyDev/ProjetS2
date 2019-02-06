@@ -53,9 +53,9 @@ public class BallManager : MonoBehaviour
 
     void AttractBall()
     {
-        ballRB.velocity /= 1.2f;                                                                        //Amorti la vitesse
-        ballRB.AddForce((transform.position + new Vector3(0,0.0f,0) + 3f*transform.forward  //Un peu devant le torse du joueur
-                        - ball.transform.position                                                       //Pour que le vecteur aille de la balle au joueur
+        ballRB.velocity /= 1.2f;                                                               //Amorti la vitesse
+        ballRB.AddForce((transform.position + new Vector3(0,0.0f,0) + 3f*transform.forward     //Un peu devant le torse du joueur
+                        - ball.transform.position                                              //Pour que le vecteur aille de la balle au joueur
                         ) * Time.deltaTime * pullStrength * 1000);
     }
 

@@ -11,14 +11,16 @@ public class MovementManager : MonoBehaviour
     [Space] [Header("Movements")]
     [SerializeField] [Range(0, 2000)] private float movementSpeed = 500;  //La vitesse des deplacements au sol
     [SerializeField] [Range(0, 2)] private float inAirControl = 1.2f;     //La force des inputs en l'air (en l'air: inputs *= inAirControl/vitesse^2)
-    [SerializeField] [Range(1, 100)] private float maxSpeed = 20f;    //La vitesse maximale de deplacement du joueur
+    [SerializeField] [Range(1, 100)] private float maxSpeed = 20f;        //La vitesse maximale de deplacement du joueur
 
-    private CharacterController cc;
+    private CharacterController cc;       //Le script qui gere les deplacements du joueur (dans Unity)
+    private Transform camAnchor;          //Le pivot de la camera
     private Vector3 velocity;             //La vitesse actuelle du joueur
     private int usableJumps;              //Le nombre de sauts restants (Reset quand le sol est touche)
 
 	void Start()
 	{
+        camAnchor = transform.Find("CameraAnchor");
         cc = GetComponent<CharacterController>();
     }
 
@@ -63,13 +65,22 @@ public class MovementManager : MonoBehaviour
     {
         if (usableJumps > 0)
         {
-            //On reduit la vitesse verticale si le joueur est en chute
-            if (velocity.y < 0)
-                velocity.y /= 2;
-
-            AddForce(new Vector3(0, jumpStrength, 0) 
-                   + (movementInput.z*transform.forward + movementInput.x*transform.right).normalized * dashesStrength);
             usableJumps--;
+
+            if (movementInput.sqrMagnitude > 0 && !cc.isGrounded)
+            //Dash
+            {
+                AddForce((movementInput.z * camAnchor.transform.forward + movementInput.x * camAnchor.transform.right).normalized * dashesStrength);
+            }
+            else
+            //Saut classique
+            {
+                //On reduit la vitesse verticale si le joueur est en chute
+                if (velocity.y < 0)
+                    velocity.y /= 2;
+
+                AddForce(new Vector3(0, jumpStrength, 0));
+            }
         }
     }
 
