@@ -31,4 +31,5 @@ MonoBehaviour:
   RpcList:
   - RPC_CreatePlayer
   - RPC_AddForceBall
+  - CatchBall_RPC
   DisableAutoOpenWizard: 1

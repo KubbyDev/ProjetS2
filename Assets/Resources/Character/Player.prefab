@@ -396,7 +396,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpStrength: 10
   maxJumps: 3
-  dashesStrength: 10
+  dashesStrength: 20
   movementSpeed: 500
   inAirControl: 1.2
   maxSpeed: 20
@@ -445,7 +445,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pullStrength: 9
   launchStrength: 2
-  maxCatchDistance: 10
+  maxCatchDistance: 6
+  catchCooldown: 1
+  catchWidth: 1
 --- !u!114 &6353839142805049967
 MonoBehaviour:
   m_ObjectHideFlags: 0

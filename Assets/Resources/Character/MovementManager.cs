@@ -7,7 +7,7 @@ public class MovementManager : MonoBehaviour
     [Header("Jumps")]
     [SerializeField] [Range(0, 50)] private float jumpStrength = 10;      //La force des sauts
     [SerializeField] [Range(0, 10)] private int maxJumps = 3;             //Le nombre max de sauts sans toucher le sol
-    [SerializeField] [Range(0, 50)] private float dashesStrength = 10f;   //La force des dashes (forces horizontales quand le joueur appuie sur espace + ZQSD)
+    [SerializeField] [Range(0, 50)] private float dashesStrength = 20f;   //La force des dashes (forces horizontales quand le joueur appuie sur espace + ZQSD)
     [Space] [Header("Movements")]
     [SerializeField] [Range(0, 2000)] private float movementSpeed = 500;  //La vitesse des deplacements au sol
     [SerializeField] [Range(0, 2)] private float inAirControl = 1.2f;     //La force des inputs en l'air (en l'air: inputs *= inAirControl/vitesse^2)
@@ -67,20 +67,16 @@ public class MovementManager : MonoBehaviour
         {
             usableJumps--;
 
+            //On reduit la vitesse verticale si le joueur est en chute
+            if (velocity.y < 0)
+                velocity.y /= 5;
+
             if (movementInput.sqrMagnitude > 0 && !cc.isGrounded)
             //Dash
-            {
                 AddForce((movementInput.z * camAnchor.transform.forward + movementInput.x * camAnchor.transform.right).normalized * dashesStrength);
-            }
             else
             //Saut classique
-            {
-                //On reduit la vitesse verticale si le joueur est en chute
-                if (velocity.y < 0)
-                    velocity.y /= 2;
-
                 AddForce(new Vector3(0, jumpStrength, 0));
-            }
         }
     }
 

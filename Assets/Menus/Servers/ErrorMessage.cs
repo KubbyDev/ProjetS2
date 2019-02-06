@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class ErrorMessage : MonoBehaviour
@@ -31,7 +29,7 @@ public class ErrorMessage : MonoBehaviour
     }
 
     public void Display(string message)
-    {
+    { 
         this.gameObject.SetActive(true);
 
         //Reset de la transparence
