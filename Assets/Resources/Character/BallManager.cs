@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class BallManager : MonoBehaviour
 {
-    [SerializeField][Range(1,20)] private float pullStrength = 9;         //La force avec laquelle la balle est attiree
-    [SerializeField][Range(0,10)] private float launchStrength = 2;       //La force avec laquelle la balle est jetee
-    [SerializeField][Range(1,20)] private float maxCatchDistance = 6;     //La distance max a laquelle la balle peut etre attrapee
-    [SerializeField][Range(0, 5)] private float catchCooldown = 1;        //Le temps entre 2 tentative pour attraper la balle
-    [SerializeField][Range(0, 5)] private float catchWidth = 1;           //L'imprecision autorisee pour attraper la balle
+    [SerializeField] [Range(1, 20)] private float pullStrength = 9;       //La force avec laquelle la balle est attiree
+    [SerializeField] [Range(0, 10)] private float launchStrength = 2;     //La force avec laquelle la balle est jetee
+    [SerializeField] [Range(1, 20)] private float maxCatchDistance = 6;   //La distance max a laquelle la balle peut etre attrapee
+    [SerializeField] [Range(0, 5)] private float catchCooldown = 1;       //Le temps entre 2 tentative pour attraper la balle
+    [SerializeField] [Range(0, 5)] private float catchWidth = 1;          //L'imprecision autorisee pour attraper la balle
 
     private bool hasBall = false;                                         //Si le joueur a la balle
     private GameObject ball;                                              //Une reference a la balle
@@ -47,12 +47,12 @@ public class BallManager : MonoBehaviour
     IEnumerator CatchCouroutine()
     {
         //On regarde si la balle est devant la camera a une distance inferieure a maxCatchDistance
-        foreach(RaycastHit hit in Physics.SphereCastAll(camAnchor.transform.position, catchWidth, camAnchor.transform.forward, maxCatchDistance))
+        foreach (RaycastHit hit in Physics.SphereCastAll(camAnchor.transform.position, catchWidth, camAnchor.transform.forward, maxCatchDistance))
             //On recupere la balle si on la touche ou si on touche son porteur
             if (hit.collider.tag == "Ball" || hit.collider.tag == "Player" && hit.collider.gameObject.GetComponent<BallManager>().hasBall)
                 //On enleve la possession de balle sur tous les joueurs et
                 //on la donne au joueur qui vient de la recuperer
-                GetComponent<PhotonView>().RPC("CatchBall_RPC", RpcTarget.All);             
+                GetComponent<PhotonView>().RPC("CatchBall_RPC", RpcTarget.All);  //Appelle CatchBall_RPC sur chaque client
 
         canCatch = false;
         yield return new WaitForSeconds(catchCooldown); //la duree du cooldown
@@ -60,6 +60,7 @@ public class BallManager : MonoBehaviour
     }
 
     [PunRPC]
+    //Cette fonction s'execute sur tous les clients
     private void CatchBall_RPC()
     {
         //On enleve la possession de balle sur tous les joueurs
@@ -86,9 +87,9 @@ public class BallManager : MonoBehaviour
 
     void AttractBall()
     {
-        ballRB.velocity /= 1.2f;                                                               //Amorti la vitesse
-        ballRB.AddForce((transform.position + new Vector3(0,0.0f,0) + 3f*transform.forward     //Un peu devant le torse du joueur
-                        - ball.transform.position                                              //Pour que le vecteur aille de la balle au joueur
+        ballRB.velocity /= 1.2f;                                                                 //Amorti la vitesse
+        ballRB.AddForce((transform.position + new Vector3(0, 0.0f, 0) + 3f * transform.forward   //Un peu devant le torse du joueur
+                        - ball.transform.position                                                //Pour que le vecteur aille de la balle au joueur
                         ) * Time.deltaTime * pullStrength * 1000);
     }
 
@@ -97,9 +98,14 @@ public class BallManager : MonoBehaviour
     public void Shoot()
     {
         if (hasBall)
-        {
-            hasBall = false;
-            ballRB.AddForce(camAnchor.transform.forward * launchStrength * 1000);
-        }
+            GetComponent<PhotonView>().RPC("ShootBall_RPC", RpcTarget.All);
+    }
+
+    [PunRPC]
+    //Cette fonction s'execute sur tous les clients
+    private void ShootBall_RPC()
+    {
+        hasBall = false;
+        ballRB.AddForce(camAnchor.transform.forward * launchStrength * 1000);
     }
 }
