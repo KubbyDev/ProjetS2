@@ -192,7 +192,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &475401929730683159 stripped
 GameObject:
@@ -317,6 +317,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5841263718480841718, guid: 94238d6fc37089f4a9afd8694f2dfa1a,
+        type: 3}
+      propertyPath: m_FirstSelected
+      value: 
+      objectReference: {fileID: 475401929730683159}
     - target: {fileID: 6582661947780247769, guid: 94238d6fc37089f4a9afd8694f2dfa1a,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -367,11 +372,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnCreateRoomClicked
       objectReference: {fileID: 0}
-    - target: {fileID: 5841263718480841718, guid: 94238d6fc37089f4a9afd8694f2dfa1a,
-        type: 3}
-      propertyPath: m_FirstSelected
-      value: 
-      objectReference: {fileID: 475401929730683159}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94238d6fc37089f4a9afd8694f2dfa1a, type: 3}
 --- !u!114 &5908863826485471437 stripped

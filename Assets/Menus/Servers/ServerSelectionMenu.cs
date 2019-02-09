@@ -12,26 +12,22 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
     [SerializeField] private Text JoinRoomInput;                         //Le texte tappe dans le champ room name de join room
 
     private ErrorMessage errorMessage;                                   //Le script qui gere l'affichage des messages d'erreur
-
-    // Connection au serveur -------------------------------------------------------------------
+    private bool connected = false;                                      //Passe a true quand on est connecte au serveur
 
     void Start()
     {
-        //Demande de connection
-        PhotonNetwork.ConnectUsingSettings();
-
         errorMessage = online.GetComponentInChildren<ErrorMessage>(true);
     }
 
     //Quand la connection est etablie
-    public override void OnConnectedToMaster()
+    //Appellee par MainMenu.cs
+    public void Connected()
     {
-        //On cache le menu offline et on montre le menu online
+        connected = true;
+
+        //Met a jour l'affichage
         online.gameObject.SetActive(true);
         offline.gameObject.SetActive(false);
-
-        //Quand le serveur change de scene, les clients aussi
-        PhotonNetwork.AutomaticallySyncScene = true;
     }
 
     // Events des boutons ----------------------------------------------------------------------
