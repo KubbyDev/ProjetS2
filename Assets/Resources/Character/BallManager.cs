@@ -97,15 +97,15 @@ public class BallManager : MonoBehaviour
 
     public void Shoot()
     {
-        if (hasBall)
-            GetComponent<PhotonView>().RPC("ShootBall_RPC", RpcTarget.All);
+        if (hasBall)                                                       //Ce vecteur est passe en parametre du RPC (direction du lancer)
+            GetComponent<PhotonView>().RPC("ShootBall_RPC", RpcTarget.All, camAnchor.transform.forward * launchStrength * 1000);
     }
 
     [PunRPC]
     //Cette fonction s'execute sur tous les clients
-    private void ShootBall_RPC()
+    private void ShootBall_RPC(Vector3 launchForce)
     {
         hasBall = false;
-        ballRB.AddForce(camAnchor.transform.forward * launchStrength * 1000);
+        ballRB.AddForce(launchForce);
     }
 }
