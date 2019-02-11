@@ -235,6 +235,7 @@ GameObject:
   - component: {fileID: 72}
   - component: {fileID: 70}
   - component: {fileID: 68}
+  - component: {fileID: 2866933733562207237}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -417,6 +418,7 @@ MonoBehaviour:
   - {fileID: 76}
   - {fileID: 72}
   - {fileID: 78}
+  - {fileID: 66}
   componentsToDisable: []
 --- !u!114 &76
 MonoBehaviour:
@@ -504,3 +506,20 @@ MonoBehaviour:
   speedMultiplier: 1.5
   escapeBullet: {fileID: 2279490531893371813, guid: cc855b50ae5d8ef44b2a48017f6fdb8c,
     type: 3}
+--- !u!114 &2866933733562207237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 14}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb0eff6cfb10a4e49b0de9b60346e78e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Explode_Spell_Duration: 1
+  Explode_Cooldown: 20
+  Explode_Speed_Boost: 2
+  Explosion_Radius: 50
+  Explosion_Power: 10

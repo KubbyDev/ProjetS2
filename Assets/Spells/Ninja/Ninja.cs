@@ -49,14 +49,14 @@ public class Ninja : MonoBehaviour
 
     public void Explosion()
     {
-        Vector3 Explosion_Center = transform.position;                          // Recupere la position du joueur
-        Collider[] colliders = Physics.OverlapSphere(Explosion_Center, Explosion_Radius); // Rercupere les objets dans le rayon de l'explosion
-        foreach (Collider hit in colliders)
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+        foreach(GameObject player in players)
         {
-            if (hit.tag == "Player")
+            if (player != this.gameObject && Vector3.Distance(player.transform.position, this.transform.position) <= Explosion_Radius)
             {
-                Vector3 Blast = new Vector3(hit.transform.position.x - transform.position.x, hit.transform.position.y - transform.position.y, 3f);
-                hit.GetComponent<MovementManager>().AddForce(Blast);
+                Vector3 Blast = new Vector3(player.transform.position.x - transform.position.x, 50f, player.transform.position.z - transform.position.z);
+                player.GetComponent<MovementManager>().AddForce(Blast);
             }
         }
 

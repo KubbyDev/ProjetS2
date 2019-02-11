@@ -10,6 +10,7 @@ public class InputManager : MonoBehaviour
     private CameraManager cam;
     private BasicSpell spell;
     private Striker striker;
+    private Ninja ninja;
     private BallManager ball;
     private GameObject menus;
 
@@ -20,6 +21,7 @@ public class InputManager : MonoBehaviour
         ball = GetComponent<BallManager>();
         spell = GetComponent<BasicSpell>();
         striker = GetComponent<Striker>();
+        ninja = GetComponent<Ninja>();
         menus = GameObject.Find("Menus");
 
         //Bloque la souris
@@ -45,7 +47,7 @@ public class InputManager : MonoBehaviour
 
         //Spells
         if (Input.GetKeyDown(KeyCode.A))
-            spell.Shoot();
+            ninja.Explode_Boost();
         if (Input.GetKeyDown(KeyCode.R))
             striker.Speed();
         if (Input.GetKeyDown(KeyCode.E))
