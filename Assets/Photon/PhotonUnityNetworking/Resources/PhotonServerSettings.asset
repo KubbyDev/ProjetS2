@@ -33,4 +33,5 @@ MonoBehaviour:
   - RPC_AddForceBall
   - CatchBall_RPC
   - ShootBall_RPC
+  - ApplyForce_RPC
   DisableAutoOpenWizard: 1

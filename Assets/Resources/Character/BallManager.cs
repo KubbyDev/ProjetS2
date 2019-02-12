@@ -11,8 +11,10 @@ public class BallManager : MonoBehaviour
     [SerializeField] [Range(0, 5)] private float catchCooldown = 1;       //Le temps entre 2 tentative pour attraper la balle
     [SerializeField] [Range(0, 5)] private float catchWidth = 1;          //L'imprecision autorisee pour attraper la balle
 
-    private bool hasBall = false;                                         //Si le joueur a la balle
+    [HideInInspector] public bool hasBall = false;                        //Si le joueur a la balle
+
     private GameObject ball;                                              //Une reference a la balle
+    private PhotonView pv;                                                //Le script qui gere ce joueur sur le reseau
     private Rigidbody ballRB;                                             //Le component qui gere les physiques de la balle
     private Transform camAnchor;                                          //Une reference a l'ancre de la camera
     private bool canCatch = true;                                         //Vrai si le joueur peut essayer d'attraper la balle
@@ -24,6 +26,7 @@ public class BallManager : MonoBehaviour
         UpdateBallRef();
         camAnchor = transform.Find("CameraAnchor");
         ballRB = ball.GetComponent<Rigidbody>();
+        pv = GetComponent<PhotonView>();
     }
 
     //Met a jour la reference a la balle
@@ -75,8 +78,8 @@ public class BallManager : MonoBehaviour
 
     void Update()
     {
-        //Quand le joueur a la balle, on l'attire a lui
-        if (hasBall)
+        //Quand le joueur a la balle, on l'attire a lui (seulement en local)
+        if (hasBall && pv.IsMine)
             AttractBall();
 
         GetComponent<MeshRenderer>().material.color = Color.white;

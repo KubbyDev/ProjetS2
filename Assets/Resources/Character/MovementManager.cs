@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using UnityEngine;
 
 //Cette classe recoit des inputs de PlayerInputManager pour les actions qui font bouger le joueur
 
@@ -13,15 +14,19 @@ public class MovementManager : MonoBehaviour
     [SerializeField] [Range(0, 2)] private float inAirControl = 1.2f;     //La force des inputs en l'air (en l'air: inputs *= inAirControl/vitesse^2)
     [SerializeField] [Range(1, 100)] private float maxSpeed = 20f;        //La vitesse maximale de deplacement du joueur
 
+    [HideInInspector] public Vector3 velocity = Vector3.zero;             //La vitesse actuelle du joueur
+
     private CharacterController cc;       //Le script qui gere les deplacements du joueur (dans Unity)
     private Transform camAnchor;          //Le pivot de la camera
-    private Vector3 velocity;             //La vitesse actuelle du joueur
     private int usableJumps;              //Le nombre de sauts restants (Reset quand le sol est touche)
+    private Vector3 movementInput;        //Le dernier input ZQSD du joueur (sert pour la synchronisation)
+    private PhotonView pv;                //Le script qui gere ce joueur sur le reseau
 
-	void Start()
+    void Start()
 	{
         camAnchor = transform.Find("CameraAnchor");
         cc = GetComponent<CharacterController>();
+        pv = GetComponent<PhotonView>();
     }
 
     void FixedUpdate()
@@ -52,12 +57,21 @@ public class MovementManager : MonoBehaviour
     //Appellee par InputManager
     public void Move(Vector3 input) 
 	{
-        input = input.z*transform.forward + input.x*transform.right;
-        input.y = 0;
+        movementInput = input;   //On enregistre l'input du joueur pour la synchronisation
 
-        velocity += input.normalized * Time.fixedDeltaTime * movementSpeed      //Le vecteur d'inputs en temps normal
-            * (cc.isGrounded ? 1 : inAirControl / (velocity.sqrMagnitude+2));   //Quand le joueur est en l'air on multiplie par
-                                 //inAirControl/velocity.sqrMagnitude, +2 pour eviter la division par 0 et les a coups
+        if (input.sqrMagnitude > 0)
+        {
+            input = input.z * transform.forward + input.x * transform.right;
+            input.y = 0;
+
+            velocity += input.normalized * Time.deltaTime * movementSpeed           //Le vecteur d'inputs en temps normal
+                * (cc.isGrounded ? 1 : inAirControl / (velocity.sqrMagnitude + 2));   //Quand le joueur est en l'air on multiplie pa
+        }                                                                             //inAirControl/velocity.sqrMagnitude, +2 pour eviter la division par 0 et les a coups
+    }
+
+    public Vector3 getLastMovementInput()
+    {
+        return movementInput;
     }
 
     //Appellee par InputManager
@@ -83,8 +97,14 @@ public class MovementManager : MonoBehaviour
     //Applique une force sur le joueur
     public void AddForce(Vector3 force)  
 	{
-        velocity += force;
+        pv.RPC("ApplyForce_RPC", RpcTarget.All, force);
 	}
+
+    [PunRPC]
+    private void ApplyForce_RPC(Vector3 force)
+    {
+        velocity += force;
+    }
 
     //Multiplie la vitesse de deplacement par multiplier
     public void MultiplySpeed(float multiplier)

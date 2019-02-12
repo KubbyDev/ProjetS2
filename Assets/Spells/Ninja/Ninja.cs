@@ -1,31 +1,24 @@
 ﻿
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Ninja : MonoBehaviour
 {
-    private MovementManager move;
     [SerializeField] private float Explode_Spell_Duration = 1f;
     [SerializeField] private float Explode_Cooldown = 20f;
     [SerializeField] private float Explode_Speed_Boost = 2f;
-    private bool Explode_Off_Cooldown = true;
-
     [SerializeField] private float Explosion_Radius = 5.0F;
     [SerializeField] private float Explosion_Power = 10.0F;
 
+    private bool Explode_Off_Cooldown = true;
+    private MovementManager move;
 
     // Start is called before the first frame update
     void Start()
     {
         move = GetComponent<MovementManager>();
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     public void Explode_Boost()
@@ -59,7 +52,5 @@ public class Ninja : MonoBehaviour
                 player.GetComponent<MovementManager>().AddForce(Blast);
             }
         }
-
     }
-
 }

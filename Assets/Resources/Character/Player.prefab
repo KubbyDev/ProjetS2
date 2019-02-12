@@ -232,7 +232,7 @@ GameObject:
   - component: {fileID: 78}
   - component: {fileID: 67}
   - component: {fileID: 76}
-  - component: {fileID: 72}
+  - component: {fileID: 303544145114068437}
   - component: {fileID: 70}
   - component: {fileID: 68}
   - component: {fileID: 2866933733562207237}
@@ -370,6 +370,7 @@ MonoBehaviour:
   movementSpeed: 500
   inAirControl: 1.2
   maxSpeed: 20
+  velocity: {x: 0, y: 0, z: 0}
 --- !u!114 &65
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -402,6 +403,7 @@ MonoBehaviour:
   maxCatchDistance: 6
   catchCooldown: 1
   catchWidth: 1
+  hasBall: 0
 --- !u!114 &67
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -414,12 +416,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d689170e41996c34e8cb6532d7cab059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scriptsToKeep:
-  - {fileID: 76}
-  - {fileID: 72}
-  - {fileID: 78}
-  - {fileID: 66}
-  componentsToDisable: []
+  componentsToDisable:
+  - {fileID: 64}
+  - {fileID: 65}
 --- !u!114 &76
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -438,11 +437,11 @@ MonoBehaviour:
   Synchronization: 1
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 72}
+  - {fileID: 303544145114068437}
   viewIdField: 1
   InstantiationId: 1
   isRuntimeInstantiated: 0
---- !u!114 &72
+--- !u!114 &303544145114068437
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -468,7 +467,7 @@ MonoBehaviour:
   m_RotationModel:
     SynchronizeEnabled: 1
     InterpolateOption: 1
-    InterpolateRotateTowardsSpeed: 180
+    InterpolateRotateTowardsSpeed: 500
     InterpolateLerpSpeed: 5
   m_ScaleModel:
     SynchronizeEnabled: 0
