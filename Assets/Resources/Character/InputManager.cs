@@ -46,7 +46,7 @@ public class InputManager : MonoBehaviour
 
         //Spells
         if (Input.GetKeyDown(KeyCode.A))
-            ninja.Explode_Boost();
+            ninja.Explode_Spell();
         if (Input.GetKeyDown(KeyCode.R))
             striker.Speed();
         if (Input.GetKeyDown(KeyCode.E))

@@ -13,6 +13,7 @@ public class BallManager : MonoBehaviour
 
     [HideInInspector] public bool hasBall = false;                        //Si le joueur a la balle
 
+
     private GameObject ball;                                              //Une reference a la balle
     private PhotonView pv;                                                //Le script qui gere ce joueur sur le reseau
     private Rigidbody ballRB;                                             //Le component qui gere les physiques de la balle
@@ -52,7 +53,7 @@ public class BallManager : MonoBehaviour
         //On regarde si la balle est devant la camera a une distance inferieure a maxCatchDistance
         foreach (RaycastHit hit in Physics.SphereCastAll(camAnchor.transform.position, catchWidth, camAnchor.transform.forward, maxCatchDistance))
             //On recupere la balle si on la touche ou si on touche son porteur
-            if (hit.collider.tag == "Ball" || hit.collider.tag == "Player" && hit.collider.gameObject.GetComponent<BallManager>().hasBall)
+            if (hit.collider.tag == "Ball" && hit.collider.gameObject.GetComponent<BallCanBeCaught>().canbecaught || hit.collider.tag == "Player" && hit.collider.gameObject.GetComponent<BallManager>().hasBall)
                 //On enleve la possession de balle sur tous les joueurs et
                 //on la donne au joueur qui vient de la recuperer
                 GetComponent<PhotonView>().RPC("CatchBall_RPC", RpcTarget.All);  //Appelle CatchBall_RPC sur chaque client

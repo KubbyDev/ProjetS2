@@ -10,7 +10,6 @@ public class Ninja : MonoBehaviour
     [SerializeField] private float Explode_Cooldown = 20f;
     [SerializeField] private float Explode_Speed_Boost = 2f;
     [SerializeField] private float Explosion_Radius = 5.0F;
-    [SerializeField] private float Explosion_Power = 10.0F;
 
     private bool Explode_Off_Cooldown = true;
     private MovementManager move;
@@ -21,7 +20,7 @@ public class Ninja : MonoBehaviour
         move = GetComponent<MovementManager>();
     }
 
-    public void Explode_Boost()
+    public void Explode_Spell()
     {
         StartCoroutine(ExplodeCoroutine());
     }
