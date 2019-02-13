@@ -1,6 +1,5 @@
 ﻿using Photon.Pun;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BallManager : MonoBehaviour
@@ -12,7 +11,6 @@ public class BallManager : MonoBehaviour
     [SerializeField] [Range(0, 5)] private float catchWidth = 1;          //L'imprecision autorisee pour attraper la balle
 
     [HideInInspector] public bool hasBall = false;                        //Si le joueur a la balle
-
 
     private GameObject ball;                                              //Une reference a la balle
     private PhotonView pv;                                                //Le script qui gere ce joueur sur le reseau
@@ -53,7 +51,7 @@ public class BallManager : MonoBehaviour
         //On regarde si la balle est devant la camera a une distance inferieure a maxCatchDistance
         foreach (RaycastHit hit in Physics.SphereCastAll(camAnchor.transform.position, catchWidth, camAnchor.transform.forward, maxCatchDistance))
             //On recupere la balle si on la touche ou si on touche son porteur
-            if (hit.collider.tag == "Ball" && hit.collider.gameObject.GetComponent<BallCanBeCaught>().canbecaught || hit.collider.tag == "Player" && hit.collider.gameObject.GetComponent<BallManager>().hasBall)
+            if (hit.collider.tag == "Ball" && hit.collider.gameObject.GetComponent<Ball>().canBeCaught || hit.collider.tag == "Player" && hit.collider.gameObject.GetComponent<BallManager>().hasBall)
                 //On enleve la possession de balle sur tous les joueurs et
                 //on la donne au joueur qui vient de la recuperer
                 GetComponent<PhotonView>().RPC("CatchBall_RPC", RpcTarget.All);  //Appelle CatchBall_RPC sur chaque client
@@ -83,8 +81,8 @@ public class BallManager : MonoBehaviour
         if (hasBall && pv.IsMine)
             AttractBall();
 
+        //Debug: Le joueur qui tient la balle devient bleu
         GetComponent<MeshRenderer>().material.color = Color.white;
-
         if (hasBall)
             GetComponent<MeshRenderer>().material.color = Color.blue;
     }
@@ -106,7 +104,7 @@ public class BallManager : MonoBehaviour
     }
 
     [PunRPC]
-    //Cette fonction s'execute sur tous les clients
+    //Cette fonction s'execute sur ce joueur la mais chez tous les clients
     private void ShootBall_RPC(Vector3 launchForce)
     {
         hasBall = false;

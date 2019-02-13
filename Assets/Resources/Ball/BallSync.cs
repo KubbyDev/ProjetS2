@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class BallSync : MonoBehaviour, IPunObservable
 {
-    private Rigidbody ballRB;
-    private GameObject ballPossessor = null;
+    private Rigidbody ballRB;                   //Le rigid body de la balle
+    private GameObject ballPossessor = null;    //Une reference au joueur qui tient la balle
 
     void Start()
     {

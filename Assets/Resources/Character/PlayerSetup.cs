@@ -1,11 +1,10 @@
 ﻿using Photon.Pun;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerSetup : MonoBehaviour {
 
-    [SerializeField] private Behaviour[] componentsToDisable;
+    //La liste des components qui seront desactives sur tous les joueurs non controlles par le joueur local
+    [SerializeField] private Behaviour[] componentsToDisable; 
 
     void Start()
     {

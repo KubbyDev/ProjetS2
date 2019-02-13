@@ -5,7 +5,7 @@ using UnityEngine;
 public class GoalDetector : MonoBehaviour
 {
     [SerializeField] public int team = 1;                     //1 = les oranges doivent marquer dedans, -1 = les bleus doivent marquer dedans
-    [SerializeField] private ParticleSystem goalExplosion;
+    [SerializeField] private ParticleSystem goalExplosion;    //Reference a la particule de but
 
     private void OnTriggerEnter(Collider other)
     {

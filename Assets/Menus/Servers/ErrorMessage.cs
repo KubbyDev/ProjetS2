@@ -6,8 +6,8 @@ public class ErrorMessage : MonoBehaviour
     [SerializeField] [Range(0.5f,5)] private float displayTime = 1;      //Le temps durant lequel l'erreur reste affichee
     [SerializeField] [Range(0, 1)]   private float fadeTime = 0.8f;      //La proportion du temps total prise par le fondu
 
-    private Text errorMessage;
-    private float lastUpdate;
+    private Text errorMessage;           //Le component qui affiche le texte a l'ecran
+    private float lastUpdate;            //Enregistre le moment ou le message d'erreur a ete affiche
 
     void Awake()
     {

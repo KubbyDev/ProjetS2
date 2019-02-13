@@ -16,6 +16,7 @@ public class TeleportBullet : MonoBehaviour
         }
     }
 
+    //Appellee par Stricker.cs
     public void SetShooter(GameObject pShooter)
     {
         shooter = pShooter;

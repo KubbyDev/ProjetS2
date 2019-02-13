@@ -1,31 +1,15 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
 
-public class Striker : MonoBehaviour
+public class Warden : MonoBehaviour
 {
-    private GameObject ball;
-    private BallCanBeCaught canbecaught;
+    [SerializeField] private float Freeze1_Duration = 1f;  //Duree du freeze complet (pas de recuperation, pas de mouvement)
+    [SerializeField] private float Freeze2_Duration = 4f;  //Duree du freeze partiel (pas de mouvement mais recuperation possible)
+    [SerializeField] private float Freeze_Cooldown = 20f;  //Duree du cooldown
 
-
-    [SerializeField] private float Freeze1_Duration = 1f;
-    [SerializeField] private float Freeze2_Duration = 4f;
-    [SerializeField] private float Freeze_Cooldown = 20f;
-
-    private bool Freeze_Off_Cooldown;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    private GameObject ball;                   //Reference a la balle
+    private Ball ballScript;                   //Reference au script de la balle
+    private bool Freeze_Off_Cooldown = true;   //Vrai si le cooldown du freeze est termine
 
     public void Freeze_Spell()
     {
@@ -36,9 +20,9 @@ public class Striker : MonoBehaviour
     {
         if(Freeze_Off_Cooldown)
         {
-            canbecaught.FreezeBall();
+            ballScript.FreezeBall();
             yield return new WaitForSeconds(Freeze1_Duration);
-            canbecaught.DeFreezeBall();
+            ballScript.DeFreezeBall();
             // Freeze Part 2 Diable Gravity unless ball caught or time up
         }
     }

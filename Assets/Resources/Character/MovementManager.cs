@@ -64,7 +64,7 @@ public class MovementManager : MonoBehaviour
             input = input.z * transform.forward + input.x * transform.right;
             input.y = 0;
 
-            velocity += input.normalized * Time.deltaTime * movementSpeed           //Le vecteur d'inputs en temps normal
+            velocity += input.normalized * Time.deltaTime * movementSpeed             //Le vecteur d'inputs en temps normal
                 * (cc.isGrounded ? 1 : inAirControl / (velocity.sqrMagnitude + 2));   //Quand le joueur est en l'air on multiplie pa
         }                                                                             //inAirControl/velocity.sqrMagnitude, +2 pour eviter la division par 0 et les a coups
     }

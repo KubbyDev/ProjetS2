@@ -6,12 +6,13 @@ using UnityEngine.UI;
 
 public class TabMenu : MonoBehaviour
 {
-    [SerializeField] private Image item;
-    [SerializeField] private VerticalLayoutGroup playerList;
-    [SerializeField] private Text roomName;
+    [SerializeField] private Image item;                        //Un affichage de joueur (une barre contenant le nom et d'autres infos)
+    [SerializeField] private VerticalLayoutGroup playerList;    //Le conteneur des items
+    [SerializeField] private Text roomName;                     //Le component qui affiche le nom de la salle
 
     void Start()
     {
+        //On affiche le nom de la salle en haut du menu
         roomName.text = PhotonNetwork.CurrentRoom.Name;
     }
 

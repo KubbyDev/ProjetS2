@@ -2,16 +2,19 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    [SerializeField] private bool invertY = false;
-    [SerializeField] [Range(0, 10)] private float sensivityY = 2;
-    [SerializeField] [Range(0, 10)] private float sensivityX = 2;
+    [SerializeField] private bool invertY = false;                   //Inverse la visee en Y
+    [SerializeField] [Range(0, 10)] private float sensivityY = 2;    //Sensi horizontale
+    [SerializeField] [Range(0, 10)] private float sensivityX = 2;    //Sensi verticale
 
+    //References a plein de scripts
     private MovementManager movement;
     private CameraManager cam;
     private BasicSpell spell;
     private Striker striker;
     private Ninja ninja;
     private BallManager ball;
+
+    //Reference au GameObject qui contient tous les menus
     private GameObject menus;
 
     void Start()

@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class Striker : MonoBehaviour
 {
-    [SerializeField] private float TimeSpeedSpell = 3f;        //Le temps que le speed dure
+    [SerializeField] private float TimeSpeedSpell = 3f;        //Duree du speed
     [SerializeField] private float TimeSpeedCooldown = 3f;     //Cooldown du spell
     [SerializeField] private float speedMultiplier = 1.5f;     //Force du speed
     [SerializeField] private GameObject escapeBullet;          //Prefab de la balle pour escape
 
-    private MovementManager movement;
-    private CameraManager cam;
-    private bool canSpeed = true;
-    private bool canEscape = true;
+    private MovementManager movement;          //Reference au script qui gere les mouvements du joueur
+    private CameraManager cam;                 //Reference au script qui gere la camera du joueur
+    private bool canSpeed = true;              //canSpeed = cooldown de Turbo fini
+    private bool canEscape = true;             //canEscape = cooldown de Escape fini
 
     void Start()
     {
@@ -29,11 +29,11 @@ public class Striker : MonoBehaviour
     {
         if (canSpeed) //canSpeed = cooldown est fini
         {
-            movement.MultiplySpeed(speedMultiplier); //multiplie la vitess
+            movement.MultiplySpeed(speedMultiplier);            //Multiplie la vitesse
             canSpeed = false;
-            yield return new WaitForSeconds(TimeSpeedSpell); //la duree du spell
-            movement.MultiplySpeed(1 / speedMultiplier); //remet la vitesse normale
-            yield return new WaitForSeconds(TimeSpeedCooldown); //la duree du cooldown
+            yield return new WaitForSeconds(TimeSpeedSpell);    //La duree du spell
+            movement.MultiplySpeed(1 / speedMultiplier);        //Remet la vitesse normale
+            yield return new WaitForSeconds(TimeSpeedCooldown); //La duree du cooldown
             canSpeed = true;
         }
     }
@@ -47,11 +47,9 @@ public class Striker : MonoBehaviour
     {
         if (canEscape)
         {
-            //Cree escapeBullet
-            GameObject bullet = Instantiate(escapeBullet, transform.position + new Vector3(0, 1.5f, 0) + transform.forward, cam.GetRotation());
-            bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * 1000);  //Applique une force
-            bullet.GetComponent<TeleportBullet>().SetShooter(this.gameObject);
-            //escape(); //multiplie la vitess
+            GameObject bullet = Instantiate(escapeBullet, transform.position + new Vector3(0, 1.5f, 0) + transform.forward, cam.GetRotation()); //Cree escapeBullet
+            bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * 1000);                                                         //Applique une force
+            bullet.GetComponent<TeleportBullet>().SetShooter(this.gameObject);  //Donne a la balle une reference au joueur qu'elle va devoir tp
             canEscape = false;
             yield return new WaitForSeconds(TimeSpeedCooldown); //la duree du cooldown
             canEscape = true;

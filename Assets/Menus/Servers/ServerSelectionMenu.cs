@@ -43,7 +43,7 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
             //On rejoint la salle qui a le nom que le joueur a passe en parametre
             PhotonNetwork.JoinRoom(JoinRoomInput.text);
         else
-            errorMessage.Display("No room found with that name");
+            errorMessage.Display("Please specify a room name");
     }
 
     public void OnCreateRoomClicked()

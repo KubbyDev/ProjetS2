@@ -1,15 +1,13 @@
 ﻿using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MainMenu : MonoBehaviourPunCallbacks
 {
-    [SerializeField] private GameObject mainMenu;
-    [SerializeField] private GameObject serversMenu;
-    [SerializeField] private GameObject optionsMenu;
+    [SerializeField] private GameObject mainMenu;         //Reference au menu principal 
+    [SerializeField] private GameObject serversMenu;      //Reference au menu des serveurs
+    [SerializeField] private GameObject optionsMenu;      //Reference au menu des options
 
-    private ServerSelectionMenu serversMenuScript;
+    private ServerSelectionMenu serversMenuScript;        //Reference au script du menu des serveurs
     //private OptionsMenu optionsMenuScript; Existe pas encore                                           //TODO
 
     // Connection au serveur -------------------------------------------------------------------
@@ -32,6 +30,8 @@ public class MainMenu : MonoBehaviourPunCallbacks
         //Quand le serveur change de scene, les clients aussi
         PhotonNetwork.AutomaticallySyncScene = true;
     }
+
+    // Actions des Boutons ----------------------------------------------------------------------
 
     public void OnPlayClicked()
     {

@@ -10,7 +10,7 @@ public class CameraManager : MonoBehaviour {
 
     private bool isFps;                 //true: Premiere personne, false: 3e personne
     private Transform camAnchor;        //Le pivot de la camera
-    private MeshRenderer meshRenderer;  //desactiver ca pour rendre le joueur invisible
+    private MeshRenderer meshRenderer;  //Desactiver ca pour rendre le joueur invisible
 
     void Start()
     {
