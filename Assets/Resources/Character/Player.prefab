@@ -398,7 +398,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e7955ea00533d44884f9a959bc30e06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pullStrength: 9
   launchStrength: 2
   maxCatchDistance: 6
   catchCooldown: 1
@@ -521,4 +520,3 @@ MonoBehaviour:
   Explode_Cooldown: 20
   Explode_Speed_Boost: 2
   Explosion_Radius: 50
-  Explosion_Power: 10

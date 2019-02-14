@@ -34,7 +34,8 @@ public class Room : MonoBehaviourPunCallbacks, IInRoomCallbacks
     //Cree un avatar pour le joueur
     private void RPC_CreatePlayer()
     {
-        PhotonNetwork.Instantiate(Path.Combine("Character", "Player"), transform.position, Quaternion.identity);
+        GameObject player = PhotonNetwork.Instantiate(Path.Combine("Character", "Player"), transform.position, Quaternion.identity);
+        player.name = PhotonNetwork.NickName;
     }
 
     //Renvoie le nombre de joueurs dans la salle

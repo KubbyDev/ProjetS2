@@ -34,4 +34,6 @@ MonoBehaviour:
   - CatchBall_RPC
   - ShootBall_RPC
   - ApplyForce_RPC
+  - UpdatePossessor_RPC
+  - ResetPossessor_RPC
   DisableAutoOpenWizard: 1

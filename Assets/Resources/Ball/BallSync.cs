@@ -4,29 +4,12 @@ using UnityEngine;
 public class BallSync : MonoBehaviour, IPunObservable
 {
     private Rigidbody ballRB;                   //Le rigid body de la balle
-    private GameObject ballPossessor = null;    //Une reference au joueur qui tient la balle
+    private Ball ball;                          //Une reference au script Ball de la balle
 
     void Start()
     {
         ballRB = GetComponent<Rigidbody>();
-    }
-
-    void Update()
-    {
-        //Pas du tout opti mais en attendant ça marche
-        ballPossessor = null;
-        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-            if (player.GetComponent<BallManager>().hasBall)
-                ballPossessor = player;
-
-        ballRB.useGravity = true;
-        //Si un joueur a la balle on la place devant lui sauf si c'est le joueur local (dans ce cas c'est gere dans BallManager)
-        if (ballPossessor != null && !ballPossessor.GetComponent<PhotonView>().IsMine)
-        {
-            ballRB.useGravity = false;
-            ballRB.velocity = Vector3.zero;
-            transform.position = (ballPossessor.transform.position + new Vector3(0, 0.0f, 0) + 3f * ballPossessor.transform.forward);
-        }
+        ball = GetComponent<Ball>();
     }
 
     void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -40,7 +23,7 @@ public class BallSync : MonoBehaviour, IPunObservable
         }
         else                  //Donnees recues
         {
-            if (ballPossessor == null)
+            if (ball.possessor == null)
             //Si la balle est libre on va juste calculer sa position entre les updates du reseau en simulant ses physiques
             {
                 transform.position     = (Vector3)    stream.ReceiveNext();
@@ -48,7 +31,8 @@ public class BallSync : MonoBehaviour, IPunObservable
                 ballRB.velocity        = (Vector3)    stream.ReceiveNext();
                 ballRB.angularVelocity = (Vector3)    stream.ReceiveNext();
             }
-            //Si un joueur a la balle on la place devant lui (Dans Update)
+            //Si un joueur a la balle on calcule sa position en local sans prendre en compte le serveur
+            //Ses physiques sont resynchronisees quand elle est lancee
         }
     }
 }

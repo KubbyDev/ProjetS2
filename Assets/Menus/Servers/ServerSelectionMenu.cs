@@ -12,7 +12,6 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
     [SerializeField] private Text JoinRoomInput;                         //Le texte tappe dans le champ room name de join room
 
     private ErrorMessage errorMessage;                                   //Le script qui gere l'affichage des messages d'erreur
-    private bool connected = false;                                      //Passe a true quand on est connecte au serveur
 
     void Start()
     {
@@ -23,8 +22,6 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
     //Appellee par MainMenu.cs
     public void Connected()
     {
-        connected = true;
-
         //Met a jour l'affichage
         online.gameObject.SetActive(true);
         offline.gameObject.SetActive(false);
