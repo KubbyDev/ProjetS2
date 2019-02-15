@@ -8,7 +8,6 @@ public class MainMenu : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject optionsMenu;      //Reference au menu des options
 
     private ServerSelectionMenu serversMenuScript;        //Reference au script du menu des serveurs
-    //private OptionsMenu optionsMenuScript; Existe pas encore                                           //TODO
 
     // Connection au serveur -------------------------------------------------------------------
 
@@ -18,7 +17,6 @@ public class MainMenu : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings();
 
         serversMenuScript = GameObject.Find("Scripts").GetComponent<ServerSelectionMenu>();
-        //optionsMenuScript = GameObject.Find("Scripts").GetComponent<OptionsMenu>();                    //TODO
     }
 
     //Quand la connection est etablie
