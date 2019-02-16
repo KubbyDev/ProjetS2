@@ -231,6 +231,7 @@ GameObject:
   - component: {fileID: 65}
   - component: {fileID: 78}
   - component: {fileID: 67}
+  - component: {fileID: 2360377714347758175}
   - component: {fileID: 76}
   - component: {fileID: 303544145114068437}
   - component: {fileID: 70}
@@ -418,6 +419,20 @@ MonoBehaviour:
   componentsToDisable:
   - {fileID: 64}
   - {fileID: 65}
+--- !u!114 &2360377714347758175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 14}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e42acf813f59564e9db0338a165682a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goalsScored: 0
+  team: 0
 --- !u!114 &76
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -437,7 +452,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 303544145114068437}
-  viewIdField: 1
+  viewIdField: 0
   InstantiationId: 1
   isRuntimeInstantiated: 0
 --- !u!114 &303544145114068437

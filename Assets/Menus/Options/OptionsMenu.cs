@@ -15,8 +15,12 @@ public class OptionsMenu : MonoBehaviour
         public float volume = 0.5f;
     }
 
-    [SerializeField] private AudioSource audioSource;       //Reference au systeme de gestion du son                                    //TODO
+    [SerializeField] private AudioSource audioSource;       //Reference au systeme de gestion du son        //TODO
     [SerializeField] private Dropdown resolutionDropdown;   //Reference au dropdown des resolutions
+    [SerializeField] private Dropdown shadowsDropdown;      //Reference au dropdown des ombres
+    [SerializeField] private Dropdown aaDropdown;           //Reference au dropdown de l'anti aliasing
+    [SerializeField] private Toggle fullscreenToggle;       //Reference au toggle du fullscreen
+    [SerializeField] private Slider volumeSlider;           //Reference au slider du volume
 
     private GameSettings settings;        //Liste des settings
     private Resolution[] resolutions;     //Liste des resolutions que l'ecran peut afficher
@@ -99,12 +103,18 @@ public class OptionsMenu : MonoBehaviour
     //Applique les settings sur le jeu
     private void ApplySettings()
     {
+        //Mise a jour des options dans Unity
         QualitySettings.antiAliasing = (int)Mathf.Pow(2, settings.aaLevel);
         //audioSource.volume = settings.volume;
         QualitySettings.shadows = (ShadowQuality) settings.shadowsQuality;
         Screen.fullScreen = settings.fullscreen;
         Screen.SetResolution(resolutions[settings.resolutionIndex].width, resolutions[settings.resolutionIndex].height, Screen.fullScreen);
 
-        //TODO Mettre a jour l'affichage
+        //Mise a jour de l'affichage
+        aaDropdown.value = settings.aaLevel;
+        resolutionDropdown.value = settings.resolutionIndex;
+        shadowsDropdown.value = settings.shadowsQuality;
+        fullscreenToggle.isOn = settings.fullscreen;
+        volumeSlider.value = settings.volume;
     }
 }

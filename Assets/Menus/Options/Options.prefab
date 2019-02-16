@@ -3564,8 +3564,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a0b6c0f8a96fea489e10c4a6ea8e2cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audio: {fileID: 0}
+  audioSource: {fileID: 0}
   resolutionDropdown: {fileID: 3072036547334611299}
+  shadowsDropdown: {fileID: 3072036547860134853}
+  aaDropdown: {fileID: 3072036547522615503}
+  fullscreenToggle: {fileID: 3072036548728665587}
+  volumeSlider: {fileID: 3072036547335148233}
 --- !u!1 &3072036548457360639
 GameObject:
   m_ObjectHideFlags: 0

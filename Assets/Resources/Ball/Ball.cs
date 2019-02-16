@@ -5,11 +5,13 @@ public class Ball : MonoBehaviour
 {
     [SerializeField] [Range(1, 20)] private float pullStrength = 9;    //La force avec laquelle la balle est attiree au joueur qui la possede
 
-    public GameObject possessor { get; private set; }    //Le joueur qui a la balle (null si elle est libre)
-    public bool canBeCaught = true;                      //Vrai si la balle peut etre recuperee
+    [HideInInspector] public GameObject possessor { get; private set; }    //Le joueur qui a la balle (null si elle est libre)
+    [HideInInspector] public bool canBeCaught = true;                      //Vrai si la balle peut etre recuperee
+    [HideInInspector] public GameObject shooter { get; private set; }      //La derniere personne a avoir lance la balle (enregistre quand possessor passe a null)
+
     private Rigidbody rb;                                //Le component qui gere les physiques de la balle
     private PhotonView pv;                               //Le script qui gere la balle sur le reseau
-
+    
     void Start()
     {
         possessor = null;
@@ -33,7 +35,15 @@ public class Ball : MonoBehaviour
     //Met le hasBall de tous les joueurs a false, sauf le possesseur de balle
     private void UpdatePossessor_RPC(int viewID)
     {
-        possessor = viewID == -1 ? null : PhotonView.Find(viewID).gameObject;
+        //Si le viewID est a -1 c'est qu'un joueur vient de jeter la balle
+        if(viewID == -1)
+        {
+            shooter = possessor;
+            possessor = null;
+            return;
+        }
+
+        possessor = PhotonView.Find(viewID).gameObject;
 
         //On enleve la possession de balle a tous les joueurs, sauf le nouveau possesseur
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
