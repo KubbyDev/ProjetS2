@@ -55,18 +55,15 @@ public class MovementManager : MonoBehaviour
     }
 
     //Appellee par InputManager
+    //Prend un vecteur normalise avec y=0
     public void Move(Vector3 input) 
 	{
         movementInput = input;   //On enregistre l'input du joueur pour la synchronisation
 
         if (input.sqrMagnitude > 0)
-        {
-            input = input.z * transform.forward + input.x * transform.right;
-            input.y = 0;
-
-            velocity += input.normalized * Time.deltaTime * movementSpeed             //Le vecteur d'inputs en temps normal
+            velocity += input * Time.deltaTime * movementSpeed             //Le vecteur d'inputs en temps normal
                 * (cc.isGrounded ? 1 : inAirControl / (velocity.sqrMagnitude + 2));   //Quand le joueur est en l'air on multiplie pa
-        }                                                                             //inAirControl/velocity.sqrMagnitude, +2 pour eviter la division par 0 et les a coups
+                                     //inAirControl / velocity.sqrMagnitude, +2 pour eviter la division par 0 et les a coups
     }
 
     public Vector3 getLastMovementInput()
@@ -75,7 +72,7 @@ public class MovementManager : MonoBehaviour
     }
 
     //Appellee par InputManager
-    public void Jump(Vector3 movementInput)  //On prend en parametre les inputs ZQSD pour savoir si on doit appliquer une force horizontale
+    public void Jump(Vector3 moveInput)  //On prend en parametre les inputs ZQSD pour savoir si on doit appliquer une force horizontale
     {
         if (usableJumps > 0)
         {
@@ -85,9 +82,9 @@ public class MovementManager : MonoBehaviour
             if (velocity.y < 0)
                 velocity.y /= 5;
 
-            if (movementInput.sqrMagnitude > 0 && !cc.isGrounded)
+            if (moveInput.sqrMagnitude > 0 && !cc.isGrounded)
             //Dash
-                AddForce((movementInput.z * camAnchor.transform.forward + movementInput.x * camAnchor.transform.right).normalized * dashesStrength);
+                AddForce(moveInput.normalized * dashesStrength);
             else
             //Saut classique
                 AddForce(new Vector3(0, jumpStrength, 0));

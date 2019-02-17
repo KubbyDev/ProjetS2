@@ -35,8 +35,9 @@ public class InputManager : MonoBehaviour
     void Update()
     {
         //Deplacements (ZQSD)
-        Vector3 move = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
-        movement.Move(move);
+        Vector3 move = Input.GetAxisRaw("Vertical")*transform.forward + Input.GetAxisRaw("Horizontal")*transform.right;
+        move.y = 0;
+        movement.Move(move.normalized);
 
         //Rotation de la camera
         Vector3 rot = new Vector3(Input.GetAxisRaw("Mouse X") * sensivityX, Input.GetAxisRaw("Mouse Y") * sensivityY * (invertY ? 1 : -1), 0);

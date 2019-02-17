@@ -27,7 +27,7 @@ public class BallManager : MonoBehaviour
     //Cette methode peut etre appellee sans argument: elle cherchera la balle elle meme, ou avec la balle en argument
     public void UpdateBallRef(GameObject newRef = null)
     {
-        if (ballObject == null)
+        if (newRef == null)
             ballObject = GameObject.FindGameObjectWithTag("Ball");
         else
             ballObject = newRef;
@@ -58,9 +58,11 @@ public class BallManager : MonoBehaviour
     //Debug: Le joueur qui tient la balle devient bleu
     void Update()
     {
+        /*
         GetComponent<MeshRenderer>().material.color = Color.white;
         if (hasBall)
             GetComponent<MeshRenderer>().material.color = Color.blue;
+        */
     }
 
     //Lance la balle devant lui
