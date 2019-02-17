@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
+using System.Collections;
 
 public class OptionsMenu : MonoBehaviour
 {
@@ -13,7 +14,16 @@ public class OptionsMenu : MonoBehaviour
         public int resolutionIndex = 0;
         public int shadowsQuality = 3;
         public float volume = 0.5f;
+
+        //Controles                   0:Avancer  1:Reculer  2:Gauche   3:Droite   4:Sauter       5:Attraper ball 6:Jeter ball
+        public KeyCode[] controls = { KeyCode.Z, KeyCode.S, KeyCode.Q, KeyCode.D, KeyCode.Space, KeyCode.Mouse0, KeyCode.Mouse1 };
     }
+
+    [SerializeField] private Text[] controlsButtonsTexts;   //References aux textes des boutons des controls (les index sont les memes que pour les cles dans GameSettings)
+    [SerializeField] private GameObject graphicsMenu;       //Reference a l'onglet Graphics
+    [SerializeField] private GameObject controlsMenu;       //Reference a l'onglet Controls
+    [SerializeField] private Button graphicsButton;         //Reference au bouton de l'onglet Graphics
+    [SerializeField] private Button controlsButton;         //Reference au bouton de l'onglet Controls
 
     [SerializeField] private AudioSource audioSource;       //Reference au systeme de gestion du son        //TODO
     [SerializeField] private Dropdown resolutionDropdown;   //Reference au dropdown des resolutions
@@ -25,6 +35,9 @@ public class OptionsMenu : MonoBehaviour
     private GameSettings settings;        //Liste des settings
     private Resolution[] resolutions;     //Liste des resolutions que l'ecran peut afficher
     private string settingsFilePath;      //Chemin d'acces du fichier dans lequel les settings sont enregistres
+    private int currentKey = -1;          //L'index de la touche que l'utilisateur est en train d'assigner
+
+    //  Initialisation  --------------------------------------------------------------------------------------------------------
 
     void OnEnable()
     {
@@ -45,6 +58,28 @@ public class OptionsMenu : MonoBehaviour
         //Les settings sont lues dans le fichier et sont charges
         LoadSettings();
     }
+
+    // Changement de Menu  -----------------------------------------------------------------------------------------------------
+
+    public void OnGraphicsClick()
+    {
+        graphicsMenu.SetActive(true);
+        controlsMenu.SetActive(false);
+
+        graphicsButton.interactable = false;
+        controlsButton.interactable = true;
+    }
+
+    public void OnControlsClick()
+    {
+        graphicsMenu.SetActive(false);
+        controlsMenu.SetActive(true);
+
+        graphicsButton.interactable = true;
+        controlsButton.interactable = false;
+    }
+
+    //  Actions des boutons, Menu Graphics  ------------------------------------------------------------------------------------
 
     //Toggle du fullscreen
     public void OnFullscreenToggle(bool value)
@@ -76,6 +111,35 @@ public class OptionsMenu : MonoBehaviour
         settings.volume = volume;
     }
 
+    //  Actions des boutons, Menu Controls  ------------------------------------------------------------------------------------
+
+    public void WaitForKey(int keyIndex)
+    {
+        if (currentKey == -1)
+            currentKey = keyIndex;
+    }
+
+    //Cette fonction est appellee plein de fois par frame
+    void OnGUI()
+    {
+        //Si on attend une touche
+        if (currentKey != -1)
+        {
+            Event e = Event.current;
+            //Si l'utilisateur a appuye sur une touche
+            if (e.isKey)
+            {
+                //On change la touche dans les settings et l'affichage
+                settings.controls[currentKey] = e.keyCode;
+                controlsButtonsTexts[currentKey].text = e.keyCode.ToString();
+
+                currentKey = -1;
+            }
+        }
+    }
+
+    //  Enregistrement, chargement et lecture des settings  --------------------------------------------------------------------
+
     //Bouton Apply
     public void OnApplySettings()
     {
@@ -103,6 +167,8 @@ public class OptionsMenu : MonoBehaviour
     //Applique les settings sur le jeu
     private void ApplySettings()
     {
+        //Graphics
+
         //Mise a jour des options dans Unity
         QualitySettings.antiAliasing = (int)Mathf.Pow(2, settings.aaLevel);
         //audioSource.volume = settings.volume;
@@ -116,5 +182,9 @@ public class OptionsMenu : MonoBehaviour
         shadowsDropdown.value = settings.shadowsQuality;
         fullscreenToggle.isOn = settings.fullscreen;
         volumeSlider.value = settings.volume;
+
+        //Controls
+        //Mise a jour des options dans Unity
+
     }
 }
