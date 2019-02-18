@@ -13,6 +13,7 @@ public class InputManager : MonoBehaviour
     private Striker striker;
     private Ninja ninja;
     private BallManager ball;
+    private Back back;
 
     //Reference au GameObject qui contient tous les menus
     private GameObject menus;
@@ -25,6 +26,7 @@ public class InputManager : MonoBehaviour
         spell = GetComponent<BasicSpell>();
         striker = GetComponent<Striker>();
         ninja = GetComponent<Ninja>();
+        back = GetComponent<Back>();
         menus = GameObject.Find("Menus");
 
         //Bloque la souris
@@ -55,6 +57,10 @@ public class InputManager : MonoBehaviour
             striker.Speed();
         if (Input.GetKeyDown(KeyCode.E))
             striker.escape();
+
+        //Power-Up
+        if (Input.GetKeyDown(KeyCode.F))
+            back.TP_Back();
 
         //Changement de camera
         if (Input.GetKeyDown(KeyCode.F1))
