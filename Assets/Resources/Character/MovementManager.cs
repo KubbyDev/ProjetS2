@@ -17,14 +17,12 @@ public class MovementManager : MonoBehaviour
     [HideInInspector] public Vector3 velocity = Vector3.zero;             //La vitesse actuelle du joueur
 
     private CharacterController cc;       //Le script qui gere les deplacements du joueur (dans Unity)
-    private Transform camAnchor;          //Le pivot de la camera
     private int usableJumps;              //Le nombre de sauts restants (Reset quand le sol est touche)
     private Vector3 movementInput;        //Le dernier input ZQSD du joueur (sert pour la synchronisation)
     private PhotonView pv;                //Le script qui gere ce joueur sur le reseau
 
     void Start()
 	{
-        camAnchor = transform.Find("CameraAnchor");
         cc = GetComponent<CharacterController>();
         pv = GetComponent<PhotonView>();
     }

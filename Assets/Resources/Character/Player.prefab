@@ -354,6 +354,7 @@ MonoBehaviour:
   invertY: 0
   sensivityY: 2
   sensivityX: 2
+  canMove: 1
 --- !u!114 &66
 MonoBehaviour:
   m_ObjectHideFlags: 0

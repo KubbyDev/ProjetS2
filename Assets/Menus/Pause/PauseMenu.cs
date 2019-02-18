@@ -1,14 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Photon.Pun;
 using UnityEngine;
 
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private GameObject optionsMenu;
 
+    private InputManager inputs;
+
+    public void SetInputManager(InputManager inputManager)
+    {
+        inputs = inputManager;
+    }
+
     public void OnResumeClick()
     {
-        this.gameObject.SetActive(false);
+        inputs.TogglePauseMenu();
     }
 
     public void OnOptionsClick()

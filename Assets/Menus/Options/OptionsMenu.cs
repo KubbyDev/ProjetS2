@@ -138,6 +138,11 @@ public class OptionsMenu : MonoBehaviour
         }
     }
 
+    void OnDisable()
+    {
+        currentKey = -1;
+    }
+
     //  Enregistrement, chargement et lecture des settings  --------------------------------------------------------------------
 
     //Bouton Apply
