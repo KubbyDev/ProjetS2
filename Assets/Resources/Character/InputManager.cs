@@ -87,7 +87,7 @@ public class InputManager : MonoBehaviour
         //Menu Tab
         if (Input.GetKeyDown(KeyCode.Tab))
             tabMenu.SetActive(!tabMenu.activeSelf);
-        //Menu Pause (sur Backspace au lieu de escape parce que ça fait de la merde dans l'editeur)
+        //Menu Pause (sur Backspace au lieu de escape parce que Ã§a fait de la merde dans l'editeur)
         if (Input.GetKeyDown(KeyCode.Backspace))
             TogglePauseMenu();
     }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Boo.Lang.Environments;
 using UnityEngine;
 
 public class Skills : MonoBehaviour
@@ -14,19 +15,31 @@ public class Skills : MonoBehaviour
 
     public State currentState;
 
+    private Transform camera;           //Une fausse camera qui symbolise la direction du regard de l'IA
+    
     private MovementManager move;
+    private BallManager ballManager;
+    private PlayerInfo infos;
     private GameObject ball;
 
     void Start()
     {
         move = GetComponent<MovementManager>();
+        ballManager = GetComponent<BallManager>();
+        infos = GetComponent<PlayerInfo>();
+        camera = transform.Find("CameraAnchor");
         UpdateBallRef();
     }
 
     void Update()
     {
-        if (currentState == State.GoToTheBall)
+        infos.cameraAnchor = camera;
+        
+        if (currentState == State.GoToTheBall && !infos.hasBall)
+        {
             MoveTo(ball.transform.position);
+            ballManager.Catch();
+        }
     }
 
     public void MoveTo(Vector3 position)
@@ -44,8 +57,8 @@ public class Skills : MonoBehaviour
 
     public void LookAt(Vector3 point)
     {
-        transform.LookAt(point);
-        transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+        camera.LookAt(point);
+        Turn(camera.rotation.eulerAngles.y);
     }
 
     //Met a jour la reference a la balle

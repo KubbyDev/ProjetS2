@@ -35,22 +35,20 @@ public class Ball : MonoBehaviour
     //Met le hasBall de tous les joueurs a false, sauf le possesseur de balle
     private void UpdatePossessor_RPC(int viewID)
     {
+        Debug.Log("UpdatePossessor");
+        
         //Si le viewID est a -1 c'est qu'un joueur vient de jeter la balle
         if(viewID == -1)
         {
             shooter = possessor;
             possessor = null;
-            return;
         }
-
-        possessor = PhotonView.Find(viewID).gameObject;
+        else
+            possessor = PhotonView.Find(viewID).gameObject;
 
         //On enleve la possession de balle a tous les joueurs, sauf le nouveau possesseur
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-            if (player == possessor)
-                player.GetComponent<BallManager>().hasBall = true;
-            else
-                player.GetComponent<BallManager>().hasBall = false;
+            player.GetComponent<BallManager>().hasBall = player == possessor;
     }
 
     //Attire la balle au joueur qui la possede

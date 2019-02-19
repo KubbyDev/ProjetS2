@@ -11,11 +11,13 @@ public class CameraManager : MonoBehaviour {
     private bool isFps;                 //true: Premiere personne, false: 3e personne
     private Transform camAnchor;        //Le pivot de la camera
     private MeshRenderer meshRenderer;  //Desactiver ca pour rendre le joueur invisible
+    private PlayerInfo infos;           //Le script qui contient les infos sur le joueur
 
     void Start()
     {
         camAnchor = transform.Find("CameraAnchor");
         meshRenderer = GetComponent<MeshRenderer>();
+        infos = GetComponent<PlayerInfo>();
     }
 
     void FixedUpdate()
@@ -24,6 +26,9 @@ public class CameraManager : MonoBehaviour {
             FirstPerson();
         else
             ThirdPerson();
+
+        infos.cameraAnchor = camAnchor;
+        infos.rotation = camAnchor.rotation;
     }
 
     public void changeCamera()

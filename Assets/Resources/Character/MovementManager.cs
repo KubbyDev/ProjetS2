@@ -1,7 +1,7 @@
 ﻿using Photon.Pun;
 using UnityEngine;
 
-//Cette classe recoit des inputs de PlayerInputManager pour les actions qui font bouger le joueur
+//Cette classe recoit des inputs de InputManager pour les actions qui font bouger le joueur
 
 public class MovementManager : MonoBehaviour
 {
@@ -14,17 +14,18 @@ public class MovementManager : MonoBehaviour
     [SerializeField] [Range(0, 2)] private float inAirControl = 1.2f;     //La force des inputs en l'air (en l'air: inputs *= inAirControl/vitesse^2)
     [SerializeField] [Range(1, 100)] private float maxSpeed = 20f;        //La vitesse maximale de deplacement du joueur
 
-    [HideInInspector] public Vector3 velocity = Vector3.zero;             //La vitesse actuelle du joueur
-
-    private CharacterController cc;       //Le script qui gere les deplacements du joueur (dans Unity)
-    private int usableJumps;              //Le nombre de sauts restants (Reset quand le sol est touche)
-    private Vector3 movementInput;        //Le dernier input ZQSD du joueur (sert pour la synchronisation)
-    private PhotonView pv;                //Le script qui gere ce joueur sur le reseau
+    private Vector3 velocity = Vector3.zero;  //La vitesse actuelle du joueur
+    private CharacterController cc;           //Le script qui gere les deplacements du joueur (dans Unity)
+    private int usableJumps;                  //Le nombre de sauts restants (Reset quand le sol est touche)
+    private Vector3 movementInput;            //Le dernier input ZQSD du joueur (sert pour la synchronisation)
+    private PhotonView pv;                    //Le script qui gere ce joueur sur le reseau
+    private PlayerInfo infos;                 //Le script qui contient les infos sur le joueur
 
     void Start()
 	{
         cc = GetComponent<CharacterController>();
         pv = GetComponent<PhotonView>();
+	    infos = GetComponent<PlayerInfo>();
     }
 
     void FixedUpdate()
@@ -50,43 +51,40 @@ public class MovementManager : MonoBehaviour
             //cc.velocity est la vitesse reele du CharacterController (elle tient compte des collisions)
             velocity = cc.velocity;
         }
+
+        infos.velocity = velocity;
+        infos.isGrounded = cc.isGrounded;
     }
 
     //Appellee par InputManager
     //Prend un vecteur normalise avec y=0
     public void Move(Vector3 input) 
 	{
-        movementInput = input;   //On enregistre l'input du joueur pour la synchronisation
-
         if (input.sqrMagnitude > 0)
             velocity += input * Time.deltaTime * movementSpeed             //Le vecteur d'inputs en temps normal
                 * (cc.isGrounded ? 1 : inAirControl / (velocity.sqrMagnitude + 2));   //Quand le joueur est en l'air on multiplie pa
                                      //inAirControl / velocity.sqrMagnitude, +2 pour eviter la division par 0 et les a coups
     }
 
-    public Vector3 getLastMovementInput()
-    {
-        return movementInput;
-    }
-
     //Appellee par InputManager
     public void Jump(Vector3 moveInput)  //On prend en parametre les inputs ZQSD pour savoir si on doit appliquer une force horizontale
     {
-        if (usableJumps > 0)
-        {
-            usableJumps--;
+        //Si le joueur ne peut pas sauter on n'execute pas le code de saut
+        if (usableJumps <= 0) 
+            return;
+        
+        usableJumps--;
 
-            //On reduit la vitesse verticale si le joueur est en chute
-            if (velocity.y < 0)
-                velocity.y /= 5;
+        //On reduit la vitesse verticale si le joueur est en chute
+        if (velocity.y < 0)
+            velocity.y /= 5;
 
-            if (moveInput.sqrMagnitude > 0 && !cc.isGrounded)
+        if (moveInput.sqrMagnitude > 0 && !cc.isGrounded)
             //Dash
-                AddForce(moveInput.normalized * dashesStrength);
-            else
+            AddForce(moveInput.normalized * dashesStrength);
+        else
             //Saut classique
-                AddForce(new Vector3(0, jumpStrength, 0));
-        }
+            AddForce(new Vector3(0, jumpStrength, 0));
     }
 
     //Applique une force sur le joueur

@@ -373,7 +373,6 @@ MonoBehaviour:
   movementSpeed: 500
   inAirControl: 1.2
   maxSpeed: 20
-  velocity: {x: 0, y: 0, z: 0}
 --- !u!114 &65
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -435,6 +434,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   goalsScored: 0
   team: 0
+  rotation: {x: 0, y: 0, z: 0, w: 0}
+  cameraAnchor: {fileID: 0}
+  velocity: {x: 0, y: 0, z: 0}
+  isGrounded: 0
+  hasBall: 0
+  isPlayer: 1
 --- !u!114 &76
 MonoBehaviour:
   m_ObjectHideFlags: 0

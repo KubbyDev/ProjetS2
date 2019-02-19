@@ -902,6 +902,11 @@ PrefabInstance:
       propertyPath: m_Options.m_Options.Array.data[1].m_Text
       value: Option C
       objectReference: {fileID: 0}
+    - target: {fileID: 115280469870990220, guid: 2591c9e1293e8b444984b1459a0108e3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2591c9e1293e8b444984b1459a0108e3, type: 3}
 --- !u!1 &1079486470

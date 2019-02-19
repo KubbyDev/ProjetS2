@@ -10,16 +10,16 @@ public class BallManager : MonoBehaviour
     [SerializeField] [Range(0, 5)] private float catchWidth = 1;          //L'imprecision autorisee pour attraper la balle
 
     [HideInInspector] public bool hasBall = false;                        //Si le joueur a la balle
-
+    
     private GameObject ballObject;                                        //Une reference a la balle
     private Ball ball;                                                    //Une reference au script Ball de la balle
-    private Transform camAnchor;                                          //Une reference a l'ancre de la camera
+    private PlayerInfo infos;                                             //Le script qui contient les infos sur le joueur
     private bool canCatch = true;                                         //Vrai si le joueur peut essayer d'attraper la balle
 
     void Start()
     {
         UpdateBallRef();
-        camAnchor = transform.Find("CameraAnchor");
+        infos = GetComponent<PlayerInfo>();
         ball = ballObject.GetComponent<Ball>();
     }
 
@@ -43,7 +43,7 @@ public class BallManager : MonoBehaviour
     IEnumerator CatchCouroutine()
     {
         //On regarde si la balle est devant la camera a une distance inferieure a maxCatchDistance
-        foreach (RaycastHit hit in Physics.SphereCastAll(camAnchor.transform.position, catchWidth, camAnchor.transform.forward, maxCatchDistance))
+        foreach (RaycastHit hit in Physics.SphereCastAll(infos.cameraAnchor.position, catchWidth, infos.cameraAnchor.forward, maxCatchDistance))
             //On recupere la balle si on la touche ou si on touche son porteur
             if (hit.collider.tag == "Ball" && ball.canBeCaught || hit.collider.tag == "Player" && hit.collider.gameObject.GetComponent<BallManager>().hasBall)
                 //On enleve la possession de balle sur tous les joueurs et
@@ -58,17 +58,18 @@ public class BallManager : MonoBehaviour
     //Debug: Le joueur qui tient la balle devient bleu
     void Update()
     {
-        /*
-        GetComponent<MeshRenderer>().material.color = Color.white;
+        infos.hasBall = hasBall;
+        
+        //Debug: le joueur qui a la balle devient bleu
+        GetComponent<MeshRenderer>().material.color = new Color(1,1,1, infos.isPlayer ? 1 : 0.6f);
         if (hasBall)
-            GetComponent<MeshRenderer>().material.color = Color.blue;
-        */
+            GetComponent<MeshRenderer>().material.color = new Color(0f, 0.61f, 0.8f, infos.isPlayer ? 1 : 0.6f);
     }
 
     //Lance la balle devant lui
     public void Shoot()
     {
         if (hasBall)
-            ball.Shoot(camAnchor.transform.forward * launchStrength * 1000);
+            ball.Shoot(infos.cameraAnchor.forward * launchStrength * 1000);
     }
 }
