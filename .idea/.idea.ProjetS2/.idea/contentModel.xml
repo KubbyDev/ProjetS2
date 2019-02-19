@@ -196,6 +196,7 @@
             <e p="BallManager.cs" t="Include" />
             <e p="CameraManager.cs" t="Include" />
             <e p="InputManager.cs" t="Include" />
+            <e p="Inputs.cs" t="Include" />
             <e p="MovementManager.cs" t="Include" />
             <e p="PlayerInfo.cs" t="Include" />
             <e p="PlayerSetup.cs" t="Include" />

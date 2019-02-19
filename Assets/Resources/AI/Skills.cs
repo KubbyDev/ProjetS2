@@ -15,7 +15,7 @@ public class Skills : MonoBehaviour
 
     public State currentState;
 
-    private Transform camera;           //Une fausse camera qui symbolise la direction du regard de l'IA
+    private Transform cam;           //Une fausse camera qui symbolise la direction du regard de l'IA
     
     private MovementManager move;
     private BallManager ballManager;
@@ -27,13 +27,13 @@ public class Skills : MonoBehaviour
         move = GetComponent<MovementManager>();
         ballManager = GetComponent<BallManager>();
         infos = GetComponent<PlayerInfo>();
-        camera = transform.Find("CameraAnchor");
+        cam = transform.Find("CameraAnchor");
         UpdateBallRef();
     }
 
     void Update()
     {
-        infos.cameraAnchor = camera;
+        infos.cameraAnchor = cam;
         
         if (currentState == State.GoToTheBall && !infos.hasBall)
         {
@@ -57,8 +57,8 @@ public class Skills : MonoBehaviour
 
     public void LookAt(Vector3 point)
     {
-        camera.LookAt(point);
-        Turn(camera.rotation.eulerAngles.y);
+        cam.LookAt(point);
+        Turn(cam.rotation.eulerAngles.y);
     }
 
     //Met a jour la reference a la balle

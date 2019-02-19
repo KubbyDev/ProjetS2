@@ -190,6 +190,10 @@ public class OptionsMenu : MonoBehaviour
 
         //Controls
         //Mise a jour des options dans Unity
-
+        GameObject.Find("Inputs").GetComponent<Inputs>().inputs = settings.controls;
+        
+        //Mise a jour de l'affichage
+        for (int i = 0; i < controlsButtonsTexts.Length; i++)
+            controlsButtonsTexts[i].text = settings.controls[i].ToString();
     }
 }

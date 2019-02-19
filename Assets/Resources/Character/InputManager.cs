@@ -6,6 +6,9 @@ public class InputManager : MonoBehaviour
     [SerializeField] [Range(0, 10)] private float sensivityY = 2;    //Sensi horizontale
     [SerializeField] [Range(0, 10)] private float sensivityX = 2;    //Sensi verticale
 
+    //0:Avancer, 1:Reculer, 2:Gauche, 3:Droite, 4:Sauter, 5:Attraper balle, 6:Jeter balle
+    private KeyCode[] inputs;         //Contient toutes les touches choisies par le joueur
+
     //References a plein de scripts
     private MovementManager movement;
     private CameraManager cam;
@@ -35,7 +38,8 @@ public class InputManager : MonoBehaviour
         pauseMenu = menus.transform.GetChild(1).gameObject;
         optionsMenu = menus.transform.GetChild(2).gameObject;
         pauseMenu.GetComponent<PauseMenu>().SetInputManager(this);
-
+        ReloadInputs();
+        
         //Bloque la souris
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -46,7 +50,10 @@ public class InputManager : MonoBehaviour
         if(canMove)
         {
             //Deplacements (ZQSD)
-            Vector3 move = Input.GetAxisRaw("Vertical")*transform.forward + Input.GetAxisRaw("Horizontal")*transform.right;
+            Vector3 move = (Input.GetKey(inputs[0]) ? 1 : 0) * transform.forward
+                           + (Input.GetKey(inputs[1]) ? -1 : 0) * transform.forward
+                           + (Input.GetKey(inputs[2]) ? -1 : 0) * transform.right
+                           + (Input.GetKey(inputs[3]) ? 1 : 0) * transform.right;
             move.y = 0;
             movement.Move(move.normalized);
 
@@ -56,7 +63,7 @@ public class InputManager : MonoBehaviour
                 cam.Rotate(rot);
 
             //Sauts
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(inputs[4]))
                 movement.Jump(move);       //Cette fonction prend en parametre les inputs ZQSD pour les dashes
 
             //Spells
@@ -77,10 +84,10 @@ public class InputManager : MonoBehaviour
 
             //Balle
             //Recuperation
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetKeyDown(inputs[5]))
                 ball.Catch();
             //Tir
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetKeyDown(inputs[6]))
                 ball.Shoot();
         }
 
@@ -92,6 +99,11 @@ public class InputManager : MonoBehaviour
             TogglePauseMenu();
     }
 
+    private void ReloadInputs()
+    {
+        inputs = GameObject.Find("Inputs").GetComponent<Inputs>().inputs;
+    }
+    
     public void TogglePauseMenu()
     {
         if (pauseMenu.activeSelf || optionsMenu.activeSelf)
@@ -105,6 +117,8 @@ public class InputManager : MonoBehaviour
 
             pauseMenu.SetActive(false);
             optionsMenu.SetActive(false);
+            
+            ReloadInputs();
         }
         else
         //Activation du menu
