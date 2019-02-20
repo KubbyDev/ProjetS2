@@ -41,6 +41,11 @@ public class OptionsMenu : MonoBehaviour
 
     void OnEnable()
     {
+        RefreshSettings();
+    }
+
+    public void RefreshSettings()
+    {
         settingsFilePath = Application.persistentDataPath + "/settings.json";
 
         //On rempli le dropdown des resolutions avec toutes les resolutions que l'ecran peut afficher
@@ -127,11 +132,12 @@ public class OptionsMenu : MonoBehaviour
         {
             Event e = Event.current;
             //Si l'utilisateur a appuye sur une touche
-            if (e.isKey)
+            if (e.isKey || e.isMouse)
             {
                 //On change la touche dans les settings et l'affichage
-                settings.controls[currentKey] = e.keyCode;
-                controlsButtonsTexts[currentKey].text = e.keyCode.ToString();
+                KeyCode key = e.isMouse ? e.button + KeyCode.Mouse0 : e.keyCode;
+                settings.controls[currentKey] = key;
+                controlsButtonsTexts[currentKey].text = key.ToString();
 
                 currentKey = -1;
             }
@@ -175,7 +181,7 @@ public class OptionsMenu : MonoBehaviour
         //Graphics
 
         //Mise a jour des options dans Unity
-        QualitySettings.antiAliasing = (int)Mathf.Pow(2, settings.aaLevel);
+        QualitySettings.antiAliasing = (int) Mathf.Pow(2, settings.aaLevel);
         //audioSource.volume = settings.volume;
         QualitySettings.shadows = (ShadowQuality) settings.shadowsQuality;
         Screen.fullScreen = settings.fullscreen;

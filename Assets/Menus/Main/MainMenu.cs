@@ -17,6 +17,7 @@ public class MainMenu : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings();
 
         serversMenuScript = GameObject.Find("Scripts").GetComponent<ServerSelectionMenu>();
+        optionsMenu.transform.Find("Options").GetComponent<OptionsMenu>().RefreshSettings();
     }
 
     //Quand la connection est etablie

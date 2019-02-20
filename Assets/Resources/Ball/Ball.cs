@@ -35,8 +35,6 @@ public class Ball : MonoBehaviour
     //Met le hasBall de tous les joueurs a false, sauf le possesseur de balle
     private void UpdatePossessor_RPC(int viewID)
     {
-        Debug.Log("UpdatePossessor");
-        
         //Si le viewID est a -1 c'est qu'un joueur vient de jeter la balle
         if(viewID == -1)
         {
