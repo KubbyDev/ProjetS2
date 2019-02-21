@@ -114,7 +114,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e4716133c38bd54fbd2ee31952cbfd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 3069637598656914129, guid: be49a56cb35d6404cb4049571e3664f5, type: 3}
+  itemPrefab: {fileID: 3069637598656914129, guid: be49a56cb35d6404cb4049571e3664f5,
+    type: 3}
   playerList: {fileID: 6643241924072848255}
   roomName: {fileID: 8208019615133141032}
 --- !u!1 &1976291986787460640

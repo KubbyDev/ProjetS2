@@ -1,7 +1,7 @@
 ﻿using Photon.Pun;
 using UnityEngine;
 
-public class PlayerSetup : MonoBehaviour {
+public class PlayerSetup : MonoBehaviour, IPunInstantiateMagicCallback {
 
     //La liste des components qui seront desactives sur tous les joueurs non controlles par le joueur local
     [SerializeField] private Behaviour[] componentsToDisable; 
@@ -15,5 +15,11 @@ public class PlayerSetup : MonoBehaviour {
         //Sinon on desactive les components qui doivent l'etre
         foreach (Behaviour comp in componentsToDisable)
             comp.enabled = false;
+    }
+
+    public void OnPhotonInstantiate(PhotonMessageInfo info)
+    {
+        //Permet d'acceder au GameObject du joueur depuis un PhotonPlayer
+        info.Sender.TagObject = this.gameObject;
     }
 }

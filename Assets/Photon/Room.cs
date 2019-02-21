@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
 
-public class Room : MonoBehaviourPunCallbacks, IInRoomCallbacks
+public class Room : MonoBehaviourPunCallbacks
 {
     private int playerNumber;    //Le nombre de joueurs dans la salle
 
