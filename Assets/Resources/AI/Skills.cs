@@ -1,26 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Boo.Lang.Environments;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Skills : MonoBehaviour
 {
     //Le but de cette classe et de donner a Brain.cs l'acces a tout un tas de fonctionnalites
     //de haut niveau (aller a un endroit, se demarquer, tirer, faire une passe, aller aux cages etc...)
 
-    public enum State
-    {
-        GoToTheBall = 1
-    }
-
-    public State currentState;
-
-    private Transform cam;           //Une fausse camera qui symbolise la direction du regard de l'IA
+    public float timeToMove;          //Le temps restant avant que l'IA puisse bouger
     
-    private MovementManager move;
-    private BallManager ballManager;
-    private PlayerInfo infos;
-    private GameObject ball;
+    private Transform cam;            //Une fausse camera qui symbolise la direction du regard de l'IA
+    
+    private MovementManager move;     //Reference au MovementManager de l'IA
+    private BallManager ballManager;  //Reference au BallManager de l'IA
+    private PlayerInfo infos;         //Reference au PlayerInfo de l'IA
+    private GameObject ball;          //Reference a la balle
 
     void Start()
     {
@@ -34,20 +26,19 @@ public class Skills : MonoBehaviour
     void Update()
     {
         infos.cameraAnchor = cam;
-        
-        if (currentState == State.GoToTheBall && !infos.hasBall)
-        {
-            MoveTo(ball.transform.position);
-            ballManager.Catch();
-        }
+
+        //Met a jour le temps restant pour pouvoir bouger
+        if (timeToMove > 0)
+            timeToMove -= Time.deltaTime;
     }
 
+    //Bouger jusqu'a position
     public void MoveTo(Vector3 position)
     {
         LookAt(position);
         Vector3 moveInput = position - transform.position;
         moveInput.y = 0;
-        move.Move(moveInput.normalized);
+        Move(moveInput.normalized);
     }
 
     public void Turn(float newRotation)
@@ -55,10 +46,24 @@ public class Skills : MonoBehaviour
         transform.eulerAngles = new Vector3(0, newRotation, 0);
     }
 
+    //Regarde le point specifie
     public void LookAt(Vector3 point)
     {
         cam.LookAt(point);
         Turn(cam.rotation.eulerAngles.y);
+    }
+
+    //Essaye d'attraper la balle
+    public void CatchBall()
+    {
+        LookAt(ball.transform.position);
+        ballManager.Catch();
+    }
+
+    private void Move(Vector3 input)
+    {
+        if(timeToMove <= 0)
+            move.Move(input);
     }
 
     //Met a jour la reference a la balle

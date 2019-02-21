@@ -14,12 +14,12 @@ public class BallManager : MonoBehaviour
     private GameObject ballObject;                                        //Une reference a la balle
     private Ball ball;                                                    //Une reference au script Ball de la balle
     private PlayerInfo infos;                                             //Le script qui contient les infos sur le joueur
-    private bool canCatch = true;                                         //Vrai si le joueur peut essayer d'attraper la balle
+    private float catchTimeLeft = 0;                                      //Le temps restant avant de pouvoir reutiliser le catch
 
     void Start()
     {
-        UpdateBallRef();
-        infos = GetComponent<PlayerInfo>();
+        UpdateBallRef();                         //Cherche la balle sur le terrain
+        infos = GetComponent<PlayerInfo>();     
         ball = ballObject.GetComponent<Ball>();
     }
 
@@ -36,29 +36,28 @@ public class BallManager : MonoBehaviour
     //Recuperation de la balle
     public void Catch()
     {
-        if (canCatch)
-            StartCoroutine(CatchCouroutine());
+        if (catchTimeLeft <= 0)
+        {
+            //On regarde si la balle est devant la camera a une distance inferieure a maxCatchDistance
+            foreach (RaycastHit hit in Physics.SphereCastAll(infos.cameraAnchor.position, catchWidth, infos.cameraAnchor.forward, maxCatchDistance))
+                //On recupere la balle si on la touche ou si on touche son porteur
+                if (hit.collider.tag == "Ball" && ball.canBeCaught || hit.collider.tag == "Player" && hit.collider.gameObject.GetComponent<BallManager>().hasBall)
+                    //On enleve la possession de balle sur tous les joueurs et
+                    //on la donne au joueur qui vient de la recuperer
+                    ball.UpdatePossessor(this.gameObject);
+
+            catchTimeLeft = catchCooldown;
+        }
     }
-
-    IEnumerator CatchCouroutine()
-    {
-        //On regarde si la balle est devant la camera a une distance inferieure a maxCatchDistance
-        foreach (RaycastHit hit in Physics.SphereCastAll(infos.cameraAnchor.position, catchWidth, infos.cameraAnchor.forward, maxCatchDistance))
-            //On recupere la balle si on la touche ou si on touche son porteur
-            if (hit.collider.tag == "Ball" && ball.canBeCaught || hit.collider.tag == "Player" && hit.collider.gameObject.GetComponent<BallManager>().hasBall)
-                //On enleve la possession de balle sur tous les joueurs et
-                //on la donne au joueur qui vient de la recuperer
-                ball.UpdatePossessor(this.gameObject);
-
-        canCatch = false;
-        yield return new WaitForSeconds(catchCooldown); //la duree du cooldown
-        canCatch = true;
-    }
-
-    //Debug: Le joueur qui tient la balle devient bleu
+    
     void Update()
     {
         infos.hasBall = hasBall;
+
+        if (catchTimeLeft > 0)                 //Met a jour le temps restant pour attraper la balle
+            catchTimeLeft -= Time.deltaTime;
+        if (hasBall)                           //Si le joueur a la balle, on met son cooldown au max
+            catchTimeLeft = catchCooldown;     //pour qu'il ne puisse pas la recuperer instant quand on lui prend
         
         //Debug: le joueur qui a la balle devient bleu
         GetComponent<MeshRenderer>().material.color = new Color(1,1,1, infos.isPlayer ? 1 : 0.6f);

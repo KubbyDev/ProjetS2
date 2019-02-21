@@ -433,7 +433,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   goalsScored: 0
-  team: 0
+  team: 1
   rotation: {x: 0, y: 0, z: 0, w: 0}
   cameraAnchor: {fileID: 0}
   velocity: {x: 0, y: 0, z: 0}

@@ -8,6 +8,7 @@ public class InputManager : MonoBehaviour
 
     //0:Avancer, 1:Reculer, 2:Gauche, 3:Droite, 4:Sauter, 5:Attraper balle, 6:Jeter balle
     private KeyCode[] inputs;         //Contient toutes les touches choisies par le joueur
+    private float stopInputsTime = 0; //Le temps restant en secondes pour que les inputs soient pris en compte
 
     //References a plein de scripts
     private MovementManager movement;
@@ -47,7 +48,7 @@ public class InputManager : MonoBehaviour
     
     void Update()
     {
-        if(canMove)
+        if(canMove && stopInputsTime <= 0)
         {
             //Deplacements (ZQSD)
             Vector3 move = (Input.GetKey(inputs[0]) ? 1 : 0) * transform.forward
@@ -97,8 +98,12 @@ public class InputManager : MonoBehaviour
         //Menu Pause (sur Backspace au lieu de escape parce que ça fait de la merde dans l'editeur)
         if (Input.GetKeyDown(KeyCode.Backspace))
             TogglePauseMenu();
+
+        if (stopInputsTime > 0)                 //Met a jour le temps restant pour prendre en compte les inputs
+            stopInputsTime -= Time.deltaTime;
     }
 
+    //Va chercher les inputs dans le GameObject qui les contient
     private void ReloadInputs()
     {
         inputs = GameObject.Find("Inputs").GetComponent<Inputs>().inputs;
@@ -131,5 +136,11 @@ public class InputManager : MonoBehaviour
 
             pauseMenu.SetActive(true);
         }
+    }
+
+    //Arrete la prise en compte des inputs pendant duration secondes
+    public void StopInputs(float duration)
+    {
+        stopInputsTime = duration;
     }
 }
