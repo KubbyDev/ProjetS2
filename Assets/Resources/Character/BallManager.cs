@@ -11,26 +11,12 @@ public class BallManager : MonoBehaviour
 
     [HideInInspector] public bool hasBall = false;                        //Si le joueur a la balle
     
-    private GameObject ballObject;                                        //Une reference a la balle
-    private Ball ball;                                                    //Une reference au script Ball de la balle
     private PlayerInfo infos;                                             //Le script qui contient les infos sur le joueur
     private float catchTimeLeft = 0;                                      //Le temps restant avant de pouvoir reutiliser le catch
 
     void Start()
     {
-        UpdateBallRef();                         //Cherche la balle sur le terrain
         infos = GetComponent<PlayerInfo>();     
-        ball = ballObject.GetComponent<Ball>();
-    }
-
-    //Met a jour la reference a la balle
-    //Cette methode peut etre appellee sans argument: elle cherchera la balle elle meme, ou avec la balle en argument
-    public void UpdateBallRef(GameObject newRef = null)
-    {
-        if (newRef == null)
-            ballObject = GameObject.FindGameObjectWithTag("Ball");
-        else
-            ballObject = newRef;
     }
 
     //Recuperation de la balle
@@ -41,10 +27,10 @@ public class BallManager : MonoBehaviour
             //On regarde si la balle est devant la camera a une distance inferieure a maxCatchDistance
             foreach (RaycastHit hit in Physics.SphereCastAll(infos.cameraAnchor.position, catchWidth, infos.cameraAnchor.forward, maxCatchDistance))
                 //On recupere la balle si on la touche ou si on touche son porteur
-                if (hit.collider.tag == "Ball" && ball.canBeCaught || hit.collider.tag == "Player" && hit.collider.gameObject.GetComponent<BallManager>().hasBall)
+                if (hit.collider.tag == "Ball" && Ball.script.canBeCaught || hit.collider.tag == "Player" && hit.collider.gameObject.GetComponent<BallManager>().hasBall)
                     //On enleve la possession de balle sur tous les joueurs et
                     //on la donne au joueur qui vient de la recuperer
-                    ball.UpdatePossessor(this.gameObject);
+                    Ball.script.UpdatePossessor(this.gameObject);
 
             catchTimeLeft = catchCooldown;
         }
@@ -69,6 +55,6 @@ public class BallManager : MonoBehaviour
     public void Shoot()
     {
         if (hasBall)
-            ball.Shoot(infos.cameraAnchor.forward * launchStrength * 1000);
+            Ball.script.Shoot(infos.cameraAnchor.forward * launchStrength * 1000);
     }
 }

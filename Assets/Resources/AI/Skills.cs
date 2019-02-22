@@ -12,7 +12,6 @@ public class Skills : MonoBehaviour
     private MovementManager move;     //Reference au MovementManager de l'IA
     private BallManager ballManager;  //Reference au BallManager de l'IA
     private PlayerInfo infos;         //Reference au PlayerInfo de l'IA
-    private GameObject ball;          //Reference a la balle
 
     void Start()
     {
@@ -20,7 +19,6 @@ public class Skills : MonoBehaviour
         ballManager = GetComponent<BallManager>();
         infos = GetComponent<PlayerInfo>();
         cam = transform.Find("CameraAnchor");
-        UpdateBallRef();
     }
 
     void Update()
@@ -56,7 +54,7 @@ public class Skills : MonoBehaviour
     //Essaye d'attraper la balle
     public void CatchBall()
     {
-        LookAt(ball.transform.position);
+        LookAt(Ball.ball.transform.position);
         ballManager.Catch();
     }
 
@@ -64,15 +62,5 @@ public class Skills : MonoBehaviour
     {
         if(timeToMove <= 0)
             move.Move(input);
-    }
-
-    //Met a jour la reference a la balle
-    //Cette methode peut etre appellee sans argument: elle cherchera la balle elle meme, ou avec la balle en argument
-    public void UpdateBallRef(GameObject newRef = null)
-    {
-        if (newRef == null)
-            ball = GameObject.FindGameObjectWithTag("Ball");
-        else
-            ball = newRef;
     }
 }

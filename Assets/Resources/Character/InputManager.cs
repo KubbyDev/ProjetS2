@@ -38,7 +38,6 @@ public class InputManager : MonoBehaviour
         tabMenu = menus.transform.GetChild(0).gameObject;
         pauseMenu = menus.transform.GetChild(1).gameObject;
         optionsMenu = menus.transform.GetChild(2).gameObject;
-        pauseMenu.GetComponent<PauseMenu>().SetInputManager(this);
         ReloadInputs();
         
         //Bloque la souris
@@ -106,7 +105,10 @@ public class InputManager : MonoBehaviour
     //Va chercher les inputs dans le GameObject qui les contient
     private void ReloadInputs()
     {
-        inputs = GameObject.Find("Inputs").GetComponent<Inputs>().inputs;
+        inputs = Inputs.controls;
+        sensivityX = Inputs.sensivity[0];
+        sensivityY = Inputs.sensivity[1];
+        invertY = Inputs.invertY;
     }
     
     public void TogglePauseMenu()

@@ -3,19 +3,28 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
+    public static GameObject ball;      //Reference a la balle, visible partout
+    public static Ball script;          //Reference a ce script, visible partout
+    public static Rigidbody rigidBody;  //Reference au rigidbody de la balle, visible partout
+    
     [SerializeField] [Range(1, 20)] private float pullStrength = 9;    //La force avec laquelle la balle est attiree au joueur qui la possede
 
     [HideInInspector] public GameObject possessor { get; private set; }    //Le joueur qui a la balle (null si elle est libre)
     [HideInInspector] public bool canBeCaught = true;                      //Vrai si la balle peut etre recuperee
     [HideInInspector] public GameObject shooter { get; private set; }      //La derniere personne a avoir lance la balle (enregistre quand possessor passe a null)
 
-    private Rigidbody rb;                                //Le component qui gere les physiques de la balle
     private PhotonView pv;                               //Le script qui gere la balle sur le reseau
+
+    void Awake()
+    {
+        ball = this.gameObject;
+        script = this;
+        rigidBody = GetComponent<Rigidbody>();
+    }
     
     void Start()
     {
         possessor = null;
-        rb = GetComponent<Rigidbody>();
         pv = GetComponent<PhotonView>();
     }
 
@@ -52,18 +61,18 @@ public class Ball : MonoBehaviour
     //Attire la balle au joueur qui la possede
     void Attract()
     {
-        rb.velocity /= 1.2f;                                                                                     //Amorti la vitesse
-        rb.AddForce((possessor.transform.position + new Vector3(0, 0.0f, 0) + 5f * possessor.transform.forward   //Un peu devant le torse du joueur
-                        - transform.position                                                                     //Pour que le vecteur aille de la balle au joueur
+        rigidBody.velocity /= 1.2f;             //Amorti la vitesse
+        rigidBody.AddForce((possessor.transform.position + new Vector3(0, 0.0f, 0) + 5f * possessor.transform.forward   //Un peu devant le torse du joueur
+                        - transform.position    //Pour que le vecteur aille de la balle au joueur
                         ) * Time.deltaTime * pullStrength * 1000);
     }
 
     public void Shoot(Vector3 force)
     {
         //Execute la fonction ShootBall_RPC sur tous les autres joueurs
-        pv.RPC("ShootBall_RPC", RpcTarget.Others, rb.velocity, force);
+        pv.RPC("ShootBall_RPC", RpcTarget.Others, rigidBody.velocity, force);
 
-        rb.AddForce(force);
+        rigidBody.AddForce(force);
         UpdatePossessor(null);
     }
 
@@ -74,8 +83,8 @@ public class Ball : MonoBehaviour
     {
         Debug.Log("Set velocity");
 
-        rb.velocity = newVelocity;
-        rb.AddForce(force);
+        rigidBody.velocity = newVelocity;
+        rigidBody.AddForce(force);
     }
 
     public void FreezeBall()

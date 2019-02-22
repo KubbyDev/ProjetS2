@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Back : MonoBehaviour
 {
-    public int team = 1;
-
+    public Team team = Team.Blue;
     private Transform blue_pos;
     private Transform orange_pos;
 
@@ -28,7 +27,7 @@ public class Back : MonoBehaviour
     }
     public void TP_Back()
     {
-        if (team == 1)
+        if (team == Team.Blue)
             transform.SetPositionAndRotation(blue_pos.position, blue_pos.rotation);
         else
             transform.SetPositionAndRotation(orange_pos.position, orange_pos.rotation);

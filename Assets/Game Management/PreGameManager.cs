@@ -13,7 +13,7 @@ public class PreGameManager : MonoBehaviour
     {
         if (!gameStarted && PhotonNetwork.CurrentRoom.PlayerCount >= playersToStart)
         {
-            GameObject.Find("GameManager").GetComponent<GameManager>().StartGame();
+            GameManager.script.StartGame();
             gameStarted = true;
         }
     }

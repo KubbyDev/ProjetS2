@@ -9,6 +9,7 @@ public class OptionsMenu : MonoBehaviour
     //pour y acceder au prochain lancement du jeu
     public class GameSettings
     {
+        //Graphismes
         public bool fullscreen = true;
         public int aaLevel = 3;
         public int resolutionIndex = 0;
@@ -17,6 +18,8 @@ public class OptionsMenu : MonoBehaviour
 
         //Controles                   0:Avancer  1:Reculer  2:Gauche   3:Droite   4:Sauter       5:Attraper ball 6:Jeter ball
         public KeyCode[] controls = { KeyCode.Z, KeyCode.S, KeyCode.Q, KeyCode.D, KeyCode.Space, KeyCode.Mouse0, KeyCode.Mouse1 };
+        public float[] sensivity = {1f,1f};
+        public bool invertY = false;
     }
 
     [SerializeField] private Text[] controlsButtonsTexts;   //References aux textes des boutons des controls (les index sont les memes que pour les cles dans GameSettings)
@@ -196,7 +199,9 @@ public class OptionsMenu : MonoBehaviour
 
         //Controls
         //Mise a jour des options dans Unity
-        GameObject.Find("Inputs").GetComponent<Inputs>().inputs = settings.controls;
+        Inputs.controls = settings.controls;
+        Inputs.invertY = settings.invertY;
+        Inputs.sensivity = settings.sensivity;
         
         //Mise a jour de l'affichage
         for (int i = 0; i < controlsButtonsTexts.Length; i++)

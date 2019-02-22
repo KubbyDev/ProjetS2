@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class GoalDetector : MonoBehaviour
 {
-    [SerializeField] public PlayerInfo.Team team = PlayerInfo.Team.Blue;  //La team qui doit marquer dans ce but
-    [SerializeField] private ParticleSystem goalExplosion;                //Reference a la particule de but
+    [SerializeField] public Team team = Team.Blue;             //La team qui doit marquer dans ce but
+    [SerializeField] private ParticleSystem goalExplosion;     //Reference a la particule de but
 
     private void OnTriggerEnter(Collider other)
     {
@@ -21,9 +21,9 @@ public class GoalDetector : MonoBehaviour
         Instantiate(goalExplosion, ball.transform.position, Quaternion.identity);
         
         //Informe le GameManager du but
-        GameObject.Find("GameManager").GetComponent<GameManager>().OnGoal(team == PlayerInfo.Team.Blue);
+        GameManager.script.OnGoal(team == Team.Blue);
         
         //Incremente le nombre de buts marques du joueur qui a marque
-        ball.GetComponent<Ball>().shooter.GetComponent<PlayerInfo>().goalsScored++;
+        Ball.script.shooter.GetComponent<PlayerInfo>().goalsScored++;
     }
 }

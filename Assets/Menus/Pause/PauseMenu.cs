@@ -4,16 +4,9 @@ public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private GameObject optionsMenu;
 
-    private InputManager inputs;
-
-    public void SetInputManager(InputManager inputManager)
-    {
-        inputs = inputManager;
-    }
-
     public void OnResumeClick()
     {
-        inputs.TogglePauseMenu();
+        PlayerInfo.localPlayer.GetComponent<InputManager>().TogglePauseMenu();
     }
 
     public void OnOptionsClick()

@@ -17,7 +17,7 @@ public class TabMenu : MonoBehaviour
 
         public void UpdateValues()
         {
-            ping.text = PhotonNetwork.GetPing().ToString();    //TODO: Recuperer le ping des autres joueurs
+            ping.text = infos.ping.ToString();    //TODO: Recuperer le ping des autres joueurs
             name.text = player.NickName;
             goals.text = infos.goalsScored.ToString();
         }
@@ -76,14 +76,16 @@ public class TabMenu : MonoBehaviour
         {
             Image element = Instantiate(itemPrefab, playerList.transform);
             if (player.IsLocal) element.color = new Color(0.7f, 0.7f, 0.7f); //On differencie le joueur local
-            
-            Item i = new Item();
-            i.player = player;
-            i.infos = ((GameObject) player.TagObject).GetComponent<PlayerInfo>();
-            i.name = element.transform.Find("Name").gameObject.GetComponent<Text>();
-            i.ping = element.transform.Find("Ping").gameObject.GetComponent<Text>();
-            i.goals = element.transform.Find("Goals").gameObject.GetComponent<Text>();
-            
+
+            Item i = new Item
+            {
+                player = player,
+                infos = ((GameObject) player.TagObject).GetComponent<PlayerInfo>(),
+                name = element.transform.Find("Name").gameObject.GetComponent<Text>(),
+                ping = element.transform.Find("Ping").gameObject.GetComponent<Text>(),
+                goals = element.transform.Find("Goals").gameObject.GetComponent<Text>()
+            };
+
             items.Add(i);
         }
         

@@ -234,7 +234,6 @@ GameObject:
   - component: {fileID: 2360377714347758175}
   - component: {fileID: 76}
   - component: {fileID: 303544145114068437}
-  - component: {fileID: 70}
   - component: {fileID: 68}
   - component: {fileID: 2866933733562207237}
   - component: {fileID: 4365312329046919714}
@@ -440,6 +439,7 @@ MonoBehaviour:
   isGrounded: 0
   hasBall: 0
   isPlayer: 1
+  ping: 0
 --- !u!114 &76
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -495,20 +495,6 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
---- !u!114 &70
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 14}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa2cda12567dd6c4e94dede71d5ef0b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 7151503095920526285, guid: bfbb1b38be4ccb84e8ef214a4e4b351f,
-    type: 3}
 --- !u!114 &68
 MonoBehaviour:
   m_ObjectHideFlags: 0
