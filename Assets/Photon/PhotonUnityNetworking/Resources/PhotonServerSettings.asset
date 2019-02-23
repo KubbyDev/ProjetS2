@@ -36,4 +36,5 @@ MonoBehaviour:
   - ApplyForce_RPC
   - UpdatePossessor_RPC
   - ResetPossessor_RPC
+  - UpdatePing
   DisableAutoOpenWizard: 1

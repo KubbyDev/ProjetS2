@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public int blueScore;            //Score de l'equipe bleu
     public int orangeScore;          //Score de l'equipe orange
     public float timeLeft;           //Temps restant a la partie en secondes
-    public bool gamePlaying;         //Booleen indiquant que la partie est en cours et que le temps s'ecoule                                                                         // Donnees du jeu
+    public bool gamePlaying;         //Booleen indiquant que la partie est en cours et que le temps s'ecoule
 
     private Transform orangeSpawn;   //Position de spawn orange
     private Transform blueSpawn;     //Position de spawn bleu
