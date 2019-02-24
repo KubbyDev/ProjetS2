@@ -1,6 +1,4 @@
-﻿using Photon.Pun;
-using Photon.Realtime;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,8 +10,6 @@ public class GameManager : MonoBehaviour
     public float timeLeft;           //Temps restant a la partie en secondes
     public bool gamePlaying;         //Booleen indiquant que la partie est en cours et que le temps s'ecoule
 
-    private Transform orangeSpawn;   //Position de spawn orange
-    private Transform blueSpawn;     //Position de spawn bleu
     private Vector3 ballSpawn;       //Position de spawn de la balle
 
     private void Awake()
@@ -23,8 +19,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        orangeSpawn = GameObject.Find("orange_pos").transform;
-        blueSpawn = GameObject.Find("blue_pos").transform;
+        Spawns.FindSpawns();                //Demande au script qui gere les spawns de trouver les spawns sur la scene
         ballSpawn = Vector3.zero;
         
         gameConfig = GameConfig.Preset("Classic");
@@ -46,6 +41,9 @@ public class GameManager : MonoBehaviour
             gamePlaying = false;
             EndGame();
         }
+        
+        //Met a jour les timers des spawns. Quand un spawn est utilise il met 5 secondes a etre utilisable
+        Spawns.UpdateTimers();
     }
 
     // Lancer une partie
@@ -71,16 +69,16 @@ public class GameManager : MonoBehaviour
     }
 
     // Reset la position des joueurs et de la balle
-    private void RespawnAll()                                                                            
+    private void RespawnAll()
     {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        
+        //On fait respawn tout le monde
+        Spawns.AssignSpawns(players);
+
         // Parcours les joueurs
-        foreach(GameObject player in GameObject.FindGameObjectsWithTag("Player"))                      
+        foreach(GameObject player in players)                      
         {
-            if (player.GetComponent<PlayerInfo>().team == Team.Blue)                         // Si c'est un joueur de l'equipe bleue le respawn a son spawn
-                player.transform.SetPositionAndRotation(blueSpawn.position, blueSpawn.rotation);
-            else                                                                                        // Sinon le spawn a celui de l'equipe orange    
-                player.transform.SetPositionAndRotation(orangeSpawn.position, orangeSpawn.rotation);
-            
             //Si c'est une IA on lui dit de ne pas bouger
             if (!player.GetComponent<PlayerInfo>().isPlayer)
                 player.GetComponent<Skills>().timeToMove = 4;
@@ -89,8 +87,10 @@ public class GameManager : MonoBehaviour
         //On bloque les inputs du joueur local pendant 4 sec
         PlayerInfo.localPlayer.GetComponent<InputManager>().StopInputs(4);
         
+        //On respawn la balle
         Ball.ball.transform.position = ballSpawn;
-        Ball.ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        Ball.script.StopAllMovements();
+        
         gamePlaying = true;
     }
 

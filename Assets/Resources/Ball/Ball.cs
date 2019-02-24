@@ -87,6 +87,13 @@ public class Ball : MonoBehaviour
         rigidBody.AddForce(force);
     }
 
+    public void StopAllMovements()
+    {
+        rigidBody.velocity = Vector3.zero;
+        rigidBody.angularVelocity = Vector3.zero;
+        rigidBody.rotation = Quaternion.identity;
+    }
+    
     public void FreezeBall()
     {
         canBeCaught = false;

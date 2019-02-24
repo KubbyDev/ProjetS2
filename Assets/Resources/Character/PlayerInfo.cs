@@ -7,6 +7,7 @@ public class PlayerInfo : MonoBehaviour
 
     public int goalsScored;                //Le nombre de buts que le joueur a marque
     public Team team;                      //La team du joueur
+    public int hero;                       //La classe jouee par ce joueur
     public Quaternion rotation;            //L'orientation de la camera
     public Transform cameraAnchor;         //L'ancre de la camera
     public Vector3 velocity;               //La vitesse du joueur
