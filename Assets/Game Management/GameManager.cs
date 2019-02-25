@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -6,20 +8,29 @@ public class GameManager : MonoBehaviour
     
     public static bool gamePlaying;   //Booleen indiquant que la partie est en cours et que le temps s'ecoule
     public static int maxPlayers;     //Le nombre de joueurs max en jeu
-    public int blueScore;             //Score de l'equipe bleu
-    public int orangeScore;           //Score de l'equipe orange
-    public float timeLeft;            //Temps restant a la partie en secondes
+    public static int blueScore;      //Score de l'equipe bleu
+    public static int orangeScore;    //Score de l'equipe orange
+    public static float timeLeft;     //Temps restant a la partie en secondes
 
+    [SerializeField] private GameObject gameMenu; //Contient les affichages
+    
     private bool gameStarted = false; //Passe a true des que la partie demarre
     private GameConfig gameConfig;    //Config de la partie (nombre max de buts, temps max etc)
     private Vector3 ballSpawn;        //Position de spawn de la balle
-
+    private Text timeDisplayer;       //Le component qui affiche le temps restant
+    private Text blueScoreDisplayer;  //Le component qui affiche le score de l'equipe bleu
+    private Text orangeScoreDisplayer;//Le component qui affiche le score de l'equipe orange
+   
     private void Awake()
     {
         script = this;
         
         gameConfig = GameConfig.Preset("Classic");
         maxPlayers = gameConfig.playersPerTeam * 2;
+        
+        timeDisplayer = gameMenu.transform.Find("Background").Find("Time").GetComponent<Text>();
+        blueScoreDisplayer = gameMenu.transform.Find("Background").Find("BlueScore").GetComponent<Text>();
+        orangeScoreDisplayer = gameMenu.transform.Find("Background").Find("OrangeScore").GetComponent<Text>();
     }
 
     void Start()
@@ -37,6 +48,7 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         gameStarted = true;
+        gameMenu.SetActive(true);
         RespawnAll();
     }
     
@@ -51,6 +63,9 @@ public class GameManager : MonoBehaviour
             gamePlaying = false;
             EndGame();
         }
+        
+        //Met a jour le temps en haut de l'ecran
+        timeDisplayer.text = FormatTime(timeLeft);
         
         //Met a jour les timers des spawns. Quand un spawn est utilise il met 5 secondes a etre utilisable
         Spawns.UpdateTimers();
@@ -71,44 +86,71 @@ public class GameManager : MonoBehaviour
         else
             orangeScore++;  // Ajoute un point aux oranges
         
-        gamePlaying = false;
+        //Met a jour les points en haut de l'ecran
+        blueScoreDisplayer.text = blueScore.ToString();
+        orangeScoreDisplayer.text = orangeScore.ToString();
         
-        if(blueScore >= gameConfig.maxGoals || orangeScore >= gameConfig.maxGoals)
+        gamePlaying = false;
+
+        //On cache la balle
+        Ball.ball.transform.position = ballSpawn - new Vector3(0, -200, 0);
+        Ball.script.StopAllMovements();
+        Ball.script.UpdatePossessor(null);
+        Ball.rigidBody.useGravity = false;
+
+        if (blueScore >= gameConfig.maxGoals || orangeScore >= gameConfig.maxGoals)
+            //Si la game est finie on l'arrete
             EndGame();
         else
-            RespawnAll();
+            //Sinon on attend 5 secondes puis on lance le timer de l'engagement
+            StartCoroutine(Celebration_Coroutine());
+    }
+
+    IEnumerator Celebration_Coroutine()
+    {
+        // Parcours les joueurs
+        foreach(GameObject player in GameObject.FindGameObjectsWithTag("Player"))                      
+        {
+            //Si c'est une IA on lui dit de ne pas bouger jusqu'a l'engagement
+            if (!player.GetComponent<PlayerInfo>().isPlayer)
+                player.GetComponent<Skills>().timeToMove = 8;
+        }
+        
+        yield return new WaitForSeconds(5);
+        RespawnAll();
     }
 
     // Reset la position des joueurs et de la balle
     private void RespawnAll()
     {
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        
         //On fait respawn tout le monde
-        Spawns.AssignSpawns(players);
-
-        // Parcours les joueurs
-        foreach(GameObject player in players)                      
-        {
-            //Si c'est une IA on lui dit de ne pas bouger
-            if (!player.GetComponent<PlayerInfo>().isPlayer)
-                player.GetComponent<Skills>().timeToMove = 4;
-        }
+        Spawns.AssignSpawns(GameObject.FindGameObjectsWithTag("Player"));
         
-        //On bloque les inputs du joueur local pendant 4 sec
-        PlayerInfo.localPlayer.GetComponent<InputManager>().StopInputs(4);
+        //On bloque les inputs du joueur local pendant 3 sec
+        PlayerInfo.localPlayer.GetComponent<InputManager>().StopInputs(3);
         PlayerInfo.localPlayer.GetComponent<MovementManager>().StopAllMovements();
-        
+
         //On respawn la balle
         Ball.ball.transform.position = ballSpawn;
-        Ball.script.StopAllMovements();
-        Ball.script.UpdatePossessor(null);
+        Ball.rigidBody.useGravity = true;
         
+        //On attend 3 secondes puis on relance la game
+        StartCoroutine(Kickoff_Coroutine());
+    }
+
+    IEnumerator Kickoff_Coroutine()
+    {
+        yield return new WaitForSeconds(3);
         gamePlaying = true;
     }
 
     private void EndGame()
     {
         Debug.Log("GameEnded");
+    }
+    
+    private string FormatTime(float time)
+    {
+        return ((int) (time+0.99f)/60).ToString().PadLeft(2, '0') + ":" + ((int) (time+0.99f)%60).ToString().PadLeft(2, '0');
     }
 }

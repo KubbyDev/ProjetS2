@@ -1,14 +1,20 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class Spawns
-{
+{    
+    public static int randomSeed;  //Utilisee pour la generation de pseudo random
+    
+    private static Spawn[] orange; //La liste des spawns oranges
+    private static Spawn[] blue;   //La liste des spawns bleus
+    
     private class Spawn
     {
         public Transform spawn;
         public bool used;
-        private float time;     //Quand le spawn est utilise, il met 5 secondes a redevenir utilisable
+        private float time;      //Quand le spawn est utilise, il met 5 secondes a redevenir utilisable
 
         public Spawn(Transform t)
         {
@@ -35,9 +41,6 @@ public class Spawns
         }
     }
     
-    private static Spawn[] orange; //La liste des spawns oranges
-    private static Spawn[] blue;   //La liste des spawns bleus
-
     //Cette fonction cherche les spawns sur la map
     public static void FindSpawns()
     {
@@ -69,7 +72,7 @@ public class Spawns
     //Renvoie un objet Spawn aleatoire de la team specifiee
     private static Spawn GetRandomSpawn(Team team)
     {
-        return (team == Team.Blue ? blue : orange)[Random.Range(0, orange.Length)];
+        return (team == Team.Blue ? blue : orange)[Random(orange.Length)];
     }
 
     //Place le joueur a un spawn aleatoire de sa team
@@ -83,17 +86,14 @@ public class Spawns
     private static Spawn GetRandomSpawnUnused(Team team)
     {
         //On recupere la liste des spawns de la bonne team non utilises
-        List<Spawn> spawns = new List<Spawn>();
-        foreach (Spawn spawn in team == Team.Blue ? blue : orange)
-            if(!spawn.used)
-                spawns.Add(spawn);
+        List<Spawn> spawns = (team == Team.Blue ? blue : orange).Where(spawn => !spawn.used).ToList();
 
         //Si tous les spawns sont utilises, on en renvoie un random
         if(spawns.Count == 0)
             return GetRandomSpawn(team);
         
         //Sinon on renvoie un des spawns non utilises
-        return spawns[Random.Range(0, spawns.Count)]; 
+        return spawns[Random(spawns.Count)]; 
     }
 
     //Place le joueur a un spawn aleatoire non utilise de sa team
@@ -103,9 +103,16 @@ public class Spawns
     }
 
     //Teleporte tous les joueurs a un spawn de leur team
-    public static void AssignSpawns(GameObject[] players)
+    public static void AssignSpawns(IEnumerable<GameObject> players)
     {
         foreach(GameObject player in players)
             Spawns.AtRandomUnused(player);
+    }
+    
+    //J'ai refait un random comme ca il suffit de synchroniser le seed et tous les clients auront le meme random
+    public static int Random(int max)
+    {
+        randomSeed = (randomSeed * 131217 + 281) % 1000 * max / 1000;
+        return randomSeed;
     }
 }

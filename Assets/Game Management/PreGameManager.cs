@@ -32,7 +32,7 @@ public class PreGameManager : MonoBehaviour
             pregameMenu.SetActive(false);
         }
 
-        timeDisplayer.text = "The game starts in " + FormatTime((int) timeLeft+1);
+        timeDisplayer.text = "The game starts in " + FormatTime(timeLeft);
         playersDisplayer.text = "Players: (" + PhotonNetwork.CurrentRoom.PlayerCount + "/" + GameManager.maxPlayers + ")";
     }
 
@@ -41,8 +41,8 @@ public class PreGameManager : MonoBehaviour
         return forceStart || timeLeft < 0 || PhotonNetwork.CurrentRoom.PlayerCount >= GameManager.maxPlayers;
     }
 
-    private string FormatTime(int timeInSec)
+    private string FormatTime(float time)
     {
-        return (timeInSec/60).ToString().PadLeft(2, '0') + ":" + (timeInSec%60).ToString().PadLeft(2, '0');
+        return ((int) (time+0.99f)/60).ToString().PadLeft(2, '0') + ":" + ((int) (time+0.99f)%60).ToString().PadLeft(2, '0');
     }
 }
