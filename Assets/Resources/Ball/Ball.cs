@@ -45,13 +45,16 @@ public class Ball : MonoBehaviour
     private void UpdatePossessor_RPC(int viewID)
     {
         //Si le viewID est a -1 c'est qu'un joueur vient de jeter la balle
-        if(viewID == -1)
+        if (viewID == -1)
         {
             shooter = possessor;
-            possessor = null;
+            possessor = null;   
         }
         else
+        {
             possessor = PhotonView.Find(viewID).gameObject;
+            shooter = possessor;
+        }
 
         //On enleve la possession de balle a tous les joueurs, sauf le nouveau possesseur
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))

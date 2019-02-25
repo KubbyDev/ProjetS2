@@ -1,20 +1,48 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PreGameManager : MonoBehaviour
 {
-    [SerializeField] private int playersToStart = 1;
+    [SerializeField] private GameObject pregameMenu; //Le canvas qui contient les affichage de pregame
+    
+    public bool forceStart;           //Permet de forcer le demarrage depuis l'inspector
 
+    private Text timeDisplayer;       //Le component qui affiche le texte pour le temps restant
+    private Text playersDisplayer;    //Le component qui affiche le texte pour le nombre de joueurs
+    private float timeLeft = 60;      //La partie demarre apres 60 secondes, quel que soit le nombre de joueurs
     private bool gameStarted = false;
+
+    void Start()
+    {
+        timeDisplayer = pregameMenu.transform.Find("Time").GetComponent<Text>();
+        playersDisplayer = pregameMenu.transform.Find("Players").GetComponent<Text>();
+    }
     
     void Update()
     {
-        if (!gameStarted && PhotonNetwork.CurrentRoom.PlayerCount >= playersToStart)
+        if (timeLeft > 0)
+            timeLeft -= Time.deltaTime;
+        
+        if (!gameStarted && CanStartGame())
         {
             GameManager.script.StartGame();
             gameStarted = true;
+            pregameMenu.SetActive(false);
         }
+
+        timeDisplayer.text = "The game starts in " + FormatTime((int) timeLeft+1);
+        playersDisplayer.text = "Players: (" + PhotonNetwork.CurrentRoom.PlayerCount + "/" + GameManager.maxPlayers + ")";
+    }
+
+    private bool CanStartGame()
+    {
+        return forceStart || timeLeft < 0 || PhotonNetwork.CurrentRoom.PlayerCount >= GameManager.maxPlayers;
+    }
+
+    private string FormatTime(int timeInSec)
+    {
+        return (timeInSec/60).ToString().PadLeft(2, '0') + ":" + (timeInSec%60).ToString().PadLeft(2, '0');
     }
 }

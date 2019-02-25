@@ -8,7 +8,7 @@ public class InputManager : MonoBehaviour
 
     //0:Avancer, 1:Reculer, 2:Gauche, 3:Droite, 4:Sauter, 5:Attraper balle, 6:Jeter balle
     private KeyCode[] inputs;         //Contient toutes les touches choisies par le joueur
-    private float stopInputsTime = 0; //Le temps restant en secondes pour que les inputs soient pris en compte
+    private float stopInputsTime = 0; //Le temps restant en secondes pour que les mouvements soient pris en compte
 
     //References a plein de scripts
     private MovementManager movement;
@@ -24,7 +24,7 @@ public class InputManager : MonoBehaviour
     private GameObject pauseMenu;
     private GameObject optionsMenu;
 
-    public bool canMove = true;     //true: Empeche tout mouvement spells etc du joueur (les seuls inputs qui restent actifs sont les menus)
+    public bool inMenu = false;   //true: Empeche tout mouvement spells etc du joueur (les seuls inputs qui restent actifs sont les menus)
 
     void Start()
     {
@@ -47,61 +47,88 @@ public class InputManager : MonoBehaviour
     
     void Update()
     {
-        if(canMove && stopInputsTime <= 0)
+        if(!inMenu)
         {
-            //Deplacements (ZQSD)
-            Vector3 move = (Input.GetKey(inputs[0]) ? 1 : 0) * transform.forward
-                           + (Input.GetKey(inputs[1]) ? -1 : 0) * transform.forward
-                           + (Input.GetKey(inputs[2]) ? -1 : 0) * transform.right
-                           + (Input.GetKey(inputs[3]) ? 1 : 0) * transform.right;
-            move.y = 0;
-            movement.Move(move.normalized);
-
-            //Rotation de la camera
-            Vector3 rot = new Vector3(Input.GetAxisRaw("Mouse X") * sensivityX, Input.GetAxisRaw("Mouse Y") * sensivityY * (invertY ? 1 : -1), 0);
-            if (rot.sqrMagnitude > 0)
-                cam.Rotate(rot);
-
-            //Sauts
-            if (Input.GetKeyDown(inputs[4]))
-                movement.Jump(move);       //Cette fonction prend en parametre les inputs ZQSD pour les dashes
-
-            //Spells
-            if (Input.GetKeyDown(KeyCode.A))
-                ninja.Explode_Spell();
-            if (Input.GetKeyDown(KeyCode.R))
-                striker.Speed();
-            if (Input.GetKeyDown(KeyCode.E))
-                striker.escape();
-
-            //Power-Up
-            if (Input.GetKeyDown(KeyCode.F))
-                back.TP_Back();
-
-            //Changement de camera
-            if (Input.GetKeyDown(KeyCode.F1))
-                cam.changeCamera();
-
-            //Balle
-            //Recuperation
-            if (Input.GetKeyDown(inputs[5]))
-                ball.Catch();
-            //Tir
-            if (Input.GetKeyDown(inputs[6]))
-                ball.Shoot();
+            if (stopInputsTime <= 0)
+            {
+                MovementInputs();
+                BallInputs();
+                SpellsInputs();
+            }
+            
+            CameraInputs();
         }
 
+        MenusInputs();
+
+        if (stopInputsTime > 0)                 //Met a jour le temps restant pour prendre en compte les inputs
+            stopInputsTime -= Time.deltaTime;
+    }
+
+    private void SpellsInputs()
+    {
+        //Spells
+        if (Input.GetKeyDown(KeyCode.A))
+            ninja.Explode_Spell();
+        if (Input.GetKeyDown(KeyCode.R))
+            striker.Speed();
+        if (Input.GetKeyDown(KeyCode.E))
+            striker.escape();
+
+        //Power-Up
+        if (Input.GetKeyDown(KeyCode.F))
+            back.TP_Back();
+    }
+
+    private void BallInputs()
+    {
+        //Balle
+        //Recuperation
+        if (Input.GetKeyDown(inputs[5]))
+            ball.Catch();
+        //Tir
+        if (Input.GetKeyDown(inputs[6]))
+            ball.Shoot();
+    }
+    
+    private void MovementInputs()
+    {
+        //Deplacements (ZQSD)
+        Vector3 move = (Input.GetKey(inputs[0]) ? 1 : 0) * transform.forward
+                       + (Input.GetKey(inputs[1]) ? -1 : 0) * transform.forward
+                       + (Input.GetKey(inputs[2]) ? -1 : 0) * transform.right
+                       + (Input.GetKey(inputs[3]) ? 1 : 0) * transform.right;
+        move.y = 0;
+        movement.Move(move.normalized);
+
+        //Sauts
+        if (Input.GetKeyDown(inputs[4]))
+            movement.Jump(move);       //Cette fonction prend en parametre les inputs ZQSD pour les dashes
+    }
+
+    private void CameraInputs()
+    {
+        //Rotation de la camera
+        Vector3 rot = new Vector3(Input.GetAxisRaw("Mouse X") * sensivityX, Input.GetAxisRaw("Mouse Y") * sensivityY * (invertY ? 1 : -1), 0);
+        if (rot.sqrMagnitude > 0)
+            cam.Rotate(rot);
+        
+        //Changement de camera
+        if (Input.GetKeyDown(KeyCode.F1))
+            cam.changeCamera();
+    }
+    
+    private void MenusInputs()
+    {
         //Menu Tab
         if (Input.GetKeyDown(KeyCode.Tab))
             tabMenu.SetActive(true);
         if(Input.GetKeyUp(KeyCode.Tab))
             tabMenu.SetActive(false);
+        
         //Menu Pause (sur Backspace au lieu de escape parce que ça fait de la merde dans l'editeur)
         if (Input.GetKeyDown(KeyCode.Backspace))
             TogglePauseMenu();
-
-        if (stopInputsTime > 0)                 //Met a jour le temps restant pour prendre en compte les inputs
-            stopInputsTime -= Time.deltaTime;
     }
 
     //Va chercher les inputs dans le GameObject qui les contient
@@ -118,7 +145,7 @@ public class InputManager : MonoBehaviour
         if (pauseMenu.activeSelf || optionsMenu.activeSelf)
         //Desactivation du menu
         {
-            canMove = true;
+            inMenu = false;
 
             //Bloque la souris
             Cursor.lockState = CursorLockMode.Locked;
@@ -132,7 +159,7 @@ public class InputManager : MonoBehaviour
         else
         //Activation du menu
         {
-            canMove = false;
+            inMenu = true;
 
             //Debloque la souris
             Cursor.lockState = CursorLockMode.None;

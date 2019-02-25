@@ -22,8 +22,5 @@ public class GoalDetector : MonoBehaviour
         
         //Informe le GameManager du but
         GameManager.script.OnGoal(team == Team.Blue);
-        
-        //Incremente le nombre de buts marques du joueur qui a marque
-        Ball.script.shooter.GetComponent<PlayerInfo>().goalsScored++;
     }
 }

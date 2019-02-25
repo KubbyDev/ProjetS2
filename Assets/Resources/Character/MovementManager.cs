@@ -11,7 +11,7 @@ public class MovementManager : MonoBehaviour
     [SerializeField] [Range(0, 50)] private float dashesStrength = 20f;   //La force des dashes (forces horizontales quand le joueur appuie sur espace + ZQSD)
     [Space] [Header("Movements")]
     [SerializeField] [Range(0, 2000)] private float movementSpeed = 500;  //La vitesse des deplacements au sol
-    [SerializeField] [Range(0, 2)] private float inAirControl = 1.2f;     //La force des inputs en l'air (en l'air: inputs *= inAirControl/vitesse^2)
+    [SerializeField] [Range(0, 0.5f)] private float inAirControl = 0.03f; //La force des inputs en l'air (en l'air: inputs *= inAirControl/vitesse^2)
     [SerializeField] [Range(1, 100)] private float maxSpeed = 20f;        //La vitesse maximale de deplacement du joueur
 
     private Vector3 velocity = Vector3.zero;  //La vitesse actuelle du joueur
@@ -61,9 +61,8 @@ public class MovementManager : MonoBehaviour
     public void Move(Vector3 input) 
 	{
         if (input.sqrMagnitude > 0)
-            velocity += input * Time.deltaTime * movementSpeed             //Le vecteur d'inputs en temps normal
-                * (cc.isGrounded ? 1 : inAirControl / (velocity.sqrMagnitude + 2));   //Quand le joueur est en l'air on multiplie pa
-                                     //inAirControl / velocity.sqrMagnitude, +2 pour eviter la division par 0 et les a coups
+            velocity += input * Time.deltaTime * movementSpeed  //Le vecteur d'inputs en temps normal
+                * (cc.isGrounded ? 1 : inAirControl);           //Quand le joueur est en l'air on multiplie par inAirControl
     }
 
     //Appellee par InputManager
@@ -103,5 +102,10 @@ public class MovementManager : MonoBehaviour
     public void MultiplySpeed(float multiplier)
     {
         movementSpeed *= multiplier;
+    }
+
+    public void StopAllMovements()
+    {
+        velocity = Vector3.zero;
     }
 }

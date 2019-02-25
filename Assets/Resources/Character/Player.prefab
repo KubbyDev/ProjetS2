@@ -353,7 +353,7 @@ MonoBehaviour:
   invertY: 0
   sensivityY: 2
   sensivityX: 2
-  canMove: 1
+  inMenu: 0
 --- !u!114 &66
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -370,7 +370,7 @@ MonoBehaviour:
   maxJumps: 3
   dashesStrength: 20
   movementSpeed: 500
-  inAirControl: 1.2
+  inAirControl: 0.03
   maxSpeed: 20
 --- !u!114 &65
 MonoBehaviour:
