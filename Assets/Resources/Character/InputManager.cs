@@ -13,6 +13,7 @@ public class InputManager : MonoBehaviour
     //References a plein de scripts
     private MovementManager movement;
     private CameraManager cam;
+    private PlayerInfo infos;
     private Striker striker;
     private Ninja ninja;
     private BallManager ball;
@@ -23,7 +24,8 @@ public class InputManager : MonoBehaviour
     private GameObject tabMenu;
     private GameObject pauseMenu;
     private GameObject optionsMenu;
-
+    private GameObject classMenu;
+    
     public bool inMenu = false;   //true: Empeche tout mouvement spells etc du joueur (les seuls inputs qui restent actifs sont les menus)
 
     void Start()
@@ -31,6 +33,7 @@ public class InputManager : MonoBehaviour
         movement = GetComponent<MovementManager>();
         cam = GetComponent<CameraManager>();
         ball = GetComponent<BallManager>();
+        infos = GetComponent<PlayerInfo>();
         striker = GetComponent<Striker>();
         ninja = GetComponent<Ninja>();
         back = GetComponent<Back>();
@@ -38,6 +41,7 @@ public class InputManager : MonoBehaviour
         tabMenu = menus.transform.GetChild(0).gameObject;
         pauseMenu = menus.transform.GetChild(1).gameObject;
         optionsMenu = menus.transform.GetChild(2).gameObject;
+        classMenu = menus.transform.GetChild(3).gameObject;
         ReloadInputs();
         
         //Bloque la souris
@@ -67,13 +71,22 @@ public class InputManager : MonoBehaviour
 
     private void SpellsInputs()
     {
-        //Spells
-        if (Input.GetKeyDown(KeyCode.A))
-            ninja.Explode_Spell();
-        if (Input.GetKeyDown(KeyCode.R))
-            striker.Speed();
-        if (Input.GetKeyDown(KeyCode.E))
-            striker.escape();
+        if (infos.hero == Hero.Stricker || true) //Les || true servent pour dev tranquillement, faudra les enlever
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+                striker.Speed();
+            if (Input.GetKeyDown(KeyCode.E))
+                striker.escape();
+        }
+        if (infos.hero == Hero.Warden || true)
+        {
+            
+        }
+        if (infos.hero == Hero.Ninja || true)
+        {
+            if (Input.GetKeyDown(KeyCode.A))
+                ninja.Explode_Spell();
+        }
 
         //Power-Up
         if (Input.GetKeyDown(KeyCode.F))
@@ -129,6 +142,11 @@ public class InputManager : MonoBehaviour
         //Menu Pause (sur Backspace au lieu de escape parce que ça fait de la merde dans l'editeur)
         if (Input.GetKeyDown(KeyCode.Backspace))
             TogglePauseMenu();
+        
+        //Menu de selection des classes
+        //On ne peut ouvrir ce menu que si on n'est pas deja dans un autre menu
+        if (Input.GetKeyDown(KeyCode.H) && (!inMenu || classMenu.activeSelf))
+            ToggleClassMenu();
     }
 
     //Va chercher les inputs dans le GameObject qui les contient
@@ -166,6 +184,32 @@ public class InputManager : MonoBehaviour
             Cursor.visible = true;
 
             pauseMenu.SetActive(true);
+        }
+    }
+
+    public void ToggleClassMenu()
+    {
+        if (classMenu.activeSelf)
+        //Desactivation du menu
+        {
+            inMenu = false;
+            
+            //Bloque la souris
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            
+            classMenu.SetActive(false);
+        }
+        else
+        //Activation du menu
+        {
+            inMenu = true;
+
+            //Debloque la souris
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
+            classMenu.SetActive(true);
         }
     }
 

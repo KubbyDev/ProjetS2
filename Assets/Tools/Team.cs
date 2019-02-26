@@ -1,14 +1,21 @@
 ﻿
 public enum Team
 {
-    Blue = 1,
-    Orange = -1
+    Blue = 0,
+    Orange = 1
 }
 
-static class TeamMethods
+static class Teams
 {
+    static readonly System.Random rng = new System.Random();
+    
     public static Team otherTeam(this Team team)
     {
-        return (Team) (-1 * (int) team);
+        return (Team) (((int) team+1)%2);
+    }
+
+    public static Team Random()
+    {
+        return (Team) rng.Next(2);
     }
 }

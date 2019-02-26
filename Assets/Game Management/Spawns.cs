@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class Spawns
 {    
@@ -12,8 +11,8 @@ public class Spawns
     
     private class Spawn
     {
-        public Transform spawn;
         public bool used;
+        private Transform spawn;
         private float time;      //Quand le spawn est utilise, il met 5 secondes a redevenir utilisable
 
         public Spawn(Transform t)
