@@ -7,8 +7,7 @@ public class Skills : MonoBehaviour
 
     public float timeToMove;          //Le temps restant avant que l'IA puisse bouger
     
-    private Transform cam;            //Une fausse camera qui symbolise la direction du regard de l'IA
-    
+    private Transform cam;            //Une fausse camera qui symbolise la direction du regard de l'IA  
     private MovementManager move;     //Reference au MovementManager de l'IA
     private BallManager ballManager;  //Reference au BallManager de l'IA
     private PlayerInfo infos;         //Reference au PlayerInfo de l'IA
@@ -39,11 +38,6 @@ public class Skills : MonoBehaviour
         Move(moveInput.normalized);
     }
 
-    public void Turn(float newRotation)
-    {
-        transform.eulerAngles = new Vector3(0, newRotation, 0);
-    }
-
     //Regarde le point specifie
     public void LookAt(Vector3 point)
     {
@@ -62,5 +56,11 @@ public class Skills : MonoBehaviour
     {
         if(timeToMove <= 0)
             move.Move(input);
+    }
+    
+    public void Turn(float newRotation)
+    {
+        if(timeToMove <= 0)
+            transform.eulerAngles = new Vector3(0, newRotation, 0);
     }
 }

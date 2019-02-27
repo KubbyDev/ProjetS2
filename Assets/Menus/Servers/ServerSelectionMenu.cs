@@ -8,8 +8,8 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
     [SerializeField] [Range(1, 100)] private byte maxPlayers = 10;       //Le nombre de joueurs que peuvent contenir les rooms creees par le bouton quick play (temporaire)
     [SerializeField] private Canvas online;                              //Le menu avant la connection au serveur
     [SerializeField] private Canvas offline;                             //Le menu apres la connection au serveur
-    [SerializeField] private Text CreateRoomInput;                       //Le texte tappe dans le champ room name de create room
-    [SerializeField] private Text JoinRoomInput;                         //Le texte tappe dans le champ room name de join room
+    [SerializeField] private InputField CreateRoomInput;                 //Le texte tappe dans le champ room name de create room
+    [SerializeField] private InputField JoinRoomInput;                   //Le texte tappe dans le champ room name de join room
 
     private ErrorMessage errorMessage;                                   //Le script qui gere l'affichage des messages d'erreur
 

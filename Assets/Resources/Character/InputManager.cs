@@ -2,12 +2,11 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    [SerializeField] private bool invertY = false;                   //Inverse la visee en Y
-    [SerializeField] [Range(0, 10)] private float sensivityY = 2;    //Sensi horizontale
-    [SerializeField] [Range(0, 10)] private float sensivityX = 2;    //Sensi verticale
-
     //0:Avancer, 1:Reculer, 2:Gauche, 3:Droite, 4:Sauter, 5:Attraper balle, 6:Jeter balle
     private KeyCode[] inputs;         //Contient toutes les touches choisies par le joueur
+    private bool invertY;             //Inverse la visee en Y
+    private float sensivityY ;        //Sensi horizontale
+    private float sensivityX;         //Sensi verticale
     private float stopInputsTime = 0; //Le temps restant en secondes pour que les mouvements soient pris en compte
 
     //References a plein de scripts
@@ -19,7 +18,7 @@ public class InputManager : MonoBehaviour
     private BallManager ball;
     private Back back;
 
-    //Reference au GameObject qui contient tous les menus
+    //Reference aux menus
     private GameObject menus;
     private GameObject tabMenu;
     private GameObject pauseMenu;
@@ -122,7 +121,7 @@ public class InputManager : MonoBehaviour
     private void CameraInputs()
     {
         //Rotation de la camera
-        Vector3 rot = new Vector3(Input.GetAxisRaw("Mouse X") * sensivityX, Input.GetAxisRaw("Mouse Y") * sensivityY * (invertY ? 1 : -1), 0);
+        Vector3 rot = new Vector3(Input.GetAxisRaw("Mouse X") * sensivityX * 2, Input.GetAxisRaw("Mouse Y") * sensivityY * 2 * (invertY ? 1 : -1), 0);
         if (rot.sqrMagnitude > 0)
             cam.Rotate(rot);
         
@@ -153,8 +152,8 @@ public class InputManager : MonoBehaviour
     private void ReloadInputs()
     {
         inputs = Inputs.controls;
-        sensivityX = Inputs.sensivity[0];
-        sensivityY = Inputs.sensivity[1];
+        sensivityX = Inputs.sensitivity[0];
+        sensivityY = Inputs.sensitivity[1];
         invertY = Inputs.invertY;
     }
     

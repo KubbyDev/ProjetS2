@@ -49,6 +49,15 @@ public class GameManager : MonoBehaviour
     {
         gameStarted = true;
         gameMenu.SetActive(true);
+        
+        // Parcours les joueurs
+        foreach(GameObject player in GameObject.FindGameObjectsWithTag("Player"))                      
+        {
+            //Si c'est une IA on lui dit de ne pas bouger jusqu'a l'engagement
+            if (!player.GetComponent<PlayerInfo>().isPlayer)
+                player.GetComponent<Skills>().timeToMove = 3;
+        }
+        
         RespawnAll();
     }
     
@@ -91,19 +100,19 @@ public class GameManager : MonoBehaviour
         orangeScoreDisplayer.text = orangeScore.ToString();
         
         gamePlaying = false;
-
-        //On cache la balle
-        Ball.ball.transform.position = ballSpawn - new Vector3(0, -200, 0);
-        Ball.script.StopAllMovements();
-        Ball.script.UpdatePossessor(null);
-        Ball.rigidBody.useGravity = false;
-
+        
         if (blueScore >= gameConfig.maxGoals || orangeScore >= gameConfig.maxGoals)
             //Si la game est finie on l'arrete
             EndGame();
         else
             //Sinon on attend 5 secondes puis on lance le timer de l'engagement
             StartCoroutine(Celebration_Coroutine());
+        
+        //On cache la balle
+        Ball.ball.transform.position = ballSpawn - new Vector3(0, -200, 0);
+        Ball.script.StopAllMovements();
+        Ball.script.UpdatePossessor(null);
+        Ball.rigidBody.useGravity = false;
     }
 
     IEnumerator Celebration_Coroutine()
@@ -132,6 +141,8 @@ public class GameManager : MonoBehaviour
 
         //On respawn la balle
         Ball.ball.transform.position = ballSpawn;
+        Ball.script.StopAllMovements();
+        Ball.script.UpdatePossessor(null);
         Ball.rigidBody.useGravity = true;
         
         //On attend 3 secondes puis on relance la game

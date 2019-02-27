@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
-using System.Collections;
 
 public class OptionsMenu : MonoBehaviour
 {
@@ -18,7 +18,7 @@ public class OptionsMenu : MonoBehaviour
 
         //Controles                   0:Avancer  1:Reculer  2:Gauche   3:Droite   4:Sauter       5:Attraper ball 6:Jeter ball
         public KeyCode[] controls = { KeyCode.Z, KeyCode.S, KeyCode.Q, KeyCode.D, KeyCode.Space, KeyCode.Mouse0, KeyCode.Mouse1 };
-        public float[] sensivity = {1f,1f};
+        public float[] sensitivity = {1f,1f};
         public bool invertY = false;
     }
 
@@ -27,6 +27,9 @@ public class OptionsMenu : MonoBehaviour
     [SerializeField] private GameObject controlsMenu;       //Reference a l'onglet Controls
     [SerializeField] private Button graphicsButton;         //Reference au bouton de l'onglet Graphics
     [SerializeField] private Button controlsButton;         //Reference au bouton de l'onglet Controls
+    [SerializeField] private Slider[] sensitivity;          //References aux sliders de la sensibilite
+    [SerializeField] private InputField[] sensitivityTexts; //References aux valeurs a droite des sliders
+    [SerializeField] private Toggle invert;                 //Reference au toggle invert
 
     [SerializeField] private AudioSource audioSource;       //Reference au systeme de gestion du son        //TODO
     [SerializeField] private Dropdown resolutionDropdown;   //Reference au dropdown des resolutions
@@ -152,6 +155,47 @@ public class OptionsMenu : MonoBehaviour
         currentKey = -1;
     }
 
+    //Changement de sensibilite avec le texte
+    public void OnChangeSensitivityX(string value)
+    {
+        float res;
+        if(Single.TryParse(value, out res))
+            OnChangeSensitivityX(res);
+        else
+            OnChangeSensitivityX(settings.sensitivity[0]);
+    }
+    
+    //Changement de sensibilite avec le texte
+    public void OnChangeSensitivityY(string value)
+    {
+        float res;
+        if(Single.TryParse(value, out res))
+            OnChangeSensitivityY(res);
+        else
+            OnChangeSensitivityY(settings.sensitivity[0]);
+    }
+    
+    //Changement de sensibilite avec le slider
+    public void OnChangeSensitivityX(float value)
+    {
+        settings.sensitivity[0] = value;             //Enregistrement
+        sensitivity[0].value = value;                //Slider
+        sensitivityTexts[0].text = value.ToString(); //Texte
+    }
+
+    //Changement de sensibilite avec le slider
+    public void OnChangeSensitivityY(float value)
+    {
+        settings.sensitivity[1] = value;             //Enregistrement
+        sensitivity[1].value = value;                //Slider
+        sensitivityTexts[1].text = value.ToString(); //Texte
+    }
+
+    public void OnToggleInvert(bool value)
+    {
+        settings.invertY = value;
+    }
+    
     //  Enregistrement, chargement et lecture des settings  --------------------------------------------------------------------
 
     //Bouton Apply
@@ -198,13 +242,17 @@ public class OptionsMenu : MonoBehaviour
         volumeSlider.value = settings.volume;
 
         //Controls
+        
         //Mise a jour des options dans Unity
         Inputs.controls = settings.controls;
         Inputs.invertY = settings.invertY;
-        Inputs.sensivity = settings.sensivity;
+        Inputs.sensitivity = settings.sensitivity;
         
         //Mise a jour de l'affichage
         for (int i = 0; i < controlsButtonsTexts.Length; i++)
             controlsButtonsTexts[i].text = settings.controls[i].ToString();
+        OnChangeSensitivityX(settings.sensitivity[0]);
+        OnChangeSensitivityY(settings.sensitivity[1]);
+        invert.isOn = settings.invertY;
     }
 }
