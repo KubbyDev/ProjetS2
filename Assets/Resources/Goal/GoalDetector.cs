@@ -6,7 +6,6 @@ using UnityEngine;
 public class GoalDetector : MonoBehaviour
 {
     [SerializeField] public Team team = Team.Blue;             //La team qui doit marquer dans ce but
-    [SerializeField] private ParticleSystem goalExplosion;     //Reference a la particule de but
 
     private void OnTriggerEnter(Collider other)
     {
@@ -17,8 +16,7 @@ public class GoalDetector : MonoBehaviour
 
     private void Goal(GameObject ball)
     {
-        //Fait pop les particules de goal explosion
-        Instantiate(goalExplosion, ball.transform.position, Quaternion.identity);
+        GetComponent<GoalExplosion>().MakeGoalExplosion(ball.transform.position);
         
         //Informe le GameManager du but
         GameManager.script.OnGoal(team == Team.Blue);
