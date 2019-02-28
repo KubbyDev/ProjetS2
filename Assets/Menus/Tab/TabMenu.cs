@@ -9,7 +9,6 @@ public class TabMenu : MonoBehaviour
 {
     private class Item
     {
-        public Player player;
         public PlayerInfo infos;
         public Text ping;
         public Text name;
@@ -17,8 +16,8 @@ public class TabMenu : MonoBehaviour
 
         public void UpdateValues()
         {
-            ping.text = infos.ping.ToString();    //TODO: Recuperer le ping des autres joueurs
-            name.text = player.NickName;
+            ping.text = infos.ping.ToString();
+            name.text = infos.gameObject.name;
             goals.text = infos.goalsScored.ToString();
         }
     }
@@ -67,20 +66,18 @@ public class TabMenu : MonoBehaviour
         for (int i = 1; i < childs.Length; i++)
             Destroy(childs[i].gameObject);
         items = new List<Item>();
-            
-        //Recuperation de tous les joueurs sur le serveur
-        Dictionary<int, Player> players = PhotonNetwork.CurrentRoom.Players;
 
         //Affichage de chaque joueur
-        foreach (Player player in players.Values)
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
         {
             Image element = Instantiate(itemPrefab, playerList.transform);
-            if (player.IsLocal) element.color = new Color(0.7f, 0.7f, 0.7f); //On differencie le joueur local
+            
+            if (player == PlayerInfo.localPlayer) 
+                element.color = new Color(0.7f, 0.7f, 0.7f); //On differencie le joueur local
 
             Item i = new Item
             {
-                player = player,
-                infos = ((GameObject) player.TagObject).GetComponent<PlayerInfo>(),
+                infos = player.GetComponent<PlayerInfo>(),
                 name = element.transform.Find("Name").gameObject.GetComponent<Text>(),
                 ping = element.transform.Find("Ping").gameObject.GetComponent<Text>(),
                 goals = element.transform.Find("Goals").gameObject.GetComponent<Text>()

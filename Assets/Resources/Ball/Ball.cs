@@ -84,8 +84,6 @@ public class Ball : MonoBehaviour
     //Elle met a jour le possesseur de balle et la vitesse de la balle
     private void ShootBall_RPC(Vector3 newVelocity, Vector3 force)
     {
-        Debug.Log("Set velocity");
-
         rigidBody.velocity = newVelocity;
         rigidBody.AddForce(force);
     }

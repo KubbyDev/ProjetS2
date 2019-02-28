@@ -10,9 +10,11 @@ public enum Hero
 static class Heroes
 {
     //TODO: Trouver un moyen propre d'initialiser ca
+    /*
     public static Mesh strickerMesh;//Le mesh du stricker
     public static Mesh wardenMesh;  //Le mesh du warden
     public static Mesh ninjaMesh;   //Le mesh du ninja
+    */
     
     static readonly System.Random rng = new System.Random();
     
@@ -22,6 +24,7 @@ static class Heroes
         return (Hero) rng.Next(3);
     }
 
+    /*
     //Renvoie le mesh correspondant a un hero
     public static Mesh GetMesh(this Hero h)
     {
@@ -33,4 +36,5 @@ static class Heroes
             default: return null;
         }
     }
+    */
 }

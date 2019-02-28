@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -17,7 +19,8 @@ public class PauseMenu : MonoBehaviour
 
     public void OnQuitClick()
     {
-
+        PhotonNetwork.LeaveRoom();
+        SceneManager.LoadScene(0);
     }
 
     //Quand on clique sur Back depuis le menu des options

@@ -6,6 +6,7 @@ public class MainMenu : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject mainMenu;         //Reference au menu principal 
     [SerializeField] private GameObject serversMenu;      //Reference au menu des serveurs
     [SerializeField] private GameObject optionsMenu;      //Reference au menu des options
+    [SerializeField] private GameObject heroesMenu;       //Reference au menu des heros
 
     private ServerSelectionMenu serversMenuScript;        //Reference au script du menu des serveurs
 
@@ -14,7 +15,8 @@ public class MainMenu : MonoBehaviourPunCallbacks
     void Start()
     {
         //Demande de connection
-        PhotonNetwork.ConnectUsingSettings();
+        if(!PhotonNetwork.IsConnected)
+            PhotonNetwork.ConnectUsingSettings();
 
         serversMenuScript = GameObject.Find("Scripts").GetComponent<ServerSelectionMenu>();
         optionsMenu.transform.Find("Options").GetComponent<OptionsMenu>().RefreshSettings();
@@ -38,6 +40,12 @@ public class MainMenu : MonoBehaviourPunCallbacks
         serversMenu.SetActive(true);
     }
 
+    public void OnHeroesClicked()
+    {
+        mainMenu.SetActive(false);
+        heroesMenu.SetActive(true);
+    }
+
     public void OnOptionsClicked()
     {
         mainMenu.SetActive(false);
@@ -55,6 +63,7 @@ public class MainMenu : MonoBehaviourPunCallbacks
     {
         mainMenu.SetActive(true);
         serversMenu.SetActive(false);
+        heroesMenu.SetActive(false);
         optionsMenu.SetActive(false);
     }
 }
