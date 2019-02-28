@@ -8,8 +8,8 @@ public class PlayerInfo : MonoBehaviour
     //Ces variables sont stockees ici, si vous les modifiez,
     //ca aura une influence sur le jeu
     public int goalsScored;                //Le nombre de buts que le joueur a marque
-    public Team team;                      //La team du joueur
-    public Hero hero;                      //La classe jouee par ce joueur
+    public Team team = Team.Blue;          //La team du joueur
+    public Hero hero = Hero.Stricker;      //La classe jouee par ce joueur
     public bool isPlayer;                  //False: C'est une IA
     public int ping;                       //Le ping de ce joueur
     

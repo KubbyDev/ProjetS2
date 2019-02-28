@@ -144,17 +144,19 @@ public class InputManager : MonoBehaviour
         
         //Menu de selection des classes
         //On ne peut ouvrir ce menu que si on n'est pas deja dans un autre menu
-        if (Input.GetKeyDown(KeyCode.H) && (!inMenu || classMenu.activeSelf))
+        if (Input.GetKeyDown(KeyCode.H) && (!inMenu || classMenu.activeSelf) && !GameManager.gameStarted)
+            ToggleClassMenu();
+        if(classMenu.activeSelf && GameManager.gameStarted)
             ToggleClassMenu();
     }
 
     //Va chercher les inputs dans le GameObject qui les contient
     private void ReloadInputs()
     {
-        inputs = Inputs.controls;
-        sensivityX = Inputs.sensitivity[0];
-        sensivityY = Inputs.sensitivity[1];
-        invertY = Inputs.invertY;
+        inputs = Settings.controls;
+        sensivityX = Settings.sensitivity[0];
+        sensivityY = Settings.sensitivity[1];
+        invertY = Settings.invertY;
     }
     
     public void TogglePauseMenu()

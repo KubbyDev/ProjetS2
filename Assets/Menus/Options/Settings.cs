@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Inputs : MonoBehaviour
+public class Settings
 {
     public static KeyCode[] controls;
     public static float[] sensitivity;

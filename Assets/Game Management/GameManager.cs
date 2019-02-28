@@ -11,10 +11,10 @@ public class GameManager : MonoBehaviour
     public static int blueScore;      //Score de l'equipe bleu
     public static int orangeScore;    //Score de l'equipe orange
     public static float timeLeft;     //Temps restant a la partie en secondes
-
+    public static bool gameStarted;   //Passe a true des que la partie demarre
+    
     [SerializeField] private GameObject gameMenu; //Contient les affichages
     
-    private bool gameStarted = false; //Passe a true des que la partie demarre
     private GameConfig gameConfig;    //Config de la partie (nombre max de buts, temps max etc)
     private Vector3 ballSpawn;        //Position de spawn de la balle
     private Text timeDisplayer;       //Le component qui affiche le temps restant
@@ -47,7 +47,6 @@ public class GameManager : MonoBehaviour
     // Lancer une partie
     public void StartGame()
     {
-        gameStarted = true;
         gameMenu.SetActive(true);
         
         // Parcours les joueurs

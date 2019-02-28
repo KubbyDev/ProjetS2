@@ -12,7 +12,6 @@ public class PreGameManager : MonoBehaviour
     private Text timeDisplayer;       //Le component qui affiche le texte pour le temps restant
     private Text playersDisplayer;    //Le component qui affiche le texte pour le nombre de joueurs
     private float timeLeft = 60;      //La partie demarre apres 60 secondes, quel que soit le nombre de joueurs
-    private bool gameStarted = false;
 
     void Start()
     {
@@ -25,10 +24,10 @@ public class PreGameManager : MonoBehaviour
         if (timeLeft > 0)
             timeLeft -= Time.deltaTime;
         
-        if (!gameStarted && CanStartGame())
+        if (!GameManager.gameStarted && CanStartGame())
         {
             GameManager.script.StartGame();
-            gameStarted = true;
+            GameManager.gameStarted = true;
             pregameMenu.SetActive(false);
         }
 
@@ -38,7 +37,8 @@ public class PreGameManager : MonoBehaviour
 
     private bool CanStartGame()
     {
-        return forceStart || timeLeft < 0 || PhotonNetwork.CurrentRoom.PlayerCount >= GameManager.maxPlayers;
+        return forceStart || timeLeft < 0;
+        //|| PhotonNetwork.CurrentRoom.PlayerCount >= GameManager.maxPlayers;
     }
 
     private string FormatTime(float time)

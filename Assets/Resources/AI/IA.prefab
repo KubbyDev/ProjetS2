@@ -378,7 +378,7 @@ MonoBehaviour:
   maxJumps: 3
   dashesStrength: 20
   movementSpeed: 500
-  inAirControl: 1.2
+  inAirControl: 0.03
   maxSpeed: 20
 --- !u!114 &8294962191097149399
 MonoBehaviour:
@@ -412,13 +412,13 @@ MonoBehaviour:
   goalsScored: 0
   team: 0
   hero: 0
+  isPlayer: 0
+  ping: 0
   rotation: {x: 0, y: 0, z: 0, w: 0}
   cameraAnchor: {fileID: 0}
   velocity: {x: 0, y: 0, z: 0}
   isGrounded: 0
   hasBall: 0
-  isPlayer: 0
-  ping: 0
 --- !u!114 &8294962191097149397
 MonoBehaviour:
   m_ObjectHideFlags: 0

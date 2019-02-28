@@ -244,9 +244,9 @@ public class OptionsMenu : MonoBehaviour
         //Controls
         
         //Mise a jour des options dans Unity
-        Inputs.controls = settings.controls;
-        Inputs.invertY = settings.invertY;
-        Inputs.sensitivity = settings.sensitivity;
+        Settings.controls = settings.controls;
+        Settings.invertY = settings.invertY;
+        Settings.sensitivity = settings.sensitivity;
         
         //Mise a jour de l'affichage
         for (int i = 0; i < controlsButtonsTexts.Length; i++)
