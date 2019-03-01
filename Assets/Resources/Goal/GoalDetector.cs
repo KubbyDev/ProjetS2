@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ public class GoalDetector : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //La balle a le tag Ball (vous pouvez gerer les tags dans le menu de la prefab en haut)
-        if (other.CompareTag("Ball"))
+        if (PhotonNetwork.IsMasterClient && other.CompareTag("Ball"))
             Goal(other.gameObject);
     }
 
@@ -19,6 +20,6 @@ public class GoalDetector : MonoBehaviour
         GetComponent<GoalExplosion>().MakeGoalExplosion(ball.transform.position);
         
         //Informe le GameManager du but
-        GameManager.script.OnGoal(team == Team.Blue);
+        GameManagerHost.OnGoal(team == Team.Blue);
     }
 }

@@ -1,25 +1,49 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 
 public class GameConfig
 {
-    public int maxGoals;        //Le nombre de buts pour gagner
-    public float gameDuration;  //Le temps de jeu maximal en secondes
-    public int playersPerTeam;  //Le nombre de joueurs par equipe
-
-    public GameConfig(int pMaxGoals, float pGameDuration, int pPlayersPerTeam)
+    public object[] parameters =
     {
-        maxGoals = pMaxGoals;
-        gameDuration = pGameDuration;
-        playersPerTeam = pPlayersPerTeam;
-    }
+        0,              //MaxGoals
+        5.0f * 60.0f,   //GameDuration
+        4               //PlayersPerTeam
+    };
+
+    public GamePreset preset;
     
+    public enum Parameters
+    {
+        MaxGoals = 0,
+        GameDuration = 1,
+        PlayersPerTeam = 2
+    }
+
+    public GameConfig(int maxGoals, float gameDuration, int playersPerTeam)
+    {
+        parameters[(int) Parameters.MaxGoals] = maxGoals;
+        parameters[(int) Parameters.GameDuration] = gameDuration;
+        parameters[(int) Parameters.PlayersPerTeam] = playersPerTeam;
+    }
+}
+
+public enum GamePreset
+{
+    Classic = 0
+}
+
+static class PresetMethods
+{
     //Renvoie un preset
-    public static GameConfig Preset(string name)
+    public static GameConfig Config(this GamePreset name)
     {
         switch (name)
         {
-            case "Classic": return new GameConfig(Int32.MaxValue, 5 * 60, 4);
+            case GamePreset.Classic:
+                GameConfig config = new GameConfig(Int32.MaxValue, 5 * 60, 4);
+                config.preset = GamePreset.Classic;
+                return config;
             
             default:
                 Debug.Log("Ce preset n'existe pas " + name);

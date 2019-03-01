@@ -11,7 +11,7 @@ public class PreGameManager : MonoBehaviour
 
     private Text timeDisplayer;       //Le component qui affiche le texte pour le temps restant
     private Text playersDisplayer;    //Le component qui affiche le texte pour le nombre de joueurs
-    private float timeLeft = 60;      //La partie demarre apres 60 secondes, quel que soit le nombre de joueurs
+    private float timeLeft = 120;     //La partie demarre apres 120 secondes
 
     void Start()
     {
@@ -23,6 +23,10 @@ public class PreGameManager : MonoBehaviour
     {
         if (timeLeft > 0)
             timeLeft -= Time.deltaTime;
+        
+        //5 secondes avant le debut de la game, on ferme la salle
+        if (timeLeft < 5)
+            PhotonNetwork.CurrentRoom.IsOpen = false;
         
         if (!GameManager.gameStarted && CanStartGame())
         {

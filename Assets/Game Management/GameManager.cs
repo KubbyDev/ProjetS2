@@ -1,10 +1,13 @@
 ﻿using System.Collections;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager script; //Reference a ce script, visible partout
+    public static GameData data;
+    public static GameConfig gameConfig;    //Config de la partie (nombre max de buts, temps max etc)
     
     public static bool gamePlaying;   //Booleen indiquant que la partie est en cours et que le temps s'ecoule
     public static int maxPlayers;     //Le nombre de joueurs max en jeu
@@ -15,18 +18,14 @@ public class GameManager : MonoBehaviour
     
     [SerializeField] private GameObject gameMenu; //Contient les affichages
     
-    private GameConfig gameConfig;    //Config de la partie (nombre max de buts, temps max etc)
     private Vector3 ballSpawn;        //Position de spawn de la balle
     private Text timeDisplayer;       //Le component qui affiche le temps restant
     private Text blueScoreDisplayer;  //Le component qui affiche le score de l'equipe bleu
     private Text orangeScoreDisplayer;//Le component qui affiche le score de l'equipe orange
-   
-    private void Awake()
+    
+    void Awake()
     {
         script = this;
-        
-        gameConfig = GameConfig.Preset("Classic");
-        maxPlayers = gameConfig.playersPerTeam * 2;
         
         timeDisplayer = gameMenu.transform.Find("Background").Find("Time").GetComponent<Text>();
         blueScoreDisplayer = gameMenu.transform.Find("Background").Find("BlueScore").GetComponent<Text>();
@@ -43,6 +42,13 @@ public class GameManager : MonoBehaviour
         orangeScore = 0;
         gamePlaying = false;
     }
+
+    public void OnFirstPacketRecieved()
+    {
+        maxPlayers = 2 * (int) gameConfig.parameters[(int) GameConfig.Parameters.MaxGoals];
+        
+    }
+    
 
     // Lancer une partie
     public void StartGame()
@@ -80,8 +86,10 @@ public class GameManager : MonoBehaviour
     }
 
     // Appelee des qu'il y a un but avec true si l'equipe bleue marque et false si l'equipe orange marque
-    public void OnGoal(bool isForBlue)
+    public void OnGoal(bool isForBlue, Vector3 ballPosition)
     {
+        //TODO: Deduire le but touche et appeller la goal explosion
+        
         //Si la partie n'a pas encore demarre on ne fait rien
         if (!gameStarted)
             return;
