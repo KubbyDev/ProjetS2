@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43751404, g: 0.485344, b: 0.5656162, a: 1}
+  m_IndirectSpecularColor: {r: 0.4375144, g: 0.48534453, b: 0.5656171, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2854,5 +2854,15 @@ PrefabInstance:
       propertyPath: gameMenu
       value: 
       objectReference: {fileID: 1544307569}
+    - target: {fileID: 1060382205374090923, guid: 37ac5d17c94012e438cc2d162c2accc4,
+        type: 3}
+      propertyPath: viewIdField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1060382205374090923, guid: 37ac5d17c94012e438cc2d162c2accc4,
+        type: 3}
+      propertyPath: InstantiationId
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37ac5d17c94012e438cc2d162c2accc4, type: 3}

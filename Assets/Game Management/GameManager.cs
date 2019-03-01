@@ -5,23 +5,24 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager script; //Reference a ce script, visible partout
-    public static GameData data;
+    public static GameManager script;       //Reference a ce script, visible partout
     public static GameConfig gameConfig;    //Config de la partie (nombre max de buts, temps max etc)
-    
+
+    public static float timeLeft;           //Temps de jeu restant
+    public static float timeLeftForKickoff; //Temps avant l'engagement  
     public static bool gamePlaying;   //Booleen indiquant que la partie est en cours et que le temps s'ecoule
-    public static int maxPlayers;     //Le nombre de joueurs max en jeu
+    
     public static int blueScore;      //Score de l'equipe bleu
     public static int orangeScore;    //Score de l'equipe orange
-    public static float timeLeft;     //Temps restant a la partie en secondes
     public static bool gameStarted;   //Passe a true des que la partie demarre
+    public static int maxPlayers;     //Le nombre de joueurs max en jeu
     
     [SerializeField] private GameObject gameMenu; //Contient les affichages
     
-    private Vector3 ballSpawn;        //Position de spawn de la balle
-    private Text timeDisplayer;       //Le component qui affiche le temps restant
-    private Text blueScoreDisplayer;  //Le component qui affiche le score de l'equipe bleu
-    private Text orangeScoreDisplayer;//Le component qui affiche le score de l'equipe orange
+    private Vector3 ballSpawn;           //Position de spawn de la balle
+    private Text timeDisplayer;          //Le component qui affiche le temps restant
+    private Text blueScoreDisplayer;     //Le component qui affiche le score de l'equipe bleu
+    private Text orangeScoreDisplayer;   //Le component qui affiche le score de l'equipe orange
     
     void Awake()
     {
