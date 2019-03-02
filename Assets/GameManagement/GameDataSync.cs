@@ -10,6 +10,8 @@ public class GameDataSync : MonoBehaviour
     {
         pv = GetComponent<PhotonView>();
     }
+    
+    // Packet de connection --------------------------------------------------------------------------------------------
 
     //Cette methode est appellee sur le Host quand un joueur rejoint la salle
     //Elle met a jour le GameData du joueur qui vient de rejoindre
@@ -44,6 +46,8 @@ public class GameDataSync : MonoBehaviour
         //On informe le GameManager que le premier packet est arrive
         GameManager.script.OnFirstPacketRecieved();
     }
+    
+    // Packet de but ---------------------------------------------------------------------------------------------------
 
     //Cette methode est appellee sur le host quand il y a un but (pour confirmer le but aux clients)
     public static void SendOnGoalData(bool isBlue)
@@ -77,4 +81,9 @@ public class GameDataSync : MonoBehaviour
         
         GameManager.script.OnGoal(isBlue, ballPosition);
     }
+    
+    // Packet de fin de game -------------------------------------------------------------------------------------------
+    
+    
+    
 }
