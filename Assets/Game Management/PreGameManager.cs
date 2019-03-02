@@ -9,7 +9,8 @@ public class PreGameManager : MonoBehaviour
     
     public static float timeLeftToStart = 120; //Temps avant le debut de la game
     public bool forceStart;                    //Permet de forcer le demarrage depuis l'inspector
-
+    public static int maxPlayers;              //Le nombre max de joueurs dans la partie
+    
     private Text timeDisplayer;       //Le component qui affiche le texte pour le temps restant
     private Text playersDisplayer;    //Le component qui affiche le texte pour le nombre de joueurs
 
@@ -36,7 +37,7 @@ public class PreGameManager : MonoBehaviour
         }
 
         timeDisplayer.text = "The game starts in " + FormatTime(timeLeftToStart);
-        playersDisplayer.text = "Players: (" + PhotonNetwork.CurrentRoom.PlayerCount + "/" + GameManager.maxPlayers + ")";
+        playersDisplayer.text = "Players: (" + PhotonNetwork.CurrentRoom.PlayerCount + "/" + maxPlayers + ")";
     }
 
     private bool CanStartGame()

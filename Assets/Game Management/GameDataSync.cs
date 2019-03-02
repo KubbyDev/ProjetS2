@@ -6,7 +6,7 @@ public class GameDataSync : MonoBehaviour
 {
     private static PhotonView pv;       //Reference au script qui gere les echanges sur le reseau
 
-    void Start()
+    void Awake()
     {
         pv = GetComponent<PhotonView>();
     }

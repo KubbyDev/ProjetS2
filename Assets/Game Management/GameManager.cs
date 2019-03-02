@@ -10,12 +10,11 @@ public class GameManager : MonoBehaviour
 
     public static float timeLeft;           //Temps de jeu restant
     public static float timeLeftForKickoff; //Temps avant l'engagement  
-    public static bool gamePlaying;   //Booleen indiquant que la partie est en cours et que le temps s'ecoule
+    public static bool gamePlaying;         //Booleen indiquant que la partie est en cours et que le temps s'ecoule
     
     public static int blueScore;      //Score de l'equipe bleu
     public static int orangeScore;    //Score de l'equipe orange
     public static bool gameStarted;   //Passe a true des que la partie demarre
-    public static int maxPlayers;     //Le nombre de joueurs max en jeu
     
     [SerializeField] private GameObject gameMenu; //Contient les affichages
     
@@ -38,7 +37,6 @@ public class GameManager : MonoBehaviour
         Spawns.FindSpawns();                //Demande au script qui gere les spawns de trouver les spawns sur la scene
         ballSpawn = Vector3.zero;
         
-        timeLeft = gameConfig.gameDuration; // Definition de la duree de la partie
         blueScore = 0;
         orangeScore = 0;
         gamePlaying = false;
@@ -46,15 +44,15 @@ public class GameManager : MonoBehaviour
 
     public void OnFirstPacketRecieved()
     {
-        maxPlayers = 2 * (int) gameConfig.parameters[(int) GameConfig.Parameters.MaxGoals];
-        
+        PreGameManager.maxPlayers = 2 * (int) gameConfig.parameters[(int) GameConfig.Parameters.PlayersPerTeam];
     }
     
-
     // Lancer une partie
     public void StartGame()
     {
         gameMenu.SetActive(true);
+        
+        timeLeft = (float) gameConfig.parameters[(int) GameConfig.Parameters.GameDuration];
         
         // Parcours les joueurs
         foreach(GameObject player in GameObject.FindGameObjectsWithTag("Player"))                      
@@ -72,13 +70,6 @@ public class GameManager : MonoBehaviour
         if (gamePlaying)  // Si la partie joue on enleve le temps ecoule au temps restant
             timeLeft -= Time.deltaTime;
         
-        if (timeLeft < 0) // Si le temps est ecoule, la partie s'arrete
-        {
-            timeLeft = 0;
-            gamePlaying = false;
-            EndGame();
-        }
-        
         //Met a jour le temps en haut de l'ecran
         timeDisplayer.text = FormatTime(timeLeft);
         
@@ -89,7 +80,8 @@ public class GameManager : MonoBehaviour
     // Appelee des qu'il y a un but avec true si l'equipe bleue marque et false si l'equipe orange marque
     public void OnGoal(bool isForBlue, Vector3 ballPosition)
     {
-        //TODO: Deduire le but touche et appeller la goal explosion
+        //On fait une GoalExplosion dans le bon but
+        GoalDetector.goals[isForBlue ? 1 : 0].GetComponent<GoalExplosion>().MakeGoalExplosion(ballPosition);
         
         //Si la partie n'a pas encore demarre on ne fait rien
         if (!gameStarted)
@@ -109,12 +101,8 @@ public class GameManager : MonoBehaviour
         
         gamePlaying = false;
         
-        if (blueScore >= gameConfig.maxGoals || orangeScore >= gameConfig.maxGoals)
-            //Si la game est finie on l'arrete
-            EndGame();
-        else
-            //Sinon on attend 5 secondes puis on lance le timer de l'engagement
-            StartCoroutine(Celebration_Coroutine());
+        //Sinon on attend 5 secondes puis on lance le timer de l'engagement
+        StartCoroutine(Celebration_Coroutine());
         
         //On cache la balle
         Ball.ball.transform.position = ballSpawn - new Vector3(0, -200, 0);
@@ -130,10 +118,10 @@ public class GameManager : MonoBehaviour
         {
             //Si c'est une IA on lui dit de ne pas bouger jusqu'a l'engagement
             if (!player.GetComponent<PlayerInfo>().isPlayer)
-                player.GetComponent<Skills>().timeToMove = 8;
+                player.GetComponent<Skills>().timeToMove = timeLeftForKickoff;
         }
         
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(timeLeftForKickoff - 3);
         RespawnAll();
     }
 
