@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 3815523872723979497}
   - component: {fileID: 6572717544643566008}
   - component: {fileID: 6241107992965290905}
+  - component: {fileID: 9214902187901782412}
+  - component: {fileID: 2377707038290258165}
+  - component: {fileID: 1060382205374090923}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -44,6 +47,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11734552c6416594ba8c23f84002b245, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pregameMenu: {fileID: 0}
+  forceStart: 0
 --- !u!114 &6241107992965290905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56,3 +61,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fb8db819c4ca4946b0869d27bee1dc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameMenu: {fileID: 0}
+--- !u!114 &9214902187901782412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 229167758269573134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95bb51bfcd4843449aea3cce716a082f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2377707038290258165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 229167758269573134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b7c23260869de5439031d7563ceeeb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1060382205374090923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 229167758269573134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0

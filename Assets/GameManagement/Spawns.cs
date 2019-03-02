@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Photon.Pun;
 using UnityEngine;
 
 public class Spawns
@@ -102,16 +104,43 @@ public class Spawns
     }
 
     //Teleporte tous les joueurs a un spawn de leur team
-    public static void AssignSpawns(IEnumerable<GameObject> players)
+    public static void AssignSpawns(GameObject[] playersList)
     {
-        foreach(GameObject player in players)
+        List<GameObject> players = playersList.ToList();
+
+        for (int i = 0; i < playersList.Length; i++)
+        {
+            GameObject player = GetSmallestViewID(players);
+            players.Remove(player);
             Spawns.AtRandomUnused(player);
+        }
+    }
+
+    private static GameObject GetSmallestViewID(List<GameObject> players)
+    {
+        int min = Int32.MaxValue;
+        GameObject player = null;
+
+        foreach (GameObject p in players)
+        {
+            int id = p.GetPhotonView().ViewID;
+            if (min > id)
+            {
+                min = id;
+                player = p;
+            }
+        }
+
+        return player;
     }
     
     //J'ai refait un random comme ca il suffit de synchroniser le seed et tous les clients auront le meme random
     public static int Random(int max)
     {
-        randomSeed = (randomSeed * 131217 + 281) % 1000 * max / 1000;
-        return randomSeed;
+        randomSeed = (randomSeed * 131217 + 281) % 1000;
+
+        Debug.Log(randomSeed + "  " + max + "  res= " + randomSeed * max / 1000);   
+        
+        return randomSeed * max / 1000;
     }
 }

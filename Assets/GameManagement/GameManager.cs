@@ -1,32 +1,31 @@
 ﻿using System.Collections;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager script; //Reference a ce script, visible partout
+    public static GameManager script;       //Reference a ce script, visible partout
+    public static GameConfig gameConfig;    //Config de la partie (nombre max de buts, temps max etc)
+
+    public static float timeLeft;           //Temps de jeu restant
+    public static float timeLeftForKickoff; //Temps avant l'engagement  
+    public static bool gamePlaying;         //Booleen indiquant que la partie est en cours et que le temps s'ecoule
     
-    public static bool gamePlaying;   //Booleen indiquant que la partie est en cours et que le temps s'ecoule
-    public static int maxPlayers;     //Le nombre de joueurs max en jeu
     public static int blueScore;      //Score de l'equipe bleu
     public static int orangeScore;    //Score de l'equipe orange
-    public static float timeLeft;     //Temps restant a la partie en secondes
     public static bool gameStarted;   //Passe a true des que la partie demarre
     
     [SerializeField] private GameObject gameMenu; //Contient les affichages
     
-    private GameConfig gameConfig;    //Config de la partie (nombre max de buts, temps max etc)
-    private Vector3 ballSpawn;        //Position de spawn de la balle
-    private Text timeDisplayer;       //Le component qui affiche le temps restant
-    private Text blueScoreDisplayer;  //Le component qui affiche le score de l'equipe bleu
-    private Text orangeScoreDisplayer;//Le component qui affiche le score de l'equipe orange
-   
-    private void Awake()
+    private Vector3 ballSpawn;           //Position de spawn de la balle
+    private Text timeDisplayer;          //Le component qui affiche le temps restant
+    private Text blueScoreDisplayer;     //Le component qui affiche le score de l'equipe bleu
+    private Text orangeScoreDisplayer;   //Le component qui affiche le score de l'equipe orange
+    
+    void Awake()
     {
         script = this;
-        
-        gameConfig = GameConfig.Preset("Classic");
-        maxPlayers = gameConfig.playersPerTeam * 2;
         
         timeDisplayer = gameMenu.transform.Find("Background").Find("Time").GetComponent<Text>();
         blueScoreDisplayer = gameMenu.transform.Find("Background").Find("BlueScore").GetComponent<Text>();
@@ -38,16 +37,22 @@ public class GameManager : MonoBehaviour
         Spawns.FindSpawns();                //Demande au script qui gere les spawns de trouver les spawns sur la scene
         ballSpawn = Vector3.zero;
         
-        timeLeft = gameConfig.gameDuration; // Definition de la duree de la partie
         blueScore = 0;
         orangeScore = 0;
         gamePlaying = false;
     }
 
+    public void OnFirstPacketRecieved()
+    {
+        PreGameManager.maxPlayers = 2 * (int) gameConfig.parameters[(int) GameConfig.Parameters.PlayersPerTeam];
+    }
+    
     // Lancer une partie
     public void StartGame()
     {
         gameMenu.SetActive(true);
+        
+        timeLeft = (float) gameConfig.parameters[(int) GameConfig.Parameters.GameDuration];
         
         // Parcours les joueurs
         foreach(GameObject player in GameObject.FindGameObjectsWithTag("Player"))                      
@@ -65,13 +70,6 @@ public class GameManager : MonoBehaviour
         if (gamePlaying)  // Si la partie joue on enleve le temps ecoule au temps restant
             timeLeft -= Time.deltaTime;
         
-        if (timeLeft < 0) // Si le temps est ecoule, la partie s'arrete
-        {
-            timeLeft = 0;
-            gamePlaying = false;
-            EndGame();
-        }
-        
         //Met a jour le temps en haut de l'ecran
         timeDisplayer.text = FormatTime(timeLeft);
         
@@ -80,8 +78,11 @@ public class GameManager : MonoBehaviour
     }
 
     // Appelee des qu'il y a un but avec true si l'equipe bleue marque et false si l'equipe orange marque
-    public void OnGoal(bool isForBlue)
+    public void OnGoal(bool isForBlue, Vector3 ballPosition)
     {
+        //On fait une GoalExplosion dans le bon but
+        GoalDetector.goals[isForBlue ? 1 : 0].GetComponent<GoalExplosion>().MakeGoalExplosion(ballPosition);
+        
         //Si la partie n'a pas encore demarre on ne fait rien
         if (!gameStarted)
             return;
@@ -100,12 +101,8 @@ public class GameManager : MonoBehaviour
         
         gamePlaying = false;
         
-        if (blueScore >= gameConfig.maxGoals || orangeScore >= gameConfig.maxGoals)
-            //Si la game est finie on l'arrete
-            EndGame();
-        else
-            //Sinon on attend 5 secondes puis on lance le timer de l'engagement
-            StartCoroutine(Celebration_Coroutine());
+        //Sinon on attend 5 secondes puis on lance le timer de l'engagement
+        StartCoroutine(Celebration_Coroutine());
         
         //On cache la balle
         Ball.ball.transform.position = ballSpawn - new Vector3(0, -200, 0);
@@ -121,10 +118,10 @@ public class GameManager : MonoBehaviour
         {
             //Si c'est une IA on lui dit de ne pas bouger jusqu'a l'engagement
             if (!player.GetComponent<PlayerInfo>().isPlayer)
-                player.GetComponent<Skills>().timeToMove = 8;
+                player.GetComponent<Skills>().timeToMove = timeLeftForKickoff;
         }
         
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(timeLeftForKickoff - 3);
         RespawnAll();
     }
 
