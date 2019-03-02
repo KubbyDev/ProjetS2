@@ -32,8 +32,8 @@ public class GameDataSync : MonoBehaviour
 
     [PunRPC]
     //Cette methode est appellee sur le joueur qui vient de rejoindre la salle, pour mettre a jour son GameData
-    private static void GetFirstPacked_RPC(double sendMoment, float time, int preset, int spawnsSeed)
-    {
+    private void GetFirstPacket_RPC(double sendMoment, float time, int preset, int spawnsSeed)
+    {      
         //On met a jour le temps restant avant le debut de la game 
         //En prenant en compte le temps de trajet du message
         PreGameManager.timeLeftToStart =  (float) (time - (PhotonNetwork.Time - sendMoment));
@@ -64,8 +64,9 @@ public class GameDataSync : MonoBehaviour
         };
     }
     
+    [PunRPC]
     //Cette methode est appellee sur les clients au moment des buts pour les confirmer
-    public static void GetOnGoalData_RPC(bool isBlue, Vector3 ballPosition, double sendMoment, float pTimeLeft, float pTimeLeftToKickoff, int spawnsSeed)
+    public void GetOnGoalData_RPC(bool isBlue, Vector3 ballPosition, double sendMoment, float pTimeLeft, float pTimeLeftToKickoff, int spawnsSeed)
     {
         //On met a jour le temps restant avant l'engagement
         //En prenant en compte le temps de trajet du message

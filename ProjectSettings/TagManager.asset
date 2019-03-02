@@ -5,7 +5,6 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ball
-  - IA
   layers:
   - Default
   - TransparentFX

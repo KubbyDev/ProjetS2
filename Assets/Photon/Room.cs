@@ -20,7 +20,7 @@ public class Room : MonoBehaviourPunCallbacks
         base.OnPlayerEnteredRoom(newPlayer);
 
         //Si ce client est l'hote, on envoie les infos de base sur la partie
-        if(PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient)
             GameDataSync.SendFirstPacket(newPlayer);
     }
 
