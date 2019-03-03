@@ -443,7 +443,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 272792196}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 11.13, z: 0}
+  m_LocalPosition: {x: 0, y: 12, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1012,6 +1012,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 40
       objectReference: {fileID: 0}
+    - target: {fileID: 7998972774062290923, guid: f69a067788358b947906614c82f24936,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7495303585142292393, guid: f69a067788358b947906614c82f24936,
         type: 3}
       propertyPath: m_Convex
@@ -1020,11 +1025,6 @@ PrefabInstance:
     - target: {fileID: 7495303585142292393, guid: f69a067788358b947906614c82f24936,
         type: 3}
       propertyPath: m_IsTrigger
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7998972774062290923, guid: f69a067788358b947906614c82f24936,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3773624837763550813, guid: f69a067788358b947906614c82f24936,
@@ -2298,7 +2298,7 @@ PrefabInstance:
     - target: {fileID: 7742924780462279433, guid: 5acdb0b58e2dfb341958771eb5112d0c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 11.13
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 7742924780462279433, guid: 5acdb0b58e2dfb341958771eb5112d0c,
         type: 3}

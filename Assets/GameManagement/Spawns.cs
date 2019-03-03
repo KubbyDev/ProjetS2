@@ -138,9 +138,6 @@ public class Spawns
     public static int Random(int max)
     {
         randomSeed = (randomSeed * 131217 + 281) % 1000;
-
-        Debug.Log(randomSeed + "  " + max + "  res= " + randomSeed * max / 1000);   
-        
         return randomSeed * max / 1000;
     }
 }

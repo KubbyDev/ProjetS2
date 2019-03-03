@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Back : MonoBehaviour
 {
+    
     public Team team = Team.Blue;
     private bool Player_Has_Back = true;
 
+    /*
     public void Start()
     {
         if (Player_Has_Back)
@@ -15,6 +17,7 @@ public class Back : MonoBehaviour
             Player_Has_Back = false;
         }
     }
+    */
 
     public void Player_Got_Back()
     {

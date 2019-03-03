@@ -235,6 +235,7 @@ GameObject:
   - component: {fileID: 91}
   - component: {fileID: 93}
   - component: {fileID: 90}
+  - component: {fileID: 638830854223933014}
   - component: {fileID: 95}
   - component: {fileID: 96}
   m_Layer: 9
@@ -457,7 +458,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 93}
-  viewIdField: 9
+  viewIdField: 0
   InstantiationId: 9
   isRuntimeInstantiated: 0
 --- !u!114 &93
@@ -510,6 +511,19 @@ MonoBehaviour:
   speedMultiplier: 1.5
   escapeBullet: {fileID: 2279490531893371813, guid: cc855b50ae5d8ef44b2a48017f6fdb8c,
     type: 3}
+--- !u!114 &638830854223933014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 15}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bdb04c73e142374483b41a7c521ad16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Freeze1_Duration: 1
 --- !u!114 &95
 MonoBehaviour:
   m_ObjectHideFlags: 0

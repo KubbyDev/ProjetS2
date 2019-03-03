@@ -7,13 +7,13 @@ public class Ball : MonoBehaviour
     public static Ball script;          //Reference a ce script, visible partout
     public static Rigidbody rigidBody;  //Reference au rigidbody de la balle, visible partout
     
-    [SerializeField] [Range(1, 20)] private float pullStrength = 9;    //La force avec laquelle la balle est attiree au joueur qui la possede
+    [SerializeField] [Range(1, 20)] private float pullStrength = 9;        //La force avec laquelle la balle est attiree au joueur qui la possede
 
     [HideInInspector] public GameObject possessor { get; private set; }    //Le joueur qui a la balle (null si elle est libre)
     [HideInInspector] public bool canBeCaught = true;                      //Vrai si la balle peut etre recuperee
     [HideInInspector] public GameObject shooter { get; private set; }      //La derniere personne a avoir lance la balle (enregistre quand possessor passe a null)
 
-    private PhotonView pv;                               //Le script qui gere la balle sur le reseau
+    private PhotonView pv;              //Le script qui gere la balle sur le reseau
 
     void Awake()
     {
@@ -37,7 +37,9 @@ public class Ball : MonoBehaviour
     public void UpdatePossessor(GameObject newPossessor)
     {
         //Appelle la fonction UpdatePossessor_RPC chez chaque client
-        pv.RPC("UpdatePossessor_RPC", RpcTarget.All, newPossessor == null ? -1 : newPossessor.GetComponent<PhotonView>().ViewID);
+        int id = newPossessor == null ? -1 : newPossessor.GetComponent<PhotonView>().ViewID;
+        UpdatePossessor_RPC(id);
+        pv.RPC("UpdatePossessor_RPC", RpcTarget.Others, id);
     }
 
     [PunRPC]

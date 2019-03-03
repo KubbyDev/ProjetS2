@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using UnityEngine;
 
 public class Skills : MonoBehaviour
 {
@@ -29,6 +30,8 @@ public class Skills : MonoBehaviour
             timeToMove -= Time.deltaTime;
     }
 
+    // Competences -----------------------------------------------------------------------------------------------------
+    
     //Bouger jusqu'a position
     public void MoveTo(Vector3 position)
     {
@@ -38,29 +41,39 @@ public class Skills : MonoBehaviour
         Move(moveInput.normalized);
     }
 
+    //Essaye d'attraper la balle
+    public void CatchBall()
+    {
+        LookAt(Ball.ball.transform.position);
+        
+        //Un seul client a le droit de demander a l'IA d'attraper la balle
+        //Si un client a la balle, c'est lui, sinon c'est le host
+        if(Ball.script.possessor != null 
+            ? PlayerInfo.localPlayer == Ball.script.possessor
+            : PhotonNetwork.IsMasterClient)    
+            ballManager.Catch();
+    }
+
+    // Fonctions basiques ----------------------------------------------------------------------------------------------
+    
+    public void Turn(float newRotation)
+    {
+        if(timeToMove <= 0)
+            transform.eulerAngles = new Vector3(0, newRotation, 0);
+    }
+    
     //Regarde le point specifie
     public void LookAt(Vector3 point)
     {
         cam.LookAt(point);
         Turn(cam.rotation.eulerAngles.y);
     }
-
-    //Essaye d'attraper la balle
-    public void CatchBall()
-    {
-        LookAt(Ball.ball.transform.position);
-        ballManager.Catch();
-    }
-
+    
+    // Fonctions annexes -----------------------------------------------------------------------------------------------
+    
     private void Move(Vector3 input)
     {
         if(timeToMove <= 0)
             move.Move(input);
-    }
-    
-    public void Turn(float newRotation)
-    {
-        if(timeToMove <= 0)
-            transform.eulerAngles = new Vector3(0, newRotation, 0);
     }
 }
