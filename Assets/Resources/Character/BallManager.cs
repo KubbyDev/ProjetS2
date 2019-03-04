@@ -27,7 +27,7 @@ public class BallManager : MonoBehaviour
             //On regarde si la balle est devant la camera a une distance inferieure a maxCatchDistance
             foreach (RaycastHit hit in Physics.SphereCastAll(infos.cameraAnchor.position, catchWidth, infos.cameraAnchor.forward, maxCatchDistance))
                 //On recupere la balle si on la touche ou si on touche son porteur
-                if (hit.collider.tag == "Ball" && Ball.script.canBeCaught || hit.collider.tag == "Player" && hit.collider.gameObject.GetComponent<BallManager>().hasBall)
+                if (hit.collider.CompareTag("Ball") && Ball.script.canBeCaught || hit.collider.CompareTag("Player") && hit.collider.gameObject.GetComponent<BallManager>().hasBall)
                     //On enleve la possession de balle sur tous les joueurs et
                     //on la donne au joueur qui vient de la recuperer
                     Ball.script.UpdatePossessor(this.gameObject);
@@ -44,11 +44,6 @@ public class BallManager : MonoBehaviour
             catchTimeLeft -= Time.deltaTime;
         if (hasBall)                           //Si le joueur a la balle, on met son cooldown au max
             catchTimeLeft = catchCooldown;     //pour qu'il ne puisse pas la recuperer instant quand on lui prend
-        
-        //Debug: le joueur qui a la balle devient bleu
-        GetComponent<MeshRenderer>().material.color = new Color(1,1,1, infos.isPlayer ? 1 : 0.6f);
-        if (hasBall)
-            GetComponent<MeshRenderer>().material.color = new Color(0f, 0.61f, 0.8f, infos.isPlayer ? 1 : 0.6f);
     }
 
     //Lance la balle devant lui

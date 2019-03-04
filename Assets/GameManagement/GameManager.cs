@@ -121,7 +121,9 @@ public class GameManager : MonoBehaviour
                 player.GetComponent<Skills>().timeToMove = timeLeftForKickoff;
         }
         
+        //Attend 5 secondes
         yield return new WaitForSeconds(timeLeftForKickoff - 3);
+        
         RespawnAll();
     }
 
@@ -150,14 +152,16 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(3);
         gamePlaying = true;
     }
-
-    private void EndGame()
-    {
-        Debug.Log("GameEnded");
-    }
     
     private string FormatTime(float time)
     {
         return ((int) (time+0.99f)/60).ToString().PadLeft(2, '0') + ":" + ((int) (time+0.99f)%60).ToString().PadLeft(2, '0');
+    }
+
+    public static void EndGame()
+    {
+        //Permet de verifier que ca marche, mais ca sert a rien
+        Debug.Log("Game End");
+        timeLeft = -1000;
     }
 }

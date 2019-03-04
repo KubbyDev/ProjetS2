@@ -1,4 +1,4 @@
-using System.Net;
+using System.IO;
 using Photon.Pun;
 using UnityEngine;
 
@@ -43,6 +43,34 @@ public class GameManagerHost : MonoBehaviour
 
     private static void EndGame()
     {
+        //Appelle EndGame sur le GameManager de tous les clients
+        GameDataSync.SendEndGameEvent();
+        GameManager.EndGame();
+    }
+
+    public static void FillWithAIs()
+    {
+        int playersPerTeam = (int) GameManager.gameConfig.parameters[(int) GameConfig.Parameters.PlayersPerTeam];
         
+        //On set la team du joueur en fonction des nombres de joueurs dans les autres teams
+        int blue = 0;
+        int orange = 0;
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+            if (player.GetComponent<PlayerInfo>().team == Team.Blue)
+                blue++;
+            else
+                orange++;
+
+        for (int i = blue; i < playersPerTeam; i++)
+        {
+            GameObject newIA = PhotonNetwork.Instantiate(Path.Combine("AI", "AI"), new Vector3(0, 10, 0), Quaternion.identity);
+            newIA.GetComponent<PlayerInfo>().SetTeam(Team.Blue);
+        }
+
+        for (int i = orange; i < playersPerTeam; i++)
+        {
+            GameObject newIA = PhotonNetwork.Instantiate(Path.Combine("AI", "AI"), new Vector3(0, 10, 0), Quaternion.identity);
+            newIA.GetComponent<PlayerInfo>().SetTeam(Team.Orange);
+        }
     }
 } 

@@ -40,4 +40,5 @@ MonoBehaviour:
   - GetFirstPacked_RPC
   - GetFirstPacket_RPC
   - GetOnGoalData_RPC
+  - GetEndGameEvent_RPC
   DisableAutoOpenWizard: 1

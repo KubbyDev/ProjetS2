@@ -7,7 +7,7 @@ public class PreGameManager : MonoBehaviour
 {
     [SerializeField] private GameObject pregameMenu; //Le canvas qui contient les affichage de pregame
     
-    public static float timeLeftToStart = 120; //Temps avant le debut de la game
+    public static float timeLeftToStart = 20;  //Temps avant le debut de la game
     public bool forceStart;                    //Permet de forcer le demarrage depuis l'inspector
     public static int maxPlayers;              //Le nombre max de joueurs dans la partie
     
@@ -25,9 +25,13 @@ public class PreGameManager : MonoBehaviour
         if (timeLeftToStart > 0)
             timeLeftToStart -= Time.deltaTime;
         
-        //5 secondes avant le debut de la game, on ferme la salle
+        //5 secondes avant le debut de la game, on ferme la salle et on met des IA a la place des joueurs manquants
         if (timeLeftToStart < 5)
-            PhotonNetwork.CurrentRoom.IsOpen = false;
+        {
+            PhotonNetwork.CurrentRoom.IsOpen = false;   
+            if(PhotonNetwork.IsMasterClient)
+                GameManagerHost.FillWithAIs();
+        }
         
         if (!GameManager.gameStarted && CanStartGame())
         {

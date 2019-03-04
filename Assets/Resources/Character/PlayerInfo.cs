@@ -50,4 +50,14 @@ public class PlayerInfo : MonoBehaviour
     {
         ping = newPing;
     }
+
+    public void SetTeam(Team t)
+    {
+        if (t == Team.Blue)
+            GetComponent<MeshRenderer>().material.color = new Color(0, 82, 204);
+        else
+            GetComponent<MeshRenderer>().material.color = new Color(230, 92, 0);
+
+        team = t;
+    }
 }

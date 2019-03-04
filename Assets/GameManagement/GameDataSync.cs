@@ -84,6 +84,21 @@ public class GameDataSync : MonoBehaviour
     
     // Packet de fin de game -------------------------------------------------------------------------------------------
     
-    
-    
+    //Cette methode est appellee sur le host quand la partie est terminee
+    public static void SendEndGameEvent()
+    {
+        pv.RPC("GetEndGameEvent_RPC", RpcTarget.Others, EndGameEvent());
+    }
+
+    private static object[] EndGameEvent()
+    {
+        return new object[] {};
+    }
+
+    [PunRPC]
+    //Cette methode est appellee sur les clients au moment de la fin de partie
+    public void GetEndGameEvent_RPC()
+    {
+        GameManager.EndGame();
+    }
 }
