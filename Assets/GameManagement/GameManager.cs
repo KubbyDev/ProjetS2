@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -47,6 +46,25 @@ public class GameManager : MonoBehaviour
         PreGameManager.maxPlayers = 2 * (int) gameConfig.parameters[(int) GameConfig.Parameters.PlayersPerTeam];
     }
     
+    void Update()
+    {
+        if (gamePlaying)  // Si la partie joue on enleve le temps ecoule au temps restant
+            timeLeft -= Time.deltaTime;
+        
+        //Met a jour le temps en haut de l'ecran
+        timeDisplayer.text = FormatTime(timeLeft);
+        
+        //Met a jour les timers des spawns. Quand un spawn est utilise il met 5 secondes a etre utilisable
+        Spawns.UpdateTimers();
+    }
+    
+    private static string FormatTime(float time)
+    {
+        return ((int) (time+0.99f)/60).ToString().PadLeft(2, '0') + ":" + ((int) (time+0.99f)%60).ToString().PadLeft(2, '0');
+    }
+    
+    // Debut de partie -------------------------------------------------------------------------------------------------
+    
     // Lancer une partie
     public void StartGame()
     {
@@ -64,19 +82,9 @@ public class GameManager : MonoBehaviour
         
         RespawnAll();
     }
-    
-    void Update()
-    {
-        if (gamePlaying)  // Si la partie joue on enleve le temps ecoule au temps restant
-            timeLeft -= Time.deltaTime;
-        
-        //Met a jour le temps en haut de l'ecran
-        timeDisplayer.text = FormatTime(timeLeft);
-        
-        //Met a jour les timers des spawns. Quand un spawn est utilise il met 5 secondes a etre utilisable
-        Spawns.UpdateTimers();
-    }
 
+    // Evenement de But ------------------------------------------------------------------------------------------------
+    
     // Appelee des qu'il y a un but avec true si l'equipe bleue marque et false si l'equipe orange marque
     public void OnGoal(bool isForBlue, Vector3 ballPosition)
     {
@@ -104,11 +112,7 @@ public class GameManager : MonoBehaviour
         //Sinon on attend 5 secondes puis on lance le timer de l'engagement
         StartCoroutine(Celebration_Coroutine());
         
-        //On cache la balle
-        Ball.ball.transform.position = ballSpawn - new Vector3(0, -200, 0);
-        Ball.script.StopAllMovements();
-        Ball.script.UpdatePossessor(null);
-        Ball.rigidBody.useGravity = false;
+        Ball.Hide();
     }
 
     IEnumerator Celebration_Coroutine()
@@ -126,7 +130,9 @@ public class GameManager : MonoBehaviour
         
         RespawnAll();
     }
-
+    
+    // Engagement ------------------------------------------------------------------------------------------------------
+    
     // Reset la position des joueurs et de la balle
     private void RespawnAll()
     {
@@ -136,12 +142,6 @@ public class GameManager : MonoBehaviour
         //On bloque les inputs du joueur local pendant 3 sec
         PlayerInfo.localPlayer.GetComponent<InputManager>().StopInputs(3);
         PlayerInfo.localPlayer.GetComponent<MovementManager>().StopAllMovements();
-
-        //On respawn la balle
-        Ball.ball.transform.position = ballSpawn;
-        Ball.script.StopAllMovements();
-        Ball.script.UpdatePossessor(null);
-        Ball.rigidBody.useGravity = true;
         
         //On attend 3 secondes puis on relance la game
         StartCoroutine(Kickoff_Coroutine());
@@ -149,19 +149,16 @@ public class GameManager : MonoBehaviour
 
     IEnumerator Kickoff_Coroutine()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1);
+        Ball.Respawn(ballSpawn);
+        yield return new WaitForSeconds(2);
         gamePlaying = true;
     }
-    
-    private string FormatTime(float time)
-    {
-        return ((int) (time+0.99f)/60).ToString().PadLeft(2, '0') + ":" + ((int) (time+0.99f)%60).ToString().PadLeft(2, '0');
-    }
 
+    // Fin de partie ---------------------------------------------------------------------------------------------------
+    
     public static void EndGame()
     {
-        //Permet de verifier que ca marche, mais ca sert a rien
         Debug.Log("Game End");
-        timeLeft = -1000;
     }
 }

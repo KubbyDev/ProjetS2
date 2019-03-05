@@ -1,8 +1,9 @@
 ﻿
 public enum Team
 {
+    None = -1,
     Blue = 0,
-    Orange = 1
+    Orange = 1,
 }
 
 static class Teams

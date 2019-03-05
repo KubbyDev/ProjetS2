@@ -20,7 +20,7 @@ public class CameraManager : MonoBehaviour {
         infos = GetComponent<PlayerInfo>();
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (isFps)
             FirstPerson();

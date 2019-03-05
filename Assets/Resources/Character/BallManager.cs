@@ -1,6 +1,4 @@
-﻿using Photon.Pun;
-using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BallManager : MonoBehaviour
 {
@@ -30,7 +28,7 @@ public class BallManager : MonoBehaviour
                 if (hit.collider.CompareTag("Ball") && Ball.script.canBeCaught || hit.collider.CompareTag("Player") && hit.collider.gameObject.GetComponent<BallManager>().hasBall)
                     //On enleve la possession de balle sur tous les joueurs et
                     //on la donne au joueur qui vient de la recuperer
-                    Ball.script.UpdatePossessor(this.gameObject);
+                    Ball.UpdatePossessor(this.gameObject);
 
             catchTimeLeft = catchCooldown;
         }

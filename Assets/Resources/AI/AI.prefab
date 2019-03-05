@@ -237,7 +237,7 @@ GameObject:
   - component: {fileID: 3716507366201891263}
   - component: {fileID: 6112727337460792220}
   m_Layer: 9
-  m_Name: IA
+  m_Name: AI
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -411,7 +411,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   goalsScored: 0
-  team: 0
+  team: -1
   hero: 0
   isPlayer: 0
   ping: 0
@@ -439,8 +439,8 @@ MonoBehaviour:
   OwnershipTransfer: 1
   ObservedComponents:
   - {fileID: 8587176882192532044}
-  viewIdField: 0
-  InstantiationId: 5
+  viewIdField: 1
+  InstantiationId: 1
   isRuntimeInstantiated: 0
 --- !u!114 &8587176882192532044
 MonoBehaviour:

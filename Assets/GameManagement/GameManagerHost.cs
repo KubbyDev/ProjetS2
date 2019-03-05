@@ -47,7 +47,54 @@ public class GameManagerHost : MonoBehaviour
         GameDataSync.SendEndGameEvent();
         GameManager.EndGame();
     }
+    
+    //Met les joueurs qui n'ont pas de team dans des teams aleatoires (et equilibre)
+    public static void SetTeams()
+    {
+        int blue = 0;
+        int orange = 0;
+        
+        //On compte le nombre de joueurs deja presents dans chaque team
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            if (player.GetComponent<PlayerInfo>().team == Team.Blue)
+                blue++;
+            if (player.GetComponent<PlayerInfo>().team == Team.Orange)
+                orange++;
+        }
+        
+        //On place dans une team tous les joueurs qui ne sont pas encore dans une team
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            PlayerInfo infos = player.GetComponent<PlayerInfo>();
+            
+            //Si il est deja dans une team on passe
+            if (infos.team != Team.None) 
+                continue;
 
+            //La nouvelle team est une team random si les deux teams ont autant de membres
+            //Sinon c'est celle qui a le moins de membres
+            Team newTeam = 
+                blue == orange ? Teams.Random() 
+                : blue > orange ? Team.Orange : Team.Blue;
+
+            if (newTeam == Team.Blue)
+            {
+                infos.SetTeam(Team.Blue);
+                blue++;
+            }
+            else
+            {
+                infos.SetTeam(Team.Orange);
+                orange++;
+            }
+            
+            //Informe tous les clients de la team choisie
+            infos.UpdateInfo();
+        }
+    }
+    
+    //Rempli les places inutilisees dans la team avec des IA
     public static void FillWithAIs()
     {
         int playersPerTeam = (int) GameManager.gameConfig.parameters[(int) GameConfig.Parameters.PlayersPerTeam];
@@ -63,14 +110,16 @@ public class GameManagerHost : MonoBehaviour
 
         for (int i = blue; i < playersPerTeam; i++)
         {
-            GameObject newIA = PhotonNetwork.Instantiate(Path.Combine("AI", "AI"), new Vector3(0, 10, 0), Quaternion.identity);
-            newIA.GetComponent<PlayerInfo>().SetTeam(Team.Blue);
+            PlayerInfo newIaInfos = PhotonNetwork.Instantiate(Path.Combine("AI", "AI"), new Vector3(0, 10, 0), Quaternion.identity).GetComponent<PlayerInfo>();
+            newIaInfos.GetComponent<PlayerInfo>().SetTeam(Team.Blue);
+            newIaInfos.GetComponent<PlayerInfo>().UpdateInfo();
         }
 
         for (int i = orange; i < playersPerTeam; i++)
         {
-            GameObject newIA = PhotonNetwork.Instantiate(Path.Combine("AI", "AI"), new Vector3(0, 10, 0), Quaternion.identity);
-            newIA.GetComponent<PlayerInfo>().SetTeam(Team.Orange);
+            PlayerInfo newIaInfos = PhotonNetwork.Instantiate(Path.Combine("AI", "AI"), new Vector3(0, 10, 0), Quaternion.identity).GetComponent<PlayerInfo>();
+            newIaInfos.GetComponent<PlayerInfo>().SetTeam(Team.Orange);
+            newIaInfos.GetComponent<PlayerInfo>().UpdateInfo();
         }
     }
 } 

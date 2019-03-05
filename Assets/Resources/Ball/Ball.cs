@@ -13,7 +13,7 @@ public class Ball : MonoBehaviour
     [HideInInspector] public bool canBeCaught = true;                      //Vrai si la balle peut etre recuperee
     [HideInInspector] public GameObject shooter { get; private set; }      //La derniere personne a avoir lance la balle (enregistre quand possessor passe a null)
 
-    private PhotonView pv;              //Le script qui gere la balle sur le reseau
+    private static PhotonView pv;       //Le script qui gere la balle sur le reseau
 
     void Awake()
     {
@@ -34,11 +34,11 @@ public class Ball : MonoBehaviour
             Attract();
     }
 
-    public void UpdatePossessor(GameObject newPossessor)
+    public static void UpdatePossessor(GameObject newPossessor)
     {
         //Appelle la fonction UpdatePossessor_RPC chez chaque client
         int id = newPossessor == null ? -1 : newPossessor.GetComponent<PhotonView>().ViewID;
-        UpdatePossessor_RPC(id);
+        script.UpdatePossessor_RPC(id);
         pv.RPC("UpdatePossessor_RPC", RpcTarget.Others, id);
     }
 
@@ -90,11 +90,27 @@ public class Ball : MonoBehaviour
         rigidBody.AddForce(force);
     }
 
-    public void StopAllMovements()
+    public static void StopAllMovements()
     {
         rigidBody.velocity = Vector3.zero;
         rigidBody.angularVelocity = Vector3.zero;
         rigidBody.rotation = Quaternion.identity;
+    }
+
+    public static void Respawn(Vector3 spawnPos)
+    {
+        ball.transform.position = spawnPos;
+        StopAllMovements();
+        UpdatePossessor(null);
+        rigidBody.useGravity = true;
+    }
+
+    public static void Hide()
+    {
+        ball.transform.position = new Vector3(0,-1000,0);
+        StopAllMovements();
+        UpdatePossessor(null);
+        rigidBody.useGravity = false;
     }
     
     public void FreezeBall()

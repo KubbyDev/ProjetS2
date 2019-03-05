@@ -28,19 +28,22 @@ public class MovementManager : MonoBehaviour
 	    infos = GetComponent<PlayerInfo>();
     }
 
-    void FixedUpdate()
+    void Update()
     {
         //Vitesse max
         if(velocity.sqrMagnitude > maxSpeed*maxSpeed)
-            velocity -= velocity * Time.fixedDeltaTime; //Revient a la vitesse max autorisee
+            velocity -= velocity * Time.deltaTime; //Revient a la vitesse max autorisee
 
         //Gravity
         //Pour supprimer l'impression de faible gravite on l'augmente quand le joueur tombe
-        velocity += Physics.gravity * Time.fixedDeltaTime * (velocity.y < 0 ? 2f : 1.0f);
+        velocity += Physics.gravity * Time.deltaTime * (velocity.y < 0 ? 2f : 1.0f);
 
         //Fait bouger le joueur
-        cc.Move(velocity * Time.fixedDeltaTime);
+        cc.Move(velocity * Time.deltaTime);
 
+        infos.velocity = velocity;
+        infos.isGrounded = cc.isGrounded;
+        
         if (cc.isGrounded) //Quand le joueur est au sol
         {
             velocity = Vector3.zero;
@@ -51,9 +54,6 @@ public class MovementManager : MonoBehaviour
             //cc.velocity est la vitesse reele du CharacterController (elle tient compte des collisions)
             velocity = cc.velocity;
         }
-
-        infos.velocity = velocity;
-        infos.isGrounded = cc.isGrounded;
     }
 
     //Appellee par InputManager
@@ -86,10 +86,10 @@ public class MovementManager : MonoBehaviour
             AddForce(new Vector3(0, jumpStrength, 0));
     }
 
-    //Applique une force sur le joueur
+    //Applique une force sur le joueur (sur son client)
     public void AddForce(Vector3 force)  
 	{
-        pv.RPC("ApplyForce_RPC", RpcTarget.All, force);
+        pv.RPC("ApplyForce_RPC", pv.Owner, force);
 	}
 
     [PunRPC]

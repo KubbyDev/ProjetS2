@@ -1,5 +1,4 @@
-﻿using System;
-using Photon.Pun;
+﻿using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +10,7 @@ public class PreGameManager : MonoBehaviour
     public bool forceStart;                    //Permet de forcer le demarrage depuis l'inspector
     public static int maxPlayers;              //Le nombre max de joueurs dans la partie
     
+    private bool initDone = false;
     private Text timeDisplayer;       //Le component qui affiche le texte pour le temps restant
     private Text playersDisplayer;    //Le component qui affiche le texte pour le nombre de joueurs
 
@@ -25,14 +25,23 @@ public class PreGameManager : MonoBehaviour
         if (timeLeftToStart > 0)
             timeLeftToStart -= Time.deltaTime;
         
-        //5 secondes avant le debut de la game, on ferme la salle et on met des IA a la place des joueurs manquants
-        if (timeLeftToStart < 5)
+        //5 secondes avant le debut de la game
+        if (timeLeftToStart < 5 && !initDone)
         {
-            PhotonNetwork.CurrentRoom.IsOpen = false;   
-            if(PhotonNetwork.IsMasterClient)
-                GameManagerHost.FillWithAIs();
+            PhotonNetwork.CurrentRoom.IsOpen = false; //On ferme la salle
+            Ball.Hide();                              //On cache la balle
+            
+            //Uniquement sur le host
+            if (PhotonNetwork.IsMasterClient)
+            {
+                GameManagerHost.SetTeams();     //On met tous les joueurs dans une team
+                GameManagerHost.FillWithAIs();  //On met des IA a la place des joueurs manquants
+            }
+            
+            initDone = true;
         }
         
+        //Demarrage de la partie
         if (!GameManager.gameStarted && CanStartGame())
         {
             GameManager.script.StartGame();
@@ -50,7 +59,7 @@ public class PreGameManager : MonoBehaviour
         //|| PhotonNetwork.CurrentRoom.PlayerCount >= GameManager.maxPlayers;
     }
 
-    private string FormatTime(float time)
+    private static string FormatTime(float time)
     {
         return ((int) (time+0.99f)/60).ToString().PadLeft(2, '0') + ":" + ((int) (time+0.99f)%60).ToString().PadLeft(2, '0');
     }

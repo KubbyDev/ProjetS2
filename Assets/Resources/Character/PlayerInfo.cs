@@ -8,7 +8,7 @@ public class PlayerInfo : MonoBehaviour
     //Ces variables sont stockees ici, si vous les modifiez,
     //ca aura une influence sur le jeu
     public int goalsScored;                //Le nombre de buts que le joueur a marque
-    public Team team = Team.Blue;          //La team du joueur
+    public Team team = Team.None;          //La team du joueur
     public Hero hero = Hero.Stricker;      //La classe jouee par ce joueur
     public bool isPlayer;                  //False: C'est une IA
     public int ping;                       //Le ping de ce joueur
@@ -24,7 +24,7 @@ public class PlayerInfo : MonoBehaviour
     private float timeToPingUpdate;
     private PhotonView pv;
 
-    void Start()
+    void Awake()
     {
         pv = GetComponent<PhotonView>();
     }
@@ -53,11 +53,19 @@ public class PlayerInfo : MonoBehaviour
 
     public void SetTeam(Team t)
     {
-        if (t == Team.Blue)
-            GetComponent<MeshRenderer>().material.color = new Color(0, 82, 204);
-        else
-            GetComponent<MeshRenderer>().material.color = new Color(230, 92, 0);
-
+        GetComponent<MeshRenderer>().material.color = t == Team.Blue ? new Color(0, 82, 204) : new Color(230, 92, 0);
         team = t;
+    }
+
+    public void UpdateInfo()
+    {
+        pv.RPC("UpdateInfo_RPC", RpcTarget.Others, (int) team, (int) hero);
+    }
+
+    [PunRPC]
+    public void UpdateInfo_RPC(int pTeam, int pHero)
+    {       
+        SetTeam((Team) pTeam);
+        hero = (Hero) pHero;
     }
 }

@@ -9,19 +9,6 @@ public class PlayerSetup : MonoBehaviour, IPunInstantiateMagicCallback {
 
     void Awake()
     {
-        //On set la team du joueur en fonction des nombres de joueurs dans les autres teams
-        int blue = 0;
-        int orange = 0;
-        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-            if (player.GetComponent<PlayerInfo>().team == Team.Blue)
-                blue++;
-            else
-                orange++;
-        if(blue == orange)
-            GetComponent<PlayerInfo>().SetTeam(Teams.Random());
-        else
-            GetComponent<PlayerInfo>().SetTeam(blue > orange ? Team.Orange : Team.Blue);
-        
         //Si le joueur qui vient de spawn est celui du client on laisse tout active, mais on le renseigne dans le PlayerInfo
         if (GetComponent<PhotonView>().IsMine)
             PlayerInfo.localPlayer = this.gameObject;
