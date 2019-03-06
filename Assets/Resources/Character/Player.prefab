@@ -235,7 +235,7 @@ GameObject:
   - component: {fileID: 91}
   - component: {fileID: 93}
   - component: {fileID: 90}
-  - component: {fileID: 638830854223933014}
+  - component: {fileID: 99}
   - component: {fileID: 95}
   - component: {fileID: 96}
   m_Layer: 9
@@ -511,7 +511,7 @@ MonoBehaviour:
   speedMultiplier: 1.5
   escapeBullet: {fileID: 2279490531893371813, guid: cc855b50ae5d8ef44b2a48017f6fdb8c,
     type: 3}
---- !u!114 &638830854223933014
+--- !u!114 &99
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

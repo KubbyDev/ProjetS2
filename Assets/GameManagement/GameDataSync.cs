@@ -2,6 +2,8 @@
 using Photon.Realtime;
 using UnityEngine;
 
+//Ce script transmet les ordres du GameManagerHost vers les clients
+
 public class GameDataSync : MonoBehaviour
 {
     private static PhotonView pv;       //Reference au script qui gere les echanges sur le reseau

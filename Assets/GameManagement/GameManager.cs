@@ -2,6 +2,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+//Ce script gere le deroulement de la partie (il recoit les ordres importants du GameManagerHost qui tourne sur le host)
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager script;       //Reference a ce script, visible partout

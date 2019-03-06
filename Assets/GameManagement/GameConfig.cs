@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 
@@ -33,7 +34,7 @@ public enum GamePreset
     Classic = 0
 }
 
-static class PresetMethods
+static class ConfigMethods
 {
     //Renvoie un preset
     public static GameConfig Config(this GamePreset name)
@@ -49,5 +50,10 @@ static class PresetMethods
                 Debug.Log("Ce preset n'existe pas " + name);
                 return null;
         }
+    }
+
+    public static GameConfig Config(this ExitGames.Client.Photon.Hashtable config)
+    {
+        return new GameConfig((int) config["g"], (float) (int) config["d"], (int) config["p"]);
     }
 }

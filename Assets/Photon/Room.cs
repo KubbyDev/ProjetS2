@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
 
+//Ce script gere les entrees et sorties de la salle
+
 public class Room : MonoBehaviourPunCallbacks
 {
     public override void OnJoinedRoom()
@@ -11,7 +13,7 @@ public class Room : MonoBehaviourPunCallbacks
         base.OnJoinedRoom();
 
         //Cree l'avatar du joueur
-        RPC_CreatePlayer();
+        PhotonNetwork.Instantiate(Path.Combine("Character", "Player"), transform.position, Quaternion.identity);
     }
 
     //Quand un joueur entre dans la salle
@@ -23,11 +25,19 @@ public class Room : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
             GameDataSync.SendFirstPacket(newPlayer);
     }
-
-    [PunRPC]
-    //Cree un avatar pour le joueur
-    private void RPC_CreatePlayer()
+    
+    //Quand un joueur quitte on le remplace par une IA
+    public override void OnPlayerLeftRoom(Player player)
     {
-        PhotonNetwork.Instantiate(Path.Combine("Character", "Player"), transform.position, Quaternion.identity);
+        base.OnPlayerLeftRoom(player);
+        
+        if (!PhotonNetwork.IsMasterClient)
+            return;
+        
+        PlayerInfo oldPlayerInfo = ((GameObject) player.TagObject).GetComponent<PlayerInfo>();
+        
+        PlayerInfo newIaInfos = PhotonNetwork.Instantiate(Path.Combine("AI", "AI"), oldPlayerInfo.transform.position, oldPlayerInfo.transform.rotation).GetComponent<PlayerInfo>();
+        newIaInfos.GetComponent<PlayerInfo>().SetTeam(oldPlayerInfo.team);
+        newIaInfos.GetComponent<PlayerInfo>().UpdateInfo();
     }
 }

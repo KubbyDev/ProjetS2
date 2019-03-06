@@ -2,7 +2,9 @@ using System.IO;
 using Photon.Pun;
 using UnityEngine;
 
-public class GameManagerHost : MonoBehaviour
+//Ce script donne les ordres au GameManager de tous les clients (et du host) pour gerer le deroulement de la partie
+
+public class GameManagerHost : MonoBehaviourPunCallbacks
 {
     public static int maxGoals;
     
@@ -14,7 +16,7 @@ public class GameManagerHost : MonoBehaviour
             return;
         }
         
-        GameManager.gameConfig = GamePreset.Classic.Config();
+        GameManager.gameConfig = PhotonNetwork.CurrentRoom.CustomProperties.Config();
         maxGoals = (int) GameManager.gameConfig.parameters[(int) GameConfig.Parameters.MaxGoals];
         PreGameManager.maxPlayers = 2 * (int) GameManager.gameConfig.parameters[(int) GameConfig.Parameters.PlayersPerTeam];
     }
