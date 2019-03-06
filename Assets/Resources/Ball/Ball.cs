@@ -90,7 +90,7 @@ public class Ball : MonoBehaviour
         rigidBody.AddForce(force);
     }
 
-    public static void StopAllMovements()
+    public static void ResetSpeed()
     {
         rigidBody.velocity = Vector3.zero;
         rigidBody.angularVelocity = Vector3.zero;
@@ -100,7 +100,7 @@ public class Ball : MonoBehaviour
     public static void Respawn(Vector3 spawnPos)
     {
         ball.transform.position = spawnPos;
-        StopAllMovements();
+        ResetSpeed();
         UpdatePossessor(null);
         rigidBody.useGravity = true;
     }
@@ -108,7 +108,7 @@ public class Ball : MonoBehaviour
     public static void Hide()
     {
         ball.transform.position = new Vector3(0,-1000,0);
-        StopAllMovements();
+        ResetSpeed();
         UpdatePossessor(null);
         rigidBody.useGravity = false;
     }

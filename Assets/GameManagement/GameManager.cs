@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -41,11 +42,14 @@ public class GameManager : MonoBehaviour
         blueScore = 0;
         orangeScore = 0;
         gamePlaying = false;
+        gameStarted = false;
     }
 
-    public void OnFirstPacketRecieved()
+    public static void OnFirstPacketRecieved()
     {
-        PreGameManager.maxPlayers = 2 * (int) gameConfig.parameters[(int) GameConfig.Parameters.PlayersPerTeam];
+        //Met a jour la configuration de la partie
+        gameConfig = PhotonNetwork.CurrentRoom.CustomProperties.Config();
+        PreGameManager.maxPlayers = 2 * gameConfig.playersPerTeam;
     }
     
     void Update()
@@ -55,12 +59,10 @@ public class GameManager : MonoBehaviour
         
         //Met a jour le temps en haut de l'ecran
         timeDisplayer.text = FormatTime(timeLeft);
-        
-        //Met a jour les timers des spawns. Quand un spawn est utilise il met 5 secondes a etre utilisable
-        Spawns.UpdateTimers();
     }
     
-    private static string FormatTime(float time)
+    //Met le temps en format MinMin:SecSec
+    public static string FormatTime(float time)
     {
         return ((int) (time+0.99f)/60).ToString().PadLeft(2, '0') + ":" + ((int) (time+0.99f)%60).ToString().PadLeft(2, '0');
     }
@@ -70,9 +72,10 @@ public class GameManager : MonoBehaviour
     // Lancer une partie
     public void StartGame()
     {
+        //Affiche le temps en haut de l'ecran
         gameMenu.SetActive(true);
-        
-        timeLeft = (float) gameConfig.parameters[(int) GameConfig.Parameters.GameDuration];
+
+        timeLeft = gameConfig.gameDuration;
         
         // Parcours les joueurs
         foreach(GameObject player in GameObject.FindGameObjectsWithTag("Player"))                      
@@ -110,11 +113,10 @@ public class GameManager : MonoBehaviour
         orangeScoreDisplayer.text = orangeScore.ToString();
         
         gamePlaying = false;
-        
-        //Sinon on attend 5 secondes puis on lance le timer de l'engagement
-        StartCoroutine(Celebration_Coroutine());
-        
         Ball.Hide();
+        
+        //Attend 5 secondes puis on lance le timer de l'engagement
+        StartCoroutine(Celebration_Coroutine());
     }
 
     IEnumerator Celebration_Coroutine()
@@ -140,10 +142,11 @@ public class GameManager : MonoBehaviour
     {
         //On fait respawn tout le monde
         Spawns.AssignSpawns(GameObject.FindGameObjectsWithTag("Player"));
+        Spawns.ResetUsage();
         
         //On bloque les inputs du joueur local pendant 3 sec
         PlayerInfo.localPlayer.GetComponent<InputManager>().StopInputs(3);
-        PlayerInfo.localPlayer.GetComponent<MovementManager>().StopAllMovements();
+        PlayerInfo.localPlayer.GetComponent<MovementManager>().ResetSpeed();
         
         //On attend 3 secondes puis on relance la game
         StartCoroutine(Kickoff_Coroutine());

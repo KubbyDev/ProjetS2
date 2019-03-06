@@ -104,7 +104,7 @@ public class MovementManager : MonoBehaviour
         movementSpeed *= multiplier;
     }
 
-    public void StopAllMovements()
+    public void ResetSpeed()
     {
         velocity = Vector3.zero;
     }

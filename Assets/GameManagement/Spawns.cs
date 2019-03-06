@@ -14,8 +14,7 @@ public class Spawns
     private class Spawn
     {
         public bool used;
-        private Transform spawn;
-        private float time;      //Quand le spawn est utilise, il met 5 secondes a redevenir utilisable
+        private readonly Transform spawn;
 
         public Spawn(Transform t)
         {
@@ -27,18 +26,7 @@ public class Spawns
         public void AssignTo(GameObject player)
         {
             used = true;
-            time = 5;
             player.transform.SetPositionAndRotation(spawn.position, spawn.rotation);
-        }
-
-        //Met a jour le timer
-        //Un spawn utilise passe en unused 5 seconde apres
-        public void UpdateTimer()
-        {
-            if (time > 0)
-                time -= Time.deltaTime;
-            else
-                used = false;
         }
     }
     
@@ -59,16 +47,14 @@ public class Spawns
             blue[i] = new Spawn(blueSpawn.GetChild(i));
     }
 
-    //Cette fonction doit etre appellee a chaque frame
-    //Elle met a jour les timer des Spawns (quand un spawn est utilise il faut 5 secondes pour le reutiliser)
-    public static void UpdateTimers()
+    public static void ResetUsage()
     {
         foreach (Spawn s in blue)
-            s.UpdateTimer();
+            s.used = false;
         
         foreach (Spawn s in orange)
-            s.UpdateTimer();
-    }
+            s.used = false;
+    } 
 
     //Renvoie un objet Spawn aleatoire de la team specifiee
     private static Spawn GetRandomSpawn(Team team)

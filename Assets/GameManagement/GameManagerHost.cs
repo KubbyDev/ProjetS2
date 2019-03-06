@@ -16,9 +16,11 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
             return;
         }
         
+        //Met a jour la configuration de la partie
         GameManager.gameConfig = PhotonNetwork.CurrentRoom.CustomProperties.Config();
-        maxGoals = (int) GameManager.gameConfig.parameters[(int) GameConfig.Parameters.MaxGoals];
-        PreGameManager.maxPlayers = 2 * (int) GameManager.gameConfig.parameters[(int) GameConfig.Parameters.PlayersPerTeam];
+        PreGameManager.maxPlayers = 2 * GameManager.gameConfig.playersPerTeam;
+        
+        maxGoals = GameManager.gameConfig.maxGoals;
     }
 
     void Update()
@@ -39,16 +41,19 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
         
         GameDataSync.SendOnGoalData(isBlue);
 
-        if (GameManager.blueScore >= maxGoals || GameManager.orangeScore >= maxGoals)
+        //Si le nombre de buts max est depasse, la partie s'arrete
+        if (maxGoals > 0 && (GameManager.blueScore >= maxGoals || GameManager.orangeScore >= maxGoals))
             EndGame();
     }
-
+    
     private static void EndGame()
     {
         //Appelle EndGame sur le GameManager de tous les clients
         GameDataSync.SendEndGameEvent();
         GameManager.EndGame();
     }
+
+    // Debut de partie -------------------------------------------------------------------------------------------------
     
     //Met les joueurs qui n'ont pas de team dans des teams aleatoires (et equilibre)
     public static void SetTeams()
@@ -99,7 +104,7 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
     //Rempli les places inutilisees dans la team avec des IA
     public static void FillWithAIs()
     {
-        int playersPerTeam = (int) GameManager.gameConfig.parameters[(int) GameConfig.Parameters.PlayersPerTeam];
+        int playersPerTeam = GameManager.gameConfig.playersPerTeam;
         
         //On set la team du joueur en fonction des nombres de joueurs dans les autres teams
         int blue = 0;
@@ -110,13 +115,20 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
             else
                 orange++;
 
+        //On rempli les trous dans chaque team
         for (int i = blue; i < playersPerTeam; i++)
         {
+            //Cree une IA et recupere son PlayerInfo
             PlayerInfo newIaInfos = PhotonNetwork.Instantiate(Path.Combine("AI", "AI"), new Vector3(0, 10, 0), Quaternion.identity).GetComponent<PlayerInfo>();
+            
+            //Change la team de l'IA
             newIaInfos.GetComponent<PlayerInfo>().SetTeam(Team.Blue);
+            
+            //Informe les autres clients de la team choisie
             newIaInfos.GetComponent<PlayerInfo>().UpdateInfo();
         }
 
+        //On rempli les trous dans la team Orange
         for (int i = orange; i < playersPerTeam; i++)
         {
             PlayerInfo newIaInfos = PhotonNetwork.Instantiate(Path.Combine("AI", "AI"), new Vector3(0, 10, 0), Quaternion.identity).GetComponent<PlayerInfo>();

@@ -27,26 +27,25 @@ public class GameDataSync : MonoBehaviour
         //On envoie le moment auquel le message part, le temps restant, la config de partie, la seed du LCG des spawns
         return new object[]
         { 
-            PhotonNetwork.Time, 
-            PreGameManager.timeLeftToStart, 
-            (int) GameManager.gameConfig.preset, 
-            Spawns.randomSeed 
+            PhotonNetwork.Time,               //Le moment auquel le message part (pour prendre en compte le temps de trajet)
+            PreGameManager.timeLeftToStart,   //Le temps restant avant le debut de la partie
+            Spawns.randomSeed                 //La seed du LCG des Spawns (Pour que tous les clients aient les memes nombres random)
         };
     }
 
     [PunRPC]
     //Cette methode est appellee sur le joueur qui vient de rejoindre la salle, pour mettre a jour son GameData
-    private void GetFirstPacket_RPC(double sendMoment, float time, int preset, int spawnsSeed)
+    private void GetFirstPacket_RPC(double sendMoment, float time, int spawnsSeed)
     {      
         //On met a jour le temps restant avant le debut de la game 
         //En prenant en compte le temps de trajet du message
         PreGameManager.timeLeftToStart =  (float) (time - (PhotonNetwork.Time - sendMoment));
         
-        GameManager.gameConfig = ((GamePreset) preset).Config();
+        //La seed du LCG des Spawns (Pour que tous les clients aient les memes nombres random)
         Spawns.randomSeed = spawnsSeed;
         
         //On informe le GameManager que le premier packet est arrive
-        GameManager.script.OnFirstPacketRecieved();
+        GameManager.OnFirstPacketRecieved();
     }
     
     // Packet de but ---------------------------------------------------------------------------------------------------
@@ -61,12 +60,12 @@ public class GameDataSync : MonoBehaviour
     {
         return new object[]
         {
-            isBlue, 
-            Ball.ball.transform.position, 
-            PhotonNetwork.Time, 
-            GameManager.timeLeft,
-            GameManager.timeLeftForKickoff, 
-            Spawns.randomSeed
+            isBlue,                          //True: Le but est dans le but bleu (donc marque par les oranges)
+            Ball.ball.transform.position,    //La position de la balle quand elle est entree dans le but
+            PhotonNetwork.Time,              //Le moment auquel le message part (pour prendre en compte le temps de trajet)
+            GameManager.timeLeft,            //Le temps restant avant la fin de la partie
+            GameManager.timeLeftForKickoff,  //Le temps restant avant que les joueurs puissent bouger
+            Spawns.randomSeed                //La seed du LCG des Spawns (Pour que tous les clients aient les memes nombres random)
         };
     }
     
@@ -81,6 +80,7 @@ public class GameDataSync : MonoBehaviour
         GameManager.timeLeft = pTimeLeft;
         Spawns.randomSeed = spawnsSeed;
         
+        //On informe le GameManager qu'il y a eu un but
         GameManager.script.OnGoal(isBlue, ballPosition);
     }
     

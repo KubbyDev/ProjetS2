@@ -5,45 +5,35 @@ using UnityEngine;
 
 public class GameConfig
 {
-    public object[] parameters =
-    {
-        0,              //MaxGoals
-        5.0f * 60.0f,   //GameDuration
-        4               //PlayersPerTeam
-    };
+    public readonly int maxGoals;         //Nombre max de buts: 0 = infini
+    public readonly int playersPerTeam;   //Nombre de joueurs par equipe
+    public readonly float gameDuration;   //Duree de la partie
 
-    public GamePreset preset;
-    
-    public enum Parameters
+    //Constructeur
+    public GameConfig(int pMaxGoals, float pGameDuration, int pPlayersPerTeam)
     {
-        MaxGoals = 0,
-        GameDuration = 1,
-        PlayersPerTeam = 2
-    }
-
-    public GameConfig(int maxGoals, float gameDuration, int playersPerTeam)
-    {
-        parameters[(int) Parameters.MaxGoals] = maxGoals;
-        parameters[(int) Parameters.GameDuration] = gameDuration;
-        parameters[(int) Parameters.PlayersPerTeam] = playersPerTeam;
+        maxGoals = pMaxGoals;
+        gameDuration = pGameDuration;
+        playersPerTeam = pPlayersPerTeam;
     }
 }
 
+//Pour utiliser un preset on peut faire
+//GameConfig config = GamePreset.Classic.Config();
 public enum GamePreset
 {
-    Classic = 0
+    Classic = 0  //maxGoals = infini, gameDuration = 5min, playersPerTeam = 3
 }
 
-static class ConfigMethods
+internal static class ConfigMethods
 {
-    //Renvoie un preset
+    //Renvoie une Config depuis un Preset
     public static GameConfig Config(this GamePreset name)
     {
         switch (name)
         {
             case GamePreset.Classic:
-                GameConfig config = new GameConfig(Int32.MaxValue, 5 * 60, 4);
-                config.preset = GamePreset.Classic;
+                GameConfig config = new GameConfig(0, 5 * 60, 3);
                 return config;
             
             default:
@@ -52,8 +42,10 @@ static class ConfigMethods
         }
     }
 
+    //Renvoie une Config depuis une Hashtable
+    //Utile pour passer la config dans le CustomRoomPropoerties de la Room
     public static GameConfig Config(this ExitGames.Client.Photon.Hashtable config)
     {
-        return new GameConfig((int) config["g"], (float) (int) config["d"], (int) config["p"]);
+        return new GameConfig((int) config["g"], (int) config["d"], (int) config["p"]);
     }
 }
