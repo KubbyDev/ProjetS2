@@ -12,6 +12,7 @@ public class MovementManager : MonoBehaviour
     [Space] [Header("Movements")]
     [SerializeField] [Range(0, 2000)] private float movementSpeed = 500;  //La vitesse des deplacements au sol
     [SerializeField] [Range(0, 0.5f)] private float inAirControl = 0.03f; //La force des inputs en l'air (en l'air: inputs *= inAirControl/vitesse^2)
+    [SerializeField] [Range(0, 1f)] private float withBallSpeed = 0.80f;  //Le multiplicateur de vitesse quand le joueur a la balle
     [SerializeField] [Range(1, 100)] private float maxSpeed = 20f;        //La vitesse maximale de deplacement du joueur
 
     private Vector3 velocity = Vector3.zero;  //La vitesse actuelle du joueur
@@ -62,7 +63,8 @@ public class MovementManager : MonoBehaviour
 	{
         if (input.sqrMagnitude > 0)
             velocity += input * Time.deltaTime * movementSpeed  //Le vecteur d'inputs en temps normal
-                * (cc.isGrounded ? 1 : inAirControl);           //Quand le joueur est en l'air on multiplie par inAirControl
+                * (cc.isGrounded ? 1 : inAirControl)            //Quand le joueur est en l'air on multiplie par inAirControl
+                * (infos.hasBall ? withBallSpeed : 1);          //Quand le joueur a la balle on reduit sa vitesse
     }
 
     //Appellee par InputManager

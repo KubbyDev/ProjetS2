@@ -53,11 +53,17 @@ public class PlayerInfo : MonoBehaviour
 
     public void SetTeam(Team t)
     {
-        GetComponent<MeshRenderer>().material.color = t == Team.Blue ? new Color(0, 82, 204) : new Color(230, 92, 0);
+        GetComponent<MeshRenderer>().material.color = t == Team.Blue ? new Color(0, 82, 204, 1) : new Color(230, 92, 0, 1);
         team = t;
     }
+    
+    public void SetHero(Hero h)
+    {
+        hero = h;
+    }
 
-    public void UpdateInfo()
+    //Synchronise les infos de ce joueur chez tous les clients
+    public void UpdateInfos()
     {
         pv.RPC("UpdateInfo_RPC", RpcTarget.Others, (int) team, (int) hero);
     }
@@ -66,6 +72,6 @@ public class PlayerInfo : MonoBehaviour
     public void UpdateInfo_RPC(int pTeam, int pHero)
     {       
         SetTeam((Team) pTeam);
-        hero = (Hero) pHero;
+        SetHero((Hero) pHero);
     }
 }

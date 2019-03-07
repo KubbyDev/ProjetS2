@@ -39,8 +39,11 @@ public class ClassMenu : MonoBehaviour
     public void OnStrikerButtonCliked()
     {
         //Si on est en jeu (pas dans le menu principal)
-        if(!inMainMenu)
-            infos.hero = Hero.Stricker;
+        if (!inMainMenu)
+        {
+            infos.SetHero(Hero.Stricker);
+            infos.UpdateInfos();
+        }
         
         UpdateDisplay(Hero.Stricker);
     }
@@ -48,8 +51,11 @@ public class ClassMenu : MonoBehaviour
     public void OnWardenButtonCliked()
     {
         //Si on est en jeu (pas dans le menu principal)
-        if(!inMainMenu)
-            infos.hero = Hero.Warden;
+        if (!inMainMenu)
+        {
+            infos.SetHero(Hero.Warden);
+            infos.UpdateInfos();
+        }
         
         UpdateDisplay(Hero.Warden);
     }
@@ -57,8 +63,11 @@ public class ClassMenu : MonoBehaviour
     public void OnNinjaButtonCliked()
     {
         //Si on est en jeu (pas dans le menu principal)
-        if(!inMainMenu)
-            infos.hero = Hero.Ninja;
+        if (!inMainMenu)
+        {
+            infos.SetHero(Hero.Ninja);
+            infos.UpdateInfos();
+        }
         
         UpdateDisplay(Hero.Ninja);
     }

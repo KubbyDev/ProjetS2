@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-
+﻿
 public enum Hero
 {
     Stricker = 0,

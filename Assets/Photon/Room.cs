@@ -38,6 +38,6 @@ public class Room : MonoBehaviourPunCallbacks
         
         PlayerInfo newIaInfos = PhotonNetwork.Instantiate(Path.Combine("AI", "AI"), oldPlayerInfo.transform.position, oldPlayerInfo.transform.rotation).GetComponent<PlayerInfo>();
         newIaInfos.GetComponent<PlayerInfo>().SetTeam(oldPlayerInfo.team);
-        newIaInfos.GetComponent<PlayerInfo>().UpdateInfo();
+        newIaInfos.GetComponent<PlayerInfo>().UpdateInfos();
     }
 }

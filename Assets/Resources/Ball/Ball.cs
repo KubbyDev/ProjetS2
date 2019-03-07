@@ -7,11 +7,11 @@ public class Ball : MonoBehaviour
     public static Ball script;          //Reference a ce script, visible partout
     public static Rigidbody rigidBody;  //Reference au rigidbody de la balle, visible partout
     
-    [SerializeField] [Range(1, 20)] private float pullStrength = 9;        //La force avec laquelle la balle est attiree au joueur qui la possede
+    [SerializeField] [Range(1, 20)] private float pullStrength = 9;            //La force avec laquelle la balle est attiree au joueur qui la possede
 
-    [HideInInspector] public GameObject possessor { get; private set; }    //Le joueur qui a la balle (null si elle est libre)
-    [HideInInspector] public bool canBeCaught = true;                      //Vrai si la balle peut etre recuperee
-    [HideInInspector] public GameObject shooter { get; private set; }      //La derniere personne a avoir lance la balle (enregistre quand possessor passe a null)
+    [HideInInspector] public static GameObject possessor { get; private set; } //Le joueur qui a la balle (null si elle est libre)
+    [HideInInspector] public bool canBeCaught = true;                          //Vrai si la balle peut etre recuperee
+    [HideInInspector] public GameObject shooter { get; private set; }          //La derniere personne a avoir lance la balle (enregistre quand possessor passe a null)
 
     private static PhotonView pv;       //Le script qui gere la balle sur le reseau
 

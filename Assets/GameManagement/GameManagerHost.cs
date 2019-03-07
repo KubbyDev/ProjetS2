@@ -97,7 +97,7 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
             }
             
             //Informe tous les clients de la team choisie
-            infos.UpdateInfo();
+            infos.UpdateInfos();
         }
     }
     
@@ -125,7 +125,7 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
             newIaInfos.GetComponent<PlayerInfo>().SetTeam(Team.Blue);
             
             //Informe les autres clients de la team choisie
-            newIaInfos.GetComponent<PlayerInfo>().UpdateInfo();
+            newIaInfos.GetComponent<PlayerInfo>().UpdateInfos();
         }
 
         //On rempli les trous dans la team Orange
@@ -133,7 +133,7 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
         {
             PlayerInfo newIaInfos = PhotonNetwork.Instantiate(Path.Combine("AI", "AI"), new Vector3(0, 10, 0), Quaternion.identity).GetComponent<PlayerInfo>();
             newIaInfos.GetComponent<PlayerInfo>().SetTeam(Team.Orange);
-            newIaInfos.GetComponent<PlayerInfo>().UpdateInfo();
+            newIaInfos.GetComponent<PlayerInfo>().UpdateInfos();
         }
     }
 } 

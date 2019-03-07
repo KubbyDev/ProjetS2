@@ -14,7 +14,7 @@ public class BallSync : MonoBehaviour, IPunObservable
         }
         else                  //Donnees recues
         {
-            if (Ball.script.possessor == null)
+            if (Ball.possessor == null)
             //Si la balle est libre on va juste calculer sa position entre les updates du reseau en simulant ses physiques
             {
                 transform.position     = (Vector3)    stream.ReceiveNext();
