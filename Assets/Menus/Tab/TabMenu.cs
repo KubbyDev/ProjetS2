@@ -72,8 +72,12 @@ public class TabMenu : MonoBehaviour
         {
             Image element = Instantiate(itemPrefab, playerList.transform);
             
+            //On met le carre de la couleur de la team du joueur
+            element.color = player.GetComponent<PlayerInfo>().team == Team.Blue ? new Color(0.0f, 0.6f, 1.0f) : new Color(0.95f, 0.6f, 0.1f);
+            
+            //On differencie le joueur local
             if (player == PlayerInfo.localPlayer) 
-                element.color = new Color(0.7f, 0.7f, 0.7f); //On differencie le joueur local
+                element.color = new Color(0.9f, 0.9f, 0.9f);
 
             Item i = new Item
             {

@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
+using UnityEditor;
 
 public class OptionsMenu : MonoBehaviour
 {
@@ -55,9 +56,11 @@ public class OptionsMenu : MonoBehaviour
         settingsFilePath = Application.persistentDataPath + "/settings.json";
 
         //On rempli le dropdown des resolutions avec toutes les resolutions que l'ecran peut afficher
+        resolutionDropdown.options.Clear();
         resolutions = Screen.resolutions;
         foreach (Resolution res in Screen.resolutions)
-            resolutionDropdown.options.Add(new Dropdown.OptionData(res.ToString()));
+            if (res.refreshRate == Screen.currentResolution.refreshRate)
+                resolutionDropdown.options.Add(new Dropdown.OptionData(ToString(res)));
 
         //Si le fichier de sauvegarde des settings n'existe pas encore, on le cree
         if (!File.Exists(settingsFilePath))
@@ -68,6 +71,11 @@ public class OptionsMenu : MonoBehaviour
 
         //Les settings sont lues dans le fichier et sont charges
         LoadSettings();
+    }
+
+    private static string ToString(Resolution res)
+    {
+        return res.width + "x" + res.height;
     }
 
     // Changement de Menu  -----------------------------------------------------------------------------------------------------
@@ -229,11 +237,10 @@ public class OptionsMenu : MonoBehaviour
 
         //Mise a jour des options dans Unity
         QualitySettings.antiAliasing = (int) Mathf.Pow(2, settings.aaLevel);
-        //audioSource.volume = settings.volume;
+        //audioSource.volume = settings.volume; TODO
         QualitySettings.shadows = (ShadowQuality) settings.shadowsQuality;
-        Screen.fullScreen = settings.fullscreen;
-        Screen.SetResolution(resolutions[settings.resolutionIndex].width, resolutions[settings.resolutionIndex].height, Screen.fullScreen);
-
+        Screen.SetResolution(resolutions[settings.resolutionIndex].width, resolutions[settings.resolutionIndex].height, settings.fullscreen);
+        
         //Mise a jour de l'affichage
         aaDropdown.value = settings.aaLevel;
         resolutionDropdown.value = settings.resolutionIndex;
