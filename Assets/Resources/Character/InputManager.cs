@@ -17,6 +17,7 @@ public class InputManager : MonoBehaviour
     private Ninja ninja;
     private BallManager ball;
     private Back back;
+    private Hook hook;
 
     //Reference aux menus
     private GameObject menus;
@@ -36,6 +37,7 @@ public class InputManager : MonoBehaviour
         striker = GetComponent<Striker>();
         ninja = GetComponent<Ninja>();
         back = GetComponent<Back>();
+        hook = GetComponent<Hook>();
         menus = GameObject.Find("Menus");
         tabMenu = menus.transform.GetChild(0).gameObject;
         pauseMenu = menus.transform.GetChild(1).gameObject;
@@ -92,6 +94,8 @@ public class InputManager : MonoBehaviour
         //Power-Up
         if (Input.GetKeyDown(KeyCode.F))
             back.TP_Back();
+        if (Input.GetKeyDown(KeyCode.V))
+            hook.Use_Hook();
     }
 
     private void BallInputs()

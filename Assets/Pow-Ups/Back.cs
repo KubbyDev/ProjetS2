@@ -6,25 +6,21 @@ public class Back : MonoBehaviour
 {
     
     public Team team = Team.Blue;
-    private bool Player_Has_Back = true;
+    private bool Player_Has_Back = false;
 
-    /*
-    public void Start()
-    {
-        if (Player_Has_Back)
-        {
-            TP_Back();
-            Player_Has_Back = false;
-        }
-    }
-    */
 
     public void Player_Got_Back()
     {
         Player_Has_Back = true;
     }
+
     public void TP_Back()
     {
-        Spawns.AtRandomUnused(this.gameObject);
+        if (Player_Has_Back)
+        {
+            Spawns.AtRandomUnused(this.gameObject);
+            Player_Has_Back = false;
+        }
     }
 }
+
