@@ -85,6 +85,8 @@ public class InputManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.A))
                 ninja.Explode_Spell();
+            if (Input.GetKeyDown(KeyCode.C))
+                ninja.Smoke();
         }
 
         //Power-Up

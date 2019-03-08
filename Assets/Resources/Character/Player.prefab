@@ -369,6 +369,7 @@ MonoBehaviour:
   dashesStrength: 20
   movementSpeed: 500
   inAirControl: 0.03
+  withBallSpeed: 0.8
   maxSpeed: 20
 --- !u!114 &87
 MonoBehaviour:
@@ -458,8 +459,8 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 93}
-  viewIdField: 2
-  InstantiationId: 2
+  viewIdField: 1
+  InstantiationId: 1
   isRuntimeInstantiated: 0
 --- !u!114 &93
 MonoBehaviour:
@@ -540,6 +541,14 @@ MonoBehaviour:
   Explode_Cooldown: 20
   Explode_Speed_Boost: 2
   Explosion_Radius: 50
+  Smoke_Spell_Duration: 5
+  Smoke_Cooldown: 8
+  Temps_distance: 2
+  Can_Smoke: 1
+  SmokeBomb: {fileID: 3892075379919057841, guid: 255bf681b8d2a0945b2a84b40df57072,
+    type: 3}
+  SmokeExplosion: {fileID: 6081345925805640053, guid: 03b9bd779f9829c46be88d4ad9fbff64,
+    type: 3}
 --- !u!114 &96
 MonoBehaviour:
   m_ObjectHideFlags: 0
