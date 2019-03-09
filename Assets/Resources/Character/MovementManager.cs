@@ -1,4 +1,5 @@
 ﻿using Photon.Pun;
+using UnityEditor.VersionControl;
 using UnityEngine;
 
 //Cette classe recoit des inputs de InputManager pour les actions qui font bouger le joueur
@@ -79,13 +80,17 @@ public class MovementManager : MonoBehaviour
         //On reduit la vitesse verticale si le joueur est en chute
         if (velocity.y < 0)
             velocity.y /= 5;
+        
+        //Si les inputs sont en direction opposee a la vitesse, on reduit la vitesse horizontale
+        if (Vector3.Dot(velocity, moveInput) < 0)
+            velocity = new Vector3(velocity.x/2, velocity.y, velocity.z/2);
 
-        if (moveInput.sqrMagnitude > 0 && !cc.isGrounded)
-            //Dash
-            AddForce(moveInput.normalized * dashesStrength);
-        else
-            //Saut classique
-            AddForce(new Vector3(0, jumpStrength, 0));
+        //Si le joueur est au sol on empeche les dashes
+        if (cc.isGrounded)
+            moveInput = Vector3.zero;
+        
+        //On ajoute la force: Une force vers le haut, un peu penchee dans la direction des inputs
+        AddForce((moveInput*dashesStrength + new Vector3(0,jumpStrength, 0)).normalized * jumpStrength);
     }
 
     //Applique une force sur le joueur (sur son client)

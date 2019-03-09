@@ -67,7 +67,7 @@ public class Ball : MonoBehaviour
     void Attract()
     {
         rigidBody.velocity /= 1.2f;             //Amorti la vitesse
-        rigidBody.AddForce((possessor.transform.position + new Vector3(0, 0.0f, 0) + 5f * possessor.transform.forward   //Un peu devant le torse du joueur
+        rigidBody.AddForce((possessor.transform.position + new Vector3(0, 0.0f, 0) + 5f * possessor.GetComponent<PlayerInfo>().cameraAnchor.forward   //Un peu devant le torse du joueur
                         - transform.position    //Pour que le vecteur aille de la balle au joueur
                         ) * Time.deltaTime * pullStrength * 1000);
     }
