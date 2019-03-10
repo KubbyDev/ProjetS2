@@ -29,6 +29,10 @@ public class GameManager : MonoBehaviour
     {
         script = this;
         
+        //Met a jour la configuration de la partie
+        gameConfig = PhotonNetwork.CurrentRoom.CustomProperties.Config();
+        PreGameManager.maxPlayers = 2 * gameConfig.playersPerTeam;
+        
         timeDisplayer = gameMenu.transform.Find("Background").Find("Time").GetComponent<Text>();
         blueScoreDisplayer = gameMenu.transform.Find("Background").Find("BlueScore").GetComponent<Text>();
         orangeScoreDisplayer = gameMenu.transform.Find("Background").Find("OrangeScore").GetComponent<Text>();
@@ -44,13 +48,6 @@ public class GameManager : MonoBehaviour
         gamePlaying = false;
         gameStarted = false;
     }
-
-    public static void OnFirstPacketRecieved()
-    {
-        //Met a jour la configuration de la partie
-        gameConfig = PhotonNetwork.CurrentRoom.CustomProperties.Config();
-        PreGameManager.maxPlayers = 2 * gameConfig.playersPerTeam;
-    }
     
     void Update()
     {
@@ -64,6 +61,9 @@ public class GameManager : MonoBehaviour
     //Met le temps en format MinMin:SecSec
     public static string FormatTime(float time)
     {
+        if (time < 0)
+            return "00:00";
+        
         return ((int) (time+0.99f)/60).ToString().PadLeft(2, '0') + ":" + ((int) (time+0.99f)%60).ToString().PadLeft(2, '0');
     }
     
@@ -74,14 +74,15 @@ public class GameManager : MonoBehaviour
     {
         //Affiche le temps en haut de l'ecran
         gameMenu.SetActive(true);
-
+        
+        gameStarted = true;
         timeLeft = gameConfig.gameDuration;
         
         // Parcours les joueurs
         foreach(GameObject player in GameObject.FindGameObjectsWithTag("Player"))                      
         {
             //Si c'est une IA on lui dit de ne pas bouger jusqu'a l'engagement
-            if (!player.GetComponent<PlayerInfo>().isPlayer)
+            if (! player.GetComponent<PlayerInfo>().isPlayer)
                 player.GetComponent<Skills>().timeToMove = 3;
         }
         
@@ -125,7 +126,7 @@ public class GameManager : MonoBehaviour
         foreach(GameObject player in GameObject.FindGameObjectsWithTag("Player"))                      
         {
             //Si c'est une IA on lui dit de ne pas bouger jusqu'a l'engagement
-            if (!player.GetComponent<PlayerInfo>().isPlayer)
+            if (! player.GetComponent<PlayerInfo>().isPlayer)
                 player.GetComponent<Skills>().timeToMove = timeLeftForKickoff;
         }
         

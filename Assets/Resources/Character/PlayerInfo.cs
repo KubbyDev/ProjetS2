@@ -26,6 +26,7 @@ public class PlayerInfo : MonoBehaviour
 
     void Awake()
     {
+        hero = Settings.defaultHero;
         pv = GetComponent<PhotonView>();
     }
 

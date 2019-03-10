@@ -44,6 +44,8 @@ public class ClassMenu : MonoBehaviour
             infos.SetHero(Hero.Stricker);
             infos.UpdateInfos();
         }
+        else
+            Settings.defaultHero = Hero.Stricker;
         
         UpdateDisplay(Hero.Stricker);
     }
@@ -56,6 +58,8 @@ public class ClassMenu : MonoBehaviour
             infos.SetHero(Hero.Warden);
             infos.UpdateInfos();
         }
+        else
+            Settings.defaultHero = Hero.Warden;
         
         UpdateDisplay(Hero.Warden);
     }
@@ -68,6 +72,8 @@ public class ClassMenu : MonoBehaviour
             infos.SetHero(Hero.Ninja);
             infos.UpdateInfos();
         }
+        else
+            Settings.defaultHero = Hero.Ninja;
         
         UpdateDisplay(Hero.Ninja);
     }

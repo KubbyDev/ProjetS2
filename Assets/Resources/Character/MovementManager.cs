@@ -1,5 +1,4 @@
 ﻿using Photon.Pun;
-using UnityEditor.VersionControl;
 using UnityEngine;
 
 //Cette classe recoit des inputs de InputManager pour les actions qui font bouger le joueur

@@ -42,4 +42,6 @@ MonoBehaviour:
   - GetOnGoalData_RPC
   - GetEndGameEvent_RPC
   - UpdateInfo_RPC
+  - GetOnGoalEvent_RPC
+  - GetStartGameEvent_RPC
   DisableAutoOpenWizard: 1

@@ -45,18 +45,50 @@ public class GameDataSync : MonoBehaviour
         Spawns.randomSeed = spawnsSeed;
         
         //On informe le GameManager que le premier packet est arrive
-        GameManager.OnFirstPacketRecieved();
+        //GameManager.OnFirstPacketRecieved();
+    }
+    
+    // Packet de debut de game -----------------------------------------------------------------------------------------
+    
+    //Cette methode est appellee sur le Host quand la partie demarre
+    public static void SendStartGameEvent()
+    {
+        pv.RPC("GetStartGameEvent_RPC", RpcTarget.Others, StartGameEvent());
+    }
+    
+    private static object[] StartGameEvent()
+    {
+        //On envoie le moment auquel le message part, le temps restant, la config de partie, la seed du LCG des spawns
+        return new object[]
+        { 
+            PhotonNetwork.Time,   //Le moment auquel le message part (pour prendre en compte le temps de trajet)
+            Spawns.randomSeed     //La seed du LCG des Spawns (Pour que tous les clients aient les memes nombres random)
+        };
+    }
+
+    [PunRPC]
+    //Cette methode est appellee sur le joueur qui vient de rejoindre la salle, pour mettre a jour son GameData
+    private void GetStartGameEvent_RPC(double sendMoment, int spawnsSeed)
+    {      
+        //On met a jour le temps restant avant le debut de la game 
+        //En prenant en compte le temps de trajet du message
+        PreGameManager.timeLeftToStart =  (float) (3 - (PhotonNetwork.Time - sendMoment));
+        
+        //La seed du LCG des Spawns (Pour que tous les clients aient les memes nombres random)
+        Spawns.randomSeed = spawnsSeed;
+        
+        PreGameManager.script.StartGame();
     }
     
     // Packet de but ---------------------------------------------------------------------------------------------------
 
     //Cette methode est appellee sur le host quand il y a un but (pour confirmer le but aux clients)
-    public static void SendOnGoalData(bool isBlue)
+    public static void SendOnGoalEvent(bool isBlue)
     {
-        pv.RPC("GetOnGoalData_RPC", RpcTarget.Others, OnGoalData(isBlue));
+        pv.RPC("GetOnGoalEvent_RPC", RpcTarget.Others, OnGoalEvent(isBlue));
     }
 
-    private static object[] OnGoalData(bool isBlue)
+    private static object[] OnGoalEvent(bool isBlue)
     {
         return new object[]
         {
@@ -71,7 +103,7 @@ public class GameDataSync : MonoBehaviour
     
     [PunRPC]
     //Cette methode est appellee sur les clients au moment des buts pour les confirmer
-    public void GetOnGoalData_RPC(bool isBlue, Vector3 ballPosition, double sendMoment, float pTimeLeft, float pTimeLeftToKickoff, int spawnsSeed)
+    public void GetOnGoalEvent_RPC(bool isBlue, Vector3 ballPosition, double sendMoment, float pTimeLeft, float pTimeLeftToKickoff, int spawnsSeed)
     {
         //On met a jour le temps restant avant l'engagement
         //En prenant en compte le temps de trajet du message

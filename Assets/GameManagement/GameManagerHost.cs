@@ -33,13 +33,20 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
         }
     }
 
+    public static void StartGame()
+    {
+        GameDataSync.SendStartGameEvent();
+        PreGameManager.timeLeftToStart = 3;
+        PreGameManager.script.StartGame();
+    }
+    
     //Le host recoit l'event de but et informe tous les clients
     public static void OnGoal(bool isBlue)
     {
         //5 sec de celebration, 3 sec avant l'engagement
         GameManager.timeLeftForKickoff = 8;
         
-        GameDataSync.SendOnGoalData(isBlue);
+        GameDataSync.SendOnGoalEvent(isBlue);
 
         //Si le nombre de buts max est depasse, la partie s'arrete
         if (maxGoals > 0 && (GameManager.blueScore >= maxGoals || GameManager.orangeScore >= maxGoals))
