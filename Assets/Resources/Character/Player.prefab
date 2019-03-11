@@ -233,7 +233,7 @@ GameObject:
   - component: {fileID: 89}
   - component: {fileID: 94}
   - component: {fileID: 91}
-  - component: {fileID: 93}
+  - component: {fileID: 3606593971257085751}
   - component: {fileID: 90}
   - component: {fileID: 99}
   - component: {fileID: 95}
@@ -372,6 +372,7 @@ MonoBehaviour:
   inAirControl: 0.03
   withBallSpeed: 0.8
   maxSpeed: 20
+  velocity: {x: 0, y: 0, z: 0}
 --- !u!114 &87
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -441,6 +442,7 @@ MonoBehaviour:
   velocity: {x: 0, y: 0, z: 0}
   isGrounded: 0
   hasBall: 0
+  lastMovementInput: {x: 0, y: 0, z: 0}
 --- !u!114 &91
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -459,11 +461,11 @@ MonoBehaviour:
   Synchronization: 1
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 93}
+  - {fileID: 3606593971257085751}
   viewIdField: 1
   InstantiationId: 1
   isRuntimeInstantiated: 0
---- !u!114 &93
+--- !u!114 &3606593971257085751
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -472,30 +474,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 15}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8efc6b1d64977384eb3405357896c656, type: 3}
+  m_Script: {fileID: 11500000, guid: 9cc4148a4c9327c4183847260128a074, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PositionModel:
-    SynchronizeEnabled: 1
-    TeleportEnabled: 1
-    TeleportIfDistanceGreaterThan: 3
-    InterpolateOption: 2
-    InterpolateMoveTowardsSpeed: 1
-    InterpolateLerpSpeed: 1
-    ExtrapolateOption: 0
-    ExtrapolateSpeed: 1
-    ExtrapolateIncludingRoundTripTime: 1
-    ExtrapolateNumberOfStoredPositions: 1
-  m_RotationModel:
-    SynchronizeEnabled: 1
-    InterpolateOption: 1
-    InterpolateRotateTowardsSpeed: 500
-    InterpolateLerpSpeed: 5
-  m_ScaleModel:
-    SynchronizeEnabled: 0
-    InterpolateOption: 0
-    InterpolateMoveTowardsSpeed: 1
-    InterpolateLerpSpeed: 0
+  rotationSpeed: 500
 --- !u!114 &90
 MonoBehaviour:
   m_ObjectHideFlags: 0

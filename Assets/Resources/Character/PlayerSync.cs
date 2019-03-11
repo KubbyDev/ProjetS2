@@ -1,27 +1,32 @@
 ﻿using Photon.Pun;
 using UnityEngine;
 
-public class PlayerSync : MonoBehaviour//, IPunObservable
+public class PlayerSync : MonoBehaviour, IPunObservable
 {
-
-    //Marche plutot bien mais il y a des lags
-
-
-    /*
-    private MovementManager move;
+    [SerializeField] private float rotationSpeed = 500;
+    
     private Vector3 movementInput;
+    private Quaternion targetRotation;
+    
     private PhotonView pv;
+    private PlayerInfo infos;
+    private MovementManager move;
 
-    void Start()
+    void Awake()
     {
         move = GetComponent<MovementManager>();
         pv = GetComponent<PhotonView>();
+        infos = GetComponent<PlayerInfo>();
     }
 
     void Update()
     {
-        if(! pv.IsMine)
-            move.Move(movementInput);
+        //Si c'est le joueur local on ne fait rien
+        if (pv.IsMine)
+            return;
+
+        move.Move(movementInput);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime*rotationSpeed);
     }
 
     void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -30,16 +35,15 @@ public class PlayerSync : MonoBehaviour//, IPunObservable
         {
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
-            stream.SendNext(move.velocity);
-            stream.SendNext(move.getLastMovementInput());
+            stream.SendNext(infos.velocity);
+            stream.SendNext(infos.lastMovementInput);
         }
         else                  //Donnees recues
         {
             transform.position = (Vector3)    stream.ReceiveNext();
-            transform.rotation = (Quaternion) stream.ReceiveNext();
+            targetRotation     = (Quaternion) stream.ReceiveNext();
             move.velocity      = (Vector3)    stream.ReceiveNext();
             movementInput      = (Vector3)    stream.ReceiveNext();
         }
     }
-    */
 }

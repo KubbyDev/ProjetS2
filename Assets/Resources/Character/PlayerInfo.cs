@@ -20,6 +20,7 @@ public class PlayerInfo : MonoBehaviour
     public Vector3 velocity;               //La vitesse du joueur
     public bool isGrounded;                //Si le joueur est au sol
     public bool hasBall;                   //Si le joueur a la balle
+    public Vector3 lastMovementInput;      //Le dernier input ZQSD entre
 
     private float timeToPingUpdate;
     private PhotonView pv;

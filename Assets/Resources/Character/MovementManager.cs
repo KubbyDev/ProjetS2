@@ -15,7 +15,8 @@ public class MovementManager : MonoBehaviour
     [SerializeField] [Range(0, 1f)] private float withBallSpeed = 0.80f;  //Le multiplicateur de vitesse quand le joueur a la balle
     [SerializeField] [Range(1, 100)] private float maxSpeed = 20f;        //La vitesse maximale de deplacement du joueur
 
-    private Vector3 velocity = Vector3.zero;  //La vitesse actuelle du joueur
+    public Vector3 velocity = Vector3.zero;   //La vitesse actuelle du joueur
+    
     private CharacterController cc;           //Le script qui gere les deplacements du joueur (dans Unity)
     private int usableJumps;                  //Le nombre de sauts restants (Reset quand le sol est touche)
     private Vector3 movementInput;            //Le dernier input ZQSD du joueur (sert pour la synchronisation)
@@ -59,8 +60,10 @@ public class MovementManager : MonoBehaviour
 
     //Appellee par InputManager
     //Prend un vecteur normalise avec y=0
-    public void Move(Vector3 input) 
-	{
+    public void Move(Vector3 input)
+    {
+        infos.lastMovementInput = input;
+        
         if (input.sqrMagnitude > 0)
             velocity += input * Time.deltaTime * movementSpeed  //Le vecteur d'inputs en temps normal
                 * (cc.isGrounded ? 1 : inAirControl)            //Quand le joueur est en l'air on multiplie par inAirControl

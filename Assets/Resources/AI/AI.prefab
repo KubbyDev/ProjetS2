@@ -382,6 +382,7 @@ MonoBehaviour:
   inAirControl: 0.03
   withBallSpeed: 0.8
   maxSpeed: 20
+  velocity: {x: 0, y: 0, z: 0}
 --- !u!114 &8294962191097149399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -421,6 +422,7 @@ MonoBehaviour:
   velocity: {x: 0, y: 0, z: 0}
   isGrounded: 0
   hasBall: 0
+  lastMovementInput: {x: 0, y: 0, z: 0}
 --- !u!114 &8294962191097149397
 MonoBehaviour:
   m_ObjectHideFlags: 0
