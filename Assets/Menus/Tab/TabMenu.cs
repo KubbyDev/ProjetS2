@@ -1,8 +1,7 @@
 ﻿using Photon.Pun;
-using Photon.Realtime;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.Analytics;
 using UnityEngine.UI;
 
 public class TabMenu : MonoBehaviour
@@ -21,14 +20,23 @@ public class TabMenu : MonoBehaviour
             goals.text = infos.goalsScored.ToString();
         }
     }
+
+    public static TabMenu script;
     
-    [SerializeField] private Image itemPrefab;                  //Un affichage de joueur (une barre contenant le nom et d'autres infos)
-    [SerializeField] private VerticalLayoutGroup playerList;    //Le conteneur des items
-    [SerializeField] private Text roomName;                     //Le component qui affiche le nom de la salle
+    [SerializeField] private Image itemPrefab;                    //Un affichage de joueur (une barre contenant le nom et d'autres infos)
+    [SerializeField] private VerticalLayoutGroup bluePlayerList;  //La liste des joueurs bleus
+    [SerializeField] private VerticalLayoutGroup orangePlayerList;//La liste des joueurs oranges
+    [SerializeField] private Text roomName;                       //Le component qui affiche le nom de la salle
 
     private List<Item> items;
-    private float timeToUpdate;    
-    
+    private float timeToUpdate;
+    private float timeToUpdateValues;
+
+    private void Awake()
+    {
+        script = this;
+    }
+
     void Start()
     {
         //On affiche le nom de la salle en haut du menu
@@ -37,13 +45,22 @@ public class TabMenu : MonoBehaviour
 
     void Update()
     {
-        //On met a jour les valeurs dans le menu toutes les 2 secondes
-        if (timeToUpdate > 0)
+        //On met a jour les valeurs dans le menu toutes les secondes
+        if (timeToUpdateValues < 0)
+            timeToUpdateValues -= Time.deltaTime;
+        else
+        {
+            timeToUpdateValues = 1;
+            UpdateItems();
+        }
+        
+        //On met a jour le menu tout entier toutes les 5 secondes
+        if (timeToUpdate < 0)
             timeToUpdate -= Time.deltaTime;
         else
         {
-            timeToUpdate = 2;
-            UpdateItems();
+            timeToUpdate = 5;
+            UpdateList();
         }
     }
     
@@ -53,43 +70,53 @@ public class TabMenu : MonoBehaviour
         UpdateList();
     }
 
-    void UpdateItems()
+    private void UpdateItems()
     {
         foreach (Item player in items)
             player.UpdateValues();
     }
 
-    void UpdateList()
+    public void UpdateList()
     {
-        //On detruit tous les fils du vertical layout (on commence a 1 parce qu'en 0 c'est le vertical layout lui meme)
-        Transform[] childs = playerList.GetComponentsInChildren<Transform>();
-        for (int i = 1; i < childs.Length; i++)
-            Destroy(childs[i].gameObject);
+        //On detruit tous les fils des vertical layout (on commence a 1 parce qu'en 0 c'est le vertical layout lui meme)
+        Transform[] blueChilds = bluePlayerList.GetComponentsInChildren<Transform>();
+        for (int i = 1; i < blueChilds.Length; i++)
+            Destroy(blueChilds[i].gameObject);
+        Transform[] orangeChilds = orangePlayerList.GetComponentsInChildren<Transform>();
+        for (int i = 1; i < orangeChilds.Length; i++)
+            Destroy(orangeChilds[i].gameObject);
         items = new List<Item>();
 
-        //Affichage de chaque joueur
-        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        foreach (Team team in Teams.Each())
         {
-            Image element = Instantiate(itemPrefab, playerList.transform);
-            
-            //On met le carre de la couleur de la team du joueur
-            element.color = player.GetComponent<PlayerInfo>().team == Team.Blue ? new Color(0.0f, 0.6f, 1.0f) : new Color(0.95f, 0.6f, 0.1f);
-            
-            //On differencie le joueur local
-            if (player == PlayerInfo.localPlayer) 
-                element.color = new Color(0.9f, 0.9f, 0.9f);
-
-            Item i = new Item
+            //Affichage de chaque joueur de la team en cours de traitement
+            //(On traite a chaque fois chaque joueur de la bonne Team dans le bon ordre)
+            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player")
+                .Where(player => player.GetComponent<PlayerInfo>().team == team)
+                .OrderByDescending(player => player.GetComponent<PlayerInfo>().goalsScored))
             {
-                infos = player.GetComponent<PlayerInfo>(),
-                name = element.transform.Find("Name").gameObject.GetComponent<Text>(),
-                ping = element.transform.Find("Ping").gameObject.GetComponent<Text>(),
-                goals = element.transform.Find("Goals").gameObject.GetComponent<Text>()
-            };
+                //On instancie l'image en tant que fils du bon layout group (bleu ou orange)
+                Image element = Instantiate(itemPrefab, (team == Team.Blue ? bluePlayerList : orangePlayerList).transform);
 
-            items.Add(i);
+                //On met l'item de la couleur de la team
+                Color color = team == Team.Blue ? new Color(0.0f, 0.6f, 1.0f) : new Color(0.95f, 0.6f, 0.1f);
+                
+                //On differencie le joueur local
+                if (player == PlayerInfo.localPlayer)
+                    color = new Color(color[0] + (1 - color[0])*0.5f, color[1] + (1 - color[1])*0.5f, color[2] + (1 - color[2])*0.5f);
+
+                element.color = color;
+                
+                items.Add(new Item()
+                {
+                    infos = player.GetComponent<PlayerInfo>(),
+                    name = element.transform.Find("Name").gameObject.GetComponent<Text>(),
+                    ping = element.transform.Find("Ping").gameObject.GetComponent<Text>(),
+                    goals = element.transform.Find("Goals").gameObject.GetComponent<Text>()
+                });
+            }
         }
-        
+           
         UpdateItems();
     }
 }

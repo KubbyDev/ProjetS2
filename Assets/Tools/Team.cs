@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+
 public enum Team
 {
     None = -1,
@@ -18,5 +20,10 @@ static class Teams
     public static Team Random()
     {
         return (Team) rng.Next(2);
+    }
+
+    public static List<Team> Each()
+    {
+        return new List<Team> {Team.Blue, Team.Orange};
     }
 }
