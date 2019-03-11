@@ -4,9 +4,11 @@ using UnityEngine;
 public class PlayerSync : MonoBehaviour, IPunObservable
 {
     [SerializeField] private float rotationSpeed = 500;
+    [SerializeField] private float interpolationSpeed = 0.5f;
     
     private Vector3 movementInput;
     private Quaternion targetRotation;
+    private Vector3 targetPosition;
     
     private PhotonView pv;
     private PlayerInfo infos;
@@ -25,7 +27,9 @@ public class PlayerSync : MonoBehaviour, IPunObservable
         if (pv.IsMine)
             return;
 
+        InterpolateMovement();
         move.Move(movementInput);
+        targetPosition += infos.velocity * Time.deltaTime;
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime*rotationSpeed);
     }
 
@@ -40,10 +44,15 @@ public class PlayerSync : MonoBehaviour, IPunObservable
         }
         else                  //Donnees recues
         {
-            transform.position = (Vector3)    stream.ReceiveNext();
-            targetRotation     = (Quaternion) stream.ReceiveNext();
-            move.velocity      = (Vector3)    stream.ReceiveNext();
-            movementInput      = (Vector3)    stream.ReceiveNext();
+            targetPosition = (Vector3)    stream.ReceiveNext();
+            targetRotation = (Quaternion) stream.ReceiveNext();
+            move.velocity  = (Vector3)    stream.ReceiveNext();
+            movementInput  = (Vector3)    stream.ReceiveNext();
         }
+    }
+
+    void InterpolateMovement()
+    {
+        transform.position = (1-interpolationSpeed) * transform.position + interpolationSpeed * targetPosition;
     }
 }

@@ -151,6 +151,10 @@ public class GameManager : MonoBehaviour
         PlayerInfo.localPlayer.GetComponent<InputManager>().StopInputs(3);
         PlayerInfo.localPlayer.GetComponent<MovementManager>().ResetSpeed();
         
+        //On reset tous les enregistrement des derniers inputs
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+            player.GetComponent<PlayerInfo>().lastMovementInput = Vector3.zero;
+        
         //On attend 3 secondes puis on relance la game
         StartCoroutine(Kickoff_Coroutine());
     }

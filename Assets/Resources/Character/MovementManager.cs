@@ -43,7 +43,7 @@ public class MovementManager : MonoBehaviour
         //Fait bouger le joueur
         cc.Move(velocity * Time.deltaTime);
 
-        infos.velocity = velocity;
+        infos.velocity = cc.velocity;
         infos.isGrounded = cc.isGrounded;
         
         if (cc.isGrounded) //Quand le joueur est au sol
