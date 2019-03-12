@@ -19,6 +19,7 @@ public class PreGameManager : MonoBehaviour
     private void Awake()
     {
         script = this;
+        timeLeftToStart = 20;
     }
 
     void Start()

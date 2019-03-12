@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
+using System.Linq;
 using UnityEditor;
 
 public class OptionsMenu : MonoBehaviour
@@ -57,10 +58,9 @@ public class OptionsMenu : MonoBehaviour
 
         //On rempli le dropdown des resolutions avec toutes les resolutions que l'ecran peut afficher
         resolutionDropdown.options.Clear();
-        resolutions = Screen.resolutions;
-        foreach (Resolution res in Screen.resolutions)
-            if (res.refreshRate == Screen.currentResolution.refreshRate)
-                resolutionDropdown.options.Add(new Dropdown.OptionData(ToString(res)));
+        resolutions = Screen.resolutions.Where(res => res.refreshRate == Screen.currentResolution.refreshRate).ToArray();
+        foreach (Resolution res in resolutions)
+            resolutionDropdown.options.Add(new Dropdown.OptionData(ToString(res)));
 
         //Si le fichier de sauvegarde des settings n'existe pas encore, on le cree
         if (!File.Exists(settingsFilePath))

@@ -110,10 +110,9 @@ public class GameManager : MonoBehaviour
         else
             orangeScore++;  // Ajoute un point aux oranges
         
-        //Met a jour les points en haut de l'ecran et le menu tab
+        //Met a jour les points en haut de l'ecran
         blueScoreDisplayer.text = blueScore.ToString();
         orangeScoreDisplayer.text = orangeScore.ToString();
-        TabMenu.script.UpdateList();
         
         gamePlaying = false;
         Ball.Hide();
