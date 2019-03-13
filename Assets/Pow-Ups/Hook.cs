@@ -5,7 +5,7 @@ public class Hook : MonoBehaviour
 {
         [SerializeField] private GameObject hookObject;
 
-        private bool Player_Has_Hook = true;
+        private bool Player_Has_Hook = true; //false;
 
         private PlayerInfo playerinfo;
 
@@ -26,6 +26,7 @@ public class Hook : MonoBehaviour
                         GameObject hook = Instantiate(hookObject, transform.position + new Vector3(0, 1.5f, 0), Quaternion.identity);
                         Destroy(hook,3);
                         hook.GetComponent<HookBall>().UpdateDirection(gameObject, playerinfo.cameraAnchor.forward);
+                        //Player_Has_Hook = false;
                 }
         }
 }

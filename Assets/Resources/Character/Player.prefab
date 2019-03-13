@@ -529,8 +529,10 @@ MonoBehaviour:
   Smoke_Cooldown: 8
   Temps_distance: 2
   Can_Smoke: 1
-  SmokeBomb: {fileID: 0}
-  SmokeExplosion: {fileID: 0}
+  SmokeBomb: {fileID: 3892075379919057841, guid: 255bf681b8d2a0945b2a84b40df57072,
+    type: 3}
+  SmokeExplosion: {fileID: 6081345925805640053, guid: 03b9bd779f9829c46be88d4ad9fbff64,
+    type: 3}
 --- !u!114 &1920449045363864988
 MonoBehaviour:
   m_ObjectHideFlags: 0
