@@ -78,13 +78,11 @@ public class TabMenu : MonoBehaviour
 
     public void UpdateList()
     {
-        //On detruit tous les fils des vertical layout (on commence a 1 parce qu'en 0 c'est le vertical layout lui meme)
-        Transform[] blueChilds = bluePlayerList.GetComponentsInChildren<Transform>();
-        for (int i = 1; i < blueChilds.Length; i++)
-            Destroy(blueChilds[i].gameObject);
-        Transform[] orangeChilds = orangePlayerList.GetComponentsInChildren<Transform>();
-        for (int i = 1; i < orangeChilds.Length; i++)
-            Destroy(orangeChilds[i].gameObject);
+        //On detruit tous les fils des vertical layout
+        foreach (Transform child in bluePlayerList.transform)
+            Destroy(child.gameObject);
+        foreach (Transform child in orangePlayerList.transform)
+            Destroy(child.gameObject);
         items = new List<Item>();
 
         foreach (Team team in Teams.Each())

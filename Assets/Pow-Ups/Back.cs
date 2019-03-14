@@ -6,7 +6,7 @@ public class Back : MonoBehaviour
 {
     
     public Team team = Team.Blue;
-    private bool Player_Has_Back = true; //false;
+    private bool Player_Has_Back = false;
 
 
     public void Player_Got_Back()
@@ -19,7 +19,7 @@ public class Back : MonoBehaviour
         if (Player_Has_Back)
         {
             Spawns.AtRandomUnused(this.gameObject);
-            //Player_Has_Back = false;
+            Player_Has_Back = false;
         }
     }
 }

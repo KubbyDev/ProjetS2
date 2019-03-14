@@ -9,7 +9,7 @@ public class PreGameManager : MonoBehaviour
     
     [SerializeField] private GameObject pregameMenu; //Le canvas qui contient les affichages de pregame
     
-    public static float timeLeftToStart = 20;  //Temps avant le debut de la game
+    public static float timeLeftToStart = 120;  //Temps avant le debut de la game
     public static int maxPlayers;              //Le nombre max de joueurs dans la partie
 
     private bool gameStarting;        //Passe a true a la fin du temps
@@ -19,7 +19,7 @@ public class PreGameManager : MonoBehaviour
     private void Awake()
     {
         script = this;
-        timeLeftToStart = 20;
+        timeLeftToStart = 120;
     }
 
     void Start()
@@ -33,6 +33,9 @@ public class PreGameManager : MonoBehaviour
         //Si la game a deja demarre tout ca ne sert a rien
         if(gameStarting)
             return;
+        
+        //On ferme la salle si elle est pleine
+        PhotonNetwork.CurrentRoom.IsOpen = PhotonNetwork.CurrentRoom.PlayerCount < maxPlayers;
         
         if (timeLeftToStart > 0)
             timeLeftToStart -= Time.deltaTime;
