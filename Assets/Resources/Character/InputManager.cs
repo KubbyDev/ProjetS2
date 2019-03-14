@@ -15,6 +15,7 @@ public class InputManager : MonoBehaviour
     private PlayerInfo infos;
     private Striker striker;
     private Ninja ninja;
+    private Warden warden;
     private BallManager ball;
     private Back back;
     private Hook hook;
@@ -36,6 +37,7 @@ public class InputManager : MonoBehaviour
         infos = GetComponent<PlayerInfo>();
         striker = GetComponent<Striker>();
         ninja = GetComponent<Ninja>();
+        warden = GetComponent<Warden>(); 
         back = GetComponent<Back>();
         hook = GetComponent<Hook>();
         menus = GameObject.Find("Menus");
@@ -81,7 +83,8 @@ public class InputManager : MonoBehaviour
         }
         if (infos.hero == Hero.Warden || true)
         {
-            
+            if (Input.GetKeyDown(KeyCode.T))
+                warden.Freeze();
         }
         if (infos.hero == Hero.Ninja || true)
         {

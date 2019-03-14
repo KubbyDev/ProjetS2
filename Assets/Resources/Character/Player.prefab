@@ -462,8 +462,8 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 3606593971257085751}
-  viewIdField: 2
-  InstantiationId: 2
+  viewIdField: 1
+  InstantiationId: 1
   isRuntimeInstantiated: 0
 --- !u!114 &3606593971257085751
 MonoBehaviour:
@@ -509,6 +509,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Freeze1_Duration: 1
+  FreezeBall: {fileID: 1649765847160556575, guid: 506cae3fe5dfbf94d8780c9904b4a909,
+    type: 3}
 --- !u!114 &95
 MonoBehaviour:
   m_ObjectHideFlags: 0

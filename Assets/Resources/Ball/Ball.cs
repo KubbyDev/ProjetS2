@@ -15,6 +15,8 @@ public class Ball : MonoBehaviour
 
     private static PhotonView pv;       //Le script qui gere la balle sur le reseau
 
+    private float freezeTime = 0f;
+
     void Awake()
     {
         ball = this.gameObject;
@@ -32,6 +34,15 @@ public class Ball : MonoBehaviour
     {
         if (possessor != null)
             Attract();
+        
+        if (freezeTime > 0)
+            freezeTime -= Time.deltaTime; //duree du freeze - 1 par sec
+
+        if (freezeTime <= 0)
+        {
+            canBeCaught = true;
+            rigidBody.useGravity = true; //reset la gravite de la ball
+        }
     }
 
     public static void UpdatePossessor(GameObject newPossessor)
@@ -115,11 +126,11 @@ public class Ball : MonoBehaviour
     
     public void FreezeBall()
     {
-        canBeCaught = false;
+        canBeCaught = false; //ne peut etre attrape
+        freezeTime = 6f; //duree du freeze
+        rigidBody.useGravity = false; 
+        ResetSpeed(); //freeze la ball
     }
 
-    public void DeFreezeBall()
-    {
-        canBeCaught = true;
-    }
+    
 }

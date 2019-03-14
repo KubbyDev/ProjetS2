@@ -9,21 +9,15 @@ public class Warden : MonoBehaviour
     //SerializeField] private float Freeze2_Duration = 4f;  //Duree du freeze partiel (pas de mouvement mais recuperation possible)
     //[SerializeField] private float Freeze_Cooldown = 20f;  //Duree du cooldown
 
-    private bool Freeze_Off_Cooldown = true;   //Vrai si le cooldown du freeze est termine
+    private bool Freeze_Cooldown = true;   //Vrai si le cooldown du freeze est termine
+    [SerializeField] private GameObject FreezeBall;
+    
 
-    public void Freeze_Spell()
+    public void Freeze()
     {
-        StartCoroutine(Freeze_Coroutine());
+        Instantiate(FreezeBall, transform.position + transform.forward, GetComponent<PlayerInfo>().cameraAnchor.rotation); //cree et prend la position de la ball en fonction de la camera
+        
     }
 
-    IEnumerator Freeze_Coroutine()
-    {
-        if(Freeze_Off_Cooldown)
-        {
-            Ball.script.FreezeBall();
-            yield return new WaitForSeconds(Freeze1_Duration);
-            Ball.script.DeFreezeBall();
-            // Freeze Part 2 Diable Gravity unless ball caught or time up
-        }
-    }
+    
 }
