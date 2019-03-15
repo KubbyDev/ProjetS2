@@ -56,6 +56,12 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinLobby();
     }
 
+    void Update()
+    {
+        //On active le texte no available rooms si aucune salle n'est affichee
+        noRoomsText.SetActive(roomList.childCount == 0);
+    }
+
     // Events des boutons ----------------------------------------------------------------------
 
     public void OnJoinRandomRoomClicked()
@@ -77,6 +83,7 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
     public void On2v2ToggleClicked(bool value)
     {
         selectedGamemodes[1] = value;
+        RefreshRoomsList();
     }
     
     public void On3v3ToggleClicked(bool value)
@@ -142,9 +149,6 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
         if (CorrespondsToFilters(room))
             //On l'ajoute a la liste
             AddToList(room);
-        
-        //On active le texte no available rooms si aucune salle n'est affichee
-        noRoomsText.SetActive(roomList.childCount == 0);
     }
 
     private void RemoveRoomFromList(RoomInfo room)
@@ -156,9 +160,6 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
         foreach (Transform child in roomList.transform)
             if(child.GetChild(0).GetComponent<Text>().text == room.Name)
                 Destroy(child.gameObject);
-        
-        //On active le texte no available rooms si aucune salle n'est affichee
-        noRoomsText.SetActive(roomList.childCount == 0);
     }
 
     private void UpdateRoomInfoInList(RoomInfo room)
@@ -167,6 +168,7 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
         foreach (Transform child in roomList.transform)
             if (child.GetChild(0).GetComponent<Text>().text == room.Name)
             {
+                //Nombre de joueurs dans la partie et nombre max de joueurs
                 child.GetChild(2).GetComponent<Text>().text = room.PlayerCount + "/" + room.MaxPlayers;
             }
     }
@@ -174,7 +176,7 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
     private bool CorrespondsToFilters(RoomInfo room)
     {
         return room.IsOpen //Si la salle est ouverte
-            && room.Name.Contains(roomNameInput.text) //Que son nom contient le nom cherche
+            && room.Name.ToLower().Contains(roomNameInput.text.ToLower()) //Que son nom contient le nom cherche
             && selectedGamemodes[(int) room.CustomProperties["p"] - 1]; //Et que son gamemode est autorise dans les filtres
     }
 
@@ -188,9 +190,6 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
         foreach (RoomInfo room in availableRooms)
             if (CorrespondsToFilters(room))
                 AddToList(room);
-
-        //On active le texte no available rooms si aucune salle n'est affichee
-        noRoomsText.SetActive(roomList.childCount == 0);
     }
 
     private void AddToList(RoomInfo room)
