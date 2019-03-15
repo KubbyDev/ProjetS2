@@ -31,7 +31,8 @@ public class Room : MonoBehaviourPunCallbacks
     {
         base.OnPlayerLeftRoom(player);
         
-        if (!PhotonNetwork.IsMasterClient)
+        //A moins que ce soit le host et que la game ait deja demarre, on ne fait rien
+        if (! (PhotonNetwork.IsMasterClient && PreGameManager.script.gameStarting))
             return;
         
         PlayerInfo oldPlayerInfo = ((GameObject) player.TagObject).GetComponent<PlayerInfo>();

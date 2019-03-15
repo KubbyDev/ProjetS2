@@ -437,7 +437,7 @@ MonoBehaviour:
   hero: 0
   isPlayer: 1
   ping: 0
-  rotation: {x: 0, y: 0, z: 0, w: 0}
+  nickname: 
   cameraAnchor: {fileID: 0}
   velocity: {x: 0, y: 0, z: 0}
   isGrounded: 0

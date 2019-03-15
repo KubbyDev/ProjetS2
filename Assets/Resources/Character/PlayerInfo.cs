@@ -12,10 +12,10 @@ public class PlayerInfo : MonoBehaviour
     public Hero hero = Hero.Stricker;      //La classe jouee par ce joueur
     public bool isPlayer;                  //False: C'est une IA
     public int ping;                       //Le ping de ce joueur
+    public string nickname;                //Le pseudo du joueur
     
     //Ces variables sont simplement copiees ici
     //Les modifier n'aura aucun effet
-    public Quaternion rotation;            //L'orientation de la camera
     public Transform cameraAnchor;         //L'ancre de la camera
     public Vector3 velocity;               //La vitesse du joueur
     public bool isGrounded;                //Si le joueur est au sol
@@ -29,6 +29,7 @@ public class PlayerInfo : MonoBehaviour
     {
         hero = Settings.defaultHero;
         pv = GetComponent<PhotonView>();
+        cameraAnchor = transform.Find("CameraAnchor");
     }
 
     void Update()

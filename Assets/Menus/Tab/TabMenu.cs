@@ -10,13 +10,11 @@ public class TabMenu : MonoBehaviour
     {
         public PlayerInfo infos;
         public Text ping;
-        public Text name;
         public Text goals;
 
         public void UpdateValues()
         {
             ping.text = infos.ping.ToString();
-            name.text = infos.gameObject.name;
             goals.text = infos.goalsScored.ToString();
         }
     }
@@ -98,17 +96,18 @@ public class TabMenu : MonoBehaviour
 
                 //On met l'item de la couleur de la team
                 Color color = team == Team.Blue ? new Color(0.0f, 0.6f, 1.0f) : new Color(0.95f, 0.6f, 0.1f);
+                PlayerInfo infos = player.GetComponent<PlayerInfo>();
                 
                 //On differencie le joueur local
                 if (player == PlayerInfo.localPlayer)
                     color = new Color(color[0] + (1 - color[0])*0.5f, color[1] + (1 - color[1])*0.5f, color[2] + (1 - color[2])*0.5f);
 
                 element.color = color;
+                element.transform.Find("Name").gameObject.GetComponent<Text>().text = infos.nickname;
                 
-                items.Add(new Item()
+                items.Add(new Item
                 {
-                    infos = player.GetComponent<PlayerInfo>(),
-                    name = element.transform.Find("Name").gameObject.GetComponent<Text>(),
+                    infos = infos,
                     ping = element.transform.Find("Ping").gameObject.GetComponent<Text>(),
                     goals = element.transform.Find("Goals").gameObject.GetComponent<Text>()
                 });

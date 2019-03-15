@@ -43,8 +43,9 @@ public class ErrorMessage : MonoBehaviour
     //Modifie la transparence de l'image et du texte du message d'erreur
     private void modifyAlpha(float newAlpha)
     {
-        errorMessage.color = new Color(errorMessage.color.r, errorMessage.color.g, errorMessage.color.b, newAlpha);
-        Color imageColor = GetComponent<Image>().color;
-        GetComponent<Image>().color = new Color(imageColor.r, imageColor.g, imageColor.b, newAlpha);
+        Color color = errorMessage.color;
+        errorMessage.color = new Color(color.r, color.g, color.b, newAlpha);
+        color = GetComponent<Image>().color;
+        GetComponent<Image>().color = new Color(color.r, color.g, color.b, newAlpha);
     }
 }

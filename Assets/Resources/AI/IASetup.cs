@@ -10,5 +10,7 @@ public class IASetup : MonoBehaviour
         //Si les calculs different, ceux du host sont prioritaires
         if(PhotonNetwork.IsMasterClient)
             GetComponent<PhotonView>().RequestOwnership();
+
+        GetComponent<PlayerInfo>().nickname = RandomName.GenerateAI();
     }
 }

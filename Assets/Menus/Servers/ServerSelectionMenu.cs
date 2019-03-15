@@ -32,6 +32,10 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
         for (int i = 0; i < 5; i++)
             selectedGamemodes[i] = true;
         availableRooms = new List<RoomInfo>();
+        
+        //On supprime toutes les salles
+        foreach (Transform child in roomList.transform)
+            Destroy(child.gameObject);
     }
 
     //Quand la connection est etablie
@@ -89,6 +93,11 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
     public void OnNameFilterChanged()
     {
         RefreshRoomsList();
+    }
+
+    public void OnNickNameChanged(string value)
+    {
+        PhotonNetwork.LocalPlayer.NickName = value == "" ? RandomName.Generate() : value;
     }
     
     public void OnCreateRoomClicked()

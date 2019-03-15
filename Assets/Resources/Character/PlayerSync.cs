@@ -38,7 +38,7 @@ public class PlayerSync : MonoBehaviour, IPunObservable
         if (stream.IsWriting) //Donnees envoyees
         {
             stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
+            stream.SendNext(infos.cameraAnchor.rotation);
             stream.SendNext(infos.velocity);
             stream.SendNext(infos.lastMovementInput);
         }
@@ -48,6 +48,9 @@ public class PlayerSync : MonoBehaviour, IPunObservable
             targetRotation = (Quaternion) stream.ReceiveNext();
             move.velocity  = (Vector3)    stream.ReceiveNext();
             movementInput  = (Vector3)    stream.ReceiveNext();
+
+            infos.cameraAnchor.rotation = targetRotation;
+            targetRotation = Quaternion.Euler(0, targetRotation.eulerAngles.y, 0);
         }
     }
 

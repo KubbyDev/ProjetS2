@@ -22,5 +22,8 @@ public class PlayerSetup : MonoBehaviour, IPunInstantiateMagicCallback {
     {
         //Permet d'acceder au GameObject du joueur depuis un PhotonPlayer
         info.Sender.TagObject = this.gameObject;
+        
+        //On recupere le pseudo du joueur
+        GetComponent<PlayerInfo>().nickname = info.Sender.NickName;
     }
 }

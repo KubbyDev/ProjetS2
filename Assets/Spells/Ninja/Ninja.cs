@@ -74,7 +74,7 @@ public class Ninja : MonoBehaviour
     {
         if (Can_Smoke)
         {
-            GameObject bomb = Instantiate(SmokeBomb, transform.position + new Vector3(0, 1.5f, 0) + transform.forward, Info.rotation); //Cree SmokeBomb
+            GameObject bomb = Instantiate(SmokeBomb, transform.position + new Vector3(0, 1.5f, 0) + transform.forward, Info.cameraAnchor.rotation); //Cree SmokeBomb
             bomb.GetComponent<Rigidbody>().AddForce(bomb.transform.forward * 1000); //Applique une force
             Can_Smoke = false;
             yield return new WaitForSeconds(Temps_distance); //la duree avant l'explosion de la bombe

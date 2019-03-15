@@ -12,9 +12,11 @@ public class CameraManager : MonoBehaviour {
     private Transform camAnchor;        //Le pivot de la camera
     private MeshRenderer meshRenderer;  //Desactiver ca pour rendre le joueur invisible
     private PlayerInfo infos;           //Le script qui contient les infos sur le joueur
+    private Transform cam;               //La position de la camera
 
     void Start()
     {
+        cam = Camera.main.transform;
         camAnchor = transform.Find("CameraAnchor");
         meshRenderer = GetComponent<MeshRenderer>();
         infos = GetComponent<PlayerInfo>();
@@ -28,7 +30,6 @@ public class CameraManager : MonoBehaviour {
             ThirdPerson();
 
         infos.cameraAnchor = camAnchor;
-        infos.rotation = camAnchor.rotation;
     }
 
     public void changeCamera()
@@ -37,16 +38,13 @@ public class CameraManager : MonoBehaviour {
         isFps = !isFps;
 
         //On affiche l'avatar du joueur en tps, pas en fps
-        if (isFps)
-            meshRenderer.enabled = false;
-        else
-            meshRenderer.enabled = true;
+        meshRenderer.enabled = !isFps;
     }
 
     private void ThirdPerson()
     {
         //On tourne le pivot de la camera dans la bonne orientation
-        Camera.main.transform.rotation = camAnchor.transform.rotation;
+        cam.rotation = camAnchor.transform.rotation;
 
         Vector3 newPosition;
         //On trace un raycast en arriere
@@ -59,20 +57,17 @@ public class CameraManager : MonoBehaviour {
             newPosition = camAnchor.transform.position - camDistance * camAnchor.transform.forward;
 
         //On deplace la camera sur sa nouvelle position en appliquant un petit smooth
-        Camera.main.transform.position = newPosition * camRigidity + Camera.main.transform.position * (1 - camRigidity);
+        cam.position = newPosition * camRigidity + cam.position * (1 - camRigidity);
 
         //On affiche l'avatar du joueur seulement si la camera n'est pas dedans
-        if ((newPosition - camAnchor.position).sqrMagnitude < 0.5f*0.5f)
-            meshRenderer.enabled = false;
-        else
-            meshRenderer.enabled = true;
+        meshRenderer.enabled = (newPosition - camAnchor.position).sqrMagnitude > 0.5f*0.5f;
     }
 
     private void FirstPerson()
     {
         //On tourne la camera dans la bonne orientation et on la place au bon endroit
-        Camera.main.transform.eulerAngles = new Vector3(camAnchor.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0);
-        Camera.main.transform.position = camAnchor.transform.position;
+        cam.eulerAngles = new Vector3(camAnchor.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0);
+        cam.position = camAnchor.transform.position;
     }
 
     //Appellee par InputManager
