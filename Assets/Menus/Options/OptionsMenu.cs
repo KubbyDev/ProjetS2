@@ -7,23 +7,6 @@ using UnityEditor;
 
 public class OptionsMenu : MonoBehaviour
 {
-    //Cette classe sert a enregistrer les settings dans un fichier
-    //pour y acceder au prochain lancement du jeu
-    public class GameSettings
-    {
-        //Graphismes
-        public bool fullscreen = true;
-        public int aaLevel = 3;
-        public int resolutionIndex = 0;
-        public int shadowsQuality = 3;
-        public float volume = 0.5f;
-
-        //Controles                   0:Avancer  1:Reculer  2:Gauche   3:Droite   4:Sauter       5:Attraper ball 6:Jeter ball
-        public KeyCode[] controls = { KeyCode.Z, KeyCode.S, KeyCode.Q, KeyCode.D, KeyCode.Space, KeyCode.Mouse0, KeyCode.Mouse1 };
-        public float[] sensitivity = {1f,1f};
-        public bool invertY = false;
-    }
-
     [SerializeField] private Text[] controlsButtonsTexts;   //References aux textes des boutons des controls (les index sont les memes que pour les cles dans GameSettings)
     [SerializeField] private GameObject graphicsMenu;       //Reference a l'onglet Graphics
     [SerializeField] private GameObject controlsMenu;       //Reference a l'onglet Controls
@@ -40,9 +23,7 @@ public class OptionsMenu : MonoBehaviour
     [SerializeField] private Toggle fullscreenToggle;       //Reference au toggle du fullscreen
     [SerializeField] private Slider volumeSlider;           //Reference au slider du volume
 
-    private GameSettings settings;        //Liste des settings
     private Resolution[] resolutions;     //Liste des resolutions que l'ecran peut afficher
-    private string settingsFilePath;      //Chemin d'acces du fichier dans lequel les settings sont enregistres
     private int currentKey = -1;          //L'index de la touche que l'utilisateur est en train d'assigner
 
     //  Initialisation  --------------------------------------------------------------------------------------------------------
@@ -54,23 +35,13 @@ public class OptionsMenu : MonoBehaviour
 
     public void RefreshSettings()
     {
-        settingsFilePath = Application.persistentDataPath + "/settings.json";
-
         //On rempli le dropdown des resolutions avec toutes les resolutions que l'ecran peut afficher
         resolutionDropdown.options.Clear();
         resolutions = Screen.resolutions.Where(res => res.refreshRate == Screen.currentResolution.refreshRate).ToArray();
         foreach (Resolution res in resolutions)
             resolutionDropdown.options.Add(new Dropdown.OptionData(ToString(res)));
 
-        //Si le fichier de sauvegarde des settings n'existe pas encore, on le cree
-        if (!File.Exists(settingsFilePath))
-        {
-            settings = new GameSettings();
-            SaveSettings();
-        }
-
-        //Les settings sont lues dans le fichier et sont charges
-        LoadSettings();
+        ApplySettings();
     }
 
     private static string ToString(Resolution res)
@@ -103,31 +74,31 @@ public class OptionsMenu : MonoBehaviour
     //Toggle du fullscreen
     public void OnFullscreenToggle(bool value)
     {
-        settings.fullscreen = value;
+        Settings.settings.fullscreen = value;
     }
 
     //Dropdown de la resolution
     public void OnResolutionChange(int index)
     {
-        settings.resolutionIndex = index;
+        Settings.settings.resolutionIndex = index;
     }
 
     //Dropdown des ombres
     public void OnShadowsChange(int index)
     {
-        settings.shadowsQuality = index;
+        Settings.settings.shadowsQuality = index;
     }
 
     //Dropdown de l'AA
     public void OnAntialiasingChange(int index)
     {
-        settings.aaLevel = index;
+        Settings.settings.aaLevel = index;
     }
 
     //Slider du volume
     public void OnVolumeChange(float volume)
     {
-        settings.volume = volume;
+        Settings.settings.volume = volume;
     }
 
     //  Actions des boutons, Menu Controls  ------------------------------------------------------------------------------------
@@ -150,7 +121,7 @@ public class OptionsMenu : MonoBehaviour
             {
                 //On change la touche dans les settings et l'affichage
                 KeyCode key = e.isMouse ? e.button + KeyCode.Mouse0 : e.keyCode;
-                settings.controls[currentKey] = key;
+                Settings.settings.controls[currentKey] = key;
                 controlsButtonsTexts[currentKey].text = key.ToString();
 
                 currentKey = -1;
@@ -170,7 +141,7 @@ public class OptionsMenu : MonoBehaviour
         if(Single.TryParse(value, out res))
             OnChangeSensitivityX(res);
         else
-            OnChangeSensitivityX(settings.sensitivity[0]);
+            OnChangeSensitivityX(Settings.settings.sensitivity[0]);
     }
     
     //Changement de sensibilite avec le texte
@@ -180,13 +151,13 @@ public class OptionsMenu : MonoBehaviour
         if(Single.TryParse(value, out res))
             OnChangeSensitivityY(res);
         else
-            OnChangeSensitivityY(settings.sensitivity[0]);
+            OnChangeSensitivityY(Settings.settings.sensitivity[0]);
     }
     
     //Changement de sensibilite avec le slider
     public void OnChangeSensitivityX(float value)
     {
-        settings.sensitivity[0] = value;             //Enregistrement
+        Settings.settings.sensitivity[0] = value;             //Enregistrement
         sensitivity[0].value = value;                //Slider
         sensitivityTexts[0].text = value.ToString(); //Texte
     }
@@ -194,14 +165,14 @@ public class OptionsMenu : MonoBehaviour
     //Changement de sensibilite avec le slider
     public void OnChangeSensitivityY(float value)
     {
-        settings.sensitivity[1] = value;             //Enregistrement
+        Settings.settings.sensitivity[1] = value;             //Enregistrement
         sensitivity[1].value = value;                //Slider
         sensitivityTexts[1].text = value.ToString(); //Texte
     }
 
     public void OnToggleInvert(bool value)
     {
-        settings.invertY = value;
+        Settings.settings.invertY = value;
     }
     
     //  Enregistrement, chargement et lecture des settings  --------------------------------------------------------------------
@@ -213,21 +184,7 @@ public class OptionsMenu : MonoBehaviour
         ApplySettings();
 
         //Enregistre les settings dans le fichier
-        SaveSettings();
-    }
-
-    //Enregistre les settings dans le fichier de sauvegarde
-    private void SaveSettings()
-    {
-        string jsonData = JsonUtility.ToJson(settings, true);
-        File.WriteAllText(settingsFilePath, jsonData);
-    }
-
-    //Va chercher les settings dans le fichier de sauvegarde
-    private void LoadSettings()
-    {
-        settings = JsonUtility.FromJson<GameSettings>(File.ReadAllText(settingsFilePath));
-        ApplySettings();
+        Settings.Save();
     }
 
     //Applique les settings sur le jeu
@@ -236,30 +193,25 @@ public class OptionsMenu : MonoBehaviour
         //Graphics
 
         //Mise a jour des options dans Unity
-        QualitySettings.antiAliasing = (int) Mathf.Pow(2, settings.aaLevel);
+        QualitySettings.antiAliasing = (int) Mathf.Pow(2, Settings.settings.aaLevel);
         //audioSource.volume = settings.volume; TODO
-        QualitySettings.shadows = (ShadowQuality) settings.shadowsQuality;
-        Screen.SetResolution(resolutions[settings.resolutionIndex].width, resolutions[settings.resolutionIndex].height, settings.fullscreen);
+        QualitySettings.shadows = (ShadowQuality) Settings.settings.shadowsQuality;
+        Screen.SetResolution(resolutions[Settings.settings.resolutionIndex].width, resolutions[Settings.settings.resolutionIndex].height, Settings.settings.fullscreen);
         
         //Mise a jour de l'affichage
-        aaDropdown.value = settings.aaLevel;
-        resolutionDropdown.value = settings.resolutionIndex;
-        shadowsDropdown.value = settings.shadowsQuality;
-        fullscreenToggle.isOn = settings.fullscreen;
-        volumeSlider.value = settings.volume;
+        aaDropdown.value = Settings.settings.aaLevel;
+        resolutionDropdown.value = Settings.settings.resolutionIndex;
+        shadowsDropdown.value = Settings.settings.shadowsQuality;
+        fullscreenToggle.isOn = Settings.settings.fullscreen;
+        volumeSlider.value = Settings.settings.volume;
 
-        //Controls
-        
-        //Mise a jour des options dans Unity
-        Settings.controls = settings.controls;
-        Settings.invertY = settings.invertY;
-        Settings.sensitivity = settings.sensitivity;
+        //Controles
         
         //Mise a jour de l'affichage
         for (int i = 0; i < controlsButtonsTexts.Length; i++)
-            controlsButtonsTexts[i].text = settings.controls[i].ToString();
-        OnChangeSensitivityX(settings.sensitivity[0]);
-        OnChangeSensitivityY(settings.sensitivity[1]);
-        invert.isOn = settings.invertY;
+            controlsButtonsTexts[i].text = Settings.settings.controls[i].ToString();
+        OnChangeSensitivityX(Settings.settings.sensitivity[0]);
+        OnChangeSensitivityY(Settings.settings.sensitivity[1]);
+        invert.isOn = Settings.settings.invertY;
     }
 }

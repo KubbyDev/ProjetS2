@@ -27,7 +27,7 @@ public class PlayerInfo : MonoBehaviour
 
     void Awake()
     {
-        hero = Settings.defaultHero;
+        hero = Settings.settings.defaultHero;
         pv = GetComponent<PhotonView>();
         cameraAnchor = transform.Find("CameraAnchor");
     }

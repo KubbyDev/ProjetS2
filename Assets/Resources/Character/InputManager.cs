@@ -162,10 +162,10 @@ public class InputManager : MonoBehaviour
     //Va chercher les inputs dans le GameObject qui les contient
     private void ReloadInputs()
     {
-        inputs = Settings.controls;
-        sensivityX = Settings.sensitivity[0];
-        sensivityY = Settings.sensitivity[1];
-        invertY = Settings.invertY;
+        inputs = Settings.settings.controls;
+        sensivityX = Settings.settings.sensitivity[0];
+        sensivityY = Settings.settings.sensitivity[1];
+        invertY = Settings.settings.invertY;
     }
     
     public void TogglePauseMenu()

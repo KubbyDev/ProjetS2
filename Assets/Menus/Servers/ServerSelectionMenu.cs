@@ -21,6 +21,9 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
     [SerializeField] private Transform roomList;          //Le cadre dans lequel les rooms s'affichent
     [SerializeField] private GameObject noRoomsText;      //Le texte qui dit no rooms available
     
+    //Nickname
+    [SerializeField] private InputField nicknameInput;    //Le texte tappe dans le champ nick name
+    
     private ErrorMessage errorMessage;                    //Le script qui gere l'affichage des messages d'erreur
     private bool[] selectedGamemodes;                     //Les gamemodes selectionnes dans les filtres             
     private List<RoomInfo> availableRooms;                //La liste des salles existantes
@@ -36,6 +39,10 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
         //On supprime toutes les salles
         foreach (Transform child in roomList.transform)
             Destroy(child.gameObject);
+
+        //On charge le nickname enregistre
+        nicknameInput.text = Settings.settings.nickname;
+        PhotonNetwork.LocalPlayer.NickName = Settings.settings.nickname;
     }
 
     //Quand la connection est etablie
@@ -98,6 +105,8 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
     public void OnNickNameChanged(string value)
     {
         PhotonNetwork.LocalPlayer.NickName = value == "" ? RandomName.Generate() : value;
+        Settings.settings.nickname = PhotonNetwork.LocalPlayer.NickName;
+        Settings.Save();
     }
     
     public void OnCreateRoomClicked()
@@ -109,20 +118,64 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
         CreateRoom(roomName, teamsSizeDropdown.value +1, int.MaxValue, 5*60);
     }
 
-    // Connection aux salles ------------------------------------------------------------------
+    // Liste des salles ------------------------------------------------------------------------
 
     public override void OnRoomListUpdate(List<RoomInfo> newRoomList)
     {
-        //TODO utiliser ca pour optimiser le refresh      
         foreach (RoomInfo room in newRoomList)
-            if (room.MaxPlayers > 0)
-                //Si c'est une room qui vient d'etre creee
-                availableRooms.Add(room);
+            if (room.MaxPlayers > 0 && room.MaxPlayers != room.PlayerCount)
+                if (! availableRooms.Exists(r => r.Name == room.Name))
+                    //Si la room n'existe pas encore, on la cree
+                    AddRoomToList(room);
+                else
+                    //Sinon c'est une mise a jour, on met donc a jour ses informations      
+                    UpdateRoomInfoInList(room);
             else
-                //Si c'est une room qui vient d'etre detruite
-                availableRooms.RemoveAll(r => r.Name == room.Name);
+                //Si c'est une room qui vient d'etre detruite ou remplie
+                RemoveRoomFromList(room);          
+    }
+
+    private void AddRoomToList(RoomInfo room)
+    {
+        availableRooms.Add(room);
         
-        RefreshRoomsList();
+        if (CorrespondsToFilters(room))
+            //On l'ajoute a la liste
+            AddToList(room);
+        
+        //On active le texte no available rooms si aucune salle n'est affichee
+        noRoomsText.SetActive(roomList.childCount == 0);
+    }
+
+    private void RemoveRoomFromList(RoomInfo room)
+    {
+        //On supprime la salle de la liste
+        availableRooms.RemoveAll(r => r.Name == room.Name);    
+        
+        //On supprime la salle de l'affichage
+        foreach (Transform child in roomList.transform)
+            if(child.GetChild(0).GetComponent<Text>().text == room.Name)
+                Destroy(child.gameObject);
+        
+        //On active le texte no available rooms si aucune salle n'est affichee
+        noRoomsText.SetActive(roomList.childCount == 0);
+    }
+
+    private void UpdateRoomInfoInList(RoomInfo room)
+    {
+        //On cherche la salle dans celles qui sont affichees et on met a jour ses informations
+        foreach (Transform child in roomList.transform)
+            if (child.GetChild(0).GetComponent<Text>().text == room.Name)
+            {
+                child.GetChild(2).GetComponent<Text>().text = room.PlayerCount + "/" + room.MaxPlayers;
+            }
+    }
+
+    private bool CorrespondsToFilters(RoomInfo room)
+    {
+        return room.IsOpen //Si la salle est ouverte
+            && room.Name.Contains(roomNameInput.text) //Que son nom contient le nom cherche
+            && selectedGamemodes[(int) room.CustomProperties["p"] - 1]; //Et que son gamemode est autorise dans les filtres
     }
 
     public void RefreshRoomsList()
@@ -133,14 +186,10 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
         
         //On ajoute toutes les salles correspondant aux filtres
         foreach (RoomInfo room in availableRooms)
-            if (room.IsOpen //Si la salle est ouverte
-                && room.Name.Contains(roomNameInput.text) //Que son nom contient le nom cherche
-                && selectedGamemodes[(int) room.CustomProperties["p"] - 1]
-                ) //Et que son gamemode est autorise dans les filtres
-                //On l'ajoute a la liste
+            if (CorrespondsToFilters(room))
                 AddToList(room);
 
-        //On active le texte no available rooms si aucune salle n'est trouvee
+        //On active le texte no available rooms si aucune salle n'est affichee
         noRoomsText.SetActive(roomList.childCount == 0);
     }
 
@@ -153,6 +202,8 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
         item.GetChild(1).GetComponent<Text>().text = playerPerTeam + "v" + playerPerTeam;
         item.GetChild(2).GetComponent<Text>().text = room.PlayerCount + "/" + room.MaxPlayers;
     }
+    
+    // Connection aux salles -------------------------------------------------------------------
     
     public override void OnJoinRoomFailed(short returnCode, string message)
     {

@@ -12,12 +12,14 @@ public class MainMenu : MonoBehaviourPunCallbacks
 
     // Connection au serveur -------------------------------------------------------------------
 
-    void Start()
+    void Awake()
     {
         //Demande de connection
         if(!PhotonNetwork.IsConnected)
             PhotonNetwork.ConnectUsingSettings();
 
+        Settings.Load();
+        
         serversMenuScript = GameObject.Find("Scripts").GetComponent<ServerSelectionMenu>();
         optionsMenu.transform.Find("Options").GetComponent<OptionsMenu>().RefreshSettings();
     }
