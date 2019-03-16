@@ -1,8 +1,15 @@
-﻿using Photon.Pun;
+﻿using System;
+using Photon.Pun;
 using UnityEngine;
 
 public class BallSync : MonoBehaviour, IPunObservable
 {
+    void Update()
+    {
+        if (!PhotonNetwork.IsMasterClient)
+            ; //Interpolate
+    }
+    
     void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting) //Donnees envoyees
@@ -22,7 +29,7 @@ public class BallSync : MonoBehaviour, IPunObservable
                 Vector3 velocity    = (Vector3)    stream.ReceiveNext();
                 Vector3 angularV    = (Vector3)    stream.ReceiveNext();
 
-                PredictBallPositionAndRotation(position, rotation, velocity, angularV, (float) info.timestamp);
+                PredictBallPositionAndRotation(position, rotation, velocity, angularV, Mathf.Abs((float) (PhotonNetwork.Time - info.timestamp)));
             }
             //Si un joueur a la balle on calcule sa position en local sans prendre en compte le serveur
             //Ses physiques sont resynchronisees quand elle est lancee
@@ -31,31 +38,39 @@ public class BallSync : MonoBehaviour, IPunObservable
     
     //Cette methode va utiliser les donnees accessible et le temps de trajet du message
     //pour predire la position et la rotation de la balle sur le serveur au moment ou le message est recu
-    void PredictBallPositionAndRotation(Vector3 position, Quaternion rotation, Vector3 velocity, Vector3 angularV, float timestamp)
+    void PredictBallPositionAndRotation(Vector3 position, Quaternion rotation, Vector3 velocity, Vector3 angularV, float latency)
     {
         //Position
-        
+
         //On trace un raycast pour savoir si on va toucher un mur
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, velocity, out hit, timestamp * velocity.magnitude))
+        if (Physics.Raycast(position, velocity, out hit, latency * velocity.magnitude))
         {
             //Si on touche un mur on laisse les calculs se faire en local
             //et on recupere la reponse du serveur a l'update suivante
-            ;
+            
         }
         else
         {
             //Si on ne touche pas de mur, on place la balle en avant en fonction de sa vitesse et du temps ecoule
-            transform.position = position + velocity * timestamp;
+            Ball.rigidBody.velocity = velocity;
+            transform.position = position + velocity * latency;
+            
+            //On prend en compte la gravite si la vitesse verticale est au moins de 0.1 m.s
+            //Evite que la balle passe sous le sol
+            if (velocity.y > 0.1f)
+            {
+                Ball.rigidBody.velocity += Physics.gravity * latency;
+                transform.position += 0.5f * Physics.gravity * latency * latency;
+            }
         }
-
+        
         //Rotation
         
-        transform.rotation = rotation * Quaternion.Euler(angularV * timestamp);
+        transform.rotation = rotation * Quaternion.Euler(angularV * latency);
 
         //Vitesse
         
-        Ball.rigidBody.velocity = velocity;
         Ball.rigidBody.angularVelocity = angularV;
     }
 }
