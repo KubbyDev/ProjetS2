@@ -1,6 +1,7 @@
-﻿using Photon.Realtime;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+
+//Ce script gere le menu de selection des classes 
 
 public class ClassMenu : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class ClassMenu : MonoBehaviour
     
     void Start()
     {
+        //Si le localPlayer est null, il n'a pas encore ete set, donc on est dans le menu principal, pas en jeu
         inMainMenu = PlayerInfo.localPlayer == null;
         
         //Recuperation des references aux scripts
@@ -28,6 +30,9 @@ public class ClassMenu : MonoBehaviour
             inputManager = PlayerInfo.localPlayer.GetComponent<InputManager>();   
         }
 
+        //Recuperation des zones de textes pour chaque classe, et de l'image
+        //Les 3 zones de textes sont fixes, et sont juste masquees
+        //Mais il n'y a qu'une seule image, qui est modifiee quand on change de hero
         strickerInfo = transform.Find("StrickerInfo").gameObject;
         wardenInfo = transform.Find("WardenInfo").gameObject;
         ninjaInfo = transform.Find("NinjaInfo").gameObject;
@@ -36,6 +41,7 @@ public class ClassMenu : MonoBehaviour
         UpdateDisplay(inMainMenu ? Hero.Stricker : infos.hero);
     }
 
+    //Methode appellee quand on clique sur le bouton Stricker
     public void OnStrikerButtonCliked()
     {
         //Si on est en jeu (pas dans le menu principal)
@@ -46,6 +52,7 @@ public class ClassMenu : MonoBehaviour
         }
         else
         {
+            //Settings.settings contient toutes les variables enregistrees
             Settings.settings.defaultHero = Hero.Stricker;
             Settings.Save();
         }
@@ -53,6 +60,7 @@ public class ClassMenu : MonoBehaviour
         UpdateDisplay(Hero.Stricker);
     }
 
+    //Methode appellee quand on clique sur le bouton Warden
     public void OnWardenButtonCliked()
     {
         //Si on est en jeu (pas dans le menu principal)
@@ -63,6 +71,7 @@ public class ClassMenu : MonoBehaviour
         }
         else 
         {
+            //Settings.settings contient toutes les variables enregistrees
             Settings.settings.defaultHero = Hero.Warden;
             Settings.Save();
         }
@@ -70,6 +79,7 @@ public class ClassMenu : MonoBehaviour
         UpdateDisplay(Hero.Warden);
     }
 
+    //Methode appellee quand on clique sur le bouton Ninja
     public void OnNinjaButtonCliked()
     {
         //Si on est en jeu (pas dans le menu principal)
@@ -79,7 +89,8 @@ public class ClassMenu : MonoBehaviour
             infos.UpdateInfos();
         }
         else 
-        {            
+        {         
+            //Settings.settings contient toutes les variables enregistrees
             Settings.settings.defaultHero = Hero.Ninja;
             Settings.Save();
         }
@@ -102,6 +113,7 @@ public class ClassMenu : MonoBehaviour
     
     public void OnResumeClicked()
     {
+        //Desactive le menu (uniquement en jeu, dans le menu principal le bouton back amene sur MainMenu.OnBackClicked())
         inputManager.ToggleClassMenu();
     }
 }

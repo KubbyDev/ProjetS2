@@ -18,6 +18,7 @@ public class MainMenu : MonoBehaviourPunCallbacks
         if(!PhotonNetwork.IsConnected)
             PhotonNetwork.ConnectUsingSettings();
 
+        //Charge les settings sauvegardes sur le disque dur
         Settings.Load();
         
         serversMenuScript = GameObject.Find("Scripts").GetComponent<ServerSelectionMenu>();
@@ -60,7 +61,7 @@ public class MainMenu : MonoBehaviourPunCallbacks
         Application.Quit();
     }
 
-    //Quand on clique sur Back depuis le menu des serveurs ou celui des options
+    //Quand on clique sur Back depuis le menu des serveurs, celui des options ou celui des heros
     public void OnBackClicked()
     {
         mainMenu.SetActive(true);

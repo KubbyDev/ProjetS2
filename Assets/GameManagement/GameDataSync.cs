@@ -44,7 +44,7 @@ public class GameDataSync : MonoBehaviour
         //La seed du LCG des Spawns (Pour que tous les clients aient les memes nombres random)
         Spawns.randomSeed = spawnsSeed;
         
-        //On informe le GameManager que le premier packet est arrive
+        //On informe le GameManager que le premier packet est arrive (Pas utile pour le moment)
         //GameManager.OnFirstPacketRecieved();
     }
     
@@ -77,6 +77,7 @@ public class GameDataSync : MonoBehaviour
         //La seed du LCG des Spawns (Pour que tous les clients aient les memes nombres random)
         Spawns.randomSeed = spawnsSeed;
         
+        //Informe le pregame manager que la partie demarre
         PreGameManager.script.StartGame();
     }
     
@@ -133,6 +134,7 @@ public class GameDataSync : MonoBehaviour
     //Cette methode est appellee sur les clients au moment de la fin de partie
     public void GetEndGameEvent_RPC()
     {
+        //Informe le game manager que la partie est terminee
         GameManager.EndGame();
     }
 }

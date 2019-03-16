@@ -35,6 +35,9 @@ public class Room : MonoBehaviourPunCallbacks
         if (! (PhotonNetwork.IsMasterClient && PreGameManager.script.gameStarting))
             return;
         
+        //Si c'est le host et que la game a deja demarre
+        //on cree une IA pour remplacer le joueur qui vient de quitter
+        
         PlayerInfo oldPlayerInfo = ((GameObject) player.TagObject).GetComponent<PlayerInfo>();
         
         PlayerInfo newIaInfos = PhotonNetwork.Instantiate(Path.Combine("AI", "AI"), oldPlayerInfo.transform.position, oldPlayerInfo.transform.rotation).GetComponent<PlayerInfo>();

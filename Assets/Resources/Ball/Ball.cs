@@ -1,6 +1,8 @@
 ﻿using Photon.Pun;
 using UnityEngine;
 
+//Ce script gere les physiques de la balle (L'attirance vers le joueur qui l'attrape, le tir, le freeze etc)
+
 public class Ball : MonoBehaviour
 {
     public static GameObject ball;      //Reference a la balle, visible partout
@@ -32,6 +34,7 @@ public class Ball : MonoBehaviour
 
     void Update()
     {
+        //Si la balle est possedee par un joueur, on l'attire devant lui
         if (possessor != null)
             Attract();
         
@@ -45,6 +48,7 @@ public class Ball : MonoBehaviour
         }
     }
 
+    //Met a jour le possesseur de la balle chez tous les clients
     public static void UpdatePossessor(GameObject newPossessor)
     {
         //Appelle la fonction UpdatePossessor_RPC chez chaque client
@@ -101,6 +105,7 @@ public class Ball : MonoBehaviour
         rigidBody.AddForce(force);
     }
 
+    //Remet a 0 la vitesse, la rotation et la vitesse angulaire de la balle
     public static void ResetSpeed()
     {
         rigidBody.velocity = Vector3.zero;
@@ -108,6 +113,7 @@ public class Ball : MonoBehaviour
         rigidBody.rotation = Quaternion.identity;
     }
 
+    //Replace la balle a son point de spawn
     public static void Respawn(Vector3 spawnPos)
     {
         ball.transform.position = spawnPos;
@@ -116,6 +122,7 @@ public class Ball : MonoBehaviour
         rigidBody.useGravity = true;
     }
 
+    //Cache la balle (on la place en fait sous le terrain)
     public static void Hide()
     {
         ball.transform.position = new Vector3(0,-1000,0);
@@ -124,6 +131,7 @@ public class Ball : MonoBehaviour
         rigidBody.useGravity = false;
     }
     
+    //Freeze la balle
     public void FreezeBall()
     {
         canBeCaught = false; //ne peut etre attrape
@@ -131,6 +139,4 @@ public class Ball : MonoBehaviour
         rigidBody.useGravity = false; 
         ResetSpeed(); //freeze la ball
     }
-
-    
 }

@@ -28,6 +28,7 @@ public class ErrorMessage : MonoBehaviour
             this.gameObject.SetActive(false);
     }
 
+    //Affiche une erreur
     public void Display(string message)
     { 
         this.gameObject.SetActive(true);

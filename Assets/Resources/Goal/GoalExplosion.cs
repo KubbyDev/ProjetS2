@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using DigitalRuby.LightningBolt;
+﻿using DigitalRuby.LightningBolt;
 using UnityEngine;
+
+//Cette classe sert a faire une jolie explosion de but
 
 public class GoalExplosion : MonoBehaviour
 {
@@ -10,7 +10,8 @@ public class GoalExplosion : MonoBehaviour
     [SerializeField] private ParticleSystem goalExplosion;     //Reference a la particule de but
     [SerializeField] private float goalRadius;
     
-    private Vector3[] positions;
+    //Quand il y a une explosion de but, on fait partir des eclairs de la balle vers des points sur l'anneau
+    private Vector3[] positions;     //Ce tableau correspond a toutes les positions de fin des eclairs
     
     void Start()
     {
@@ -25,6 +26,7 @@ public class GoalExplosion : MonoBehaviour
                    position.z);
     }
 
+    //Genere l'explosion de but sur ce but
     public void MakeGoalExplosion(Vector3 ballPosition)
     {
         for (int i = 0; i < lightningCount; i++)

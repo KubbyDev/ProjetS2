@@ -1,11 +1,11 @@
 ﻿using Photon.Pun;
 using UnityEngine;
 
+//Le but de cette classe et de donner a Brain.cs l'acces a tout un tas de fonctionnalites
+//de haut niveau (aller a un endroit, se demarquer, tirer, faire une passe, aller aux cages etc...)
+
 public class Skills : MonoBehaviour
 {
-    //Le but de cette classe et de donner a Brain.cs l'acces a tout un tas de fonctionnalites
-    //de haut niveau (aller a un endroit, se demarquer, tirer, faire une passe, aller aux cages etc...)
-
     public float timeToMove;          //Le temps restant avant que l'IA puisse bouger
     
     private Transform cam;            //Une fausse camera qui symbolise la direction du regard de l'IA  

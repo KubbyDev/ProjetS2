@@ -4,13 +4,20 @@ using System.Linq;
 using Photon.Pun;
 using UnityEngine;
 
+//Cette classe permet de faire spawn les joueurs sur le terrain
+
 public class Spawns
 {    
     public static int randomSeed;  //Utilisee pour la generation de pseudo random
+    //Cette classe utilise un generateur LCG qui genere des nombres pseudo random
+    //Si deux instances ont le meme seed elles genereront les memes nombres
     
     private static Spawn[] orange; //La liste des spawns oranges
     private static Spawn[] blue;   //La liste des spawns bleus
     
+    //Permet de creer un spawn
+    //Chaque objet Spawn contient une position et un boolean used
+    //Quand used est a true, ce spawn ne peut plus etre utilise
     private class Spawn
     {
         public bool used;
@@ -40,13 +47,16 @@ public class Spawns
         orange = new Spawn[orangeSpawn.childCount];
         blue = new Spawn[blueSpawn.childCount];
 
+        //Recupere tous les spawns oranges
         for (int i = 0; i < orange.Length; i++)
             orange[i] = new Spawn(orangeSpawn.GetChild(i));
         
+        //Recupere tous les spawns bleus
         for (int i = 0; i < blue.Length; i++)
             blue[i] = new Spawn(blueSpawn.GetChild(i));
     }
 
+    //Cette fonction permet aux spawns utilises d'etre utilisables a nouveau
     public static void ResetUsage()
     {
         foreach (Spawn s in blue)
@@ -60,12 +70,6 @@ public class Spawns
     private static Spawn GetRandomSpawn(Team team)
     {
         return (team == Team.Blue ? blue : orange)[Random(orange.Length)];
-    }
-
-    //Place le joueur a un spawn aleatoire de sa team
-    public static void AtRandom(GameObject player)
-    {
-        GetRandomSpawn(player.GetComponent<PlayerInfo>().team).AssignTo(player);
     }
 
     //Renvoie un objet Spawn non utilise aleatoire
@@ -94,6 +98,9 @@ public class Spawns
     {
         List<GameObject> players = playersList.ToList();
 
+        //Le ViewID est l'Identifiant du PhotonView du joueur, il est donc unique, et c'est le meme chez tous les clients
+        //Il peut donc etre utilise pour traiter tous les joueurs dans le meme ordre chez tous les clients
+        //Cette for va donc faire spawn tous les joueurs, du plus petit au plus grand viewID
         for (int i = 0; i < playersList.Length; i++)
         {
             GameObject player = GetSmallestViewID(players);
@@ -102,6 +109,7 @@ public class Spawns
         }
     }
 
+    //Cette methode renvoie le joueur ayant le plus petit viewID de la liste
     private static GameObject GetSmallestViewID(List<GameObject> players)
     {
         int min = Int32.MaxValue;

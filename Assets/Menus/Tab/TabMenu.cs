@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class TabMenu : MonoBehaviour
 {
+    //Chaque objet correspond a un rectangle
     private class Item
     {
         public PlayerInfo infos;
@@ -68,12 +69,14 @@ public class TabMenu : MonoBehaviour
         UpdateList();
     }
 
+    //Cette fonction met a jour les valeurs sans reconstruire la liste
     private void UpdateItems()
     {
         foreach (Item player in items)
             player.UpdateValues();
     }
 
+    //Cette fonction reconstruit la liste
     public void UpdateList()
     {
         //On detruit tous les fils des vertical layout

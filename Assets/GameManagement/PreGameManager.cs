@@ -3,6 +3,9 @@ using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
 
+//Ce script gere la pregame
+//
+
 public class PreGameManager : MonoBehaviour
 {
     public static PreGameManager script;
@@ -24,6 +27,7 @@ public class PreGameManager : MonoBehaviour
 
     void Start()
     {
+        //Recupere les afficheurs pour le nombre de joueurs max et le temps avant que la partie demarre
         timeDisplayer = pregameMenu.transform.Find("Time").GetComponent<Text>();
         playersDisplayer = pregameMenu.transform.Find("Players").GetComponent<Text>();
     }
@@ -58,7 +62,9 @@ public class PreGameManager : MonoBehaviour
             GameManagerHost.StartGame();    //Demarrage de la partie
         }
     }
-
+    
+    //Pour que cette methode soit appelle, il faut que le Host declenche l'evenement de debut de partie
+    //Puis que le GameDataSync envoie l'evenement a ce client, et appelle cette methode
     public void StartGame()
     {
         Ball.Hide();  //On cache la balle

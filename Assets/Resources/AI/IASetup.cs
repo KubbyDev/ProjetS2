@@ -11,6 +11,7 @@ public class IASetup : MonoBehaviour
         if(PhotonNetwork.IsMasterClient)
             GetComponent<PhotonView>().RequestOwnership();
 
+        //Donne un nom random a l'IA
         GetComponent<PlayerInfo>().nickname = RandomName.GenerateAI();
     }
 }

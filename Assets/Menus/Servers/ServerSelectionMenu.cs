@@ -127,9 +127,10 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
 
     // Liste des salles ------------------------------------------------------------------------
 
-    public override void OnRoomListUpdate(List<RoomInfo> newRoomList)
+    //Cette methode est appelle par Photon des qu'une salle est cree ou supprimee ou que quelqu'un rejoin ou quitte
+    public override void OnRoomListUpdate(List<RoomInfo> newRooms)
     {
-        foreach (RoomInfo room in newRoomList)
+        foreach (RoomInfo room in newRooms)
             if (room.MaxPlayers > 0 && room.MaxPlayers != room.PlayerCount)
                 if (! availableRooms.Exists(r => r.Name == room.Name))
                     //Si la room n'existe pas encore, on la cree
@@ -192,6 +193,7 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
                 AddToList(room);
     }
 
+    //Ajoute une salle a l'afficheur
     private void AddToList(RoomInfo room)
     {
         Transform item = Instantiate(roomPrefab, roomList).transform;
@@ -227,11 +229,11 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
 
         RoomOptions rops = new RoomOptions
         {
-            IsVisible = true, 
-            IsOpen = true, 
-            MaxPlayers = (byte) (playersPerTeam*2), 
-            CustomRoomProperties = gameConfig, 
-            CustomRoomPropertiesForLobby = new []{"p"}
+            IsVisible = true,                            //Je sais pas a quoi ca sert, mais faut le mettre a true je pense
+            IsOpen = true,                               //Si la salle est joinable
+            MaxPlayers = (byte) (playersPerTeam*2),      //Le nombre max de joueurs dans la salle
+            CustomRoomProperties = gameConfig,           //La liste des parametres a enregistrer avec la salle
+            CustomRoomPropertiesForLobby = new []{"p"}   //La liste des parametres qui doivent etre transmis pour la liste des salles disponibles
         };
         
         PhotonNetwork.CreateRoom(name, rops);

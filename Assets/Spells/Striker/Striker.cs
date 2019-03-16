@@ -10,14 +10,14 @@ public class Striker : MonoBehaviour
     [SerializeField] private GameObject escapeBullet;          //Prefab de la balle pour escape
 
     private MovementManager movement;          //Reference au script qui gere les mouvements du joueur
-    private CameraManager cam;                 //Reference au script qui gere la camera du joueur
+    private PlayerInfo infos;                    //Reference au script qui contient des infos sur le joueur
     private bool canSpeed = true;              //canSpeed = cooldown de Turbo fini
     private bool canEscape = true;             //canEscape = cooldown de Escape fini
 
     void Start()
     {
         movement = GetComponent<MovementManager>();
-        cam = GetComponent<CameraManager>();
+        infos = GetComponent<PlayerInfo>();
     }
 
     public void Speed()
@@ -47,7 +47,7 @@ public class Striker : MonoBehaviour
     {
         if (canEscape)
         {
-            GameObject bullet = Instantiate(escapeBullet, transform.position + new Vector3(0, 1.5f, 0) + transform.forward, cam.GetRotation()); //Cree escapeBullet
+            GameObject bullet = Instantiate(escapeBullet, transform.position + new Vector3(0, 1.5f, 0) + transform.forward, infos.cameraAnchor.rotation); //Cree escapeBullet
             bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * 1000);                                                         //Applique une force
             bullet.GetComponent<TeleportBullet>().SetShooter(this.gameObject);  //Donne a la balle une reference au joueur qu'elle va devoir tp
             canEscape = false;

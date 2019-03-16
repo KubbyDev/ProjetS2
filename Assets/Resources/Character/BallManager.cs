@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+//Ce script gere les interaction entre le joueur et la balle
+
 public class BallManager : MonoBehaviour
 {
     [SerializeField] [Range(0, 10)] private float launchStrength = 2;     //La force avec laquelle la balle est jetee

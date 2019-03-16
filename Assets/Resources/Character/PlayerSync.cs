@@ -1,16 +1,18 @@
 ﻿using Photon.Pun;
 using UnityEngine;
 
+//Cette classe gere la synchronisation des joueurs sur le reseau
+
 public class PlayerSync : MonoBehaviour, IPunObservable
 {
-    [SerializeField] private float rotationSpeed = 500;
-    [SerializeField] private float interpolationSpeed = 0.5f;
+    [SerializeField] private float rotationSpeed = 500;       //La vitesse de l'interpolation de l'orientation
+    [SerializeField] private float interpolationSpeed = 0.5f; //La vitesse de l'interpolation de la position
     
-    private Vector3 movementInput;
-    private Quaternion targetRotation;
-    private Vector3 targetPosition;
+    private Vector3 movementInput;     //Le dernier input ZQSD du joueur concerne
+    private Quaternion targetRotation; //La derniere orientation recue
+    private Vector3 targetPosition;    //La derniere position recue
     
-    private PhotonView pv;
+    private PhotonView pv; 
     private PlayerInfo infos;
     private MovementManager move;
 
@@ -27,9 +29,16 @@ public class PlayerSync : MonoBehaviour, IPunObservable
         if (pv.IsMine)
             return;
 
+        //Rapproche le joueur de la derniere position recue
         InterpolateMovement();
+        
+        //Fait bouger le joueur avec le dernier input de mouvement recu
         move.Move(movementInput);
+        
+        //On fait en sorte que l'interpolation se fasse vers un point qui bouge dans la meme direction que le joueur
         targetPosition += infos.velocity * Time.deltaTime;
+        
+        //Fait tourner le joueur de facon fluide
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime*rotationSpeed);
     }
 
@@ -49,6 +58,7 @@ public class PlayerSync : MonoBehaviour, IPunObservable
             move.velocity  = (Vector3)    stream.ReceiveNext();
             movementInput  = (Vector3)    stream.ReceiveNext();
 
+            //On met l'orientation reele pour la camera, et l'orientation horizontale seulement pour le joueur (l'avatar ne se penche pas)
             infos.cameraAnchor.rotation = targetRotation;
             targetRotation = Quaternion.Euler(0, targetRotation.eulerAngles.y, 0);
         }

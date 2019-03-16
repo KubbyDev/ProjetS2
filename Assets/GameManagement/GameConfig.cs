@@ -3,6 +3,9 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 
+//Cette classe permet de creer un objet contenant des informations sur la partie
+//Nombre de buts max, temps max, nombre de joueurs par Team etc
+
 public class GameConfig
 {
     public readonly int maxGoals;         //Nombre max de buts: 0 = infini
@@ -43,7 +46,8 @@ internal static class ConfigMethods
     }
 
     //Renvoie une Config depuis une Hashtable
-    //Utile pour passer la config dans le CustomRoomPropoerties de la Room
+    //Quand la salle est creee, elle integre une Hashtable CustomProperties
+    //Cette methode sert a creer une config a partir des CustomProperties
     public static GameConfig Config(this ExitGames.Client.Photon.Hashtable config)
     {
         return new GameConfig((int) config["g"], (int) config["d"], (int) config["p"]);

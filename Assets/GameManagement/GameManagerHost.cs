@@ -6,20 +6,25 @@ using UnityEngine;
 
 public class GameManagerHost : MonoBehaviourPunCallbacks
 {
-    public static int maxGoals;
+    public static int maxGoals;  //Le nombre de but pour que la partie se termine: 0 = infini
     
     void Awake()
     {
+        //Si on est pas le host
         if (!PhotonNetwork.IsMasterClient)
         {
+            //On desactive ce script (plus aucune methode ne sera appellee ici)
             this.enabled = false;
             return;
         }
         
-        //Met a jour la configuration de la partie
-        GameManager.gameConfig = PhotonNetwork.CurrentRoom.CustomProperties.Config();
-        PreGameManager.maxPlayers = 2 * GameManager.gameConfig.playersPerTeam;
+        //Uniquement sur le host
         
+        //Met a jour la configuration de la partie
+        //Recupere les CustomProperties (enregistrees dans la PhotonRoom a la creation de la salle)
+        GameManager.gameConfig = PhotonNetwork.CurrentRoom.CustomProperties.Config();
+        
+        PreGameManager.maxPlayers = 2 * GameManager.gameConfig.playersPerTeam;
         maxGoals = GameManager.gameConfig.maxGoals;
     }
 
@@ -33,6 +38,8 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
         }
     }
 
+    //Evenement de debut de partie
+    //Cette methode va informer tous les clients que la partie demarre
     public static void StartGame()
     {
         GameDataSync.SendStartGameEvent();
@@ -40,7 +47,8 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
         PreGameManager.script.StartGame();
     }
     
-    //Le host recoit l'event de but et informe tous les clients
+    //Evenement de but
+    //Cette methode va informer tous les clients qu'il y a un but
     public static void OnGoal(bool isBlue)
     {
         //5 sec de celebration, 3 sec avant l'engagement
@@ -53,6 +61,8 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
             EndGame();
     }
     
+    //Evenement de fin de partie
+    //Cette methode va informer tous les clients que la partie est terminee
     private static void EndGame()
     {
         //Appelle EndGame sur le GameManager de tous les clients

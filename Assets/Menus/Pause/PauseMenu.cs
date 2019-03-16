@@ -8,6 +8,7 @@ public class PauseMenu : MonoBehaviour
 
     public void OnResumeClick()
     {
+        //Ferme le menu
         PlayerInfo.localPlayer.GetComponent<InputManager>().TogglePauseMenu();
     }
 

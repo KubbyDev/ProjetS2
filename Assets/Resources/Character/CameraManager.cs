@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
+//Ce script gere la camera
 
 public class CameraManager : MonoBehaviour {
 
@@ -24,11 +24,13 @@ public class CameraManager : MonoBehaviour {
 
     void Update()
     {
+        //Lance la fonction de positionnement de la camera adaptee en fonction de si le joueur est en FPS ou en TPS
         if (isFps)
             FirstPerson();
         else
             ThirdPerson();
 
+        //Met a jour la camAnchor dans le PlayerInfo
         infos.cameraAnchor = camAnchor;
     }
 
@@ -84,11 +86,5 @@ public class CameraManager : MonoBehaviour {
             newCamRot = -pitchLimit;
 
         camAnchor.transform.localEulerAngles = new Vector3(newCamRot, 0, 0);
-    }
-
-    //Renvoie l'orientation de la camera
-    public Quaternion GetRotation()
-    {
-        return camAnchor.rotation;
     }
 }

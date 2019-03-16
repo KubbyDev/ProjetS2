@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using DigitalRuby.LightningBolt;
+﻿using DigitalRuby.LightningBolt;
 using UnityEngine;
+
+//Ce script gere toute la partie graphique de la balle (eclairs vers le player qui la possede etc)
 
 public class BallParticles : MonoBehaviour
 {
@@ -11,9 +11,9 @@ public class BallParticles : MonoBehaviour
 
     private float timeToSpawn;  //Le temps restant avant le prochain spawn d'eclair
     
-    // Update is called once per frame
     void Update()
     {
+        //Si le temps est ecoule et que quelqu'un a la balle
         if (timeToSpawn < 0 && Ball.possessor != null)
         {
             //On fait pop l'eclair

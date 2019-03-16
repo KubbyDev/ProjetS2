@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using Photon.Pun;
-using Photon.Realtime;
 using UnityEngine;
+
+//Cette classe detecte que la balle entre dans le but
 
 public class GoalDetector : MonoBehaviour
 {
@@ -30,15 +29,18 @@ public class GoalDetector : MonoBehaviour
     {
         if (GameManager.gameStarted)
         {
+            //Si la partie a demarre, il faut informer les clients qu'il y a eu un but
+            
             //Si ce n'est pas le Host on ne fait rien
             if (!PhotonNetwork.IsMasterClient) 
                 return;
             
-            //Informe le GameManager du but
+            //Si c'est le host on informe le GameManagerHost du but, pour qu'il transmette l'info
             GameManagerHost.OnGoal(team == Team.Orange);
             GameManager.script.OnGoal(team == Team.Orange, ballPosition);
         }
         else
+            //Si la partie n'a pas demarre on fait juste une explosion de but
             GetComponent<GoalExplosion>().MakeGoalExplosion(ballPosition);
     }
 }

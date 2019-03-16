@@ -1,11 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
+//Cette classe gere les strategies de l'IA, elle a acces a Skills sui est une list de competences de haut niveau
+//Comme aller vers la balle, tirer, faire une passe, se demarquer etc
 
 public class Brain : MonoBehaviour
 { 
-    private Skills skills;            //Le script qui effectue les mouvement que ce script ordonne
-    private PlayerInfo infos;
+    private Skills skills;       //Le script qui effectue les mouvement que ce script ordonne
+    private PlayerInfo infos;    //Le script qui contient plein d'informations sur l'IA
 
     // Setup des infos importantes -------------------------------------------------------------------------------------
     

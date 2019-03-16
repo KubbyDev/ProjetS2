@@ -28,8 +28,10 @@ public class OptionsMenu : MonoBehaviour
 
     //  Initialisation  --------------------------------------------------------------------------------------------------------
 
+    //Quand le menu est ouvert, on refresh les afficheurs
     void OnEnable()
     {
+        currentKey = -1;
         RefreshSettings();
     }
 
@@ -41,6 +43,7 @@ public class OptionsMenu : MonoBehaviour
         foreach (Resolution res in resolutions)
             resolutionDropdown.options.Add(new Dropdown.OptionData(ToString(res)));
 
+        //Met a jour les affichages
         ApplySettings();
     }
 
@@ -129,11 +132,6 @@ public class OptionsMenu : MonoBehaviour
         }
     }
 
-    void OnDisable()
-    {
-        currentKey = -1;
-    }
-
     //Changement de sensibilite avec le texte
     public void OnChangeSensitivityX(string value)
     {
@@ -157,7 +155,7 @@ public class OptionsMenu : MonoBehaviour
     //Changement de sensibilite avec le slider
     public void OnChangeSensitivityX(float value)
     {
-        Settings.settings.sensitivity[0] = value;             //Enregistrement
+        Settings.settings.sensitivity[0] = value;    //Enregistrement
         sensitivity[0].value = value;                //Slider
         sensitivityTexts[0].text = value.ToString(); //Texte
     }
@@ -165,7 +163,7 @@ public class OptionsMenu : MonoBehaviour
     //Changement de sensibilite avec le slider
     public void OnChangeSensitivityY(float value)
     {
-        Settings.settings.sensitivity[1] = value;             //Enregistrement
+        Settings.settings.sensitivity[1] = value;    //Enregistrement
         sensitivity[1].value = value;                //Slider
         sensitivityTexts[1].text = value.ToString(); //Texte
     }

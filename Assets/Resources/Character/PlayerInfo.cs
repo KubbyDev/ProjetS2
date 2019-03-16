@@ -1,6 +1,8 @@
 ﻿using Photon.Pun;
 using UnityEngine;
 
+//Cette classe concentre toutes les infos importantes sur le joueur
+
 public class PlayerInfo : MonoBehaviour
 {
     public static GameObject localPlayer;  //Une reference au GameObject de ce client (initialise dans PlayerSetup)

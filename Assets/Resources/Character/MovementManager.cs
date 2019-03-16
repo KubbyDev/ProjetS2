@@ -1,7 +1,7 @@
 ﻿using Photon.Pun;
 using UnityEngine;
 
-//Cette classe recoit des inputs de InputManager pour les actions qui font bouger le joueur
+//Cette classe gere les mouvements du joueur
 
 public class MovementManager : MonoBehaviour
 {

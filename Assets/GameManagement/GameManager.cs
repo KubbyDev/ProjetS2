@@ -7,11 +7,11 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager script;       //Reference a ce script, visible partout
+    public static GameManager script;       //Reference a ce script, visible partout (accessible par GameManager.script)
     public static GameConfig gameConfig;    //Config de la partie (nombre max de buts, temps max etc)
 
     public static float timeLeft;           //Temps de jeu restant
-    public static float timeLeftForKickoff; //Temps avant l'engagement  
+    public static float timeLeftForKickoff; //Temps avant l'engagement. Ce temps est set par le GameDataSync, et prend en compte le temps de trajet de l'information
     public static bool gamePlaying;         //Booleen indiquant que la partie est en cours et que le temps s'ecoule
     
     public static int blueScore;      //Score de l'equipe bleu
@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
         gameConfig = PhotonNetwork.CurrentRoom.CustomProperties.Config();
         PreGameManager.maxPlayers = 2 * gameConfig.playersPerTeam;
         
+        //Recuperation des afficheurs en haut de l'ecran
         timeDisplayer = gameMenu.transform.Find("Background").Find("Time").GetComponent<Text>();
         blueScoreDisplayer = gameMenu.transform.Find("Background").Find("BlueScore").GetComponent<Text>();
         orangeScoreDisplayer = gameMenu.transform.Find("Background").Find("OrangeScore").GetComponent<Text>();
@@ -40,7 +41,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        Spawns.FindSpawns();                //Demande au script qui gere les spawns de trouver les spawns sur la scene
+        Spawns.FindSpawns();           //Demande au script qui gere les spawns de trouver les spawns sur la scene
         ballSpawn = Vector3.zero;
         
         blueScore = 0;
@@ -70,6 +71,8 @@ public class GameManager : MonoBehaviour
     // Debut de partie -------------------------------------------------------------------------------------------------
     
     // Lancer une partie
+    //Pour que cette methode soit appelle, il faut que le Host declenche l'evenement de debut de partie
+    //Puis que le GameDataSync envoie l'evenement a ce client dans PreGameManager.StartGame, puis que ca arrive a cette methode 
     public void StartGame()
     {
         //Affiche le temps en haut de l'ecran
@@ -86,12 +89,16 @@ public class GameManager : MonoBehaviour
                 player.GetComponent<Skills>().timeToMove = 3;
         }
         
+        //Cette methode remet tout le monde a sa place (AI, joueurs et balle)
+        //Et demarre les temps avant de pouvoir bouger
         RespawnAll();
     }
 
     // Evenement de But ------------------------------------------------------------------------------------------------
     
     // Appelee des qu'il y a un but avec true si l'equipe bleue marque et false si l'equipe orange marque
+    //Pour que cette methode soit appelle, il faut que le Host declenche l'evenement de but
+    //Puis que le GameDataSync envoie l'evenement a ce client, et appelle cette methode
     public void OnGoal(bool isForBlue, Vector3 ballPosition)
     {
         //On fait une GoalExplosion dans le bon but
@@ -126,7 +133,7 @@ public class GameManager : MonoBehaviour
         // Parcours les joueurs
         foreach(GameObject player in GameObject.FindGameObjectsWithTag("Player"))                      
         {
-            //Si c'est une IA on lui dit de ne pas bouger jusqu'a l'engagement
+            //Si c'est une IA on lui dit de ne pas bouger jusqu'a l'engagement (8 secondes)
             if (! player.GetComponent<PlayerInfo>().isPlayer)
                 player.GetComponent<Skills>().timeToMove = timeLeftForKickoff;
         }
@@ -134,23 +141,28 @@ public class GameManager : MonoBehaviour
         //Attend 5 secondes
         yield return new WaitForSeconds(timeLeftForKickoff - 3);
         
+        //Cette methode remet tout le monde a sa place (AI, joueurs et balle)
+        //Et demarre les temps avant de pouvoir bouger
         RespawnAll();
     }
     
     // Engagement ------------------------------------------------------------------------------------------------------
     
-    // Reset la position des joueurs et de la balle
+    //Cette methode remet tout le monde a sa place (AI, joueurs et balle)
+    //Et demarre les temps avant de pouvoir bouger
     private void RespawnAll()
     {
         //On fait respawn tout le monde
         Spawns.AssignSpawns(GameObject.FindGameObjectsWithTag("Player"));
-        Spawns.ResetUsage();
+        //Quand un spawn est utilise, il n'est plus utilisable apres, cette methode rend tous les spawns utilisables
+        Spawns.ResetUsage(); 
         
         //On bloque les inputs du joueur local pendant 3 sec
         PlayerInfo.localPlayer.GetComponent<InputManager>().StopInputs(3);
         PlayerInfo.localPlayer.GetComponent<MovementManager>().ResetSpeed();
         
         //On reset tous les enregistrement des derniers inputs
+        //Sans ca, les avatars des autres joueurs pourraient se mettre a bouger au debut des 3 secondes
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
             player.GetComponent<PlayerInfo>().lastMovementInput = Vector3.zero;
         
@@ -168,6 +180,8 @@ public class GameManager : MonoBehaviour
 
     // Fin de partie ---------------------------------------------------------------------------------------------------
     
+    //Pour que cette methode soit appelle, il faut que le Host declenche l'evenement de fin de partie
+    //Puis que le GameDataSync envoie l'evenement a ce client, et appelle cette methode
     public static void EndGame()
     {
         Debug.Log("Game End");

@@ -2,6 +2,8 @@
 using Photon.Realtime;
 using UnityEngine;
 
+//Cette classe initialise le joueur au moment ou il est instancie
+
 public class PlayerSetup : MonoBehaviour, IPunInstantiateMagicCallback {
 
     //La liste des components qui seront desactives sur tous les joueurs non controlles par le joueur local

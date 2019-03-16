@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
+//Cette classe gere la camera dans le menu principal
 
 public class CameraMovement : MonoBehaviour
 {

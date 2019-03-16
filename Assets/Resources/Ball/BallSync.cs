@@ -1,13 +1,14 @@
-﻿using System;
-using Photon.Pun;
+﻿using Photon.Pun;
 using UnityEngine;
+
+//Ce script gere la synchronisation de la balle sur le reseau
 
 public class BallSync : MonoBehaviour, IPunObservable
 {
     void Update()
     {
         if (!PhotonNetwork.IsMasterClient)
-            ; //Interpolate
+            ; //TODO: Interpolate
     }
     
     void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -40,7 +41,7 @@ public class BallSync : MonoBehaviour, IPunObservable
     //pour predire la position et la rotation de la balle sur le serveur au moment ou le message est recu
     void PredictBallPositionAndRotation(Vector3 position, Quaternion rotation, Vector3 velocity, Vector3 angularV, float latency)
     {
-        //Position
+        //Position et Vitesse
 
         //On trace un raycast pour savoir si on va toucher un mur
         RaycastHit hit;
@@ -48,7 +49,6 @@ public class BallSync : MonoBehaviour, IPunObservable
         {
             //Si on touche un mur on laisse les calculs se faire en local
             //et on recupere la reponse du serveur a l'update suivante
-            
         }
         else
         {
@@ -65,12 +65,8 @@ public class BallSync : MonoBehaviour, IPunObservable
             }
         }
         
-        //Rotation
-        
+        //Rotation et Vitesse angulaire
         transform.rotation = rotation * Quaternion.Euler(angularV * latency);
-
-        //Vitesse
-        
         Ball.rigidBody.angularVelocity = angularV;
     }
 }

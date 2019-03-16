@@ -1,5 +1,7 @@
 using UnityEngine;
 
+//Ce script gere les communication du joueur vers le jeu
+
 public class InputManager : MonoBehaviour
 {
     //0:Avancer, 1:Reculer, 2:Gauche, 3:Droite, 4:Sauter, 5:Attraper balle, 6:Jeter balle
