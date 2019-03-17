@@ -5,7 +5,7 @@
 public class BallManager : MonoBehaviour
 {
     [SerializeField] [Range(0, 10)] private float launchStrength = 2;     //La force avec laquelle la balle est jetee
-    [SerializeField] [Range(1, 20)] private float maxCatchDistance = 6;   //La distance max a laquelle la balle peut etre attrapee
+    [SerializeField] [Range(1, 20)] private float maxCatchDistance = 6;       //La distance max a laquelle la balle peut etre attrapee
     [SerializeField] [Range(0, 5)] private float catchCooldown = 1;       //Le temps entre 2 tentative pour attraper la balle
     [SerializeField] [Range(0, 5)] private float catchWidth = 1;          //L'imprecision autorisee pour attraper la balle
 
@@ -16,12 +16,14 @@ public class BallManager : MonoBehaviour
 
     void Start()
     {
-        infos = GetComponent<PlayerInfo>();     
+        infos = GetComponent<PlayerInfo>();
     }
 
     //Recuperation de la balle
     public void Catch()
     {
+        maxCatchDistance = infos.maxcatchrange;                          // Récupère la range de catch (la met a jour dans le cas où elle a changé)
+
         if (catchTimeLeft > 0) 
             return;
         
