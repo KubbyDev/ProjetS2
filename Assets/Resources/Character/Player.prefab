@@ -438,6 +438,7 @@ MonoBehaviour:
   isPlayer: 1
   ping: 0
   nickname: 
+  maxcatchrange: 6
   cameraAnchor: {fileID: 0}
   velocity: {x: 0, y: 0, z: 0}
   isGrounded: 0
@@ -462,7 +463,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 3606593971257085751}
-  viewIdField: 0
+  viewIdField: 1
   InstantiationId: 1
   isRuntimeInstantiated: 0
 --- !u!114 &3606593971257085751

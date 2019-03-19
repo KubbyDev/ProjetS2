@@ -49,8 +49,7 @@ public class Skills : MonoBehaviour
         //Un seul client a le droit de demander a l'IA d'attraper la balle
         //Si un client a la balle, c'est lui, sinon c'est le host
         if(Ball.possessor != null ? PlayerInfo.localPlayer == Ball.possessor : PhotonNetwork.IsMasterClient)    
-            //ballManager.Catch()
-            ;
+            ballManager.Catch();
     }
 
     // Fonctions basiques ----------------------------------------------------------------------------------------------

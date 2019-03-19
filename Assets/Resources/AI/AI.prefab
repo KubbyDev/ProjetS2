@@ -418,6 +418,7 @@ MonoBehaviour:
   isPlayer: 0
   ping: 0
   nickname: 
+  maxcatchrange: 6
   cameraAnchor: {fileID: 0}
   velocity: {x: 0, y: 0, z: 0}
   isGrounded: 0
