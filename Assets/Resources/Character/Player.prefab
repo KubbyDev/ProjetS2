@@ -367,7 +367,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpStrength: 12
   maxJumps: 3
-  dashesStrength: 5
+  maxDashes: 3
+  dashesStrength: 10
   movementSpeed: 500
   inAirControl: 0.03
   withBallSpeed: 0.8
@@ -463,7 +464,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 3606593971257085751}
-  viewIdField: 1
+  viewIdField: 0
   InstantiationId: 1
   isRuntimeInstantiated: 0
 --- !u!114 &3606593971257085751

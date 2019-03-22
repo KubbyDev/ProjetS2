@@ -8,7 +8,8 @@ public class MovementManager : MonoBehaviour
     [Header("Jumps")]
     [SerializeField] [Range(0, 50)] private float jumpStrength = 10;      //La force des sauts
     [SerializeField] [Range(0, 10)] private int maxJumps = 3;             //Le nombre max de sauts sans toucher le sol
-    [SerializeField] [Range(0, 50)] private float dashesStrength = 20f;   //La force des dashes (forces horizontales quand le joueur appuie sur espace + ZQSD)
+    [SerializeField] [Range(0, 10)] private int maxDashes = 3;            //Le nombre max de dashes sans toucher le sol
+    [SerializeField] [Range(0, 50)] private float dashesStrength = 10f;   //La force des dashes (forces horizontales quand le joueur appuie sur espace + ZQSD)
     [Space] [Header("Movements")]
     [SerializeField] [Range(0, 2000)] private float movementSpeed = 500;  //La vitesse des deplacements au sol
     [SerializeField] [Range(0, 0.5f)] private float inAirControl = 0.03f; //La force des inputs en l'air (en l'air: inputs *= inAirControl/vitesse^2)
@@ -19,6 +20,7 @@ public class MovementManager : MonoBehaviour
     
     private CharacterController cc;           //Le script qui gere les deplacements du joueur (dans Unity)
     private int usableJumps;                  //Le nombre de sauts restants (Reset quand le sol est touche)
+    private int usableDashes;                 //Le nombre de dashes restants (Reset quand le sol est touche)
     private Vector3 movementInput;            //Le dernier input ZQSD du joueur (sert pour la synchronisation)
     private PhotonView pv;                    //Le script qui gere ce joueur sur le reseau
     private PlayerInfo infos;                 //Le script qui contient les infos sur le joueur
@@ -50,6 +52,7 @@ public class MovementManager : MonoBehaviour
         {
             velocity = Vector3.zero;
             usableJumps = maxJumps;
+            usableDashes = maxDashes;
         }
         else               //Quand le joueur est en l'air
         {
@@ -71,7 +74,7 @@ public class MovementManager : MonoBehaviour
     }
 
     //Appellee par InputManager
-    public void Jump(Vector3 moveInput)  //On prend en parametre les inputs ZQSD pour savoir si on doit appliquer une force horizontale
+    public void Jump() 
     {
         //Si le joueur ne peut pas sauter on n'execute pas le code de saut
         if (usableJumps <= 0) 
@@ -83,16 +86,28 @@ public class MovementManager : MonoBehaviour
         if (velocity.y < 0)
             velocity.y /= 5;
         
+        //On ajoute la force: Une force vers le haut, un peu penchee dans la direction des inputs
+        AddForce(new Vector3(0,jumpStrength, 0));
+    }
+    
+    //Appellee par InputManager
+    public void Dash(Vector3 moveInput) 
+    {
+        //On ne fait rien si le joueur est au sol ou n'a plus de dashes
+        if (usableDashes <= 0 || cc.isGrounded) 
+            return;
+        
+        usableDashes--;
+
+        //On reduit la vitesse verticale
+        velocity.y /= 2;
+        
         //Si les inputs sont en direction opposee a la vitesse, on reduit la vitesse horizontale
         if (Vector3.Dot(velocity, moveInput) < 0)
             velocity = new Vector3(velocity.x/2, velocity.y, velocity.z/2);
-
-        //Si le joueur est au sol on empeche les dashes
-        if (cc.isGrounded)
-            moveInput = Vector3.zero;
         
         //On ajoute la force: Une force vers le haut, un peu penchee dans la direction des inputs
-        AddForce((moveInput*dashesStrength + new Vector3(0,jumpStrength, 0)).normalized * jumpStrength);
+        AddForce((moveInput + new Vector3(0,0.1f, 0)).normalized * dashesStrength);
     }
 
     //Applique une force sur le joueur (sur son client)

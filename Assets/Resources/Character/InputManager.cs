@@ -126,7 +126,11 @@ public class InputManager : MonoBehaviour
 
         //Sauts
         if (Input.GetKeyDown(inputs[4]))
-            movement.Jump(move);       //Cette fonction prend en parametre les inputs ZQSD pour les dashes
+            movement.Jump();
+        
+        //Dashes
+        if (Input.GetKeyDown(KeyCode.LeftAlt))
+            movement.Dash(move.normalized);
     }
 
     private void CameraInputs()

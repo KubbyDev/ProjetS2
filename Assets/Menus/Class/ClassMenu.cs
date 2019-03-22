@@ -33,9 +33,10 @@ public class ClassMenu : MonoBehaviour
         //Recuperation des zones de textes pour chaque classe, et de l'image
         //Les 3 zones de textes sont fixes, et sont juste masquees
         //Mais il n'y a qu'une seule image, qui est modifiee quand on change de hero
-        strickerInfo = transform.Find("StrickerInfo").gameObject;
-        wardenInfo = transform.Find("WardenInfo").gameObject;
-        ninjaInfo = transform.Find("NinjaInfo").gameObject;
+        Transform infoBackground = transform.Find("InfoBackground");
+        strickerInfo = infoBackground.Find("StrickerInfo").gameObject;
+        wardenInfo = infoBackground.Find("WardenInfo").gameObject;
+        ninjaInfo = infoBackground.Find("NinjaInfo").gameObject;
         image = transform.Find("Image").GetComponent<RawImage>();
         
         UpdateDisplay(inMainMenu ? Hero.Stricker : infos.hero);
