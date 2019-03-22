@@ -1,19 +1,23 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 //Ce script gere les interaction entre le joueur et la balle
 
 public class BallManager : MonoBehaviour
 {
-    [SerializeField] [Range(0, 10)] private float launchStrength = 2;     //La force avec laquelle la balle est jetee
-    [SerializeField] [Range(1, 20)] private float maxCatchDistance = 6;       //La distance max a laquelle la balle peut etre attrapee
-    [SerializeField] [Range(0, 5)] private float catchCooldown = 1;       //Le temps entre 2 tentative pour attraper la balle
-    [SerializeField] [Range(0, 5)] private float catchWidth = 1;          //L'imprecision autorisee pour attraper la balle
-
+    [SerializeField] [UnityEngine.Range(0, 10)] private float launchStrength = 2;        //La force avec laquelle la balle est jetee
+    [SerializeField] [UnityEngine.Range(1, 20)] private float maxCatchDistance = 6;      //La distance max a laquelle la balle peut etre attrapee
+    [SerializeField] [UnityEngine.Range(0, 5)] private float catchCooldown = 1;          //Le temps entre 2 tentative pour attraper la balle
+    [SerializeField] [UnityEngine.Range(0, 5)] private float catchWidth = 1;             //L'imprecision autorisee pour attraper la balle
+    [SerializeField] [UnityEngine.Range(1, 10)] private float PowerShootMultiplier = 2;  //La puissance du powershooot
+    [SerializeField] [UnityEngine.Range(5, 120)] private float PowerShootCooldown = 30;  //Le temps pendant lequel le joueur peur utiliser powershoot
+    
     [HideInInspector] public bool hasBall = false;                        //Si le joueur a la balle
     
     private PlayerInfo infos;                                             //Le script qui contient les infos sur le joueur
     private float catchTimeLeft = 0;                                      //Le temps restant avant de pouvoir reutiliser le catch
-
+    private float PowerShootTimeLeft = 0;                                 //Le temps restant pour utiliser le powershoot
+    
     void Start()
     {
         infos = GetComponent<PlayerInfo>();
@@ -46,12 +50,21 @@ public class BallManager : MonoBehaviour
             catchTimeLeft -= Time.deltaTime;
         if (hasBall)                           //Si le joueur a la balle, on met son cooldown au max
             catchTimeLeft = catchCooldown;     //pour qu'il ne puisse pas la recuperer instant quand on lui prend
+        
+        if (PowerShootTimeLeft > 0)            //Met a jour le temps restant pour utiliser le powershoot
+            PowerShootTimeLeft -= Time.deltaTime;
+        
     }
 
     //Lance la balle devant lui
     public void Shoot()
     {
         if (hasBall)
-            Ball.script.Shoot(infos.cameraAnchor.forward * launchStrength * 1000);
+            Ball.script.Shoot(infos.cameraAnchor.forward * launchStrength * 1000 * (PowerShootTimeLeft>0 ? PowerShootMultiplier : 1));
+    }                                        //Si le joueur peut utiliser powershoot, on applique le multiplieur, sinon non
+
+    public void Has_PowerShoot()
+    {
+        PowerShootTimeLeft = PowerShootCooldown; //Indique au script que le joueur a récupéré le powerup powershoot
     }
 }

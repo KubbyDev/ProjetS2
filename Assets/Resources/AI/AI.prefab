@@ -399,6 +399,8 @@ MonoBehaviour:
   maxCatchDistance: 6
   catchCooldown: 1
   catchWidth: 1
+  PowerShootMultiplier: 2
+  PowerShootCooldown: 30
   hasBall: 0
 --- !u!114 &6042739075857147334
 MonoBehaviour:

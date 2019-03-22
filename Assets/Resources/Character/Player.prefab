@@ -238,6 +238,7 @@ GameObject:
   - component: {fileID: 99}
   - component: {fileID: 95}
   - component: {fileID: 1920449045363864988}
+  - component: {fileID: 3042627797065928157}
   - component: {fileID: 96}
   m_Layer: 9
   m_Name: Player
@@ -405,6 +406,8 @@ MonoBehaviour:
   maxCatchDistance: 6
   catchCooldown: 1
   catchWidth: 1
+  PowerShootMultiplier: 1.5
+  PowerShootCooldown: 30
   hasBall: 0
 --- !u!114 &89
 MonoBehaviour:
@@ -551,6 +554,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hookObject: {fileID: 2279490531893371813, guid: 45ff461ff93047de902865534d3ae7eb,
     type: 3}
+--- !u!114 &3042627797065928157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 15}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a4c2bd879c2489384457b2dc930e9f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &96
 MonoBehaviour:
   m_ObjectHideFlags: 0
