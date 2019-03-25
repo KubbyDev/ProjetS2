@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
 using UnityEngine;
 
 public class Warden : MonoBehaviour
@@ -15,7 +15,10 @@ public class Warden : MonoBehaviour
 
     public void Freeze()
     {
-        Instantiate(FreezeBall, transform.position + transform.forward, GetComponent<PlayerInfo>().cameraAnchor.rotation); //cree et prend la position de la ball en fonction de la camera
+        //cree et prend la position de la ball en fonction de la camera
+        PhotonNetwork.Instantiate("Spells/Warden/FreezeBall", 
+            transform.position + transform.forward, 
+            GetComponent<PlayerInfo>().cameraAnchor.rotation);
         
     }
 

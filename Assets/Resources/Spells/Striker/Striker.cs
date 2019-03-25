@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 public class Striker : MonoBehaviour
@@ -47,7 +47,10 @@ public class Striker : MonoBehaviour
     {
         if (canEscape)
         {
-            GameObject bullet = Instantiate(escapeBullet, transform.position + new Vector3(0, 1.5f, 0) + transform.forward, infos.cameraAnchor.rotation); //Cree escapeBullet
+            //Cree escapeBullet
+            GameObject bullet = PhotonNetwork.Instantiate("Spells/Striker/BulletEscape",
+                transform.position + new Vector3(0, 1.5f, 0) + transform.forward, 
+                infos.cameraAnchor.rotation);
             bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * 1000);                                                         //Applique une force
             bullet.GetComponent<TeleportBullet>().SetShooter(this.gameObject);  //Donne a la balle une reference au joueur qu'elle va devoir tp
             canEscape = false;

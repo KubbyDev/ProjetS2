@@ -1,7 +1,5 @@
-﻿
-using Photon.Pun;
+﻿using Photon.Pun;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Ninja : MonoBehaviour
@@ -74,7 +72,10 @@ public class Ninja : MonoBehaviour
     {
         if (Can_Smoke)
         {
-            GameObject bomb = Instantiate(SmokeBomb, transform.position + new Vector3(0, 1.5f, 0) + transform.forward, Info.cameraAnchor.rotation); //Cree SmokeBomb
+            //Cree SmokeBomb
+            GameObject bomb = PhotonNetwork.Instantiate("Spells/Ninja/SmokeBomb", 
+                transform.position + new Vector3(0, 1.5f, 0) + transform.forward, 
+                Info.cameraAnchor.rotation);
             bomb.GetComponent<Rigidbody>().AddForce(bomb.transform.forward * 1000); //Applique une force
             Can_Smoke = false;
             yield return new WaitForSeconds(Temps_distance); //la duree avant l'explosion de la bombe

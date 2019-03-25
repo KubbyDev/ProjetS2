@@ -13,7 +13,7 @@ public class Room : MonoBehaviourPunCallbacks
         base.OnJoinedRoom();
 
         //Cree l'avatar du joueur
-        PhotonNetwork.Instantiate(Path.Combine("Character", "Player"), transform.position, Quaternion.identity);
+        PhotonNetwork.Instantiate("Character/Player", transform.position, Quaternion.identity);
     }
 
     //Quand un joueur entre dans la salle

@@ -1,4 +1,4 @@
-using System.Collections;
+using Photon.Pun;
 using UnityEngine;
 
 public class Hook : MonoBehaviour
@@ -23,7 +23,9 @@ public class Hook : MonoBehaviour
         {
                 if (Player_Has_Hook)
                 {
-                        GameObject hook = Instantiate(hookObject, transform.position + new Vector3(0, 1.5f, 0), Quaternion.identity);
+                        GameObject hook = PhotonNetwork.Instantiate("Pow-Ups/Hook/Ball", 
+                                transform.position + new Vector3(0, 1.5f, 0), 
+                                Quaternion.identity);
                         Destroy(hook,3);
                         hook.GetComponent<HookBall>().UpdateDirection(gameObject, playerinfo.cameraAnchor.forward);
                         Player_Has_Hook = false;
