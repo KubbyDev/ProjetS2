@@ -28,21 +28,19 @@ public class Ninja : MonoBehaviour
 
     public void Explode_Spell()
     {
-        StartCoroutine(ExplodeCoroutine());
+        if(Explode_Off_Cooldown)
+            StartCoroutine(ExplodeCoroutine());
     }
 
     IEnumerator ExplodeCoroutine()
-    {
-        if (Explode_Off_Cooldown)
-        {
-            move.MultiplySpeed(Explode_Speed_Boost);                             // Augmente la vitesse
-            Explode_Off_Cooldown = false;
-            yield return new WaitForSeconds(Explode_Spell_Duration);             // Lance le cooldown
-            move.MultiplySpeed(1 / Explode_Speed_Boost);                         // Remet la vitesse normale
-            Explosion();
-            yield return new WaitForSeconds(Explode_Cooldown);
-            Explode_Off_Cooldown = true;                                         // Le spell redevient utilisable une fois le cooldown ecoule
-        }
+    { 
+        move.MultiplySpeed(Explode_Speed_Boost);                             // Augmente la vitesse
+        Explode_Off_Cooldown = false;
+        yield return new WaitForSeconds(Explode_Spell_Duration);             // Lance le cooldown
+        move.MultiplySpeed(1 / Explode_Speed_Boost);                         // Remet la vitesse normale
+        Explosion();
+        yield return new WaitForSeconds(Explode_Cooldown);
+        Explode_Off_Cooldown = true;                                         // Le spell redevient utilisable une fois le cooldown ecoule
     }
 
     public void Explosion()
