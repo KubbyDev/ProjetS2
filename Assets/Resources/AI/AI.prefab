@@ -377,6 +377,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpStrength: 10
   maxJumps: 3
+  maxDashes: 3
   dashesStrength: 20
   movementSpeed: 500
   inAirControl: 0.03
@@ -498,6 +499,7 @@ MonoBehaviour:
   speedMultiplier: 1.5
   escapeBullet: {fileID: 2279490531893371813, guid: cc855b50ae5d8ef44b2a48017f6fdb8c,
     type: 3}
+  escapeLifeTime: 3
 --- !u!114 &3716507366201891263
 MonoBehaviour:
   m_ObjectHideFlags: 0

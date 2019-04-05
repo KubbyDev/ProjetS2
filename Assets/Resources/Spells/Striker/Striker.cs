@@ -10,7 +10,8 @@ public class Striker : MonoBehaviour
     [SerializeField] private GameObject escapeBullet;          //Prefab de la balle pour escape
 
     private MovementManager movement;          //Reference au script qui gere les mouvements du joueur
-    private PlayerInfo infos;                    //Reference au script qui contient des infos sur le joueur
+    private PlayerInfo infos;                  //Reference au script qui contient des infos sur le joueur
+    private PhotonView pv;                     //Le script qui gere ce gameobject sur le reseau
     private bool canSpeed = true;              //canSpeed = cooldown de Turbo fini
     private bool canEscape = true;             //canEscape = cooldown de Escape fini
 
@@ -18,6 +19,7 @@ public class Striker : MonoBehaviour
     {
         movement = GetComponent<MovementManager>();
         infos = GetComponent<PlayerInfo>();
+        pv = GetComponent<PhotonView>();
     }
 
     public void Speed()
@@ -40,22 +42,40 @@ public class Striker : MonoBehaviour
 
     public void escape()
     {
-        StartCoroutine(escapeCouroutine()); //Lance la coroutine 
+        if (!canEscape)
+            return;
+        
+        Vector3 position = transform.position + new Vector3(0, 1.5f, 0) + transform.forward*1.0f;
+        Vector3 direction = infos.cameraAnchor.forward;
+        
+        //Cree escapeBullet
+        GameObject bullet = Instantiate(escapeBullet, position, Quaternion.identity);
+        
+        pv.RPC("SpawnEscape", RpcTarget.Others, position, direction);
+        
+        bullet.GetComponent<Rigidbody>().AddForce(direction * 1000);  //Applique une force
+        bullet.GetComponent<TeleportBullet>().SetShooter(this.gameObject);  //Donne a la balle une reference au joueur qu'elle va devoir tp
+        
+        StartCoroutine(EscapeCouroutine()); //Lance la coroutine 
     }
 
-    IEnumerator escapeCouroutine()
+    IEnumerator EscapeCouroutine()
     {
-        if (canEscape)
-        {
-            //Cree escapeBullet
-            GameObject bullet = PhotonNetwork.Instantiate("Spells/Striker/BulletEscape",
-                transform.position + new Vector3(0, 1.5f, 0) + transform.forward, 
-                infos.cameraAnchor.rotation);
-            bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * 1000);                                                         //Applique une force
-            bullet.GetComponent<TeleportBullet>().SetShooter(this.gameObject);  //Donne a la balle une reference au joueur qu'elle va devoir tp
-            canEscape = false;
-            yield return new WaitForSeconds(TimeSpeedCooldown); //la duree du cooldown
-            canEscape = true;
-        }
+        canEscape = false;
+        yield return new WaitForSeconds(TimeSpeedCooldown); //la duree du cooldown
+        canEscape = true;
+    }
+
+    [PunRPC]
+    public void SpawnEscape(Vector3 position, Vector3 direction, PhotonMessageInfo info)
+    {
+        float latency = (float) (PhotonNetwork.Time - info.timestamp);
+        
+        GameObject bullet = Instantiate(escapeBullet,
+            position + latency*direction + 0.5f*latency*latency*Physics.gravity,
+            Quaternion.identity);
+                
+        bullet.GetComponent<Rigidbody>().AddForce(direction * 1000);  //Applique une force
+        bullet.GetComponent<TeleportBullet>().SetShooter(this.gameObject);
     }
 }

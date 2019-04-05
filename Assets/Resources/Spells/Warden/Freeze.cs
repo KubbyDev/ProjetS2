@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Freeze : MonoBehaviour
 {
-   [SerializeField] private float vitesseBall = 5f ;
+   [SerializeField] private float vitesseBall = 5f;
+   
     void Update()
     {
         transform.position += transform.forward * Time.deltaTime * vitesseBall; //envoie la ball dans la direction de la camera

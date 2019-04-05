@@ -16,11 +16,8 @@ public class Warden : MonoBehaviour
     public void Freeze()
     {
         //cree et prend la position de la ball en fonction de la camera
-        PhotonNetwork.Instantiate("Spells/Warden/FreezeBall", 
-            transform.position + transform.forward, 
+        PhotonNetwork.Instantiate("Spells/Warden/FreezeBall",
+            transform.position + transform.forward,
             GetComponent<PlayerInfo>().cameraAnchor.rotation);
-        
     }
-
-    
 }

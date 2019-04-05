@@ -44,4 +44,7 @@ MonoBehaviour:
   - UpdateInfo_RPC
   - GetOnGoalEvent_RPC
   - GetStartGameEvent_RPC
+  - SpawnBasicBullet
+  - SpawnHook
+  - SpawnEscape
   DisableAutoOpenWizard: 1

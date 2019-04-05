@@ -18,6 +18,7 @@ public class InputManager : MonoBehaviour
     private Striker striker;
     private Ninja ninja;
     private Warden warden;
+    private BasicSpell basicSpell;
     private BallManager ball;
     private Back back;
     private Hook hook;
@@ -40,6 +41,7 @@ public class InputManager : MonoBehaviour
         striker = GetComponent<Striker>();
         ninja = GetComponent<Ninja>();
         warden = GetComponent<Warden>(); 
+        basicSpell = GetComponent<BasicSpell>(); 
         back = GetComponent<Back>();
         hook = GetComponent<Hook>();
         menus = GameObject.Find("Menus");
@@ -96,6 +98,10 @@ public class InputManager : MonoBehaviour
                 ninja.Smoke();
         }
 
+        //Basic Spell
+        if(Input.GetKeyDown(KeyCode.G))
+            basicSpell.Basic_Spell();
+        
         //Power-Up
         if (Input.GetKeyDown(KeyCode.F))
             back.TP_Back();
