@@ -45,10 +45,10 @@ public class InputManager : MonoBehaviour
         back = GetComponent<Back>();
         hook = GetComponent<Hook>();
         menus = GameObject.Find("Menus");
-        tabMenu = menus.transform.GetChild(0).gameObject;
-        pauseMenu = menus.transform.GetChild(1).gameObject;
-        optionsMenu = menus.transform.GetChild(2).gameObject;
-        classMenu = menus.transform.GetChild(3).gameObject;
+        tabMenu = menus.transform.Find("Tab").gameObject;
+        pauseMenu = menus.transform.Find("Pause").gameObject;
+        optionsMenu = menus.transform.Find("Options").gameObject;
+        classMenu = menus.transform.Find("ClassMenu").gameObject;
         ReloadInputs();
         
         //Bloque la souris
