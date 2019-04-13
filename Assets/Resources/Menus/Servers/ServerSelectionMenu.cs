@@ -69,11 +69,6 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinRandomRoom();
     }
 
-    public void OnRefreshClicked()
-    {
-        RefreshRoomsList();
-    }
-
     public void On1v1ToggleClicked(bool value)
     {
         selectedGamemodes[0] = value;
