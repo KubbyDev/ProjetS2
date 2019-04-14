@@ -67,7 +67,7 @@ public class OptionsMenu : MonoBehaviour
     {
         graphicsMenu.SetActive(false);
         controlsMenu.SetActive(true);
-
+        
         graphicsButton.interactable = true;
         controlsButton.interactable = false;
     }
