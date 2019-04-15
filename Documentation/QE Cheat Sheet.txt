@@ -1,0 +1,13 @@
+Quidditch Evolution Cheat Sheet
+
+Warden:
+Freeze (E) : Shoots an energy bolt and freezes the ball if encountered. The ball first becomes totally immune and immobile for a short duration. It then remains immobile until a player catches the ball or the time is up.  
+Magnet (Q) : Increases the player catch range for a short duration
+
+Ninja:
+Smoke(E): Throws a smoke bomb impairing the sight of any player caught in the smoke, may they be friends or foes. 
+Explode(Q): It’s engines start overheating, granting a huge movement speed boost. Once they reach their limit, they release a powerful shockwave repelling any close enemy.
+
+Striker:
+Escape(E): Throws a teleportation module. The Striker then teleports to its position.
+Speed(Q): Gains movements speed boost.

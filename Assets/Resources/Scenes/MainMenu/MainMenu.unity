@@ -4701,11 +4701,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1419401372205170567, guid: 2591c9e1293e8b444984b1459a0108e3,
-        type: 3}
-      propertyPath: m_Value
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 321403414274300323, guid: 2591c9e1293e8b444984b1459a0108e3,
         type: 3}
       propertyPath: m_AnchorMin.x
