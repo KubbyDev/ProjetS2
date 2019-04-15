@@ -22,7 +22,7 @@ public class OptionsMenu : MonoBehaviour
     [SerializeField] private Dropdown aaDropdown;           //Reference au dropdown de l'anti aliasing
     [SerializeField] private Toggle fullscreenToggle;       //Reference au toggle du fullscreen
     [SerializeField] private Slider volumeSlider;           //Reference au slider du volume
-
+ 
     private Resolution[] resolutions;     //Liste des resolutions que l'ecran peut afficher
     private int currentKey = -1;          //L'index de la touche que l'utilisateur est en train d'assigner
 
@@ -61,6 +61,11 @@ public class OptionsMenu : MonoBehaviour
 
         graphicsButton.interactable = false;
         controlsButton.interactable = true;
+        
+        graphicsButton.GetComponent<Image>().color = new Color(1,1,1,1);
+        controlsButton.GetComponent<Image>().color = new Color(0.6f,0.6f,0.6f,1);
+        graphicsButton.transform.Find("Text").GetComponent<Text>().color = new Color(1,1,1,1);
+        controlsButton.transform.Find("Text").GetComponent<Text>().color = new Color(0.6f,0.6f,0.6f,1);
     }
 
     public void OnControlsClick()
@@ -70,6 +75,11 @@ public class OptionsMenu : MonoBehaviour
         
         graphicsButton.interactable = true;
         controlsButton.interactable = false;
+        
+        graphicsButton.GetComponent<Image>().color = new Color(0.6f,0.6f,0.6f,1);
+        controlsButton.GetComponent<Image>().color = new Color(1,1,1,1);
+        graphicsButton.transform.Find("Text").GetComponent<Text>().color = new Color(0.6f,0.6f,0.6f,1);
+        controlsButton.transform.Find("Text").GetComponent<Text>().color = new Color(1,1,1,1);
     }
 
     //  Actions des boutons, Menu Graphics  ------------------------------------------------------------------------------------
