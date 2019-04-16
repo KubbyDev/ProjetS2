@@ -1165,11 +1165,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 40
       objectReference: {fileID: 0}
-    - target: {fileID: 7998972774062290923, guid: f69a067788358b947906614c82f24936,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7495303585142292393, guid: f69a067788358b947906614c82f24936,
         type: 3}
       propertyPath: m_Convex
@@ -1178,6 +1173,11 @@ PrefabInstance:
     - target: {fileID: 7495303585142292393, guid: f69a067788358b947906614c82f24936,
         type: 3}
       propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7998972774062290923, guid: f69a067788358b947906614c82f24936,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3773624837763550813, guid: f69a067788358b947906614c82f24936,
@@ -2568,11 +2568,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tab
       objectReference: {fileID: 0}
-    - target: {fileID: 1852062878195450214, guid: b1cae04928271d046b43c121481d094a,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1766406581576719716, guid: b1cae04928271d046b43c121481d094a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2681,7 +2676,7 @@ PrefabInstance:
     - target: {fileID: 6914266585359676955, guid: b1cae04928271d046b43c121481d094a,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1cae04928271d046b43c121481d094a, type: 3}
@@ -2904,16 +2899,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
-    - target: {fileID: 1060382205374090923, guid: 37ac5d17c94012e438cc2d162c2accc4,
-        type: 3}
-      propertyPath: viewIdField
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1060382205374090923, guid: 37ac5d17c94012e438cc2d162c2accc4,
-        type: 3}
-      propertyPath: InstantiationId
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3815523872723979497, guid: 37ac5d17c94012e438cc2d162c2accc4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2969,11 +2954,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6241107992965290905, guid: 37ac5d17c94012e438cc2d162c2accc4,
-        type: 3}
-      propertyPath: gameMenu
-      value: 
-      objectReference: {fileID: 1544307569}
     - target: {fileID: 6572717544643566008, guid: 37ac5d17c94012e438cc2d162c2accc4,
         type: 3}
       propertyPath: timeDisplayer
@@ -2989,5 +2969,20 @@ PrefabInstance:
       propertyPath: pregameMenu
       value: 
       objectReference: {fileID: 1099793047}
+    - target: {fileID: 6241107992965290905, guid: 37ac5d17c94012e438cc2d162c2accc4,
+        type: 3}
+      propertyPath: gameMenu
+      value: 
+      objectReference: {fileID: 1544307569}
+    - target: {fileID: 1060382205374090923, guid: 37ac5d17c94012e438cc2d162c2accc4,
+        type: 3}
+      propertyPath: viewIdField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1060382205374090923, guid: 37ac5d17c94012e438cc2d162c2accc4,
+        type: 3}
+      propertyPath: InstantiationId
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37ac5d17c94012e438cc2d162c2accc4, type: 3}

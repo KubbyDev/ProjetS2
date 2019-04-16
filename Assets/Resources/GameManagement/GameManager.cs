@@ -86,6 +86,9 @@ public class GameManager : MonoBehaviour
         //Affiche le temps en haut de l'ecran
         gameMenu.SetActive(true);
         
+        //Separe les teams dans le menu tab
+        TabMenu.script.SeparateTeams();
+        
         gameStarted = true;
         timeLeft = gameConfig.gameDuration;
         
