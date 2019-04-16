@@ -97,18 +97,17 @@ public class GameDataSync : MonoBehaviour
             Ball.ball.transform.position,    //La position de la balle quand elle est entree dans le but
             PhotonNetwork.Time,              //Le moment auquel le message part (pour prendre en compte le temps de trajet)
             GameManager.timeLeft,            //Le temps restant avant la fin de la partie
-            GameManager.timeLeftForKickoff,  //Le temps restant avant que les joueurs puissent bouger
             Spawns.randomSeed                //La seed du LCG des Spawns (Pour que tous les clients aient les memes nombres random)
         };
     }
     
     [PunRPC]
     //Cette methode est appellee sur les clients au moment des buts pour les confirmer
-    public void GetOnGoalEvent_RPC(bool isBlue, Vector3 ballPosition, double sendMoment, float pTimeLeft, float pTimeLeftToKickoff, int spawnsSeed)
+    public void GetOnGoalEvent_RPC(bool isBlue, Vector3 ballPosition, double sendMoment, float pTimeLeft, int spawnsSeed)
     {
         //On met a jour le temps restant avant l'engagement
         //En prenant en compte le temps de trajet du message
-        GameManager.timeLeftForKickoff = (float) (pTimeLeftToKickoff - (PhotonNetwork.Time - sendMoment));
+        GameManager.timeLeftForKickoff = (float) (8 - (PhotonNetwork.Time - sendMoment));
         
         GameManager.timeLeft = pTimeLeft;
         Spawns.randomSeed = spawnsSeed;
@@ -117,24 +116,57 @@ public class GameDataSync : MonoBehaviour
         GameManager.script.OnGoal(isBlue, ballPosition);
     }
     
-    // Packet de fin de game -------------------------------------------------------------------------------------------
+    // Packets de fin de game -------------------------------------------------------------------------------------------
     
-    //Cette methode est appellee sur le host quand la partie est terminee
-    public static void SendEndGameEvent()
+    //Cette methode est appellee sur le host si il y a un overtime
+    public static void SendOvertimeEvent()
     {
-        pv.RPC("GetEndGameEvent_RPC", RpcTarget.Others, EndGameEvent());
+        pv.RPC("GetOvertimeEvent_RPC", RpcTarget.Others, OvertimeEvent());
     }
 
-    private static object[] EndGameEvent()
+    private static object[] OvertimeEvent()
     {
-        return new object[] {};
+        return new object[]
+        {
+            PhotonNetwork.Time,              //Le moment auquel le message part (pour prendre en compte le temps de trajet)
+            Spawns.randomSeed                //La seed du LCG des Spawns (Pour que tous les clients aient les memes nombres random)
+        };
     }
 
     [PunRPC]
-    //Cette methode est appellee sur les clients au moment de la fin de partie
-    public void GetEndGameEvent_RPC()
+    //Cette methode est appellee sur les clients si il y a un overtime
+    public void GetOvertimeEvent_RPC(double sendMoment, int spawnsSeed)
+    {
+        //On met a jour le temps restant avant l'engagement
+        //En prenant en compte le temps de trajet du message
+        GameManager.timeLeftForKickoff = (float) (3 - (PhotonNetwork.Time - sendMoment));
+        
+        Ball.Hide();
+        GameManager.timeLeft = 0;
+        Spawns.randomSeed = spawnsSeed;
+        
+        GameManager.script.RespawnAll();
+    }
+    
+    //Cette methode est appellee sur le host si il y a un overtime
+    public static void SendEndGameEvent(bool blueWon)
+    {
+        pv.RPC("GetEndGameEvent_RPC", RpcTarget.Others, EndGameEvent(blueWon));
+    }
+
+    private static object[] EndGameEvent(bool blueWon)
+    {
+        return new object[]
+        {
+            blueWon
+        };
+    }
+
+    [PunRPC]
+    //Cette methode est appellee sur les clients au moment de la fin de partie (overtime ou pas)
+    public void GetEndGameEvent_RPC(bool blueWon)
     {
         //Informe le game manager que la partie est terminee
-        GameManager.EndGame();
+        GameManager.script.EndGame(blueWon);
     }
 }

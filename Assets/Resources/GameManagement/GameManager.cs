@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public static int blueScore;      //Score de l'equipe bleu
     public static int orangeScore;    //Score de l'equipe orange
     public static bool gameStarted;   //Passe a true des que la partie demarre
+    public static bool gameFinished;   //Passe a true des que la partie se termine
     
     [SerializeField] private GameObject gameMenu; //Contient les affichages
     
@@ -60,12 +61,19 @@ public class GameManager : MonoBehaviour
     }
     
     //Met le temps en format MinMin:SecSec
+    //Ajoute un + si le temps est negatif (overtime)
     public static string FormatTime(float time)
     {
+        string res = "";
+
         if (time < 0)
-            return "00:00";
-        
-        return ((int) (time+0.99f)/60).ToString().PadLeft(2, '0') + ":" + ((int) (time+0.99f)%60).ToString().PadLeft(2, '0');
+        {
+            time *= -1;
+            res = "+";
+        }
+
+        res += ((int) (time+0.99f)/60).ToString().PadLeft(2, '0') + ":" + ((int) (time+0.99f)%60).ToString().PadLeft(2, '0');
+        return res;
     }
     
     // Debut de partie -------------------------------------------------------------------------------------------------
@@ -104,8 +112,8 @@ public class GameManager : MonoBehaviour
         //On fait une GoalExplosion dans le bon but
         GoalDetector.goals[isForBlue ? 1 : 0].GetComponent<GoalExplosion>().MakeGoalExplosion(ballPosition);
         
-        //Si la partie n'a pas encore demarre on ne fait rien
-        if (!gameStarted)
+        //Si la partie n'a pas encore demarre ou est terminee on ne fait rien
+        if (!gameStarted || gameFinished)
             return;
             
         //Incremente le nombre de buts marques du joueur qui a marque
@@ -121,7 +129,7 @@ public class GameManager : MonoBehaviour
         blueScoreDisplayer.text = blueScore.ToString();
         orangeScoreDisplayer.text = orangeScore.ToString();
         
-        gamePlaying = false;
+        gamePlaying = false; //Empeche le temps de s'ecouler
         Ball.Hide();
         
         //Attend 5 secondes puis on lance le timer de l'engagement
@@ -150,8 +158,10 @@ public class GameManager : MonoBehaviour
     
     //Cette methode remet tout le monde a sa place (AI, joueurs et balle)
     //Et demarre les temps avant de pouvoir bouger
-    private void RespawnAll()
+    public void RespawnAll()
     {
+        gamePlaying = false; //Empeche le temps de s'ecouler
+        
         //On fait respawn tout le monde
         Spawns.AssignSpawns(GameObject.FindGameObjectsWithTag("Player"));
         //Quand un spawn est utilise, il n'est plus utilisable apres, cette methode rend tous les spawns utilisables
@@ -182,8 +192,16 @@ public class GameManager : MonoBehaviour
     
     //Pour que cette methode soit appelle, il faut que le Host declenche l'evenement de fin de partie
     //Puis que le GameDataSync envoie l'evenement a ce client, et appelle cette methode
-    public static void EndGame()
+    public void EndGame(bool blueWon)
     {
+        timeLeft = 0;
+        gamePlaying = false;
+        gameFinished = true;
+        StopCoroutine(Kickoff_Coroutine());
+        StopCoroutine(Celebration_Coroutine());
+        Ball.Hide();
+        
         Debug.Log("Game End");
+        Debug.Log((blueWon ? "Blue" : "Orange") + " Team Won !");
     }
 }

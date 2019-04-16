@@ -7,6 +7,7 @@ using UnityEngine;
 public class GameManagerHost : MonoBehaviourPunCallbacks
 {
     public static int maxGoals;  //Le nombre de but pour que la partie se termine: 0 = infini
+    public static bool inOvertime = false;
     
     void Awake()
     {
@@ -30,11 +31,20 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        if (GameManager.timeLeft < 0) // Si le temps est ecoule, la partie s'arrete
+        if (GameManager.timeLeft < 0 && !inOvertime) // Si le temps est ecoule, soit on lance l'overtime, soit on termine la partie
         {
+            inOvertime = true;
             GameManager.timeLeft = 0;
-            GameManager.gamePlaying = false;
-            EndGame();
+
+            if (GameManager.blueScore == GameManager.orangeScore)
+            {
+                Ball.Hide();
+                GameManager.timeLeftForKickoff = 3;
+                GameDataSync.SendOvertimeEvent();
+                GameManager.script.RespawnAll();
+            }
+            else
+                EndGame();
         }
     }
 
@@ -51,6 +61,9 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
     //Cette methode va informer tous les clients qu'il y a un but
     public static void OnGoal(bool isBlue)
     {
+        if(inOvertime)
+            EndGame();
+        
         //5 sec de celebration, 3 sec avant l'engagement
         GameManager.timeLeftForKickoff = 8;
         
@@ -66,8 +79,8 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
     private static void EndGame()
     {
         //Appelle EndGame sur le GameManager de tous les clients
-        GameDataSync.SendEndGameEvent();
-        GameManager.EndGame();
+        GameDataSync.SendEndGameEvent(GameManager.blueScore > GameManager.orangeScore);
+        GameManager.script.EndGame(GameManager.blueScore > GameManager.orangeScore);
     }
 
     // Debut de partie -------------------------------------------------------------------------------------------------

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ExitGames.Client.Photon;
+using JetBrains.Annotations;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
@@ -14,6 +15,10 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
     //Room creation
     [SerializeField] private InputField createRoomInput;  //Le texte tappe dans le champ room name de create room
     [SerializeField] private Dropdown teamsSizeDropdown;  //La taille des teams choisies (1v1, 2v2, 3v3, 4v4)
+    [SerializeField] private Dropdown maxGoalsDropdown;   //Le nombre de buts max avant que la partie s'arrete
+    [SerializeField] private Dropdown maxTimeDropdown;    //La duree de la partie
+    [SerializeField] private GameObject createRoomMenu;   //Le menu de creation de room (sans avoir clique sur advanced)
+    [SerializeField] private GameObject advCreateRoomMenu;//Le menu de creation de room (apres avoir clique sur advanced)
     
     //Room join
     [SerializeField] private GameObject roomPrefab;       //Le bouton correspondant a une salle
@@ -116,8 +121,34 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
         //Si le champ est rempli on donne a la salle le nom choisi, sinon on donne un nom random
         string text = createRoomInput.text;
         string roomName = text != "" ? text : "Room" + Random.Range(0, 1000000);
+        
+        //Lis la duree max de partie selectionne
+        int maxTime = 0;
+        if (maxTimeDropdown.captionText.text != "Unlimited")
+        {
+            string[] words = maxTimeDropdown.captionText.text.Split(' ');
+            maxTime = int.Parse(words[0]) * (words[1] == "min" ? 60 : 1);   
+        }
+        
+        //Lis le nombre de buts selectionne
+        int maxGoals = 0;
+        if (maxGoalsDropdown.captionText.text != "Unlimited")
+            maxGoals = int.Parse(maxGoalsDropdown.captionText.text);
+        
+        CreateRoom(roomName, teamsSizeDropdown.value +1, maxGoals, maxTime);
+    }
 
-        CreateRoom(roomName, teamsSizeDropdown.value +1, int.MaxValue, 5*60);
+    public void OnAdvancedClicked()
+    {
+        advCreateRoomMenu.SetActive(true);
+        createRoomMenu.SetActive(false);
+    }
+
+    //Quand on clique sur Done depuis les advanced settings
+    public void OnDoneClicked()
+    {
+        advCreateRoomMenu.SetActive(false);
+        createRoomMenu.SetActive(true);
     }
 
     // Liste des salles ------------------------------------------------------------------------
