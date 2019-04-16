@@ -32,7 +32,7 @@ public class TabMenu : MonoBehaviour
     private float timeToUpdate;
     private float timeToUpdateValues;
 
-    private void Awake()
+    void Awake()
     {
         script = this;
     }

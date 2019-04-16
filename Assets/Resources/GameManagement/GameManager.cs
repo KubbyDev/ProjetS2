@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     public static bool gameStarted;   //Passe a true des que la partie demarre
     public static bool gameFinished;   //Passe a true des que la partie se termine
     
-    [SerializeField] private GameObject gameMenu; //Contient les affichages
+    [SerializeField] private Transform menus; //Contient les affichages
     
     private Vector3 ballSpawn;           //Position de spawn de la balle
     private Text timeDisplayer;          //Le component qui affiche le temps restant
@@ -35,9 +35,10 @@ public class GameManager : MonoBehaviour
         PreGameManager.maxPlayers = 2 * gameConfig.playersPerTeam;
         
         //Recuperation des afficheurs en haut de l'ecran
-        timeDisplayer = gameMenu.transform.Find("Background").Find("Time").GetComponent<Text>();
-        blueScoreDisplayer = gameMenu.transform.Find("Background").Find("BlueScore").GetComponent<Text>();
-        orangeScoreDisplayer = gameMenu.transform.Find("Background").Find("OrangeScore").GetComponent<Text>();
+        Transform gameMenu = menus.Find("GameMenu");
+        timeDisplayer = gameMenu.Find("Background").Find("Time").GetComponent<Text>();
+        blueScoreDisplayer = gameMenu.Find("Background").Find("BlueBackground").Find("BlueScore").GetComponent<Text>();
+        orangeScoreDisplayer = gameMenu.Find("Background").Find("OrangeBackground").Find("OrangeScore").GetComponent<Text>();
     }
 
     void Start()
@@ -84,10 +85,10 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         //Affiche le temps en haut de l'ecran
-        gameMenu.SetActive(true);
+        menus.Find("GameMenu").gameObject.SetActive(true);
         
         //Separe les teams dans le menu tab
-        TabMenu.script.SeparateTeams();
+        menus.Find("Tab").GetComponent<TabMenu>().SeparateTeams();
         
         gameStarted = true;
         timeLeft = gameConfig.gameDuration;
@@ -115,8 +116,8 @@ public class GameManager : MonoBehaviour
         //On fait une GoalExplosion dans le bon but
         GoalDetector.goals[isForBlue ? 1 : 0].GetComponent<GoalExplosion>().MakeGoalExplosion(ballPosition);
         
-        //Si la partie n'a pas encore demarre ou est terminee on ne fait rien
-        if (!gameStarted || gameFinished)
+        //Si la partie n'a pas encore demarre on ne fait que l'explosion
+        if (!gameStarted)
             return;
             
         //Incremente le nombre de buts marques du joueur qui a marque
@@ -127,10 +128,14 @@ public class GameManager : MonoBehaviour
             blueScore++;    // Ajoute un point aux bleus
         else
             orangeScore++;  // Ajoute un point aux oranges
-        
+                   
         //Met a jour les points en haut de l'ecran
         blueScoreDisplayer.text = blueScore.ToString();
         orangeScoreDisplayer.text = orangeScore.ToString();
+        
+        //Si la partie est deja finie on ne fait que l'explosion et l'incrementation des points
+        if (gameFinished)
+            return;
         
         gamePlaying = false; //Empeche le temps de s'ecouler
         Ball.Hide();
