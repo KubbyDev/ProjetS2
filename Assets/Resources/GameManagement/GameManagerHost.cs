@@ -78,9 +78,15 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
     //Cette methode va informer tous les clients que la partie est terminee
     private static void EndGame()
     {
+        Team losingTeam = Team.None;
+        if (GameManager.blueScore > GameManager.orangeScore)
+            losingTeam = Team.Orange;
+        if (GameManager.blueScore < GameManager.orangeScore)
+            losingTeam = Team.Blue;
+        
         //Appelle EndGame sur le GameManager de tous les clients
-        GameDataSync.SendEndGameEvent(GameManager.blueScore > GameManager.orangeScore);
-        GameManager.script.EndGame(GameManager.blueScore > GameManager.orangeScore);
+        GameDataSync.SendEndGameEvent(losingTeam);
+        GameManager.script.EndGame(losingTeam);
     }
 
     // Debut de partie -------------------------------------------------------------------------------------------------

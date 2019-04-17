@@ -149,24 +149,24 @@ public class GameDataSync : MonoBehaviour
     }
     
     //Cette methode est appellee sur le host si il y a un overtime
-    public static void SendEndGameEvent(bool blueWon)
+    public static void SendEndGameEvent(Team losingTeam)
     {
-        pv.RPC("GetEndGameEvent_RPC", RpcTarget.Others, EndGameEvent(blueWon));
+        pv.RPC("GetEndGameEvent_RPC", RpcTarget.Others, EndGameEvent(losingTeam));
     }
 
-    private static object[] EndGameEvent(bool blueWon)
+    private static object[] EndGameEvent(Team losingTeam)
     {
         return new object[]
         {
-            blueWon
+            (int) losingTeam
         };
     }
 
     [PunRPC]
     //Cette methode est appellee sur les clients au moment de la fin de partie (overtime ou pas)
-    public void GetEndGameEvent_RPC(bool blueWon)
+    public void GetEndGameEvent_RPC(int losingTeam)
     {
         //Informe le game manager que la partie est terminee
-        GameManager.script.EndGame(blueWon);
+        GameManager.script.EndGame((Team) losingTeam);
     }
 }

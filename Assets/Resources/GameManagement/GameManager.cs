@@ -200,7 +200,7 @@ public class GameManager : MonoBehaviour
     
     //Pour que cette methode soit appelle, il faut que le Host declenche l'evenement de fin de partie
     //Puis que le GameDataSync envoie l'evenement a ce client, et appelle cette methode
-    public void EndGame(bool blueWon)
+    public void EndGame(Team losingTeam)
     {
         timeLeft = 0;
         gamePlaying = false;
@@ -209,7 +209,6 @@ public class GameManager : MonoBehaviour
         StopCoroutine(Celebration_Coroutine());
         Ball.Hide();
         
-        Debug.Log("Game End");
-        Debug.Log((blueWon ? "Blue" : "Orange") + " Team Won !");
+        EndGameManager.script.EndGame(losingTeam);
     }
 }

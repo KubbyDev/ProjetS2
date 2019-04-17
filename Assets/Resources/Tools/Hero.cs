@@ -10,9 +10,11 @@ public enum Hero
 
 static class Heroes
 {
+    /* TODO:
     public static readonly Mesh strickerMesh = Resources.Load<Mesh>("Meshes/Striker");
     public static readonly Mesh wardenMesh = Resources.Load<Mesh>("Meshes/Warden");
     public static readonly Mesh ninjaMesh = Resources.Load<Mesh>("Meshes/Ninja");
+    */
 
     static readonly System.Random rng = new System.Random();
     
@@ -22,6 +24,7 @@ static class Heroes
         return (Hero) rng.Next(3);
     }
 
+    /*
     //Renvoie le mesh correspondant a un hero
     public static Mesh GetMesh(this Hero h)
     {
@@ -33,4 +36,5 @@ static class Heroes
             default: return null;
         }
     }
+    */
 }

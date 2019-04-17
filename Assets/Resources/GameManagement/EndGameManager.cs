@@ -1,7 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Linq;
 using Photon.Pun;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class EndGameManager : MonoBehaviour
 {
@@ -15,10 +15,13 @@ public class EndGameManager : MonoBehaviour
     {
         script = this;
 
-        //Recuperation de toutes les positions possibles sur le podium //TODO: les placer mdr
         podium = GameObject.Find("Podium").transform;
         Transform podiumWin = podium.Find("Winners");
         Transform podiumLose = podium.Find("Losers");
+
+        //Recuperation de toutes les positions possibles sur le podium
+        winPositions = new Position[8];
+        losePositions = new Position[4];
         for(int i = 0; i < 8; i++)
             winPositions[i] = new Position(podiumWin.GetChild(i));
         for(int i = 0; i < 4; i++)
@@ -27,7 +30,18 @@ public class EndGameManager : MonoBehaviour
     
     public void EndGame(Team losingTeam)
     {
-        //Met la camera au bon endroit  //TODO: placer ça aussi
+        StartCoroutine(EndGameCoroutine(losingTeam));
+    }
+
+    IEnumerator EndGameCoroutine(Team losingTeam)
+    {
+        yield return new WaitForSeconds(3);
+        MakePodium(losingTeam);
+    }
+
+    private void MakePodium(Team losingTeam)
+    {
+        //Met la camera au bon endroit
         Transform cameraPosition = podium.Find("CameraPosition");
         Camera.main.transform.SetPositionAndRotation(cameraPosition.position, cameraPosition.rotation);
         
@@ -57,26 +71,26 @@ public class EndGameManager : MonoBehaviour
             }
 
             //On place le mesh du joueur et son pseudo a cette position
-            position.meshFilter.mesh = playerInfos.hero.GetMesh();
-            position.nickname.text = playerInfos.nickname;
+            position.meshFilter.GetComponent<MeshRenderer>().enabled = true; //playerInfos.hero.GetMesh(); //TODO
+            //position.nickname.text = playerInfos.nickname;  //TODO
             
             //Detruit le player pour eviter tout probleme
             Destroy(player);
         }
     }
-
+    
     //Cette classe represente une position sur le podium
     //Elle permet de donner un acces rapide aux trucs a modifier quand on veut
     //Afficher un joueur sur le podium
     private class Position
     {
         public MeshFilter meshFilter;
-        public Text nickname;
+        //public TextMesh nickname;
 
         public Position(Transform podiumPosition)
         {
             meshFilter = podiumPosition.GetComponent<MeshFilter>();
-            nickname = podiumPosition.Find("Nickname").GetComponent<Text>();
+            //nickname = podiumPosition.Find("Nickname").GetComponent<TextMesh>();
         }
     }
 }
