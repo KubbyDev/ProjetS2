@@ -1,4 +1,6 @@
 ﻿
+using UnityEngine;
+
 public enum Hero
 {
     Stricker = 0,
@@ -8,13 +10,10 @@ public enum Hero
 
 static class Heroes
 {
-    //TODO: Trouver un moyen propre d'initialiser ca
-    /*
-    public static Mesh strickerMesh;//Le mesh du stricker
-    public static Mesh wardenMesh;  //Le mesh du warden
-    public static Mesh ninjaMesh;   //Le mesh du ninja
-    */
-    
+    public static readonly Mesh strickerMesh = Resources.Load<Mesh>("Meshes/Striker");
+    public static readonly Mesh wardenMesh = Resources.Load<Mesh>("Meshes/Warden");
+    public static readonly Mesh ninjaMesh = Resources.Load<Mesh>("Meshes/Ninja");
+
     static readonly System.Random rng = new System.Random();
     
     //Renvoie un hero random
@@ -23,7 +22,6 @@ static class Heroes
         return (Hero) rng.Next(3);
     }
 
-    /*
     //Renvoie le mesh correspondant a un hero
     public static Mesh GetMesh(this Hero h)
     {
@@ -35,5 +33,4 @@ static class Heroes
             default: return null;
         }
     }
-    */
 }
