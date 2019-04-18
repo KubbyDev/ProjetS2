@@ -221,8 +221,8 @@ MonoBehaviour:
   ninjaMesh: {fileID: 0}
   strikerMaterials: []
   wardenMaterials:
-  - {fileID: 2100002, guid: 984cbcb698c446e49920e213f87b8f9d, type: 3}
   - {fileID: 2100000, guid: 984cbcb698c446e49920e213f87b8f9d, type: 3}
+  - {fileID: 2100002, guid: 984cbcb698c446e49920e213f87b8f9d, type: 3}
   - {fileID: 2100004, guid: 984cbcb698c446e49920e213f87b8f9d, type: 3}
   - {fileID: 2100006, guid: 984cbcb698c446e49920e213f87b8f9d, type: 3}
   - {fileID: 2100008, guid: 984cbcb698c446e49920e213f87b8f9d, type: 3}

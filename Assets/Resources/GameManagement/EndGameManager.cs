@@ -85,8 +85,8 @@ public class EndGameManager : MonoBehaviour
 
             //On place le mesh du joueur et son pseudo a cette position
             position.meshFilter.mesh = playerInfos.hero.GetModel().mesh;
-            position.meshFilter.GetComponent<MeshRenderer>().materials = playerInfos.hero.GetModel().materials;
-            //position.nickname.text = playerInfos.nickname;  //TODO
+            position.meshRenderer.materials = playerInfos.hero.GetModel().materials;
+            position.nickname.text = playerInfos.nickname;
             
             //Detruit le player pour eviter tout probleme
             Destroy(player);
@@ -105,12 +105,14 @@ public class EndGameManager : MonoBehaviour
     private class Position
     {
         public MeshFilter meshFilter;
-        //public TextMesh nickname;
+        public MeshRenderer meshRenderer;
+        public TextMesh nickname;
 
         public Position(Transform podiumPosition)
         {
             meshFilter = podiumPosition.GetComponent<MeshFilter>();
-            //nickname = podiumPosition.Find("Nickname").GetComponent<TextMesh>();
+            meshRenderer = podiumPosition.GetComponent<MeshRenderer>();
+            nickname = podiumPosition.Find("Nickname").GetComponent<TextMesh>();
         }
     }
 }

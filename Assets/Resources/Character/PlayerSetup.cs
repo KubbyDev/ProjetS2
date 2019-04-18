@@ -11,13 +11,18 @@ public class PlayerSetup : MonoBehaviour, IPunInstantiateMagicCallback {
 
     void Awake()
     {
-        //Si le joueur qui vient de spawn est celui du client on laisse tout active, mais on le renseigne dans le PlayerInfo
+        //Si le joueur qui vient de spawn est celui du client on laisse tout active sauf le nickname
         if (GetComponent<PhotonView>().IsMine)
+        {
             PlayerInfo.localPlayer = this.gameObject;
+            transform.Find("Nickname").GetComponent<MeshRenderer>().enabled = false;
+        }
         else
+        {
             //Sinon on desactive les components qui doivent l'etre
             foreach (Behaviour comp in componentsToDisable)
-                comp.enabled = false;
+                comp.enabled = false;   
+        }
     }
 
     public void OnPhotonInstantiate(PhotonMessageInfo info)
@@ -25,7 +30,8 @@ public class PlayerSetup : MonoBehaviour, IPunInstantiateMagicCallback {
         //Permet d'acceder au GameObject du joueur depuis un PhotonPlayer
         info.Sender.TagObject = this.gameObject;
         
-        //On recupere le pseudo du joueur
-        GetComponent<PlayerInfo>().nickname = info.Sender.NickName;
+        //On recupere le pseudo du joueur 
+        transform.Find("Nickname").GetComponent<TextMesh>().text = GetComponent<PlayerInfo>().nickname = 
+            info.Sender.NickName;
     }
 }
