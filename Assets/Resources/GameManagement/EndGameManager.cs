@@ -45,9 +45,8 @@ public class EndGameManager : MonoBehaviour
         
         //Masque tous les menus sauf celui pour quitter la partie
         foreach (Transform t in menus) //Pour chaque child de menus
-            if(t.name == "EndgameMenu")
-                t.gameObject.SetActive(true);
-        
+            t.gameObject.SetActive(t.name == "EndgameMenu" || t.name == "EventSystem");
+
         //Debloque la souris
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -85,7 +84,8 @@ public class EndGameManager : MonoBehaviour
             }
 
             //On place le mesh du joueur et son pseudo a cette position
-            position.meshFilter.GetComponent<MeshRenderer>().enabled = true; //playerInfos.hero.GetMesh(); //TODO
+            position.meshFilter.mesh = playerInfos.hero.GetModel().mesh;
+            position.meshFilter.GetComponent<MeshRenderer>().materials = playerInfos.hero.GetModel().materials;
             //position.nickname.text = playerInfos.nickname;  //TODO
             
             //Detruit le player pour eviter tout probleme

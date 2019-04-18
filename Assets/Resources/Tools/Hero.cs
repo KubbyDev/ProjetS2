@@ -1,5 +1,4 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 
 public enum Hero
 {
@@ -10,12 +9,6 @@ public enum Hero
 
 static class Heroes
 {
-    /* TODO:
-    public static readonly Mesh strickerMesh = Resources.Load<Mesh>("Meshes/Striker");
-    public static readonly Mesh wardenMesh = Resources.Load<Mesh>("Meshes/Warden");
-    public static readonly Mesh ninjaMesh = Resources.Load<Mesh>("Meshes/Ninja");
-    */
-
     static readonly System.Random rng = new System.Random();
     
     //Renvoie un hero random
@@ -24,17 +17,28 @@ static class Heroes
         return (Hero) rng.Next(3);
     }
 
-    /*
     //Renvoie le mesh correspondant a un hero
-    public static Mesh GetMesh(this Hero h)
+    public static Model GetModel(this Hero h)
     {
         switch (h)
         {
-            case Hero.Stricker: return strickerMesh;
-            case Hero.Warden: return wardenMesh;
-            case Hero.Ninja: return ninjaMesh;
+            //case Hero.Stricker: return strickerMesh;
+            case Hero.Warden: return new Model(HeroesMesh.heroesMeshes.wardenMesh, HeroesMesh.heroesMeshes.wardenMaterials);
+            //case Hero.Ninja: return ninjaMesh;
             default: return null;
         }
     }
-    */
+    
+}
+
+public class Model
+{
+    public Mesh mesh;
+    public Material[] materials;
+
+    public Model(Mesh mesh, Material[] materials)
+    {
+        this.mesh = mesh;
+        this.materials = materials;
+    }
 }
