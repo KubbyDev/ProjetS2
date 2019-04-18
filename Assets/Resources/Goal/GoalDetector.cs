@@ -36,8 +36,7 @@ public class GoalDetector : MonoBehaviour
                 return;
             
             //Si c'est le host on informe le GameManagerHost du but, pour qu'il transmette l'info
-            GameManagerHost.OnGoal(team == Team.Orange);
-            GameManager.script.OnGoal(team == Team.Orange, ballPosition);
+            GameManagerHost.OnGoal(team == Team.Orange, ballPosition);
         }
         else
             //Si la partie n'a pas demarre on fait juste une explosion de but

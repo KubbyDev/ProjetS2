@@ -59,18 +59,20 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
     
     //Evenement de but
     //Cette methode va informer tous les clients qu'il y a un but
-    public static void OnGoal(bool isForBlue)
+    public static void OnGoal(bool isForBlue, Vector3 ballPosition)
     {
-        if(inOvertime)
-            EndGame();
-        
         //5 sec de celebration, 3 sec avant l'engagement
         GameManager.timeLeftForKickoff = 8;
+     
+        GameManager.script.OnGoal(isForBlue, ballPosition);
         
-        GameDataSync.SendOnGoalEvent(isForBlue);
+        GameDataSync.SendOnGoalEvent(isForBlue, ballPosition);
 
         //Si le nombre de buts max est depasse, la partie s'arrete
         if (maxGoals > 0 && (GameManager.blueScore >= maxGoals || GameManager.orangeScore >= maxGoals))
+            EndGame();
+        
+        if(inOvertime)
             EndGame();
     }
     

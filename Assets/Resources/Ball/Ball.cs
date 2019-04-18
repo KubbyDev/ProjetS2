@@ -1,4 +1,5 @@
 ﻿using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
 //Ce script gere les physiques de la balle (L'attirance vers le joueur qui l'attrape, le tir, le freeze etc)
@@ -13,7 +14,9 @@ public class Ball : MonoBehaviour
 
     [HideInInspector] public static GameObject possessor { get; private set; } //Le joueur qui a la balle (null si elle est libre)
     [HideInInspector] public bool canBeCaught = true;                          //Vrai si la balle peut etre recuperee
-    [HideInInspector] public GameObject shooter { get; private set; }          //La derniere personne a avoir lance la balle (enregistre quand possessor passe a null)
+    [HideInInspector] public GameObject shooterBlue;      //Le dernier joueur bleu a avoir lance la balle (enregistre quand possessor passe a null)
+    [HideInInspector] public GameObject shooterOrange;    //Le dernier joueur orange a avoir lance la balle (enregistre quand possessor passe a null)
+    [HideInInspector] public bool lastTeamIsBlue;         //True: La derniere equipe a avoir possede la balle est l'equipe bleue
 
     private static PhotonView pv;       //Le script qui gere la balle sur le reseau
 
@@ -63,14 +66,15 @@ public class Ball : MonoBehaviour
     {
         //Si le viewID est a -1 c'est qu'un joueur vient de jeter la balle
         if (viewID == -1)
-        {
-            shooter = possessor;
-            possessor = null;   
-        }
+            possessor = null;
         else
         {
             possessor = PhotonView.Find(viewID).gameObject;
-            shooter = possessor;
+            lastTeamIsBlue = possessor.GetComponent<PlayerInfo>().team == Team.Blue;
+            if (lastTeamIsBlue)
+                shooterBlue = possessor;
+            else
+                shooterOrange = possessor;
         }
 
         //On enleve la possession de balle a tous les joueurs, sauf le nouveau possesseur

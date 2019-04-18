@@ -31,8 +31,8 @@ public class Room : MonoBehaviourPunCallbacks
     {
         base.OnPlayerLeftRoom(player);
         
-        //A moins que ce soit le host et que la game ait deja demarre, on ne fait rien
-        if (! (PhotonNetwork.IsMasterClient && PreGameManager.script.gameStarting))
+        //A moins que ce soit le host, que la game ait deja demarre et qu'elle ne soit pas finie, on ne fait rien
+        if (! (PhotonNetwork.IsMasterClient && PreGameManager.script.gameStarting && !GameManager.gameFinished))
             return;
         
         //Si c'est le host et que la game a deja demarre

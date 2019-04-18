@@ -14,10 +14,10 @@ public class GameManager : MonoBehaviour
     public static float timeLeftForKickoff; //Temps avant l'engagement. Ce temps est set par le GameDataSync, et prend en compte le temps de trajet de l'information
     public static bool gamePlaying;         //Booleen indiquant que la partie est en cours et que le temps s'ecoule
     
-    public static int blueScore;      //Score de l'equipe bleu
-    public static int orangeScore;    //Score de l'equipe orange
-    public static bool gameStarted;   //Passe a true des que la partie demarre
-    public static bool gameFinished;   //Passe a true des que la partie se termine
+    public static int blueScore;             //Score de l'equipe bleu
+    public static int orangeScore;           //Score de l'equipe orange
+    public static bool gameStarted;          //Passe a true des que la partie demarre
+    public static bool gameFinished =false;  //Passe a true des que la partie se termine
     
     [SerializeField] private Transform menus; //Contient les affichages
     
@@ -121,14 +121,23 @@ public class GameManager : MonoBehaviour
             return;
             
         //Incremente le nombre de buts marques du joueur qui a marque
-        if(Ball.script.shooter != null)
-            Ball.script.shooter.GetComponent<PlayerInfo>().goalsScored++;
+        if (isForBlue)
+        {
+            if(Ball.script.shooterBlue != null)
+                Ball.script.shooterBlue.GetComponent<PlayerInfo>().goalsScored++; 
+        }
+        else
+        {
+            if(Ball.script.shooterOrange != null)
+                Ball.script.shooterOrange.GetComponent<PlayerInfo>().goalsScored++; 
+        }
+        Ball.script.shooterBlue = Ball.script.shooterOrange = null;
         
         if (isForBlue)
             blueScore++;    // Ajoute un point aux bleus
         else
             orangeScore++;  // Ajoute un point aux oranges
-                   
+        
         //Met a jour les points en haut de l'ecran
         blueScoreDisplayer.text = blueScore.ToString();
         orangeScoreDisplayer.text = orangeScore.ToString();
@@ -159,7 +168,8 @@ public class GameManager : MonoBehaviour
         
         //Cette methode remet tout le monde a sa place (AI, joueurs et balle)
         //Et demarre les temps avant de pouvoir bouger
-        RespawnAll();
+        if(!gameFinished)
+            RespawnAll();
     }
     
     // Engagement ------------------------------------------------------------------------------------------------------
@@ -169,6 +179,7 @@ public class GameManager : MonoBehaviour
     public void RespawnAll()
     {
         gamePlaying = false; //Empeche le temps de s'ecouler
+        Ball.Hide();
         
         //On fait respawn tout le monde
         Spawns.AssignSpawns(GameObject.FindGameObjectsWithTag("Player"));
@@ -205,8 +216,6 @@ public class GameManager : MonoBehaviour
         timeLeft = 0;
         gamePlaying = false;
         gameFinished = true;
-        StopCoroutine(Kickoff_Coroutine());
-        StopCoroutine(Celebration_Coroutine());
         Ball.Hide();
         
         EndGameManager.script.EndGame(losingTeam);

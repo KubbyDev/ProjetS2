@@ -84,17 +84,17 @@ public class GameDataSync : MonoBehaviour
     // Packet de but ---------------------------------------------------------------------------------------------------
 
     //Cette methode est appellee sur le host quand il y a un but (pour confirmer le but aux clients)
-    public static void SendOnGoalEvent(bool isBlue)
+    public static void SendOnGoalEvent(bool isBlue, Vector3 ballPosition)
     {
-        pv.RPC("GetOnGoalEvent_RPC", RpcTarget.Others, OnGoalEvent(isBlue));
+        pv.RPC("GetOnGoalEvent_RPC", RpcTarget.Others, OnGoalEvent(isBlue, ballPosition));
     }
 
-    private static object[] OnGoalEvent(bool isBlue)
+    private static object[] OnGoalEvent(bool isBlue, Vector3 ballPosition)
     {
         return new object[]
         {
             isBlue,                          //True: Le but est dans le but bleu (donc marque par les oranges)
-            Ball.ball.transform.position,    //La position de la balle quand elle est entree dans le but
+            ballPosition,                    //La position de la balle quand elle est entree dans le but
             PhotonNetwork.Time,              //Le moment auquel le message part (pour prendre en compte le temps de trajet)
             GameManager.timeLeft,            //Le temps restant avant la fin de la partie
             Spawns.randomSeed                //La seed du LCG des Spawns (Pour que tous les clients aient les memes nombres random)

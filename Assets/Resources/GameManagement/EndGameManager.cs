@@ -2,10 +2,13 @@
 using System.Linq;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EndGameManager : MonoBehaviour
 {
     public static EndGameManager script;
+
+    [SerializeField] private Transform menus; //Le gameobject qui contient tous les menus
     
     private Position[] winPositions;  //Liste des positions possibles sur le podium des gagnants (il y en a 8 pour gerer les egalites)
     private Position[] losePositions; //Liste des positions possibles sur le podium des perdants (il y en a 4)
@@ -36,7 +39,18 @@ public class EndGameManager : MonoBehaviour
     IEnumerator EndGameCoroutine(Team losingTeam)
     {
         yield return new WaitForSeconds(3);
+        
+        //Place tout le monde sur le podium
         MakePodium(losingTeam);
+        
+        //Masque tous les menus sauf celui pour quitter la partie
+        foreach (Transform t in menus) //Pour chaque child de menus
+            if(t.name == "EndgameMenu")
+                t.gameObject.SetActive(true);
+        
+        //Debloque la souris
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     private void MakePodium(Team losingTeam)
@@ -77,6 +91,12 @@ public class EndGameManager : MonoBehaviour
             //Detruit le player pour eviter tout probleme
             Destroy(player);
         }
+    }
+
+    public void LeaveClick()
+    {
+        PhotonNetwork.LeaveRoom();
+        SceneManager.LoadScene(0);
     }
     
     //Cette classe represente une position sur le podium
