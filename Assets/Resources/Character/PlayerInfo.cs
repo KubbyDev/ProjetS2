@@ -15,7 +15,7 @@ public class PlayerInfo : MonoBehaviour
     public bool isPlayer;                  //False: C'est une IA
     public int ping;                       //Le ping de ce joueur
     public string nickname;                //Le pseudo du joueur
-    public float maxcatchrange = 6;          //La distance max a laquelle la balle peut etre attrapee
+    public float maxCatchRange = 6;        //La distance max a laquelle la balle peut etre attrapee
 
     //Ces variables sont simplement copiees ici
     //Les modifier n'aura aucun effet

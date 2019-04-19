@@ -4,25 +4,24 @@ using UnityEngine;
 
 public class Striker : MonoBehaviour
 {
-    [SerializeField] private float speedDuration = 3f;        //Duree du speed
-    [SerializeField] private float speedCooldown = 6f;        //Cooldown du speed
-    [SerializeField] private float speedMultiplier = 1.5f;    //Force du speed
-    
-    [SerializeField] private float escapeCooldown = 3f;       //Cooldown du escape
-    [SerializeField] private GameObject escapeBullet;         //Prefab de la balle pour escape
-
     private MovementManager movement;          //Reference au script qui gere les mouvements du joueur
     private PlayerInfo infos;                  //Reference au script qui contient des infos sur le joueur
     private PhotonView pv;                     //Le script qui gere ce gameobject sur le reseau
-    private bool canSpeed = true;              //canSpeed = cooldown de Turbo fini
-    private bool canEscape = true;             //canEscape = cooldown de Escape fini
-
+    
     void Start()
     {
         movement = GetComponent<MovementManager>();
         infos = GetComponent<PlayerInfo>();
         pv = GetComponent<PhotonView>();
     }
+    
+    // TURBO -----------------------------------------------------------------------------------------------------------
+    
+    [SerializeField] private float speedDuration = 3f;        //Duree du speed
+    [SerializeField] private float speedCooldown = 6f;        //Cooldown du speed
+    [SerializeField] private float speedMultiplier = 1.5f;    //Force du speed
+
+    private bool canSpeed = true;              //canSpeed = cooldown de Turbo fini
 
     public void Speed()
     {
@@ -41,7 +40,14 @@ public class Striker : MonoBehaviour
             canSpeed = true;
         }
     }
+    
+    // ESCAPE ----------------------------------------------------------------------------------------------------------
 
+    [SerializeField] private float escapeCooldown = 3f;       //Cooldown du escape
+    [SerializeField] private GameObject escapeBullet;         //Prefab de la balle pour escape
+    
+    private bool canEscape = true;  //canEscape = cooldown de Escape fini
+    
     public void Escape()
     {
         if (!canEscape)

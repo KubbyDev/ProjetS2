@@ -80,21 +80,23 @@ public class InputManager : MonoBehaviour
     {
         if (infos.hero == Hero.Stricker)
         {
-            if (Input.GetKeyDown(KeyCode.R))
+            if (Input.GetKeyDown(KeyCode.A))
                 striker.Speed();
             if (Input.GetKeyDown(KeyCode.E))
                 striker.Escape();
         }
         if (infos.hero == Hero.Warden)
         {
-            if (Input.GetKeyDown(KeyCode.T))
+            if (Input.GetKeyDown(KeyCode.A))
                 warden.Freeze();
+            if (Input.GetKeyDown(KeyCode.E))
+                warden.MagnetSpell();
         }
         if (infos.hero == Hero.Ninja)
         {
             if (Input.GetKeyDown(KeyCode.A))
                 ninja.Explode_Spell();
-            if (Input.GetKeyDown(KeyCode.C))
+            if (Input.GetKeyDown(KeyCode.E))
                 ninja.Smoke();
         }
 
