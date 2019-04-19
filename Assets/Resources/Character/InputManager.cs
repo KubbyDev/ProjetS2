@@ -78,19 +78,19 @@ public class InputManager : MonoBehaviour
 
     private void SpellsInputs()
     {
-        if (infos.hero == Hero.Stricker || true) //Les || true servent pour dev tranquillement, faudra les enlever
+        if (infos.hero == Hero.Stricker)
         {
             if (Input.GetKeyDown(KeyCode.R))
                 striker.Speed();
             if (Input.GetKeyDown(KeyCode.E))
-                striker.escape();
+                striker.Escape();
         }
-        if (infos.hero == Hero.Warden || true)
+        if (infos.hero == Hero.Warden)
         {
             if (Input.GetKeyDown(KeyCode.T))
                 warden.Freeze();
         }
-        if (infos.hero == Hero.Ninja || true)
+        if (infos.hero == Hero.Ninja)
         {
             if (Input.GetKeyDown(KeyCode.A))
                 ninja.Explode_Spell();

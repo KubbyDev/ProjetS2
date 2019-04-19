@@ -22,9 +22,9 @@ static class Heroes
     {
         switch (h)
         {
-            //case Hero.Stricker: return strickerMesh;
+            case Hero.Stricker: return new Model(HeroesMesh.heroesMeshes.strikerMesh, HeroesMesh.heroesMeshes.strikerMaterials);
             case Hero.Warden: return new Model(HeroesMesh.heroesMeshes.wardenMesh, HeroesMesh.heroesMeshes.wardenMaterials);
-            //case Hero.Ninja: return ninjaMesh;
+            case Hero.Ninja: return new Model(HeroesMesh.heroesMeshes.ninjaMesh, HeroesMesh.heroesMeshes.ninjaMaterials);
             default: return null;
         }
     }

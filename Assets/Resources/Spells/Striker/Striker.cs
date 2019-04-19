@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class Striker : MonoBehaviour
 {
-    [SerializeField] private float TimeSpeedSpell = 3f;        //Duree du speed
-    [SerializeField] private float TimeSpeedCooldown = 3f;     //Cooldown du spell
-    [SerializeField] private float speedMultiplier = 1.5f;     //Force du speed
-    [SerializeField] private GameObject escapeBullet;          //Prefab de la balle pour escape
+    [SerializeField] private float speedDuration = 3f;        //Duree du speed
+    [SerializeField] private float speedCooldown = 3f;        //Cooldown du speed
+    [SerializeField] private float speedMultiplier = 1.5f;    //Force du speed
+    
+    [SerializeField] private float escapeCooldown = 3f;       //Cooldown du escape
+    [SerializeField] private GameObject escapeBullet;         //Prefab de la balle pour escape
 
     private MovementManager movement;          //Reference au script qui gere les mouvements du joueur
     private PlayerInfo infos;                  //Reference au script qui contient des infos sur le joueur
@@ -33,14 +35,14 @@ public class Striker : MonoBehaviour
         {
             movement.MultiplySpeed(speedMultiplier);            //Multiplie la vitesse
             canSpeed = false;
-            yield return new WaitForSeconds(TimeSpeedSpell);    //La duree du spell
+            yield return new WaitForSeconds(speedDuration);     //La duree du spell
             movement.MultiplySpeed(1 / speedMultiplier);        //Remet la vitesse normale
-            yield return new WaitForSeconds(TimeSpeedCooldown); //La duree du cooldown
+            yield return new WaitForSeconds(speedCooldown);     //La duree du cooldown
             canSpeed = true;
         }
     }
 
-    public void escape()
+    public void Escape()
     {
         if (!canEscape)
             return;
@@ -54,7 +56,7 @@ public class Striker : MonoBehaviour
         pv.RPC("SpawnEscape", RpcTarget.Others, position, direction);
         
         bullet.GetComponent<Rigidbody>().AddForce(direction * 1000);  //Applique une force
-        bullet.GetComponent<TeleportBullet>().SetShooter(this.gameObject);  //Donne a la balle une reference au joueur qu'elle va devoir tp
+        bullet.GetComponent<TeleportBullet>().Init(this.gameObject, Time.time, true);  //Donne a la balle une reference au joueur qu'elle va devoir tp
         
         StartCoroutine(EscapeCouroutine()); //Lance la coroutine 
     }
@@ -62,7 +64,7 @@ public class Striker : MonoBehaviour
     IEnumerator EscapeCouroutine()
     {
         canEscape = false;
-        yield return new WaitForSeconds(TimeSpeedCooldown); //la duree du cooldown
+        yield return new WaitForSeconds(escapeCooldown); //la duree du cooldown
         canEscape = true;
     }
 
@@ -72,10 +74,10 @@ public class Striker : MonoBehaviour
         float latency = (float) (PhotonNetwork.Time - info.timestamp);
         
         GameObject bullet = Instantiate(escapeBullet,
-            position + latency*direction + 0.5f*latency*latency*Physics.gravity,
+            position + latency*direction,
             Quaternion.identity);
                 
-        bullet.GetComponent<Rigidbody>().AddForce(direction * 1000);  //Applique une force
-        bullet.GetComponent<TeleportBullet>().SetShooter(this.gameObject);
+        bullet.GetComponent<Rigidbody>().AddForce(direction*1000);  //Applique une force
+        bullet.GetComponent<TeleportBullet>().Init(null, 0, false);
     }
 }

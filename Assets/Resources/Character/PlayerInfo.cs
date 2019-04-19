@@ -30,9 +30,11 @@ public class PlayerInfo : MonoBehaviour
 
     void Awake()
     {
-        hero = Settings.settings.defaultHero;
+        SetHero(Settings.settings.defaultHero);
         pv = GetComponent<PhotonView>();
         cameraAnchor = transform.Find("CameraAnchor");
+        
+        UpdateInfos();
     }
 
     void Update()
@@ -66,6 +68,8 @@ public class PlayerInfo : MonoBehaviour
     public void SetHero(Hero h)
     {
         hero = h;
+        GetComponent<MeshRenderer>().materials = hero.GetModel().materials;
+        GetComponent<MeshFilter>().mesh = hero.GetModel().mesh;
     }
 
     //Synchronise les infos de ce joueur chez tous les clients

@@ -216,17 +216,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a40b8e9e9f83e8b458eb81bc2e7e7842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  strikerMesh: {fileID: 0}
+  strikerMesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
   wardenMesh: {fileID: 4300000, guid: 984cbcb698c446e49920e213f87b8f9d, type: 3}
-  ninjaMesh: {fileID: 0}
-  strikerMaterials: []
+  ninjaMesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+  strikerMaterials:
+  - {fileID: 2100000, guid: 1d85b8b515a492947bbb682aec7ebaa7, type: 2}
   wardenMaterials:
   - {fileID: 2100000, guid: 984cbcb698c446e49920e213f87b8f9d, type: 3}
   - {fileID: 2100002, guid: 984cbcb698c446e49920e213f87b8f9d, type: 3}
   - {fileID: 2100004, guid: 984cbcb698c446e49920e213f87b8f9d, type: 3}
   - {fileID: 2100006, guid: 984cbcb698c446e49920e213f87b8f9d, type: 3}
   - {fileID: 2100008, guid: 984cbcb698c446e49920e213f87b8f9d, type: 3}
-  ninjaMaterials: []
+  ninjaMaterials:
+  - {fileID: 2100000, guid: 1d85b8b515a492947bbb682aec7ebaa7, type: 2}
 --- !u!4 &69984478
 Transform:
   m_ObjectHideFlags: 0
