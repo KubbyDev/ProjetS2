@@ -5,7 +5,7 @@ using UnityEngine;
 public class Striker : MonoBehaviour
 {
     [SerializeField] private float speedDuration = 3f;        //Duree du speed
-    [SerializeField] private float speedCooldown = 3f;        //Cooldown du speed
+    [SerializeField] private float speedCooldown = 6f;        //Cooldown du speed
     [SerializeField] private float speedMultiplier = 1.5f;    //Force du speed
     
     [SerializeField] private float escapeCooldown = 3f;       //Cooldown du escape
@@ -37,7 +37,7 @@ public class Striker : MonoBehaviour
             canSpeed = false;
             yield return new WaitForSeconds(speedDuration);     //La duree du spell
             movement.MultiplySpeed(1 / speedMultiplier);        //Remet la vitesse normale
-            yield return new WaitForSeconds(speedCooldown);     //La duree du cooldown
+            yield return new WaitForSeconds(speedCooldown - speedDuration);     //La duree du cooldown
             canSpeed = true;
         }
     }

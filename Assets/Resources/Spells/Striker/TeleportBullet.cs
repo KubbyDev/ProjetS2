@@ -30,7 +30,7 @@ public class TeleportBullet : MonoBehaviour
     private void Tp()
     {
         shooter.transform.position = transform.position;
-        PhotonNetwork.Destroy(this.gameObject);
+        GetComponent<PhotonView>().RPC("Destroy_RPC", RpcTarget.All);
     }
 
     //Appellee par Stricker.cs
@@ -45,6 +45,12 @@ public class TeleportBullet : MonoBehaviour
         }
         else
             GetComponent<SphereCollider>().enabled = false;
+    }
+
+    [PunRPC]
+    public void Destroy_RPC()
+    {
+        Destroy(this.gameObject);
     }
 }
 

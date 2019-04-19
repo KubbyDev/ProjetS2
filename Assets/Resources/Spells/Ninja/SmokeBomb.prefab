@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1262771812653515844}
   - component: {fileID: 2080822275084220847}
   - component: {fileID: 4628700021191789623}
-  - component: {fileID: 3732404720101138600}
+  - component: {fileID: 2290986982466971541}
   m_Layer: 0
   m_Name: SmokeBomb
   m_TagString: Untagged
@@ -109,7 +109,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3732404720101138600
+--- !u!114 &2290986982466971541
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -126,7 +126,8 @@ MonoBehaviour:
   prefixField: -1
   Synchronization: 0
   OwnershipTransfer: 0
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 0}
   viewIdField: 0
-  InstantiationId: 1
+  InstantiationId: 0
   isRuntimeInstantiated: 0

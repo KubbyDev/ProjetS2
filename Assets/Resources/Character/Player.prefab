@@ -284,7 +284,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 3606593971257085751}
-  viewIdField: 1
+  viewIdField: 0
   InstantiationId: 1
   isRuntimeInstantiated: 0
 --- !u!114 &3606593971257085751
@@ -350,10 +350,10 @@ MonoBehaviour:
   Explode_Cooldown: 20
   Explode_Speed_Boost: 2
   Explosion_Radius: 50
+  Explosion_Power: 20
   Smoke_Spell_Duration: 5
   Smoke_Cooldown: 8
-  Temps_distance: 2
-  Can_Smoke: 1
+  Smoke_Delay: 2
   SmokeBomb: {fileID: 3892075379919057841, guid: 255bf681b8d2a0945b2a84b40df57072,
     type: 3}
   SmokeExplosion: {fileID: 6081345925805640053, guid: 03b9bd779f9829c46be88d4ad9fbff64,
