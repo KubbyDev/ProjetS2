@@ -91,7 +91,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2
+  m_Radius: 3
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &5316764558526574554
 MonoBehaviour:
@@ -105,7 +105,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1c8db73e21851c41a1ffd7826a212cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vitesseBall: 5
+  Freeze1_Duration: 1
+  Freeze2_Duration: 4
+  speed: 10
+  lifeTime: 1
 --- !u!114 &8120934803975141450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,7 +126,8 @@ MonoBehaviour:
   prefixField: -1
   Synchronization: 0
   OwnershipTransfer: 0
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 0}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

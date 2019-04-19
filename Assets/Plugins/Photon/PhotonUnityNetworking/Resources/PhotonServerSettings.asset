@@ -51,4 +51,6 @@ MonoBehaviour:
   - Destroy_RPC
   - ExplodeSmoke
   - SpawnSmoke
+  - SpawnFreeze
+  - Freeze
   DisableAutoOpenWizard: 1

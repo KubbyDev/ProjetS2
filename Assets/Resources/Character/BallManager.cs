@@ -26,13 +26,11 @@ public class BallManager : MonoBehaviour
     //Recuperation de la balle
     public void Catch()
     {
-        maxCatchDistance = infos.maxcatchrange;                          // Récupère la range de catch (la met a jour dans le cas où elle a changé)
-
         if (catchTimeLeft > 0) 
             return;
         
         //On regarde si la balle est devant la camera a une distance inferieure a maxCatchDistance
-        foreach (RaycastHit hit in Physics.SphereCastAll(infos.cameraAnchor.position, catchWidth, infos.cameraAnchor.forward, maxCatchDistance))
+        foreach (RaycastHit hit in Physics.SphereCastAll(infos.cameraAnchor.position, catchWidth, infos.cameraAnchor.forward, infos.maxCatchRange))
             //On recupere la balle si on la touche ou si on touche son porteur
             if (hit.collider.CompareTag("Ball") && Ball.script.canBeCaught || hit.collider.CompareTag("Player") && hit.collider.gameObject.GetComponent<BallManager>().hasBall)
                 //On enleve la possession de balle sur tous les joueurs et

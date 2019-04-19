@@ -6,21 +6,20 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    public static GameObject ball;      //Reference a la balle, visible partout
-    public static Ball script;          //Reference a ce script, visible partout
-    public static Rigidbody rigidBody;  //Reference au rigidbody de la balle, visible partout
-    
     [SerializeField] [Range(1, 20)] private float pullStrength = 9;            //La force avec laquelle la balle est attiree au joueur qui la possede
+    
+    public static GameObject ball;       //Reference a la balle, visible partout
+    public static Ball script;           //Reference a ce script, visible partout
+    public static Rigidbody rigidBody;   //Reference au rigidbody de la balle, visible partout
+    public static PhotonView photonView; //Le script qui gere la balle sur le reseau
+    public static GameObject possessor;  //Le joueur qui a la balle (null si elle est libre)
+    public bool canBeCaught = true;      //Vrai si la balle peut etre recuperee
+    public GameObject shooterBlue;       //Le dernier joueur bleu a avoir lance la balle (enregistre quand possessor passe a null)
+    public GameObject shooterOrange;     //Le dernier joueur orange a avoir lance la balle (enregistre quand possessor passe a null)
+    public bool lastTeamIsBlue;          //True: La derniere equipe a avoir possede la balle est l'equipe bleue
 
-    [HideInInspector] public static GameObject possessor { get; private set; } //Le joueur qui a la balle (null si elle est libre)
-    [HideInInspector] public bool canBeCaught = true;                          //Vrai si la balle peut etre recuperee
-    [HideInInspector] public GameObject shooterBlue;      //Le dernier joueur bleu a avoir lance la balle (enregistre quand possessor passe a null)
-    [HideInInspector] public GameObject shooterOrange;    //Le dernier joueur orange a avoir lance la balle (enregistre quand possessor passe a null)
-    [HideInInspector] public bool lastTeamIsBlue;         //True: La derniere equipe a avoir possede la balle est l'equipe bleue
-
-    private static PhotonView pv;       //Le script qui gere la balle sur le reseau
-
-    private float freezeTime = 0f;
+    private float freeze1Time = 0f;
+    private float freeze2Time = 0f;
 
     void Awake()
     {
@@ -32,7 +31,7 @@ public class Ball : MonoBehaviour
     void Start()
     {
         possessor = null;
-        pv = GetComponent<PhotonView>();
+        photonView = GetComponent<PhotonView>();
     }
 
     void Update()
@@ -41,14 +40,18 @@ public class Ball : MonoBehaviour
         if (possessor != null)
             Attract();
         
-        if (freezeTime > 0)
-            freezeTime -= Time.deltaTime; //duree du freeze - 1 par sec
+        if (freeze1Time > 0)
+            freeze1Time -= Time.deltaTime; //duree du freeze1 - 1 par sec
+        if (freeze2Time > 0)
+            freeze2Time -= Time.deltaTime; //duree du freeze2 - 1 par sec
 
-        if (freezeTime <= 0)
-        {
+        //Freeze1 = Balle bloquee en l'air, non attrapable
+        if (freeze1Time <= 0)
             canBeCaught = true;
-            rigidBody.useGravity = true; //reset la gravite de la ball
-        }
+
+        //Freeze2 = Balle bloquee en l'air mais attrapable
+        if (freeze2Time <= 0)
+            rigidBody.useGravity = true; //reset la gravite de la ball   
     }
 
     //Met a jour le possesseur de la balle chez tous les clients
@@ -57,7 +60,7 @@ public class Ball : MonoBehaviour
         //Appelle la fonction UpdatePossessor_RPC chez chaque client
         int id = newPossessor == null ? -1 : newPossessor.GetComponent<PhotonView>().ViewID;
         script.UpdatePossessor_RPC(id);
-        pv.RPC("UpdatePossessor_RPC", RpcTarget.Others, id);
+        photonView.RPC("UpdatePossessor_RPC", RpcTarget.Others, id);
     }
 
     [PunRPC]
@@ -94,7 +97,7 @@ public class Ball : MonoBehaviour
     public void Shoot(Vector3 force)
     {
         //Execute la fonction ShootBall_RPC sur tous les autres joueurs
-        pv.RPC("ShootBall_RPC", RpcTarget.Others, rigidBody.velocity, force);
+        photonView.RPC("ShootBall_RPC", RpcTarget.Others, rigidBody.velocity, force);
 
         rigidBody.AddForce(force);
         UpdatePossessor(null);
@@ -135,12 +138,20 @@ public class Ball : MonoBehaviour
         rigidBody.useGravity = false;
     }
     
-    //Freeze la balle
-    public void FreezeBall()
+    [PunRPC]
+    public void Freeze(Vector3 position, float freeze1, float freeze2, float sendMoment)
     {
+        float latency = (float) (PhotonNetwork.Time - sendMoment);
+        
         canBeCaught = false; //ne peut etre attrape
-        freezeTime = 6f; //duree du freeze
-        rigidBody.useGravity = false; 
-        ResetSpeed(); //freeze la ball
+        rigidBody.useGravity = false;
+        ResetSpeed();
+
+        transform.position = position;
+
+        //Freeze1 = Balle bloquee en l'air, non attrapable
+        //Freeze2 = Balle bloquee en l'air mais attrapable
+        freeze1Time = freeze1 - latency;
+        freeze2Time = freeze2 - latency;
     }
 }
