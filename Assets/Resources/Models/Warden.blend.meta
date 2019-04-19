@@ -5,8 +5,8 @@ ModelImporter:
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
-    2100000: Material_006
-    2100002: Material_007
+    2100000: Neon
+    2100002: Material_006
     2100004: Material_005
     2100006: Material_002
     2100008: Material_001

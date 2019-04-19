@@ -12,6 +12,9 @@ public class HeroesMesh : MonoBehaviour
     [SerializeField] public Material[] wardenMaterials;
     [SerializeField] public Material[] ninjaMaterials;
 
+    [SerializeField] public Material blueTeam;
+    [SerializeField] public Material orangeTeam;
+    [SerializeField] public Material noTeam;
     
     private void Awake()
     {

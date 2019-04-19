@@ -61,7 +61,7 @@ public class PlayerInfo : MonoBehaviour
 
     public void SetTeam(Team t)
     {
-        GetComponent<MeshRenderer>().material.color = t == Team.Blue ? new Color(0, 82, 204, 1) : new Color(230, 92, 0, 1);
+        GetComponent<MeshRenderer>().material = t.GetMaterial();
         team = t;
     }
     
@@ -81,7 +81,7 @@ public class PlayerInfo : MonoBehaviour
     [PunRPC]
     public void UpdateInfo_RPC(int pTeam, int pHero)
     {       
-        SetTeam((Team) pTeam);
         SetHero((Hero) pHero);
+        SetTeam((Team) pTeam);
     }
 }

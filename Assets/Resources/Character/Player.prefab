@@ -259,7 +259,7 @@ MonoBehaviour:
   isPlayer: 1
   ping: 0
   nickname: 
-  maxcatchrange: 6
+  maxCatchRange: 6
   cameraAnchor: {fileID: 0}
   velocity: {x: 0, y: 0, z: 0}
   isGrounded: 0
@@ -334,6 +334,9 @@ MonoBehaviour:
   Freeze_Cooldown: 20
   FreezeBall: {fileID: 1649765847160556575, guid: 506cae3fe5dfbf94d8780c9904b4a909,
     type: 3}
+  MagnetSpellDuration: 5
+  MagnetCooldown: 20
+  MagnetBonusRange: 4
 --- !u!114 &95
 MonoBehaviour:
   m_ObjectHideFlags: 0

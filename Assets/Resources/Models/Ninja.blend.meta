@@ -6,10 +6,10 @@ ModelImporter:
     100000: //RootNode
     400000: //RootNode
     2100000: Neon
-    2100002: BodyWhite
-    2100004: Body_Black
-    2100006: Glass
-    2100008: Screen
+    2100002: Screen
+    2100004: Glass
+    2100006: BodyWhite
+    2100008: Body_Black
     2300000: //RootNode
     3300000: //RootNode
     4300000: Ninja
@@ -47,7 +47,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 0.7
+    globalScale: 0.4
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1

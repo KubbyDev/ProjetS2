@@ -1,5 +1,5 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public enum Team
 {
@@ -30,5 +30,17 @@ static class Teams
     public static List<Team> Each()
     {
         return new List<Team> {Team.Blue, Team.Orange};
+    }
+
+    //Renvoie le Material de la Team (un material bleu pour l'equipe bleu...)
+    public static Material GetMaterial(this Team t)
+    {
+        switch (t)
+        {
+            case Team.Blue: return HeroesMesh.heroesMeshes.blueTeam;
+            case Team.Orange: return HeroesMesh.heroesMeshes.orangeTeam;
+            case Team.None: return HeroesMesh.heroesMeshes.noTeam;
+            default: return null;
+        }
     }
 }

@@ -220,19 +220,22 @@ MonoBehaviour:
   wardenMesh: {fileID: 4300000, guid: 984cbcb698c446e49920e213f87b8f9d, type: 3}
   ninjaMesh: {fileID: 4300000, guid: 1b2ad7e527f57754a8c5a26153dc1ae3, type: 3}
   strikerMaterials:
-  - {fileID: 2100000, guid: 1d85b8b515a492947bbb682aec7ebaa7, type: 2}
+  - {fileID: 2100000, guid: 21da1567fe6d8ef498d16f22653a37ae, type: 2}
   wardenMaterials:
-  - {fileID: 2100000, guid: 984cbcb698c446e49920e213f87b8f9d, type: 3}
+  - {fileID: 2100000, guid: 21da1567fe6d8ef498d16f22653a37ae, type: 2}
   - {fileID: 2100002, guid: 984cbcb698c446e49920e213f87b8f9d, type: 3}
   - {fileID: 2100004, guid: 984cbcb698c446e49920e213f87b8f9d, type: 3}
   - {fileID: 2100006, guid: 984cbcb698c446e49920e213f87b8f9d, type: 3}
   - {fileID: 2100008, guid: 984cbcb698c446e49920e213f87b8f9d, type: 3}
   ninjaMaterials:
-  - {fileID: 2100000, guid: 1b2ad7e527f57754a8c5a26153dc1ae3, type: 3}
+  - {fileID: 2100000, guid: 21da1567fe6d8ef498d16f22653a37ae, type: 2}
   - {fileID: 2100002, guid: 1b2ad7e527f57754a8c5a26153dc1ae3, type: 3}
   - {fileID: 2100004, guid: 1b2ad7e527f57754a8c5a26153dc1ae3, type: 3}
   - {fileID: 2100006, guid: 1b2ad7e527f57754a8c5a26153dc1ae3, type: 3}
   - {fileID: 2100008, guid: 1b2ad7e527f57754a8c5a26153dc1ae3, type: 3}
+  blueTeam: {fileID: 2100000, guid: cc3615ddd1d722645aa0e39dd6811dd3, type: 2}
+  orangeTeam: {fileID: 2100000, guid: 5fc471d9227d9164b8e7bcb1d6456b33, type: 2}
+  noTeam: {fileID: 2100000, guid: 21da1567fe6d8ef498d16f22653a37ae, type: 2}
 --- !u!4 &69984478
 Transform:
   m_ObjectHideFlags: 0
@@ -6844,7 +6847,7 @@ MeshRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1b2ad7e527f57754a8c5a26153dc1ae3, type: 3}
+  - {fileID: 2100000, guid: 5fc471d9227d9164b8e7bcb1d6456b33, type: 2}
   - {fileID: 2100002, guid: 1b2ad7e527f57754a8c5a26153dc1ae3, type: 3}
   - {fileID: 2100004, guid: 1b2ad7e527f57754a8c5a26153dc1ae3, type: 3}
   - {fileID: 2100006, guid: 1b2ad7e527f57754a8c5a26153dc1ae3, type: 3}
@@ -10258,7 +10261,7 @@ MeshRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 984cbcb698c446e49920e213f87b8f9d, type: 3}
+  - {fileID: 2100000, guid: cc3615ddd1d722645aa0e39dd6811dd3, type: 2}
   - {fileID: 2100002, guid: 984cbcb698c446e49920e213f87b8f9d, type: 3}
   - {fileID: 2100004, guid: 984cbcb698c446e49920e213f87b8f9d, type: 3}
   - {fileID: 2100006, guid: 984cbcb698c446e49920e213f87b8f9d, type: 3}
