@@ -15,7 +15,7 @@ public class PlayerInfo : MonoBehaviour
     public bool isPlayer;                  //False: C'est une IA
     public int ping;                       //Le ping de ce joueur
     public string nickname;                //Le pseudo du joueur
-    public float maxCatchRange = 6;        //La distance max a laquelle la balle peut etre attrapee
+    public float maxCatchRange = 6.0f;     //La distance max a laquelle la balle peut etre attrapee
 
     //Ces variables sont simplement copiees ici
     //Les modifier n'aura aucun effet
@@ -30,11 +30,16 @@ public class PlayerInfo : MonoBehaviour
 
     void Awake()
     {
-        SetHero(Settings.settings.defaultHero);
         pv = GetComponent<PhotonView>();
-        cameraAnchor = transform.Find("CameraAnchor");
         
-        UpdateInfos();
+        //Si c'est le joueur local, on utilise le hero par defaut
+        if (pv.IsMine)
+        {
+            SetHero(Settings.settings.defaultHero);
+            UpdateInfos();
+        }
+
+        cameraAnchor = transform.Find("CameraAnchor");
     }
 
     void Update()
@@ -79,9 +84,9 @@ public class PlayerInfo : MonoBehaviour
     }
 
     [PunRPC]
-    public void UpdateInfo_RPC(int pTeam, int pHero)
+    public void UpdateInfo_RPC(int team, int hero)
     {       
-        SetHero((Hero) pHero);
-        SetTeam((Team) pTeam);
+        SetHero((Hero) hero);
+        SetTeam((Team) team);
     }
 }

@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 2304459962023671246}
   - component: {fileID: 2999830187835918290}
   - component: {fileID: 4285549335725539150}
+  - component: {fileID: 7828123253768053166}
   m_Layer: 9
   m_Name: Nickname
   m_TagString: Untagged
@@ -56,7 +57,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4812676572804692948}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 0, y: 1.3629999, z: 0}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
   m_LocalScale: {x: 0.35172, y: 0.35172, z: 0.35172}
   m_Children: []
   m_Father: {fileID: 8294962191097149312}
@@ -121,6 +122,18 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4278190080
+--- !u!114 &7828123253768053166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4812676572804692948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4076452e9b39dad4b8bd801b8555c327, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8294962191097149335
 GameObject:
   m_ObjectHideFlags: 0
@@ -136,6 +149,7 @@ GameObject:
   - component: {fileID: 8294962191097149349}
   - component: {fileID: 354928934141819317}
   - component: {fileID: 3231888696117792166}
+  - component: {fileID: 9116349749165957529}
   - component: {fileID: 8294962191097149403}
   - component: {fileID: 8294962191097149399}
   - component: {fileID: 6042739075857147334}
@@ -270,6 +284,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeToMove: 0
+--- !u!114 &9116349749165957529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8294962191097149335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abaa4d646b9fb554b89a1bbcec8ba8e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8294962191097149403
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,7 +330,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   launchStrength: 2
-  maxCatchDistance: 6
   catchCooldown: 1
   catchWidth: 1
   PowerShootMultiplier: 2
@@ -353,8 +378,8 @@ MonoBehaviour:
   OwnershipTransfer: 1
   ObservedComponents:
   - {fileID: 8587176882192532044}
-  viewIdField: 0
-  InstantiationId: 6
+  viewIdField: 1
+  InstantiationId: 1
   isRuntimeInstantiated: 0
 --- !u!114 &8587176882192532044
 MonoBehaviour:

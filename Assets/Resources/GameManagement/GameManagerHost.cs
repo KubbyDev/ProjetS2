@@ -153,25 +153,25 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
             else
                 orange++;
 
-        //On rempli les trous dans chaque team
+        //On rempli les trous dans la team Bleu
         for (int i = blue; i < playersPerTeam; i++)
         {
             //Cree une IA et recupere son PlayerInfo
             PlayerInfo newIaInfos = PhotonNetwork.Instantiate(Path.Combine("AI", "AI"), new Vector3(0, 10, 0), Quaternion.identity).GetComponent<PlayerInfo>();
             
             //Change la team de l'IA
-            newIaInfos.GetComponent<PlayerInfo>().SetTeam(Team.Blue);
+            newIaInfos.SetTeam(Team.Blue);
             
             //Informe les autres clients de la team choisie
-            newIaInfos.GetComponent<PlayerInfo>().UpdateInfos();
+            newIaInfos.UpdateInfos();
         }
 
         //On rempli les trous dans la team Orange
         for (int i = orange; i < playersPerTeam; i++)
         {
             PlayerInfo newIaInfos = PhotonNetwork.Instantiate(Path.Combine("AI", "AI"), new Vector3(0, 10, 0), Quaternion.identity).GetComponent<PlayerInfo>();
-            newIaInfos.GetComponent<PlayerInfo>().SetTeam(Team.Orange);
-            newIaInfos.GetComponent<PlayerInfo>().UpdateInfos();
+            newIaInfos.SetTeam(Team.Orange);
+            newIaInfos.UpdateInfos();
         }
     }
 } 
