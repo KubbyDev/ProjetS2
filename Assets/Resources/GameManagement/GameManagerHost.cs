@@ -159,6 +159,9 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
             //Cree une IA et recupere son PlayerInfo
             PlayerInfo newIaInfos = PhotonNetwork.Instantiate(Path.Combine("AI", "AI"), new Vector3(0, 10, 0), Quaternion.identity).GetComponent<PlayerInfo>();
             
+            //Change le hero de l'IA
+            newIaInfos.SetHero(Heroes.Random());
+            
             //Change la team de l'IA
             newIaInfos.SetTeam(Team.Blue);
             
@@ -170,6 +173,7 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
         for (int i = orange; i < playersPerTeam; i++)
         {
             PlayerInfo newIaInfos = PhotonNetwork.Instantiate(Path.Combine("AI", "AI"), new Vector3(0, 10, 0), Quaternion.identity).GetComponent<PlayerInfo>();
+            newIaInfos.SetHero(Heroes.Random());
             newIaInfos.SetTeam(Team.Orange);
             newIaInfos.UpdateInfos();
         }

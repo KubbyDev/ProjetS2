@@ -33,7 +33,7 @@ public class BasicSpell : MonoBehaviour
         pv.RPC("SpawnBasicBullet", RpcTarget.Others, position, direction);   
         
         Destroy(bullet, BulletLifeTime);
-        bullet.GetComponent<BasicSpellBall>().UpdateDirection(direction);
+        bullet.GetComponent<BasicSpellBall>().Init(direction, true);
             
         StartCoroutine(BasicSpellCoroutine());
     }
@@ -55,6 +55,6 @@ public class BasicSpell : MonoBehaviour
             Quaternion.identity);
        
         Destroy(bullet, BulletLifeTime - latency);
-        bullet.GetComponent<BasicSpellBall>().UpdateDirection(direction);
+        bullet.GetComponent<BasicSpellBall>().Init(direction, false);
     }
 }

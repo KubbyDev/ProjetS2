@@ -60,8 +60,8 @@ public class BallManager : MonoBehaviour
             Ball.script.Shoot(infos.cameraAnchor.forward * launchStrength * 1000 * (PowerShootTimeLeft>0 ? PowerShootMultiplier : 1));
     }                                        //Si le joueur peut utiliser powershoot, on applique le multiplieur, sinon non
 
-    public void Has_PowerShoot()
+    public void Use_PowerShoot()
     {
-        PowerShootTimeLeft = PowerShootCooldown; //Indique au script que le joueur a récupéré le powerup powershoot
+        PowerShootTimeLeft = PowerShootCooldown; //Indique au script que le joueur a utilise le powerup powershoot
     }
 }

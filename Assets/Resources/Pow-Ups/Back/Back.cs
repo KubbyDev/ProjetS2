@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Back : MonoBehaviour
-{
-    
+{    
     public Team team = Team.Blue;
     private bool Player_Has_Back = false;
-
 
     public void Player_Got_Back()
     {

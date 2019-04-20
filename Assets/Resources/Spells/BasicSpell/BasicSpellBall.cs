@@ -1,5 +1,4 @@
-﻿using Photon.Pun;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class BasicSpellBall : MonoBehaviour
@@ -9,8 +8,13 @@ public class BasicSpellBall : MonoBehaviour
     [SerializeField] private float SlowDuration = 3.5f;
     private Vector3 direction;
 
-    public void UpdateDirection(Vector3 p_direction)
+    public void Init(Vector3 p_direction, bool searchesForCollisions)
     {
+        //Desactive les collisions sur cette balle
+        //Seul le client qui l'a lance check les collisions
+        if (!searchesForCollisions)
+            GetComponent<SphereCollider>().enabled = false;
+        
         this.direction = p_direction;
     }
 
