@@ -22,9 +22,24 @@ public class Settings
     public int shadowsQuality = 3;
     public float volume = 0.5f;
 
-    //Controles                   0:Avancer  1:Reculer  2:Gauche   3:Droite   4:Sauter       5:Attraper ball 6:Jeter ball
-    public KeyCode[] controls = { KeyCode.Z, KeyCode.S, KeyCode.Q, KeyCode.D, KeyCode.Space, KeyCode.Mouse0, KeyCode.Mouse1 };
-    public float[] sensitivity = {1f,1f};
+    //Controles (les controles definis ici sont les controles par defaut)
+    public KeyCode[] controls =
+    {
+        KeyCode.Z,         //0: Avancer
+        KeyCode.S,         //1: Reculer
+        KeyCode.Q,         //2: Gauche
+        KeyCode.D,         //3: Droite
+        KeyCode.Space,     //4: Sauter
+        KeyCode.Mouse0,    //5: Attraper balle
+        KeyCode.Mouse1,    //6: Jeter balle
+        KeyCode.F,         //7: Basic Attack
+        KeyCode.A,         //8: 1st Spell
+        KeyCode.E,         //9: 2nd Spell
+        KeyCode.Alpha1,    //10: 1st powerup
+        KeyCode.Alpha2,    //11: 2nd powerup
+        KeyCode.Alpha3,    //12: 3rd powerup
+    };
+    public float[] sensitivity = {0.5f,0.5f};
     public bool invertY = false;
 
     //Autres

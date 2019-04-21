@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    //0:Avancer, 1:Reculer, 2:Gauche, 3:Droite, 4:Sauter, 5:Attraper balle, 6:Jeter balle
-    private KeyCode[] inputs;         //Contient toutes les touches choisies par le joueur
+    private KeyCode[] inputs;         //Contient toutes les touches choisies par le joueur (Voir Tools/Settings pour la liste detaillee)
     private bool invertY;             //Inverse la visee en Y
-    private float sensivityY ;        //Sensi horizontale
+    private float sensivityY;         //Sensi horizontale
     private float sensivityX;         //Sensi verticale
     private float stopInputsTime = 0; //Le temps restant en secondes pour que les mouvements soient pris en compte
 
@@ -22,6 +21,7 @@ public class InputManager : MonoBehaviour
     private BallManager ball;
     private Back back;
     private Hook hook;
+    private PowerShoot powerShoot;
 
     //Reference aux menus
     private GameObject menus;
@@ -44,6 +44,7 @@ public class InputManager : MonoBehaviour
         basicSpell = GetComponent<BasicSpell>(); 
         back = GetComponent<Back>();
         hook = GetComponent<Hook>();
+        powerShoot = GetComponent<PowerShoot>();
         menus = GameObject.Find("Menus");
         tabMenu = menus.transform.Find("Tab").gameObject;
         pauseMenu = menus.transform.Find("Pause").gameObject;
@@ -80,35 +81,37 @@ public class InputManager : MonoBehaviour
     {
         if (infos.hero == Hero.Stricker)
         {
-            if (Input.GetKeyDown(KeyCode.A))
+            if (Input.GetKeyDown(inputs[8]))
                 striker.Speed();
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(inputs[9]))
                 striker.Escape();
         }
         if (infos.hero == Hero.Warden)
         {
-            if (Input.GetKeyDown(KeyCode.A))
+            if (Input.GetKeyDown(inputs[8]))
                 warden.Freeze();
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(inputs[9]))
                 warden.MagnetSpell();
         }
         if (infos.hero == Hero.Ninja)
         {
-            if (Input.GetKeyDown(KeyCode.A))
+            if (Input.GetKeyDown(inputs[8]))
                 ninja.Explode_Spell();
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(inputs[9]))
                 ninja.Smoke();
         }
 
         //Basic Spell
-        if(Input.GetKeyDown(KeyCode.G))
+        if(Input.GetKeyDown(inputs[7]))
             basicSpell.Basic_Spell();
         
         //Power-Up
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(inputs[10]))
             back.TP_Back();
-        if (Input.GetKeyDown(KeyCode.V))
+        if (Input.GetKeyDown(inputs[11]))
             hook.Use_Hook();
+        if (Input.GetKeyDown(inputs[12]))
+            powerShoot.Use_PowerShoot();
     }
 
     private void BallInputs()

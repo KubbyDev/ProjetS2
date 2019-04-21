@@ -16,6 +16,9 @@ public class GoalDetector : MonoBehaviour
         
         //En 0 on met une reference au but bleu, en 1 au but orange
         goals[team == Team.Blue ? 0 : 1] = this.gameObject;
+        
+        //Change la couleur du but en fonction de sa team
+        transform.parent.GetComponent<MeshRenderer>().material = team.GetMaterial();
     }
     
     private void OnTriggerEnter(Collider other)

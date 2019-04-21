@@ -8,7 +8,9 @@ public class BallSync : MonoBehaviour, IPunObservable
     void Update()
     {
         if (!PhotonNetwork.IsMasterClient)
-            ; //TODO: Interpolate
+        {
+            //TODO: Interpolate
+        }
     }
     
     void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

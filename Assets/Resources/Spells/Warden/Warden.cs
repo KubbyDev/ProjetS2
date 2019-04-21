@@ -61,21 +61,21 @@ public class Warden : MonoBehaviour
     [SerializeField] private float MagnetCooldown = 20f;                    // Cooldown du Magnet
     [SerializeField] private float MagnetBonusRange = 4f;                   // Bonus de range
     
-    private bool MagnetOffCooldown = true;      // Indicateur en cooldown
+    private bool CanMagnet = true;      // Indicateur en cooldown
     
     public void MagnetSpell()
     {
-        if(!MagnetOffCooldown)  
+        if(CanMagnet)  
             StartCoroutine(MagnetCoroutine());
     }
 
     IEnumerator MagnetCoroutine()
     {
         Info.maxCatchRange += MagnetBonusRange;                         // Application du bonus de range
-        MagnetOffCooldown = false;                                      // Le spell passe en cooldown
+        CanMagnet = false;                                      // Le spell passe en cooldown
         yield return new WaitForSeconds(MagnetSpellDuration);           // Duree du bonus
         Info.maxCatchRange -= MagnetBonusRange;                         // Retour a la normale de la range
         yield return new WaitForSeconds(MagnetCooldown);                // Duree du cooldown
-        MagnetOffCooldown = true;                                       // Le spell redevient utilisable
+        CanMagnet = true;                                       // Le spell redevient utilisable
     }
 }
