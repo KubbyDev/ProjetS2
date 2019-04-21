@@ -139,9 +139,9 @@ public class Ball : MonoBehaviour
     }
     
     [PunRPC]
-    public void Freeze(Vector3 position, float freeze1, float freeze2, float sendMoment)
+    public void Freeze(Vector3 position, float freeze1, float freeze2, double sendMoment)
     {
-        float latency = (float) (PhotonNetwork.Time - sendMoment);
+        float latency = Tools.GetLatency(sendMoment);
         
         canBeCaught = false; //ne peut etre attrape
         rigidBody.useGravity = false;

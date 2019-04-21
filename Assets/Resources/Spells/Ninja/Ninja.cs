@@ -94,7 +94,7 @@ public class Ninja : MonoBehaviour
             position, 
             Quaternion.identity);
         //Envoie la requete de spawn de la bombe
-        pv.RPC("SpawnSmoke", RpcTarget.Others, position, direction, (float) PhotonNetwork.Time);   
+        pv.RPC("SpawnSmoke", RpcTarget.Others, position, direction, PhotonNetwork.Time);   
         //Applique une force
         bomb.GetComponent<Rigidbody>().AddForce(direction * 1000); 
         
@@ -106,7 +106,7 @@ public class Ninja : MonoBehaviour
             position, 
             Quaternion.identity);
         //Envoie la requete d'explosion de la bombe
-        pv.RPC("ExplodeSmoke", RpcTarget.Others, position, (float) PhotonNetwork.Time);  
+        pv.RPC("ExplodeSmoke", RpcTarget.Others, position, PhotonNetwork.Time);  
         Destroy(bomb);
         
         yield return new WaitForSeconds(Smoke_Spell_Duration); //duree d'emission de la smoke
@@ -120,9 +120,9 @@ public class Ninja : MonoBehaviour
 
     [PunRPC]
     //Requete de spawn de la bombe
-    public void SpawnSmoke(Vector3 position, Vector3 direction, float sendMoment)
+    public void SpawnSmoke(Vector3 position, Vector3 direction, double sendMoment)
     {
-        float latency = (float) (PhotonNetwork.Time - sendMoment);
+        float latency = Tools.GetLatency(sendMoment);
 
         GameObject bomb = Instantiate(SmokeBomb,
             position + direction * latency + 0.5f*latency*latency*Physics.gravity,
@@ -135,9 +135,9 @@ public class Ninja : MonoBehaviour
 
     [PunRPC]
     //Requete d'explosion de la bombe
-    public void ExplodeSmoke(Vector3 position, float sendMoment)
+    public void ExplodeSmoke(Vector3 position, double sendMoment)
     {
-        float latency = (float) (PhotonNetwork.Time - sendMoment);
+        float latency = Tools.GetLatency(sendMoment);
         
         GameObject explosion = Instantiate(SmokeExplosion, 
             position, 

@@ -77,7 +77,7 @@ public class Striker : MonoBehaviour
     [PunRPC]
     public void SpawnEscape(Vector3 position, Vector3 direction, PhotonMessageInfo info)
     {
-        float latency = (float) (PhotonNetwork.Time - info.timestamp);
+        float latency = Tools.GetLatency(info.timestamp);
         
         GameObject bullet = Instantiate(escapeBullet,
             position + latency*direction,

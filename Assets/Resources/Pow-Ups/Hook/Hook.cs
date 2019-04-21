@@ -43,7 +43,7 @@ public class Hook : MonoBehaviour
         [PunRPC]
         public void SpawnHook(Vector3 position, Vector3 direction, PhotonMessageInfo info)
         {
-                float latency = (float) (PhotonNetwork.Time - info.timestamp);
+                float latency = Tools.GetLatency(info.timestamp);
         
                 GameObject hook = Instantiate(hookObject,
                         position + latency*direction,

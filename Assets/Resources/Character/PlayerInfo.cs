@@ -1,4 +1,5 @@
 ﻿using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
 //Cette classe concentre toutes les infos importantes sur le joueur
@@ -83,6 +84,12 @@ public class PlayerInfo : MonoBehaviour
         pv.RPC("UpdateInfo_RPC", RpcTarget.Others, (int) team, (int) hero);
     }
 
+    //Synchronise les infos de ce joueur chez un client specifique
+    public void UpdateInfos(Player player)
+    {
+        pv.RPC("UpdateInfo_RPC", player, (int) team, (int) hero);
+    }
+    
     [PunRPC]
     public void UpdateInfo_RPC(int team, int hero)
     {       

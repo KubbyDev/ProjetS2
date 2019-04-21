@@ -29,7 +29,7 @@ public class Warden : MonoBehaviour
         //cree et prend la position de la ball en fonction de la camera
         Instantiate(FreezeBall, position, rotation);
         
-        GetComponent<PhotonView>().RPC("SpawnFreeze", RpcTarget.Others, position, rotation, (float) PhotonNetwork.Time);
+        GetComponent<PhotonView>().RPC("SpawnFreeze", RpcTarget.Others, position, rotation, PhotonNetwork.Time);
 
         //Lance le cooldown
         StartCoroutine(FreezeCoroutine());
@@ -43,9 +43,9 @@ public class Warden : MonoBehaviour
     }
 
     [PunRPC]
-    public void SpawnFreeze(Vector3 position, Quaternion rotation, float sendMoment)
+    public void SpawnFreeze(Vector3 position, Quaternion rotation, double sendMoment)
     {
-        float latency = (float) (PhotonNetwork.Time - sendMoment);
+        float latency = Tools.GetLatency(sendMoment);
         
         GameObject ball = Instantiate(FreezeBall, 
             position + latency*(rotation*Vector3.forward), 

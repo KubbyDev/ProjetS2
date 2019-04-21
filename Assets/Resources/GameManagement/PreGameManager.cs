@@ -12,10 +12,10 @@ public class PreGameManager : MonoBehaviour
     
     [SerializeField] private GameObject pregameMenu; //Le canvas qui contient les affichages de pregame
     
-    public static float timeLeftToStart = 20; //Temps avant le debut de la game
+    public static float timeLeftToStart = 120; //Temps avant le debut de la game
     public static int maxPlayers;              //Le nombre max de joueurs dans la partie
 
-    public bool gameStarting;        //Passe a true a la fin du temps
+    public bool gameStarting;         //Passe a true a la fin du temps
     private Text timeDisplayer;       //Le component qui affiche le texte pour le temps restant
     private Text playersDisplayer;    //Le component qui affiche le texte pour le nombre de joueurs
 

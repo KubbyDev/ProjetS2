@@ -22,9 +22,24 @@ static class Heroes
     {
         switch (h)
         {
-            case Hero.Stricker: return new Model(HeroesMesh.heroesMeshes.strikerMesh, HeroesMesh.heroesMeshes.strikerMaterials);
-            case Hero.Warden: return new Model(HeroesMesh.heroesMeshes.wardenMesh, HeroesMesh.heroesMeshes.wardenMaterials);
-            case Hero.Ninja: return new Model(HeroesMesh.heroesMeshes.ninjaMesh, HeroesMesh.heroesMeshes.ninjaMaterials);
+            case Hero.Stricker: 
+                return new Model {
+                    mesh = Tools.HeroesMeshes.strikerMesh, 
+                    materials = Tools.HeroesMeshes.strikerMaterials,
+                    corePosition = new Vector3(0, 0.282f, 0.15f)
+                };
+            case Hero.Warden:                 
+                return new Model {
+                    mesh = Tools.HeroesMeshes.wardenMesh, 
+                    materials = Tools.HeroesMeshes.wardenMaterials,
+                    corePosition = new Vector3(0, 0.107f, 0.339f)
+                };
+            case Hero.Ninja:
+                return new Model {
+                    mesh = Tools.HeroesMeshes.ninjaMesh, 
+                    materials = Tools.HeroesMeshes.ninjaMaterials,
+                    corePosition = new Vector3(0, 0.256f, 0.091f)
+                };
             default: return null;
         }
     }
@@ -35,10 +50,5 @@ public class Model
 {
     public Mesh mesh;
     public Material[] materials;
-
-    public Model(Mesh mesh, Material[] materials)
-    {
-        this.mesh = mesh;
-        this.materials = materials;
-    }
+    public Vector3 corePosition;
 }

@@ -48,7 +48,7 @@ public class BasicSpell : MonoBehaviour
     [PunRPC]
     public void SpawnBasicBullet(Vector3 position, Vector3 direction, PhotonMessageInfo info)
     {
-        float latency = (float) (PhotonNetwork.Time - info.timestamp);
+        float latency = Tools.GetLatency(info.timestamp);
         
         GameObject bullet = Instantiate(BasicSpellbullet,
             position + latency*direction,

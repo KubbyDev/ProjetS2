@@ -153,6 +153,7 @@ GameObject:
   - component: {fileID: 8294962191097149403}
   - component: {fileID: 8294962191097149399}
   - component: {fileID: 6042739075857147334}
+  - component: {fileID: 2681534097928091605}
   - component: {fileID: 8294962191097149397}
   - component: {fileID: 8587176882192532044}
   - component: {fileID: 8294962191097149405}
@@ -359,6 +360,24 @@ MonoBehaviour:
   isGrounded: 0
   hasBall: 0
   lastMovementInput: {x: 0, y: 0, z: 0}
+--- !u!114 &2681534097928091605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8294962191097149335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 944e8a6d9d79e804d80a3ec0c5680f4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightningPrefab: {fileID: 106988, guid: 15dec7b07032b2f4aa6f855bfbe120f7, type: 3}
+  lightningLifeTime: 0.2
+  countPerSpawn: 10
+  spawnPeriod: 0.01
+  lightningLength: 0.25
+  lightningWidth: 0.01
 --- !u!114 &8294962191097149397
 MonoBehaviour:
   m_ObjectHideFlags: 0

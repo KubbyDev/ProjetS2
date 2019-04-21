@@ -1,5 +1,4 @@
 ﻿using Photon.Pun;
-using Photon.Realtime;
 using UnityEngine;
 
 //Cette classe initialise le joueur au moment ou il est instancie
@@ -30,8 +29,10 @@ public class PlayerSetup : MonoBehaviour, IPunInstantiateMagicCallback {
         //Permet d'acceder au GameObject du joueur depuis un PhotonPlayer
         info.Sender.TagObject = this.gameObject;
         
-        //On recupere le pseudo du joueur 
+        //On recupere le pseudo et le hero du joueur 
         transform.Find("Nickname").GetComponent<TextMesh>().text = GetComponent<PlayerInfo>().nickname = 
             info.Sender.NickName;
+        PlayerInfo playerInfo = GetComponent<PlayerInfo>();
+        playerInfo.SetHero(playerInfo.hero);
     }
 }

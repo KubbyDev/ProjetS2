@@ -56,6 +56,9 @@ public class GameManager : MonoBehaviour
     {
         if (gamePlaying)  // Si la partie joue on enleve le temps ecoule au temps restant
             timeLeft -= Time.deltaTime;
+
+        if (timeLeftForKickoff > 0)
+            timeLeftForKickoff -= Time.deltaTime;
         
         //Met a jour le temps en haut de l'ecran
         timeDisplayer.text = FormatTime(timeLeft);

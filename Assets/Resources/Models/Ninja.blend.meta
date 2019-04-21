@@ -16,7 +16,32 @@ ModelImporter:
     7400000: Default Take
     9500000: //RootNode
     2186277476908879412: ImportLogs
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BodyWhite
+    second: {fileID: 2100000, guid: 2f52884933efbf646943b5b5b1af7e9d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Body_Black
+    second: {fileID: 2100000, guid: fe185af150d46f542827f5730bac2ad4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glass
+    second: {fileID: 2100000, guid: dae164b936ab6644f82a8a09782addc8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Neon
+    second: {fileID: 2100000, guid: 71eafaaedc03b8241b8b844ef1e381e1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Screen
+    second: {fileID: 2100000, guid: b855a5bea1421c14c80ff364926b30d8, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

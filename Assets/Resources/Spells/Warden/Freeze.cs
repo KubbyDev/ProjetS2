@@ -28,6 +28,6 @@ public class Freeze : MonoBehaviour
                 Ball.ball.transform.position, 
                 Freeze1_Duration, 
                 Freeze2_Duration, 
-                (float) PhotonNetwork.Time);
+                PhotonNetwork.Time);
     }
 }

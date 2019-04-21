@@ -3,6 +3,7 @@ using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
+using System.Linq;
 
 //Ce script gere les entrees et sorties de la salle
 
@@ -24,6 +25,13 @@ public class Room : MonoBehaviourPunCallbacks
         //Si ce client est l'hote, on envoie les infos de base sur la partie
         if (PhotonNetwork.IsMasterClient)
             GameDataSync.SendFirstPacket(newPlayer);
+        
+        //Tout le monde donne ses infos au nouvel arrivant
+        foreach (PlayerInfo player in GameObject.FindGameObjectsWithTag("Player")
+                                     .Select(player => player.GetComponent<PlayerInfo>()))
+        {
+            player.UpdateInfos(newPlayer);   
+        }
     }
     
     //Quand un joueur quitte on le remplace par une IA
@@ -43,5 +51,6 @@ public class Room : MonoBehaviourPunCallbacks
         PlayerInfo newIaInfos = PhotonNetwork.Instantiate(Path.Combine("AI", "AI"), oldPlayerInfo.transform.position, oldPlayerInfo.transform.rotation).GetComponent<PlayerInfo>();
         newIaInfos.GetComponent<PlayerInfo>().SetTeam(oldPlayerInfo.team);
         newIaInfos.GetComponent<PlayerInfo>().UpdateInfos();
+        newIaInfos.GetComponent<Skills>().timeToMove = GameManager.timeLeftForKickoff; //Bloque l'IA si elle rejoint pendant un engagement
     }
 }
