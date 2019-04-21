@@ -15,12 +15,10 @@ public class Warden : MonoBehaviour
     
     [SerializeField] private float Freeze_Cooldown = 20f;  //Duree du cooldown
     [SerializeField] private GameObject FreezeBall;        //Prefab de la FreezeBall
-    
-    private bool CanFreeze = true;   //Vrai si le cooldown du freeze est termine;
 
     public void Freeze()
     {
-        if (!CanFreeze)
+        if (Info.firstCooldown > 0f) //firstCooldown = cooldown du A = cooldown de Freeze
             return;
         
         Vector3 position = transform.position + new Vector3(0, 1, 0) + transform.forward;
@@ -32,14 +30,7 @@ public class Warden : MonoBehaviour
         GetComponent<PhotonView>().RPC("SpawnFreeze", RpcTarget.Others, position, rotation, PhotonNetwork.Time);
 
         //Lance le cooldown
-        StartCoroutine(FreezeCoroutine());
-    }
-
-    IEnumerator FreezeCoroutine()
-    {
-        CanFreeze = false;
-        yield return new WaitForSeconds(Freeze_Cooldown);
-        CanFreeze = true;
+        Info.firstCooldown = Freeze_Cooldown;
     }
 
     [PunRPC]
@@ -61,21 +52,17 @@ public class Warden : MonoBehaviour
     [SerializeField] private float MagnetCooldown = 20f;                    // Cooldown du Magnet
     [SerializeField] private float MagnetBonusRange = 4f;                   // Bonus de range
     
-    private bool CanMagnet = true;      // Indicateur en cooldown
-    
     public void MagnetSpell()
     {
-        if(CanMagnet)  
+        if (Info.secondCooldown <= 0f) //secondCooldown = cooldown du E = cooldown de Magnet
             StartCoroutine(MagnetCoroutine());
     }
 
     IEnumerator MagnetCoroutine()
     {
+        Info.secondCooldown = MagnetCooldown;
         Info.maxCatchRange += MagnetBonusRange;                         // Application du bonus de range
-        CanMagnet = false;                                      // Le spell passe en cooldown
         yield return new WaitForSeconds(MagnetSpellDuration);           // Duree du bonus
         Info.maxCatchRange -= MagnetBonusRange;                         // Retour a la normale de la range
-        yield return new WaitForSeconds(MagnetCooldown);                // Duree du cooldown
-        CanMagnet = true;                                       // Le spell redevient utilisable
     }
 }

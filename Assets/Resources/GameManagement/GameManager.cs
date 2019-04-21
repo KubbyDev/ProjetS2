@@ -195,9 +195,15 @@ public class GameManager : MonoBehaviour
         
         //On reset tous les enregistrement des derniers inputs
         //Sans ca, les avatars des autres joueurs pourraient se mettre a bouger au debut des 3 secondes
+        // + Reset des cooldowns
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-            player.GetComponent<PlayerInfo>().lastMovementInput = Vector3.zero;
-        
+        {
+            PlayerInfo infos = player.GetComponent<PlayerInfo>();
+            infos.lastMovementInput = Vector3.zero;
+            infos.firstCooldown = 0f;
+            infos.secondCooldown = 0f;
+        }
+
         //On attend 3 secondes puis on relance la game
         StartCoroutine(Kickoff_Coroutine());
     }

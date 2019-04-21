@@ -17,6 +17,8 @@ public class PlayerInfo : MonoBehaviour
     public int ping;                       //Le ping de ce joueur
     public string nickname;                //Le pseudo du joueur
     public float maxCatchRange = 6.0f;     //La distance max a laquelle la balle peut etre attrapee
+    public float firstCooldown = 0f;       //Le cooldown du A
+    public float secondCooldown = 0f;      //Le cooldown du E
 
     //Ces variables sont simplement copiees ici
     //Les modifier n'aura aucun effet
@@ -57,6 +59,12 @@ public class PlayerInfo : MonoBehaviour
             timeToPingUpdate = 2;
             pv.RPC("UpdatePing", RpcTarget.All, PhotonNetwork.GetPing());
         }
+        
+        if (firstCooldown > 0)
+            firstCooldown -= Time.deltaTime;
+        
+        if (secondCooldown > 0)
+            secondCooldown -= Time.deltaTime;
     }
 
     [PunRPC]

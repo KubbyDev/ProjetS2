@@ -22,24 +22,20 @@ public class Ninja : MonoBehaviour
     [SerializeField] private float Explode_Speed_Boost = 2f;      //Force du speed
     [SerializeField] private float Explosion_Radius = 2.0f;       //Rayon dans lequel les joueurs subissent l'explosion
     [SerializeField] private float Explosion_Power = 2f;          //Puissance de l'explosion
- 
-    private bool Explode_Off_Cooldown = true;    //true = cooldown de Explode fini
 
     public void Explode_Spell()
     {
-        if(Explode_Off_Cooldown)
+        if (info.firstCooldown <= 0f) //firstCooldown = cooldown du A = cooldown de Explode
             StartCoroutine(ExplodeCoroutine());
     }
 
     IEnumerator ExplodeCoroutine()
-    { 
+    {
+        info.firstCooldown = Explode_Cooldown;
         move.MultiplySpeed(Explode_Speed_Boost);                             // Augmente la vitesse
-        Explode_Off_Cooldown = false;
         yield return new WaitForSeconds(Explode_Spell_Duration);             // Lance le cooldown
         move.MultiplySpeed(1 / Explode_Speed_Boost);                         // Remet la vitesse normale
         Explosion();
-        yield return new WaitForSeconds(Explode_Cooldown);
-        Explode_Off_Cooldown = true;                                         // Le spell redevient utilisable une fois le cooldown ecoule
     }
 
     public void Explosion()
@@ -74,18 +70,16 @@ public class Ninja : MonoBehaviour
     [SerializeField] private float Smoke_Delay = 2f;              //Duree de l'existence de SmokeBomb avant d'exploser
     [SerializeField] private GameObject SmokeBomb;                //Prefab de la bombe pour le smoke
     [SerializeField] private GameObject SmokeExplosion;           //Prefab du ParticleSystem
-
-    private bool Can_Smoke = true;               //Bool pour savoir si cooldown est finie ou pas
     
     public void Smoke()
     {
-        if (Can_Smoke)
+        if (info.secondCooldown <= 0f) //secondCooldown = cooldown du E = cooldown de Smoke
             StartCoroutine(SmokeCouroutine());
     }
 
     IEnumerator SmokeCouroutine()
     {
-        Can_Smoke = false;
+        info.secondCooldown = Smoke_Cooldown;
         
         Vector3 position = transform.position + new Vector3(0, 1.5f, 0) + transform.forward * 1.0f;
         Vector3 direction = info.cameraAnchor.forward;
@@ -107,15 +101,9 @@ public class Ninja : MonoBehaviour
             Quaternion.identity);
         //Envoie la requete d'explosion de la bombe
         pv.RPC("ExplodeSmoke", RpcTarget.Others, position, PhotonNetwork.Time);  
+        
         Destroy(bomb);
-        
-        yield return new WaitForSeconds(Smoke_Spell_Duration); //duree d'emission de la smoke
-        
-        Destroy(explosion);
-        
-        yield return new WaitForSeconds(Smoke_Cooldown - Smoke_Spell_Duration - Smoke_Delay);//duree du cooldown
-        
-        Can_Smoke = true;
+        Destroy(explosion, Smoke_Spell_Duration);  //duree d'emission de la smoke
     }
 
     [PunRPC]
