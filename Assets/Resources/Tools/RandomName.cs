@@ -1,31 +1,28 @@
-﻿
-using System;
+﻿using System;
 
 public class RandomName
 {
-    
+	private static Random rnd = new Random();
+	
     //Genere un nom de joueur aleatoire
     public static string Generate()
     {
-        Random rnd = new Random();
         Array values = Enum.GetValues(typeof(Words));
         string randomword =((Words)values.GetValue(rnd.Next(values.Length))).ToString();
 
         Array randomadjectives = Enum.GetValues(typeof(Words));
         string randomadjective = ((Words)randomadjectives.GetValue(rnd.Next(randomadjectives.Length))).ToString();
 
-        return randomword + " " + randomadjective;
+        return randomadjective + " " + randomword;
     }
     
     //Genere un nom d'IA aleatoire
     public static string GenerateAI()
     {
-        Random rnd = new Random();
         Array randomadjectives = Enum.GetValues(typeof(Words));
         string randomadjective = ((Words)randomadjectives.GetValue(rnd.Next(randomadjectives.Length))).ToString();
 
-        return randomadjective + " IA";
-
+        return randomadjective + " AI";
     }
 
     public enum Words

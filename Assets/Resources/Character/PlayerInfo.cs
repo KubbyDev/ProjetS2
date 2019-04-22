@@ -82,6 +82,8 @@ public class PlayerInfo : MonoBehaviour
     public void SetHero(Hero h)
     {
         hero = h;
+        firstCooldown = 0f;
+        secondCooldown = 0f;
         GetComponent<MeshRenderer>().materials = hero.GetModel().materials;
         GetComponent<MeshFilter>().mesh = hero.GetModel().mesh;
     }
