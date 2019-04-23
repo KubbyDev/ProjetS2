@@ -20,6 +20,7 @@ public class CooldownDisplay : MonoBehaviour
         if (localPlayerInfos == null)
             return;
         
+        cd_BA.text = Format(localPlayerInfos.BACooldown);
         cd_Spell1.text = Format(localPlayerInfos.firstCooldown);
         cd_Spell2.text = Format(localPlayerInfos.secondCooldown);
     }

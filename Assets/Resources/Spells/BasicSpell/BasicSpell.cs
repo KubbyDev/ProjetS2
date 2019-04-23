@@ -1,5 +1,6 @@
 ﻿using Photon.Pun;
 using System.Collections;
+using Photon.Realtime;
 using UnityEngine;
 
 public class BasicSpell : MonoBehaviour
@@ -7,8 +8,6 @@ public class BasicSpell : MonoBehaviour
     [SerializeField] private GameObject BasicSpellbullet;
     [SerializeField] private float BasicSpellCooldown = 15f;
     [SerializeField] private float BulletLifeTime = 3f;
-
-    private bool BasicSpellOffCooldown = true;
 
     private PlayerInfo playerinfocaster;
     private PhotonView pv;
@@ -21,7 +20,7 @@ public class BasicSpell : MonoBehaviour
 
     public void Basic_Spell()
     {
-        if (!BasicSpellOffCooldown) 
+        if (playerinfocaster.BACooldown > 0) 
             return;
 
         Vector3 position = transform.position + new Vector3(0, 0.5f, 0) + Vector3.forward*1.0f;
@@ -33,16 +32,9 @@ public class BasicSpell : MonoBehaviour
         pv.RPC("SpawnBasicBullet", RpcTarget.Others, position, direction);   
         
         Destroy(bullet, BulletLifeTime);
-        bullet.GetComponent<BasicSpellBall>().Init(direction, true);
+        bullet.GetComponent<BasicSpellBall>().Init(direction, true, this.gameObject);
             
-        StartCoroutine(BasicSpellCoroutine());
-    }
-
-    IEnumerator BasicSpellCoroutine()
-    {
-        BasicSpellOffCooldown = false;
-        yield return new WaitForSeconds(BasicSpellCooldown);
-        BasicSpellOffCooldown = true;
+        playerinfocaster.BACooldown = BasicSpellCooldown;
     }
 
     [PunRPC]
@@ -55,6 +47,6 @@ public class BasicSpell : MonoBehaviour
             Quaternion.identity);
        
         Destroy(bullet, BulletLifeTime - latency);
-        bullet.GetComponent<BasicSpellBall>().Init(direction, false);
+        bullet.GetComponent<BasicSpellBall>().Init(direction, false, this.gameObject);
     }
 }

@@ -105,5 +105,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BulletSpeed: 30
-  SlowMultiplier: 0.8
-  SlowDuration: 3.5
+  SlowMultiplier: 0.1
+  SlowDuration: 6

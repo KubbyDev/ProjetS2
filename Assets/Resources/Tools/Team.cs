@@ -43,4 +43,12 @@ static class Teams
             default: return null;
         }
     }
+
+    public static bool IsOpponnentOf(this Team me, Team other)
+    {
+        if (me == other)
+            return me == Team.None;
+
+        return true;
+    }
 }

@@ -53,4 +53,6 @@ MonoBehaviour:
   - SpawnSmoke
   - SpawnFreeze
   - Freeze
+  - MultiplySpeed
+  - MultiplySpeed_RPC
   DisableAutoOpenWizard: 1

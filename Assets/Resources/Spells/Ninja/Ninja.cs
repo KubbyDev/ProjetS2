@@ -32,9 +32,8 @@ public class Ninja : MonoBehaviour
     IEnumerator ExplodeCoroutine()
     {
         info.firstCooldown = Explode_Cooldown;
-        move.MultiplySpeed(Explode_Speed_Boost);                             // Augmente la vitesse
-        yield return new WaitForSeconds(Explode_Spell_Duration);             // Lance le cooldown
-        move.MultiplySpeed(1 / Explode_Speed_Boost);                         // Remet la vitesse normale
+        move.MultiplySpeed(Explode_Speed_Boost, Explode_Spell_Duration);  // Augmente la vitesse pendant un temps donne
+        yield return new WaitForSeconds(Explode_Spell_Duration);
         Explosion();
     }
 

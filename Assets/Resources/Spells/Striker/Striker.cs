@@ -23,16 +23,11 @@ public class Striker : MonoBehaviour
 
     public void Speed()
     {
-        if (infos.firstCooldown <= 0f) //firstCooldown = cooldown du A = cooldown de turbo
-            StartCoroutine(SpeedCouroutine());  //Lance la coroutine  
-    }
-
-    IEnumerator SpeedCouroutine()
-    {
+        if (infos.firstCooldown > 0f) 
+            return;
+        
         infos.firstCooldown = speedCooldown;
-        movement.MultiplySpeed(speedMultiplier);            //Multiplie la vitesse
-        yield return new WaitForSeconds(speedDuration);     //La duree du spell
-        movement.MultiplySpeed(1 / speedMultiplier);        //Remet la vitesse normale
+        movement.MultiplySpeed(speedMultiplier, speedDuration);  //Augmente la vitesse pendant la duree du spell
     }
     
     // ESCAPE ----------------------------------------------------------------------------------------------------------
