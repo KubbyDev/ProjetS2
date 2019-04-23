@@ -260,6 +260,7 @@ MonoBehaviour:
   ping: 0
   nickname: 
   maxCatchRange: 6
+  BACooldown: 0
   firstCooldown: 0
   secondCooldown: 0
   cameraAnchor: {fileID: 0}

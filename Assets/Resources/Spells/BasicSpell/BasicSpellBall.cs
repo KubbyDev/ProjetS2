@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Photon.Pun;
 using UnityEngine;
 
 public class BasicSpellBall : MonoBehaviour
@@ -7,15 +8,19 @@ public class BasicSpellBall : MonoBehaviour
     [SerializeField] private float SlowMultiplier = 0.8f;
     [SerializeField] private float SlowDuration = 3.5f;
     private Vector3 direction;
+    private GameObject shooter;
+    private Team shooterTeam;
 
-    public void Init(Vector3 p_direction, bool searchesForCollisions)
+    public void Init(Vector3 p_direction, bool searchesForCollisions, GameObject p_shooter)
     {
         //Desactive les collisions sur cette balle
         //Seul le client qui l'a lance check les collisions
         if (!searchesForCollisions)
             GetComponent<SphereCollider>().enabled = false;
         
-        this.direction = p_direction;
+        direction = p_direction;
+        shooter = p_shooter;
+        shooterTeam = shooter.GetComponent<PlayerInfo>().team;
     }
 
     public void Update()
@@ -25,16 +30,13 @@ public class BasicSpellBall : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
-            StartCoroutine(BasicSlowCoroutine(other.gameObject));
+        if (other.CompareTag("Player")
+            && other.gameObject != shooter.gameObject
+            && other.GetComponent<PlayerInfo>().team.IsOpponnentOf(shooterTeam))
+        {
+            other.GetComponent<MovementManager>().MultiplySpeed(SlowMultiplier, SlowDuration);  
+        }
         
         Destroy(this.gameObject);
-    }
-
-    IEnumerator BasicSlowCoroutine(GameObject target)
-    {
-        target.GetComponent<MovementManager>().MultiplySpeed(SlowMultiplier*0.1f);
-        yield return new WaitForSeconds(SlowDuration*10);
-        target.GetComponent<MovementManager>().MultiplySpeed(1 / SlowMultiplier);
     }
 }

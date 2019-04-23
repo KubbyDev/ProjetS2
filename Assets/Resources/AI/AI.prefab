@@ -355,6 +355,9 @@ MonoBehaviour:
   ping: 0
   nickname: 
   maxCatchRange: 6
+  BACooldown: 0
+  firstCooldown: 0
+  secondCooldown: 0
   cameraAnchor: {fileID: 0}
   velocity: {x: 0, y: 0, z: 0}
   isGrounded: 0

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class CooldownDisplay : MonoBehaviour
@@ -20,6 +17,7 @@ public class CooldownDisplay : MonoBehaviour
         if (localPlayerInfos == null)
             return;
         
+        cd_BA.text = Format(localPlayerInfos.BACooldown);
         cd_Spell1.text = Format(localPlayerInfos.firstCooldown);
         cd_Spell2.text = Format(localPlayerInfos.secondCooldown);
     }

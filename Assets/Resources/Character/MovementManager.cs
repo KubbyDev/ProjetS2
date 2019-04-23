@@ -1,4 +1,5 @@
-﻿using Photon.Pun;
+﻿using System.Collections;
+using Photon.Pun;
 using UnityEngine;
 
 //Cette classe gere les mouvements du joueur
@@ -126,6 +127,26 @@ public class MovementManager : MonoBehaviour
     public void MultiplySpeed(float multiplier)
     {
         movementSpeed *= multiplier;
+    }
+
+    //Multiplie la vitesse de deplacement par multiplier puis la remet a sa valeur initiale apres duration secondes
+    public void MultiplySpeed(float multiplier, float duration)
+    {
+        //Envoie la commande a tous les clients
+        pv.RPC("MultiplySpeed_RPC", RpcTarget.All, multiplier, duration, PhotonNetwork.Time);
+    }
+    
+    [PunRPC]
+    public void MultiplySpeed_RPC(float multiplier, float duration, double sendMoment)
+    {
+        StartCoroutine(MultiplySpeedCoroutine(multiplier, duration - Tools.GetLatency(sendMoment)));
+    }
+
+    IEnumerator MultiplySpeedCoroutine(float multiplier, float duration)
+    {
+        MultiplySpeed(multiplier);
+        yield return new WaitForSeconds(duration);
+        MultiplySpeed(1 / multiplier);
     }
 
     public void ResetSpeed()
