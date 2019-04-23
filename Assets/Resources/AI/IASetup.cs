@@ -1,11 +1,10 @@
-﻿using Photon.Pun;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class IASetup : MonoBehaviour
 {
     void Start()
     {
         //Donne un nom random a l'IA
-        GetComponent<PlayerInfo>().nickname = RandomName.GenerateAI();
+        transform.Find("Nickname").GetComponent<TextMesh>().text = GetComponent<PlayerInfo>().nickname = RandomName.GenerateAI();
     }
 }
