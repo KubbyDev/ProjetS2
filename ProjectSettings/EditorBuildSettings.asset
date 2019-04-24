@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Resources/Scenes/MainMenu/MainMenu.unity
     guid: e8c74b69cbb68de4eb863ac7aeda8ee6
   - enabled: 1
-    path: Assets/Resources/Scenes/BasicField/BasicField.unity
-    guid: 73b9d040ea9a8394880c0803f744cee9
+    path: Assets/Resources/Scenes/Moon/Moon.unity
+    guid: 3fdee7b7c5a55b8418ae8fd386960ca7
   m_configObjects: {}

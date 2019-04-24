@@ -19,9 +19,9 @@ public class GameManager : MonoBehaviour
     public static bool gameStarted;          //Passe a true des que la partie demarre
     public static bool gameFinished =false;  //Passe a true des que la partie se termine
     
-    [SerializeField] private Transform menus; //Contient les affichages
+    [SerializeField] private Transform menus;                  //Contient les affichages
+    [SerializeField] private Vector3 ballSpawn = Vector3.zero; //Position de spawn de la balle
     
-    private Vector3 ballSpawn;           //Position de spawn de la balle
     private Text timeDisplayer;          //Le component qui affiche le temps restant
     private Text blueScoreDisplayer;     //Le component qui affiche le score de l'equipe bleu
     private Text orangeScoreDisplayer;   //Le component qui affiche le score de l'equipe orange
@@ -44,7 +44,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Spawns.FindSpawns();           //Demande au script qui gere les spawns de trouver les spawns sur la scene
-        ballSpawn = Vector3.zero;
         
         blueScore = 0;
         orangeScore = 0;

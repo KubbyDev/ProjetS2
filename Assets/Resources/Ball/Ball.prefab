@@ -126,6 +126,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pullStrength: 9
   canBeCaught: 1
+  shooterBlue: {fileID: 0}
+  shooterOrange: {fileID: 0}
+  lastTeamIsBlue: 0
 --- !u!114 &5749005734830630919
 MonoBehaviour:
   m_ObjectHideFlags: 0
