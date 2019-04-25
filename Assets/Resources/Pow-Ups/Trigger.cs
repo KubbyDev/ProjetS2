@@ -54,7 +54,7 @@ public class Trigger : MonoBehaviour
 
                 case 3:
                 {
-                    other.GetComponent<PowerShoot>().Use_PowerShoot();
+                    other.GetComponent<PowerShoot>().Player_Got_PowerShoot();
                     break;
                 }
             }
