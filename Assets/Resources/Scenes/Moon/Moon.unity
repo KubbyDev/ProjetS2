@@ -966,7 +966,7 @@ PrefabInstance:
     - target: {fileID: 8341341002929668465, guid: 722faf76947d69246bf8f925ea5d7753,
         type: 3}
       propertyPath: cooldown
-      value: 30
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8341341002929668465, guid: 722faf76947d69246bf8f925ea5d7753,
         type: 3}
@@ -1322,7 +1322,7 @@ PrefabInstance:
     - target: {fileID: 8341341002929668465, guid: 722faf76947d69246bf8f925ea5d7753,
         type: 3}
       propertyPath: cooldown
-      value: 30
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8341341002929668465, guid: 722faf76947d69246bf8f925ea5d7753,
         type: 3}
@@ -1493,7 +1493,7 @@ PrefabInstance:
     - target: {fileID: 8341341002929668465, guid: 722faf76947d69246bf8f925ea5d7753,
         type: 3}
       propertyPath: cooldown
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8341341002929668465, guid: 722faf76947d69246bf8f925ea5d7753,
         type: 3}
@@ -1919,7 +1919,7 @@ PrefabInstance:
     - target: {fileID: 8341341002929668465, guid: 722faf76947d69246bf8f925ea5d7753,
         type: 3}
       propertyPath: cooldown
-      value: 30
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8341341002929668465, guid: 722faf76947d69246bf8f925ea5d7753,
         type: 3}
@@ -2019,7 +2019,7 @@ PrefabInstance:
     - target: {fileID: 8341341002929668465, guid: 722faf76947d69246bf8f925ea5d7753,
         type: 3}
       propertyPath: cooldown
-      value: 30
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8341341002929668465, guid: 722faf76947d69246bf8f925ea5d7753,
         type: 3}
@@ -2198,7 +2198,7 @@ PrefabInstance:
     - target: {fileID: 8341341002929668465, guid: 722faf76947d69246bf8f925ea5d7753,
         type: 3}
       propertyPath: cooldown
-      value: 30
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8341341002929668465, guid: 722faf76947d69246bf8f925ea5d7753,
         type: 3}
