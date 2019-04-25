@@ -11,7 +11,10 @@ public class PowerShoot : MonoBehaviour
 
     public void Use_PowerShoot()
     {
-        if(Player_Has_PowerShoot)
+        if (Player_Has_PowerShoot)
+        {
             GetComponent<BallManager>().Use_PowerShoot();
+            Player_Has_PowerShoot = false;
+        }
     } 
 }
