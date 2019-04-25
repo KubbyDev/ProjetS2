@@ -13,6 +13,7 @@ public class Trigger : MonoBehaviour
     private void Start()
     {
         timer = cooldown;
+        transform.GetChild(0).gameObject.SetActive(false);
     }
 
     private void Update()
