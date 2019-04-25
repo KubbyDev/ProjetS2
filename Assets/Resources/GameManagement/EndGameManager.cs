@@ -84,9 +84,10 @@ public class EndGameManager : MonoBehaviour
             }
 
             //On place le mesh du joueur et son pseudo a cette position
-            position.meshFilter.mesh = playerInfos.hero.GetModel().mesh;
-            position.meshRenderer.materials = playerInfos.hero.GetModel().materials;
-            position.nickname.text = playerInfos.nickname;
+            position.meshFilter.mesh = playerInfos.hero.GetModel().mesh;             //Le model 3D
+            position.meshRenderer.materials = playerInfos.hero.GetModel().materials; //Les couleurs sur le model
+            position.meshRenderer.material = playerInfos.team.GetMaterial();         //La couleur de la team
+            position.nickname.text = playerInfos.nickname;                           //Le nom du joueur
             
             //Detruit le player pour eviter tout probleme
             Destroy(player);

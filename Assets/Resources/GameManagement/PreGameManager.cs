@@ -9,10 +9,11 @@ using UnityEngine.UI;
 public class PreGameManager : MonoBehaviour
 {
     public static PreGameManager script;
+
+    [SerializeField] private float pregameDuration = 120;  //La duree maximale de la pregame en secondes
+    [SerializeField] private GameObject pregameMenu;       //Le canvas qui contient les affichages de pregame
     
-    [SerializeField] private GameObject pregameMenu; //Le canvas qui contient les affichages de pregame
-    
-    public static float timeLeftToStart = 120; //Temps avant le debut de la game
+    public static float timeLeftToStart;       //Temps avant le debut de la game
     public static int maxPlayers;              //Le nombre max de joueurs dans la partie
 
     public bool gameStarting;         //Passe a true a la fin du temps
@@ -22,6 +23,7 @@ public class PreGameManager : MonoBehaviour
     private void Awake()
     {
         script = this;
+        timeLeftToStart = pregameDuration;
     }
 
     void Start()

@@ -83,6 +83,10 @@ public class Ball : MonoBehaviour
         //On enleve la possession de balle a tous les joueurs, sauf le nouveau possesseur
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
             player.GetComponent<BallManager>().hasBall = player == possessor;
+        
+        //On reset le temps de freeze au cas ou il serait encore en cours
+        freeze1Time = 0;
+        freeze2Time = 0;
     }
 
     //Attire la balle au joueur qui la possede
