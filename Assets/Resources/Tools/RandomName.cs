@@ -10,8 +10,8 @@ public class RandomName
         Array values = Enum.GetValues(typeof(Words));
         string randomword =((Words)values.GetValue(rnd.Next(values.Length))).ToString();
 
-        Array randomadjectives = Enum.GetValues(typeof(Words));
-        string randomadjective = ((Words)randomadjectives.GetValue(rnd.Next(randomadjectives.Length))).ToString();
+        Array randomadjectives = Enum.GetValues(typeof(Adjectives));
+        string randomadjective = ((Adjectives)randomadjectives.GetValue(rnd.Next(randomadjectives.Length))).ToString();
 
         return randomadjective + " " + randomword;
     }
@@ -19,8 +19,8 @@ public class RandomName
     //Genere un nom d'IA aleatoire
     public static string GenerateAI()
     {
-        Array randomadjectives = Enum.GetValues(typeof(Words));
-        string randomadjective = ((Words)randomadjectives.GetValue(rnd.Next(randomadjectives.Length))).ToString();
+        Array randomadjectives = Enum.GetValues(typeof(Adjectives));
+        string randomadjective = ((Adjectives)randomadjectives.GetValue(rnd.Next(randomadjectives.Length))).ToString();
 
         return randomadjective + " AI";
     }
