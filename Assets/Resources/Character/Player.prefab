@@ -223,7 +223,7 @@ MonoBehaviour:
   launchStrength: 2
   catchCooldown: 1
   catchWidth: 1
-  PowerShootMultiplier: 1.5
+  PowerShootMultiplier: 5
   PowerShootCooldown: 3
   hasBall: 0
 --- !u!114 &89
