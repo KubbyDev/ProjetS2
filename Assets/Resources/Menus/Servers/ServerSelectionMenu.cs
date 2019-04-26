@@ -60,6 +60,15 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
 
         PhotonNetwork.JoinLobby();
     }
+    
+    //Quand la connection est perdue
+    //Appellee par MainMenu.cs
+    public void Disconnected()
+    {
+        //Met a jour l'affichage
+        online.gameObject.SetActive(false);
+        offline.gameObject.SetActive(true);
+    }
 
     void Update()
     {

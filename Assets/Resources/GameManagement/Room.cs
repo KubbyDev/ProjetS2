@@ -53,4 +53,13 @@ public class Room : MonoBehaviourPunCallbacks
         newIaInfos.GetComponent<PlayerInfo>().UpdateInfos();
         newIaInfos.GetComponent<Skills>().timeToMove = GameManager.timeLeftForKickoff; //Bloque l'IA si elle rejoint pendant un engagement
     }
+
+    //Quand la connection est perdue
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        base.OnDisconnected(cause);
+        
+        PhotonNetwork.LeaveRoom();
+        SceneManager.LoadScene(0);
+    }
 }

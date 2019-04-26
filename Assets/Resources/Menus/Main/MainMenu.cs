@@ -1,4 +1,5 @@
 ﻿using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
 public class MainMenu : MonoBehaviourPunCallbacks
@@ -9,30 +10,53 @@ public class MainMenu : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject heroesMenu;       //Reference au menu des heros
 
     private ServerSelectionMenu serversMenuScript;        //Reference au script du menu des serveurs
-
+    private bool connected;                               //True: On est connecte au serveur
+    private float timeToNextUpdate = 0;                   //Temps restant pour le prochain check de l'etat de la connection
+    
     // Connection au serveur -------------------------------------------------------------------
 
     void Awake()
     {
-        //Demande de connection
-        if(!PhotonNetwork.IsConnected)
-            PhotonNetwork.ConnectUsingSettings();
-
         //Charge les settings sauvegardes sur le disque dur
         Settings.Load();
         
-        serversMenuScript = GameObject.Find("Scripts").GetComponent<ServerSelectionMenu>();
-        optionsMenu.transform.Find("Options").GetComponent<OptionsMenu>().RefreshSettings();
-    }
-
-    //Quand la connection est etablie
-    public override void OnConnectedToMaster()
-    {
-        //On cache le menu offline et on montre le menu online
-        serversMenuScript.Connected();
-
         //Quand le serveur change de scene, les clients aussi
         PhotonNetwork.AutomaticallySyncScene = true;
+        
+        serversMenuScript = GameObject.Find("Scripts").GetComponent<ServerSelectionMenu>();
+        optionsMenu.transform.Find("Options").GetComponent<OptionsMenu>().RefreshSettings();
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
+    void Update()
+    {
+        if (timeToNextUpdate > 0)
+        {
+            timeToNextUpdate -= Time.deltaTime;
+            return;
+        }
+        //Une update toutes les deux secondes
+        timeToNextUpdate = 2;
+
+        //Connection
+        if (PhotonNetwork.IsConnected && !connected)
+        {
+            connected = true;
+            serversMenuScript.Connected();
+        }
+
+        //Deconnection
+        if (!PhotonNetwork.IsConnected && connected)
+        {
+            connected = false;
+            serversMenuScript.Disconnected();
+        }
+        
+        //Demande de connection
+        if(!PhotonNetwork.IsConnected)
+            PhotonNetwork.ConnectUsingSettings();
     }
 
     // Actions des Boutons ----------------------------------------------------------------------
