@@ -224,7 +224,7 @@ MonoBehaviour:
   catchCooldown: 1
   catchWidth: 1
   PowerShootMultiplier: 5
-  PowerShootCooldown: 3
+  PowerShootCooldown: 5
   hasBall: 0
 --- !u!114 &89
 MonoBehaviour:
