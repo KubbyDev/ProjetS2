@@ -28,7 +28,7 @@ public class BallManager : MonoBehaviour
             return;
         
         //On regarde si la balle est devant la camera a une distance inferieure a maxCatchDistance
-        foreach (RaycastHit hit in Physics.SphereCastAll(infos.cameraAnchor.position, catchWidth, infos.cameraAnchor.forward, infos.maxCatchRange))
+        foreach (RaycastHit hit in Physics.SphereCastAll(infos.cameraPosition, catchWidth, infos.cameraRotation*Vector3.forward, infos.maxCatchRange))
             //On recupere la balle si on la touche ou si on touche son porteur
             if (hit.collider.CompareTag("Ball") && Ball.script.canBeCaught || hit.collider.CompareTag("Player") && hit.collider.gameObject.GetComponent<BallManager>().hasBall)
                 //On enleve la possession de balle sur tous les joueurs et
@@ -56,7 +56,7 @@ public class BallManager : MonoBehaviour
     public void Shoot()
     {
         if (hasBall)
-            Ball.script.Shoot(infos.cameraAnchor.forward * launchStrength * 1000 * (PowerShootTimeLeft>0 ? PowerShootMultiplier : 1));
+            Ball.script.Shoot(infos.cameraRotation * Vector3.forward * launchStrength * 1000 * (PowerShootTimeLeft>0 ? PowerShootMultiplier : 1));
     }                                        //Si le joueur peut utiliser powershoot, on applique le multiplieur, sinon non
 
     public void Use_PowerShoot()

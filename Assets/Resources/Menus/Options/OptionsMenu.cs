@@ -43,7 +43,8 @@ public class OptionsMenu : MonoBehaviour
         foreach (Resolution res in resolutions)
             resolutionDropdown.options.Add(new Dropdown.OptionData(ToString(res)));
 
-        //Met a jour les affichages
+        //Met a jour les affichages et les parametres du jeu
+        DisplaySettings();
         ApplySettings();
     }
 
@@ -82,38 +83,6 @@ public class OptionsMenu : MonoBehaviour
         controlsButton.transform.Find("Text").GetComponent<Text>().color = new Color(1,1,1,1);
     }
 
-    //  Actions des boutons, Menu Graphics  ------------------------------------------------------------------------------------
-
-    //Toggle du fullscreen
-    public void OnFullscreenToggle(bool value)
-    {
-        Settings.settings.fullscreen = value;
-    }
-
-    //Dropdown de la resolution
-    public void OnResolutionChange(int index)
-    {
-        Settings.settings.resolutionIndex = index;
-    }
-
-    //Dropdown des ombres
-    public void OnShadowsChange(int index)
-    {
-        Settings.settings.shadowsQuality = index;
-    }
-
-    //Dropdown de l'AA
-    public void OnAntialiasingChange(int index)
-    {
-        Settings.settings.aaLevel = index;
-    }
-
-    //Slider du volume
-    public void OnVolumeChange(float volume)
-    {
-        Settings.settings.volume = volume;
-    }
-
     //  Actions des boutons, Menu Controls  ------------------------------------------------------------------------------------
 
     public void WaitForKey(int keyIndex)
@@ -134,7 +103,6 @@ public class OptionsMenu : MonoBehaviour
             {
                 //On change la touche dans les settings et l'affichage
                 KeyCode key = e.isMouse ? e.button + KeyCode.Mouse0 : e.keyCode;
-                Settings.settings.controls[currentKey] = key;
                 controlsButtonsTexts[currentKey].text = key.ToString();
 
                 currentKey = -1;
@@ -146,7 +114,7 @@ public class OptionsMenu : MonoBehaviour
     public void OnChangeSensitivityX(string value)
     {
         float res;
-        if(Single.TryParse(value, out res))
+        if(float.TryParse(value, out res))
             OnChangeSensitivityX(res);
         else
             OnChangeSensitivityX(Settings.settings.sensitivity[0]);
@@ -156,7 +124,7 @@ public class OptionsMenu : MonoBehaviour
     public void OnChangeSensitivityY(string value)
     {
         float res;
-        if(Single.TryParse(value, out res))
+        if(float.TryParse(value, out res))
             OnChangeSensitivityY(res);
         else
             OnChangeSensitivityY(Settings.settings.sensitivity[0]);
@@ -165,7 +133,6 @@ public class OptionsMenu : MonoBehaviour
     //Changement de sensibilite avec le slider
     public void OnChangeSensitivityX(float value)
     {
-        Settings.settings.sensitivity[0] = value;    //Enregistrement
         sensitivity[0].value = value;                //Slider
         sensitivityTexts[0].text = value.ToString(); //Texte
     }
@@ -173,16 +140,10 @@ public class OptionsMenu : MonoBehaviour
     //Changement de sensibilite avec le slider
     public void OnChangeSensitivityY(float value)
     {
-        Settings.settings.sensitivity[1] = value;    //Enregistrement
-        sensitivity[1].value = value;                //Slider
+        sensitivity[1].value = value; //Slider
         sensitivityTexts[1].text = value.ToString(); //Texte
     }
 
-    public void OnToggleInvert(bool value)
-    {
-        Settings.settings.invertY = value;
-    }
-    
     //  Enregistrement, chargement et lecture des settings  --------------------------------------------------------------------
 
     //Bouton Apply
@@ -195,31 +156,43 @@ public class OptionsMenu : MonoBehaviour
         Settings.Save();
     }
 
-    //Applique les settings sur le jeu
+    //Applique les settings sur le jeu en fontion des elements dans le menu
     private void ApplySettings()
     {
         //Graphics
-
-        //Mise a jour des options dans Unity
-        QualitySettings.antiAliasing = (int) Mathf.Pow(2, Settings.settings.aaLevel);
-        //audioSource.volume = settings.volume; TODO
-        QualitySettings.shadows = (ShadowQuality) Settings.settings.shadowsQuality;
-        Screen.SetResolution(resolutions[Settings.settings.resolutionIndex].width, resolutions[Settings.settings.resolutionIndex].height, Settings.settings.fullscreen);
+        QualitySettings.antiAliasing = Settings.settings.aaLevel = (int) Mathf.Pow(2, aaDropdown.value);
+        //audioSource.volume = Settings.settings.volume = volumeSlider.value; TODO
+        QualitySettings.shadows = (ShadowQuality) shadowsDropdown.value; 
+        Settings.settings.shadowsQuality = shadowsDropdown.value;
+        Screen.SetResolution(resolutions[resolutionDropdown.value].width, resolutions[resolutionDropdown.value].height, fullscreenToggle.isOn);
+        Settings.settings.resolutionIndex = resolutionDropdown.value;
+        Settings.settings.fullscreen = fullscreenToggle.isOn;
         
-        //Mise a jour de l'affichage
+        //Controles
+        for (int i = 0; i < controlsButtonsTexts.Length; i++)
+            Settings.settings.controls[i] = (KeyCode) Enum.Parse(typeof(KeyCode), controlsButtonsTexts[i].text);
+        Settings.settings.sensitivity[0] = sensitivity[0].value;
+        Settings.settings.sensitivity[1] = sensitivity[1].value;
+        Settings.settings.invertY = invert.isOn;
+    }
+
+    //Met a jour les elements du menu en fonction de Settings.settings
+    private void DisplaySettings()
+    {
+        //Graphics
         aaDropdown.value = Settings.settings.aaLevel;
         resolutionDropdown.value = Settings.settings.resolutionIndex;
         shadowsDropdown.value = Settings.settings.shadowsQuality;
         fullscreenToggle.isOn = Settings.settings.fullscreen;
         volumeSlider.value = Settings.settings.volume;
-
-        //Controles
         
-        //Mise a jour de l'affichage
+        //Controles
         for (int i = 0; i < controlsButtonsTexts.Length; i++)
             controlsButtonsTexts[i].text = Settings.settings.controls[i].ToString();
-        OnChangeSensitivityX(Settings.settings.sensitivity[0]);
-        OnChangeSensitivityY(Settings.settings.sensitivity[1]);
+        sensitivity[0].value = Settings.settings.sensitivity[0];
+        sensitivity[1].value = Settings.settings.sensitivity[1];
+        sensitivityTexts[0].text = Settings.settings.sensitivity[0].ToString();
+        sensitivityTexts[1].text = Settings.settings.sensitivity[1].ToString();
         invert.isOn = Settings.settings.invertY;
     }
 }

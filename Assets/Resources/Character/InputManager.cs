@@ -152,25 +152,25 @@ public class InputManager : MonoBehaviour
             cam.Rotate(rot);
         
         //Changement de camera
-        if (Input.GetKeyDown(KeyCode.F1))
+        if (Input.GetKeyDown(inputs[13]))
             cam.changeCamera();
     }
     
     private void MenusInputs()
     {
         //Menu Tab
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(inputs[14]))
             tabMenu.SetActive(true);
-        if(Input.GetKeyUp(KeyCode.Tab))
+        if(Input.GetKeyUp(inputs[14]))
             tabMenu.SetActive(false);
         
         //Menu Pause (sur Backspace au lieu de escape parce que ça fait de la merde dans l'editeur)
-        if (Input.GetKeyDown(KeyCode.Backspace))
+        if (Input.GetKeyDown(inputs[16]))
             TogglePauseMenu();
         
         //Menu de selection des classes
         //On ne peut ouvrir ce menu que si on n'est pas deja dans un autre menu
-        if (Input.GetKeyDown(KeyCode.H) && (!inMenu || classMenu.activeSelf) && !GameManager.gameStarted)
+        if (Input.GetKeyDown(inputs[15]) && (!inMenu || classMenu.activeSelf) && !GameManager.gameStarted)
             ToggleClassMenu();
         if(classMenu.activeSelf && GameManager.gameStarted)
             ToggleClassMenu();

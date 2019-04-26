@@ -26,12 +26,17 @@ public class CameraManager : MonoBehaviour {
     {
         //Lance la fonction de positionnement de la camera adaptee en fonction de si le joueur est en FPS ou en TPS
         if (isFps)
+        {
             FirstPerson();
+            infos.cameraPosition = camAnchor.position - new Vector3(0,0.2f,0);
+        }
         else
+        {
             ThirdPerson();
-
-        //Met a jour la camAnchor dans le PlayerInfo
-        infos.cameraAnchor = camAnchor;
+            infos.cameraPosition = camAnchor.position;
+        }
+        
+        infos.cameraRotation = cam.rotation;
     }
 
     public void changeCamera()
@@ -47,6 +52,7 @@ public class CameraManager : MonoBehaviour {
     {
         //On tourne le pivot de la camera dans la bonne orientation
         cam.rotation = camAnchor.transform.rotation;
+        cam.rotation = Quaternion.Euler(new Vector3(cam.rotation.eulerAngles.x - 10, cam.rotation.eulerAngles.y, 0));
 
         Vector3 newPosition;
         //On trace un raycast en arriere
@@ -69,7 +75,7 @@ public class CameraManager : MonoBehaviour {
     {
         //On tourne la camera dans la bonne orientation et on la place au bon endroit
         cam.eulerAngles = new Vector3(camAnchor.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0);
-        cam.position = camAnchor.transform.position;
+        cam.position = camAnchor.transform.position - new Vector3(0,0.2f,0);
     }
 
     //Appellee par InputManager

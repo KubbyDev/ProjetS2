@@ -19,11 +19,12 @@ public class Skills : MonoBehaviour
         ballManager = GetComponent<BallManager>();
         infos = GetComponent<PlayerInfo>();
         cam = transform.Find("CameraAnchor");
+        infos.cameraPosition = cam.position;
     }
 
     void Update()
     {
-        infos.cameraAnchor = cam;
+        infos.cameraRotation = cam.rotation;
 
         //Met a jour le temps restant pour pouvoir bouger
         if (timeToMove > 0)

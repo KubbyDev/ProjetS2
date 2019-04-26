@@ -81,7 +81,7 @@ public class Ninja : MonoBehaviour
         info.secondCooldown = Smoke_Cooldown;
         
         Vector3 position = transform.position + new Vector3(0, 1.5f, 0) + transform.forward * 1.0f;
-        Vector3 direction = info.cameraAnchor.forward;
+        Vector3 direction = info.cameraRotation * Vector3.forward;
         //Cree SmokeBomb
         GameObject bomb = Instantiate(SmokeBomb, 
             position, 

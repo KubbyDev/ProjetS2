@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Reflection;
 using UnityEngine;
 
 //Cette classe gere les informations a enregistrer sur le disque dur
@@ -38,6 +40,10 @@ public class Settings
         KeyCode.Alpha1,    //10: 1st powerup
         KeyCode.Alpha2,    //11: 2nd powerup
         KeyCode.Alpha3,    //12: 3rd powerup
+        KeyCode.F1,        //13: Change cam
+        KeyCode.Tab,       //14: Player List
+        KeyCode.H,         //15: Change Hero
+        KeyCode.Backspace, //16: Pause Menu
     };
     public float[] sensitivity = {0.5f,0.5f};
     public bool invertY = false;
@@ -58,12 +64,29 @@ public class Settings
     public static void Load()
     {
         //Si le fichier de sauvegarde des settings n'existe pas encore, on le cree
+        //Les valeurs de settings seront donc les valeurs par defaut
         if (!File.Exists(settingsFilePath))
-        {
-            settings = new Settings();
-            Save();
-        }
+            CreateSettingsFile();
         else
-            settings = JsonUtility.FromJson<Settings>(File.ReadAllText(settingsFilePath));
+        {
+            try
+            {
+                Settings file = JsonUtility.FromJson<Settings>(File.ReadAllText(settingsFilePath));
+
+                //Si les donnees sont correctes on les utilise, sinon on prend les settings par defaut
+                if (file.sensitivity.Length == 2 && file.controls.Length == new Settings().controls.Length)
+                    settings = file;
+                else
+                    CreateSettingsFile();
+            }
+            //Si le fichier est incorrect on prend les settings par defaut
+            catch(Exception) { CreateSettingsFile(); }
+        }
+    }
+
+    private static void CreateSettingsFile()
+    {
+        settings = new Settings();
+        Save();
     }
 }

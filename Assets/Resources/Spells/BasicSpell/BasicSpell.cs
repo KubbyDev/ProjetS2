@@ -23,8 +23,8 @@ public class BasicSpell : MonoBehaviour
         if (playerinfocaster.BACooldown > 0) 
             return;
 
-        Vector3 position = transform.position + new Vector3(0, 0.5f, 0) + Vector3.forward*1.0f;
-        Vector3 direction = playerinfocaster.cameraAnchor.forward;
+        Vector3 position = transform.position + new Vector3(0, 0.5f, 0) + transform.forward*1.0f;
+        Vector3 direction = playerinfocaster.cameraRotation * Vector3.forward;
         
         GameObject bullet = Instantiate(BasicSpellbullet, position, Quaternion.identity);
        

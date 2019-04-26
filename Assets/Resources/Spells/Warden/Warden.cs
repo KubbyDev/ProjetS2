@@ -22,7 +22,7 @@ public class Warden : MonoBehaviour
             return;
         
         Vector3 position = transform.position + new Vector3(0, 1, 0) + transform.forward;
-        Quaternion rotation = GetComponent<PlayerInfo>().cameraAnchor.rotation;
+        Quaternion rotation = GetComponent<PlayerInfo>().cameraRotation;
         
         //cree et prend la position de la ball en fonction de la camera
         Instantiate(FreezeBall, position, rotation);

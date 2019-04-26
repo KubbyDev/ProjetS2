@@ -23,7 +23,8 @@ public class PlayerInfo : MonoBehaviour
 
     //Ces variables sont simplement copiees ici
     //Les modifier n'aura aucun effet
-    public Transform cameraAnchor;         //L'ancre de la camera
+    public Vector3 cameraPosition;         //La position de l'ancre de la camera
+    public Quaternion cameraRotation;         //La rotation de la camera
     public Vector3 velocity;               //La vitesse du joueur
     public bool isGrounded;                //Si le joueur est au sol
     public bool hasBall;                   //Si le joueur a la balle
@@ -43,7 +44,8 @@ public class PlayerInfo : MonoBehaviour
             UpdateInfos();
         }
 
-        cameraAnchor = transform.Find("CameraAnchor");
+        cameraPosition = transform.Find("CameraAnchor").position;
+        cameraRotation = Camera.main.transform.rotation;
     }
 
     void Update()

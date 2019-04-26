@@ -47,7 +47,7 @@ public class PlayerSync : MonoBehaviour, IPunObservable
         if (stream.IsWriting) //Donnees envoyees
         {
             stream.SendNext(transform.position);
-            stream.SendNext(infos.cameraAnchor.rotation);
+            stream.SendNext(infos.cameraRotation);
             stream.SendNext(infos.velocity);
             stream.SendNext(infos.lastMovementInput);
         }
@@ -59,7 +59,7 @@ public class PlayerSync : MonoBehaviour, IPunObservable
             movementInput  = (Vector3)    stream.ReceiveNext();
 
             //On met l'orientation reele pour la camera, et l'orientation horizontale seulement pour le joueur (l'avatar ne se penche pas)
-            infos.cameraAnchor.rotation = targetRotation;
+            infos.cameraRotation = targetRotation;
             targetRotation = Quaternion.Euler(0, targetRotation.eulerAngles.y, 0);
         }
     }
