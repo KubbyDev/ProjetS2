@@ -21,7 +21,7 @@ public class PauseMenu : MonoBehaviour
     public void OnQuitClick()
     {
         PhotonNetwork.LeaveRoom();
-        SceneManager.LoadScene(0);
+        //Le chargement de la scene du menu principal se fait dans OnLeftRoom() dans Room.cs
     }
 
     //Quand on clique sur Back depuis le menu des options

@@ -358,7 +358,8 @@ MonoBehaviour:
   BACooldown: 0
   firstCooldown: 0
   secondCooldown: 0
-  cameraAnchor: {fileID: 0}
+  cameraPosition: {x: 0, y: 0, z: 0}
+  cameraRotation: {x: 0, y: 0, z: 0, w: 0}
   velocity: {x: 0, y: 0, z: 0}
   isGrounded: 0
   hasBall: 0
@@ -400,8 +401,8 @@ MonoBehaviour:
   OwnershipTransfer: 1
   ObservedComponents:
   - {fileID: 8587176882192532044}
-  viewIdField: 1
-  InstantiationId: 1
+  viewIdField: 6
+  InstantiationId: 6
   isRuntimeInstantiated: 0
 --- !u!114 &8587176882192532044
 MonoBehaviour:

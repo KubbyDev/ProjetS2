@@ -1,5 +1,6 @@
 ﻿using Photon.Pun;
 using Photon.Realtime;
+using UnityEditor;
 using UnityEngine;
 
 //Ce script transmet les ordres du GameManagerHost vers les clients
@@ -18,7 +19,7 @@ public class GameDataSync : MonoBehaviour
     //Cette methode est appellee sur le Host quand un joueur rejoint la salle
     //Elle met a jour le GameData du joueur qui vient de rejoindre
     public static void SendFirstPacket(Player player)
-    {
+    {        
         pv.RPC("GetFirstPacket_RPC", player, FirstPacket());
     }
     
@@ -37,15 +38,14 @@ public class GameDataSync : MonoBehaviour
     //Cette methode est appellee sur le joueur qui vient de rejoindre la salle, pour mettre a jour son GameData
     private void GetFirstPacket_RPC(double sendMoment, float time, int spawnsSeed)
     {      
+        Debug.Log("1st packet received " + time + " " + Tools.GetLatency(sendMoment) + " time = " + PhotonNetwork.Time + " send = " + sendMoment);
+        
         //On met a jour le temps restant avant le debut de la game 
         //En prenant en compte le temps de trajet du message
-        PreGameManager.timeLeftToStart =  (float) (time - (PhotonNetwork.Time - sendMoment));
+        PreGameManager.timeLeftToStart =  time - Tools.GetLatency(sendMoment);
         
         //La seed du LCG des Spawns (Pour que tous les clients aient les memes nombres random)
         Spawns.randomSeed = spawnsSeed;
-        
-        //On informe le GameManager que le premier packet est arrive (Pas utile pour le moment)
-        //GameManager.OnFirstPacketRecieved();
     }
     
     // Packet de debut de game -----------------------------------------------------------------------------------------

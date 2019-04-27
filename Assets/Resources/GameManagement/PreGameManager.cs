@@ -35,8 +35,8 @@ public class PreGameManager : MonoBehaviour
     
     void Update()
     {
-        //Si la game a deja demarre tout ca ne sert a rien
-        if(gameStarting)
+        //Si la game a deja demarre ou que le client a plante tout ca ne sert a rien
+        if(gameStarting || PhotonNetwork.CurrentRoom == null)
             return;
         
         //On ferme la salle si elle est pleine

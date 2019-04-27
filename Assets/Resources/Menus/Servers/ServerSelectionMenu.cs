@@ -276,7 +276,7 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
 
     public override void OnCreatedRoom()
     {
-        //On charge le BasicField
+        //On charge la map
         PhotonNetwork.LoadLevel(1);
     }
 

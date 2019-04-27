@@ -60,6 +60,11 @@ public class Room : MonoBehaviourPunCallbacks
         base.OnDisconnected(cause);
         
         PhotonNetwork.LeaveRoom();
+    }
+
+    public override void OnLeftRoom()
+    {
+        base.OnLeftRoom();
         SceneManager.LoadScene(0);
     }
 }

@@ -64,4 +64,8 @@ public class Tools : MonoBehaviour
 
         return (float) latency;
     }
+    
+    // Messages sur le menu principal ----------------------------------------------------------------------------------
+
+    public static string message;
 }

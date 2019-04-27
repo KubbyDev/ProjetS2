@@ -1,6 +1,8 @@
-﻿using Photon.Pun;
+﻿using System;
+using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviourPunCallbacks
 {
@@ -8,6 +10,7 @@ public class MainMenu : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject serversMenu;      //Reference au menu des serveurs
     [SerializeField] private GameObject optionsMenu;      //Reference au menu des options
     [SerializeField] private GameObject heroesMenu;       //Reference au menu des heros
+    [SerializeField] private GameObject messagesMenu;     //Reference au menu qui affiche des messages (crash co par exemple)
 
     private ServerSelectionMenu serversMenuScript;        //Reference au script du menu des serveurs
     private bool connected;                               //True: On est connecte au serveur
@@ -25,9 +28,23 @@ public class MainMenu : MonoBehaviourPunCallbacks
         
         serversMenuScript = GameObject.Find("Scripts").GetComponent<ServerSelectionMenu>();
         optionsMenu.transform.Find("Options").GetComponent<OptionsMenu>().RefreshSettings();
-
+        
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+        
+        //Si il y a un message a afficher (par exemple perte de connection avec le serveur)
+        if (Tools.message != null)
+        {
+            messagesMenu.SetActive(true);
+            messagesMenu.transform.Find("Menu").Find("Text").GetComponent<Text>().text = Tools.message;
+            Tools.message = null;
+        }
+    }
+
+    public override void OnConnectedToMaster()
+    {
+        connected = true;
+        serversMenuScript.Connected();
     }
 
     void Update()
@@ -40,15 +57,8 @@ public class MainMenu : MonoBehaviourPunCallbacks
         //Une update toutes les deux secondes
         timeToNextUpdate = 2;
 
-        //Connection
-        if (PhotonNetwork.IsConnected && !connected)
-        {
-            connected = true;
-            serversMenuScript.Connected();
-        }
-
         //Deconnection
-        if (!PhotonNetwork.IsConnected && connected)
+        if (!PhotonNetwork.IsConnectedAndReady && connected)
         {
             connected = false;
             serversMenuScript.Disconnected();
@@ -92,5 +102,11 @@ public class MainMenu : MonoBehaviourPunCallbacks
         serversMenu.SetActive(false);
         heroesMenu.SetActive(false);
         optionsMenu.SetActive(false);
+    }
+    
+    //Le bouton OK de l'afficheur de message (perte de connection avec le serveur par exemple)
+    public void OnOkClicked()
+    {
+        messagesMenu.SetActive(false);
     }
 }
