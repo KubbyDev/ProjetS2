@@ -6,7 +6,7 @@ public class Hook : MonoBehaviour
         [SerializeField] private GameObject hookObject;
         [SerializeField] private float lifeTime = 3.0f;
 
-        [SerializeField] private bool Player_Has_Hook = false;
+        public bool Player_Has_Hook = false;
 
         private PhotonView pv;
         private PlayerInfo playerinfo;
@@ -16,7 +16,7 @@ public class Hook : MonoBehaviour
                 playerinfo = GetComponent<PlayerInfo>();
                 pv = GetComponent<PhotonView>();
         }
-
+        
         public void Player_Got_Hook()
         {
                 Player_Has_Hook = true;

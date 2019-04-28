@@ -77,7 +77,7 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
     }
 
     // Events des boutons ----------------------------------------------------------------------
-
+    
     public void OnJoinRandomRoomClicked()
     {
         PhotonNetwork.JoinRandomRoom();
@@ -159,6 +159,12 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
         advCreateRoomMenu.SetActive(false);
         createRoomMenu.SetActive(true);
     }
+     
+    public void OnRefreshClicked()
+    {
+        PhotonNetwork.GetCustomRoomList(TypedLobby.Default, "");
+        //RemoveAllRooms();
+    }
 
     // Liste des salles ------------------------------------------------------------------------
 
@@ -216,11 +222,10 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
             && selectedGamemodes[(int) room.CustomProperties["p"] - 1]; //Et que son gamemode est autorise dans les filtres
     }
 
-    public void RefreshRoomsList()
+    private void RefreshRoomsList()
     {
         //On supprime toutes les salles
-        foreach (Transform child in roomList.transform)
-            Destroy(child.gameObject);
+        RemoveAllRooms();
         
         //On ajoute toutes les salles correspondant aux filtres
         foreach (RoomInfo room in availableRooms)
@@ -237,6 +242,12 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
         item.GetChild(0).GetComponent<Text>().text = room.Name;
         item.GetChild(1).GetComponent<Text>().text = playerPerTeam + "v" + playerPerTeam;
         item.GetChild(2).GetComponent<Text>().text = room.PlayerCount + "/" + room.MaxPlayers;
+    }
+
+    private void RemoveAllRooms()
+    {
+        foreach (Transform child in roomList.transform)
+            Destroy(child.gameObject);
     }
     
     // Connection aux salles -------------------------------------------------------------------

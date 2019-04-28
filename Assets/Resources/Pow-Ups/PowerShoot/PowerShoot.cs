@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PowerShoot : MonoBehaviour
 {
-    private bool Player_Has_PowerShoot = false;
+    public bool Player_Has_PowerShoot = false;
     
     public void Player_Got_PowerShoot()
     {

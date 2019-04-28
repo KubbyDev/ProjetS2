@@ -37,7 +37,7 @@ public class Ninja : MonoBehaviour
         Explosion();
     }
 
-    public void Explosion()
+    private void Explosion()
     {
         //Renvoie la liste des joueurs presents sur le terrain
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
