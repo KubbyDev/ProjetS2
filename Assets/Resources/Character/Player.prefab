@@ -226,6 +226,7 @@ MonoBehaviour:
   PowerShootMultiplier: 5
   PowerShootCooldown: 5
   hasBall: 0
+  catchTimeLeft: 0
 --- !u!114 &89
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -427,6 +428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a4c2bd879c2489384457b2dc930e9f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Player_Has_PowerShoot: 0
 --- !u!114 &96
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -439,7 +441,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f33ddd8f32643ac44ba89368a739d081, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  team: 1
+  Player_Has_Back: 0
 --- !u!1 &3438142728825950697
 GameObject:
   m_ObjectHideFlags: 0

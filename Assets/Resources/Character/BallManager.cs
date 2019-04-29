@@ -10,11 +10,12 @@ public class BallManager : MonoBehaviour
     [SerializeField] [UnityEngine.Range(0, 5)] private float catchWidth = 1;             //L'imprecision autorisee pour attraper la balle
     [SerializeField] [UnityEngine.Range(1, 10)] private float PowerShootMultiplier = 5;  //La puissance du powershooot
     [SerializeField] private float PowerShootCooldown = 5;                               //Le temps pendant lequel le joueur peur utiliser powershoot    
-    [HideInInspector] public bool hasBall = false;                        //Si le joueur a la balle
     
-    private PlayerInfo infos;                                             //Le script qui contient les infos sur le joueur
-    private float catchTimeLeft = 0;                                      //Le temps restant avant de pouvoir reutiliser le catch
-    private float PowerShootTimeLeft = 0;                                 //Le temps restant pour utiliser le powershoot
+    public bool hasBall = false;                        //Si le joueur a la balle
+    public float catchTimeLeft = 0;                     //Le temps restant avant de pouvoir reutiliser le catch
+    
+    private PlayerInfo infos;                           //Le script qui contient les infos sur le joueur
+    private float PowerShootTimeLeft = 0;               //Le temps restant pour utiliser le powershoot
     
     void Start()
     {
@@ -62,5 +63,10 @@ public class BallManager : MonoBehaviour
     public void Use_PowerShoot()
     {
         PowerShootTimeLeft = PowerShootCooldown; //Indique au script que le joueur a utilise le powerup powershoot
+    }
+
+    public float GetLaunchSpeed()
+    {
+        return launchStrength * 1000 * (PowerShootTimeLeft > 0 ? PowerShootMultiplier : 1) / Ball.rigidBody.mass;
     }
 }

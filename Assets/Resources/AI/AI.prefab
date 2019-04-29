@@ -159,6 +159,9 @@ GameObject:
   - component: {fileID: 8294962191097149405}
   - component: {fileID: 3716507366201891263}
   - component: {fileID: 6112727337460792220}
+  - component: {fileID: 4557467466495060799}
+  - component: {fileID: 6654715581222393996}
+  - component: {fileID: 6954104503258413573}
   m_Layer: 9
   m_Name: AI
   m_TagString: Player
@@ -174,7 +177,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8294962191097149335}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.478784, y: -12.737042, z: -32.055393}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2424023656833811803}
@@ -336,6 +339,7 @@ MonoBehaviour:
   PowerShootMultiplier: 2
   PowerShootCooldown: 30
   hasBall: 0
+  catchTimeLeft: 0
 --- !u!114 &6042739075857147334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -401,8 +405,8 @@ MonoBehaviour:
   OwnershipTransfer: 1
   ObservedComponents:
   - {fileID: 8587176882192532044}
-  viewIdField: 6
-  InstantiationId: 6
+  viewIdField: 2
+  InstantiationId: 2
   isRuntimeInstantiated: 0
 --- !u!114 &8587176882192532044
 MonoBehaviour:
@@ -494,3 +498,45 @@ MonoBehaviour:
   Smoke_Delay: 2
   SmokeBomb: {fileID: 0}
   SmokeExplosion: {fileID: 0}
+--- !u!114 &4557467466495060799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8294962191097149335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b9baf92905a421e81ac69deccc95d94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hookObject: {fileID: 2279490531893371813, guid: 45ff461ff93047de902865534d3ae7eb,
+    type: 3}
+  lifeTime: 3
+  Player_Has_Hook: 0
+--- !u!114 &6654715581222393996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8294962191097149335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f33ddd8f32643ac44ba89368a739d081, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Player_Has_Back: 0
+--- !u!114 &6954104503258413573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8294962191097149335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a4c2bd879c2489384457b2dc930e9f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Player_Has_PowerShoot: 0

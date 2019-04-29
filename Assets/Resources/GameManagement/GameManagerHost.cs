@@ -9,28 +9,17 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
     public static int maxGoals;  //Le nombre de but pour que la partie se termine: 0 = infini
     public static bool inOvertime = false;
     
-    void Awake()
+    void Start()
     {
-        //Si on est pas le host
-        if (!PhotonNetwork.IsMasterClient)
-        {
-            //On desactive ce script (plus aucune methode ne sera appellee ici)
-            this.enabled = false;
-            return;
-        }
-        
-        //Uniquement sur le host
-        
-        //Met a jour la configuration de la partie
-        //Recupere les CustomProperties (enregistrees dans la PhotonRoom a la creation de la salle)
-        GameManager.gameConfig = PhotonNetwork.CurrentRoom.CustomProperties.Config();
-        
-        PreGameManager.maxPlayers = 2 * GameManager.gameConfig.playersPerTeam;
         maxGoals = GameManager.gameConfig.maxGoals;
     }
 
     void Update()
     {
+        //Seul le host execute ce code
+        if (!PhotonNetwork.IsMasterClient)
+            return;
+        
         if (GameManager.timeLeft < 0 && !inOvertime) // Si le temps est ecoule, soit on lance l'overtime, soit on termine la partie
         {
             inOvertime = true;
@@ -157,7 +146,7 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
         for (int i = blue; i < playersPerTeam; i++)
         {
             //Cree une IA et recupere son PlayerInfo
-            PlayerInfo newIaInfos = PhotonNetwork.Instantiate(Path.Combine("AI", "AI"), new Vector3(0, 10, 0), Quaternion.identity).GetComponent<PlayerInfo>();
+            PlayerInfo newIaInfos = PhotonNetwork.InstantiateSceneObject(Path.Combine("AI", "AI"), new Vector3(0, 10, 0), Quaternion.identity).GetComponent<PlayerInfo>();
             
             //Change le hero de l'IA
             newIaInfos.SetHero(Heroes.Random());
@@ -172,7 +161,7 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
         //On rempli les trous dans la team Orange
         for (int i = orange; i < playersPerTeam; i++)
         {
-            PlayerInfo newIaInfos = PhotonNetwork.Instantiate(Path.Combine("AI", "AI"), new Vector3(0, 10, 0), Quaternion.identity).GetComponent<PlayerInfo>();
+            PlayerInfo newIaInfos = PhotonNetwork.InstantiateSceneObject(Path.Combine("AI", "AI"), new Vector3(0, 10, 0), Quaternion.identity).GetComponent<PlayerInfo>();
             newIaInfos.SetHero(Heroes.Random());
             newIaInfos.SetTeam(Team.Orange);
             newIaInfos.UpdateInfos();

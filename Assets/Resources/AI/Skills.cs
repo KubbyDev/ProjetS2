@@ -31,14 +31,13 @@ public class Skills : MonoBehaviour
         striker = GetComponent<Striker>();
         warden = GetComponent<Warden>();
         ninja = GetComponent<Ninja>();
-        
-        infos.cameraPosition = cam.position;
     }
 
     void Update()
     {
         infos.cameraRotation = cam.rotation;
-
+        infos.cameraPosition = cam.position;
+        
         //Met a jour le temps restant pour pouvoir bouger
         if (timeToMove > 0)
             timeToMove -= Time.deltaTime;
@@ -70,9 +69,27 @@ public class Skills : MonoBehaviour
     /// Tire sur la position donnee en parametre
     /// </summary>
     /// <param name="targetPosition"></param>
-    public void Shoot(Vector3 targetPosition)          //TODO: prendre en compte la gravite
+    public void Shoot(Vector3 targetPosition)
     {
         LookAt(targetPosition);
+        
+        //Calcule l'angle de tir en prenant en compte la gravite
+        float launchSpeed = ballManager.GetLaunchSpeed();  //La vitesse initiale
+        float vSqr = launchSpeed * launchSpeed;            //Au carre
+        float g = Physics.gravity.magnitude;               //La gravite (9.81)
+        float x = Vector3.Distance(transform.position, targetPosition); //La distance de la cible
+        float y = targetPosition.y - transform.position.y; //La difference de hauteur entre la cible l'IA
+        SetPitch(
+            - Mathf.Atan(
+                (vSqr - Mathf.Sqrt(
+                    vSqr*vSqr - g*(g*x*x + 2*y*vSqr)
+                    ))
+                /(g*x)
+                )
+            *180/Mathf.PI
+            );
+        
+        infos.cameraRotation = cam.rotation;
         ballManager.Shoot();
     }
 
@@ -162,15 +179,19 @@ public class Skills : MonoBehaviour
     
     public void Turn(float newRotation)
     {
-        if(timeToMove <= 0)
-            transform.eulerAngles = new Vector3(0, newRotation, 0);
+        transform.eulerAngles = new Vector3(0, newRotation, 0);
+    }
+    
+    private void SetPitch(float pitch)
+    {
+        cam.eulerAngles = new Vector3(pitch, cam.rotation.eulerAngles.y, 0);
     }
     
     //Regarde le point specifie
     public void LookAt(Vector3 point)
     {
         cam.LookAt(point);
-        Turn(cam.rotation.eulerAngles.y);
+        //transform.eulerAngles = new Vector3(0, cam.rotation.eulerAngles.y, 0);
     }
 
     public void Jump()
@@ -208,6 +229,11 @@ public class Skills : MonoBehaviour
     public bool HasPowerShoot()
     {
         return powerShoot.Player_Has_PowerShoot;
+    }
+    
+    public bool HasBall()
+    {
+        return ballManager.hasBall;
     }
     
     // Fonctions annexes -----------------------------------------------------------------------------------------------

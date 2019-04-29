@@ -144,6 +144,9 @@ public class GameDataSync : MonoBehaviour
         Ball.Hide();
         GameManager.timeLeft = 0;
         Spawns.randomSeed = spawnsSeed;
+
+        //Au cas ou il y aurait une migration d'hote
+        GameManagerHost.inOvertime = true;
         
         GameManager.script.RespawnAll();
     }
