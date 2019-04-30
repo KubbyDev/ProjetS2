@@ -92,6 +92,10 @@ public class PlayerInfo : MonoBehaviour
         secondCooldown = 0f;
         GetComponent<MeshRenderer>().materials = hero.GetModel().materials;
         GetComponent<MeshFilter>().mesh = hero.GetModel().mesh;
+        
+        //Change les images pour les cooldowns des spells (si c'est le joueur local)
+        if(pv.IsMine)
+            CooldownDisplay.cooldownDisplayer.UpdateSprites(hero.GetSpellsSprites());
     }
 
     //Synchronise les infos de ce joueur chez tous les clients

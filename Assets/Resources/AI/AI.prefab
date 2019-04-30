@@ -402,7 +402,7 @@ MonoBehaviour:
   Group: 0
   prefixField: -1
   Synchronization: 2
-  OwnershipTransfer: 1
+  OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 8587176882192532044}
   viewIdField: 2

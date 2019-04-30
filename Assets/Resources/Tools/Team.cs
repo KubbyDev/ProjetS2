@@ -37,9 +37,9 @@ static class Teams
     {
         switch (t)
         {
-            case Team.Blue: return Tools.HeroesMeshes.blueTeam;
-            case Team.Orange: return Tools.HeroesMeshes.orangeTeam;
-            case Team.None: return Tools.HeroesMeshes.noTeam;
+            case Team.Blue: return Tools.TeamsMaterials.blueTeam;
+            case Team.Orange: return Tools.TeamsMaterials.orangeTeam;
+            case Team.None: return Tools.TeamsMaterials.noTeam;
             default: return null;
         }
     }

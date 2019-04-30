@@ -4,7 +4,11 @@ ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
+    100002: Roof
+    100004: Stadium
     400000: //RootNode
+    400002: Roof
+    400004: Stadium
     2100000: Glass
     2100002: Neon_Orange
     2100004: Neon_Blue
@@ -12,8 +16,13 @@ ModelImporter:
     2100008: Black_
     2100010: Ground_Glass
     2300000: //RootNode
+    2300002: Roof
+    2300004: Stadium
     3300000: //RootNode
+    3300002: Roof
+    3300004: Stadium
     4300000: Stadium
+    4300002: Roof
     7400000: Default Take
     9500000: //RootNode
   externalObjects:

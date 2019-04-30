@@ -43,7 +43,20 @@ static class Heroes
             default: return null;
         }
     }
-    
+
+    public static Sprite[] GetSpellsSprites(this Hero h)
+    {
+        switch (h)
+        {
+            case Hero.Stricker:
+                return Tools.SpellsSprites.stricker;
+            case Hero.Warden:
+                return Tools.SpellsSprites.warden;
+            case Hero.Ninja:
+                return Tools.SpellsSprites.ninja;
+            default: return null;
+        }
+    }
 }
 
 public class Model

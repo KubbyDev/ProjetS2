@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using Photon.Pun;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BasicSpellBall : MonoBehaviour
 {
     [SerializeField] private int BulletSpeed = 1;
     [SerializeField] private float SlowMultiplier = 0.8f;
     [SerializeField] private float SlowDuration = 3.5f;
+    
     private Vector3 direction;
     private GameObject shooter;
     private Team shooterTeam;
@@ -30,13 +29,18 @@ public class BasicSpellBall : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player")
-            && other.gameObject != shooter.gameObject
-            && other.GetComponent<PlayerInfo>().team.IsOpponnentOf(shooterTeam))
+        //Si c'est un joueur
+        if (other.CompareTag("Player"))
         {
-            other.GetComponent<MovementManager>().MultiplySpeed(SlowMultiplier, SlowDuration);  
+            //Si c'est un ennemi
+            if (other.gameObject != shooter.gameObject &&
+                other.GetComponent<PlayerInfo>().team.IsOpponnentOf(shooterTeam))
+            {
+                other.GetComponent<MovementManager>().MultiplySpeed(SlowMultiplier, SlowDuration);  
+                Destroy(this.gameObject);
+            }
         }
-        
-        Destroy(this.gameObject);
+        else
+            Destroy(this.gameObject);
     }
 }
