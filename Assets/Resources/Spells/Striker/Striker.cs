@@ -40,7 +40,7 @@ public class Striker : MonoBehaviour
         if (infos.secondCooldown > 0f) //secondCooldown = cooldown du E = cooldown de escape
             return;
         
-        Vector3 position = transform.position + new Vector3(0, 1.5f, 0) + transform.forward*1.0f;
+        Vector3 position = transform.position + new Vector3(0, 1.5f, 0);
         Vector3 direction = infos.cameraRotation * Vector3.forward;
         
         //Cree escapeBullet
@@ -49,7 +49,9 @@ public class Striker : MonoBehaviour
         pv.RPC("SpawnEscape", RpcTarget.Others, position, direction);
         
         bullet.GetComponent<Rigidbody>().AddForce(direction * 1000);  //Applique une force
-        bullet.GetComponent<TeleportBullet>().Init(this.gameObject, Time.time, true);  //Donne a la balle une reference au joueur qu'elle va devoir tp
+        
+        //Donne a la balle une reference au joueur qu'elle va devoir tp
+        bullet.GetComponent<TeleportBullet>().Init(this.gameObject, Time.time, true, direction);
 
         infos.secondCooldown = escapeCooldown;
     }
@@ -64,6 +66,6 @@ public class Striker : MonoBehaviour
             Quaternion.identity);
                 
         bullet.GetComponent<Rigidbody>().AddForce(direction*1000);  //Applique une force
-        bullet.GetComponent<TeleportBullet>().Init(null, 0, false);
+        bullet.GetComponent<TeleportBullet>().Init(null, 0, false, direction);
     }
 }

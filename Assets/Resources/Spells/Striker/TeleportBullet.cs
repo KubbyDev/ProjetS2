@@ -10,7 +10,9 @@ public class TeleportBullet : MonoBehaviour
     
     //True: Cette balle va regarder si elle doit faire une TP (check les collisions et le temps)
     //Si la balle est inactive c'est parce qu'elle appartient a un autre client (seul le client qui lance la balle la calcule)
-    private bool active;           
+    private bool active;
+    //La direction sert a tp un peu derriere le point de collision, pour eviter de passer a travers les murs
+    private Vector3 direction;
     
     void Update()
     {
@@ -22,20 +24,22 @@ public class TeleportBullet : MonoBehaviour
     //Quand la balle entre en collision avec un truc
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject != this.gameObject)
+        if(other.gameObject != shooter)
             Tp();
     }
 
     //Tp le joueur sur la balle
     private void Tp()
     {
-        shooter.transform.position = transform.position;
+        //Tp le joueur un peu avant le point de collision pour eviter de passer a travers les murs
+        shooter.transform.position = transform.position - direction.normalized*1.0f;
         GetComponent<PhotonView>().RPC("Destroy_RPC", RpcTarget.All);
     }
 
     //Appellee par Stricker.cs
-    public void Init(GameObject shooter, float startTime, bool active)
+    public void Init(GameObject shooter, float startTime, bool active, Vector3 direction)
     {
+        this.direction = direction;
         this.active = active;
         
         if (active)

@@ -38,7 +38,7 @@ public class PlayerInfo : MonoBehaviour
         pv = GetComponent<PhotonView>();
         
         //Si c'est le joueur local, on utilise le hero par defaut
-        if (pv.IsMine)
+        if (isPlayer && pv.IsMine)
         {
             SetHero(Settings.settings.defaultHero);
             UpdateInfos();
@@ -94,7 +94,7 @@ public class PlayerInfo : MonoBehaviour
         GetComponent<MeshFilter>().mesh = hero.GetModel().mesh;
         
         //Change les images pour les cooldowns des spells (si c'est le joueur local)
-        if(pv.IsMine)
+        if(isPlayer && pv.IsMine)
             CooldownDisplay.cooldownDisplayer.UpdateSprites(hero.GetSpellsSprites());
     }
 
