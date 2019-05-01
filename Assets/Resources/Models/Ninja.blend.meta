@@ -1,47 +1,34 @@
 fileFormatVersion: 2
-guid: 1b2ad7e527f57754a8c5a26153dc1ae3
+guid: 5213cfc05147468438128cc0771ca10d
 ModelImporter:
-  serializedVersion: 23
-  fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2100000: Neon
-    2100002: Screen
-    2100004: Glass
-    2100006: BodyWhite
-    2100008: Body_Black
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: Ninja
-    7400000: Default Take
-    9500000: //RootNode
-    2186277476908879412: ImportLogs
+  serializedVersion: 25
+  internalIDToNameTable: []
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: BodyWhite
-    second: {fileID: 2100000, guid: 2f52884933efbf646943b5b5b1af7e9d, type: 2}
+      name: Body Black
+    second: {fileID: 2100000, guid: 7e15da5bc1feb0142825fa2299922c47, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Body_Black
-    second: {fileID: 2100000, guid: fe185af150d46f542827f5730bac2ad4, type: 2}
+      name: BodyWhite
+    second: {fileID: 2100000, guid: ed47f53d656ade1489755941ad499a69, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Glass
-    second: {fileID: 2100000, guid: dae164b936ab6644f82a8a09782addc8, type: 2}
+    second: {fileID: 2100000, guid: f8bce00940bf7cd4da1f4ae596d16ab7, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Neon
-    second: {fileID: 2100000, guid: 71eafaaedc03b8241b8b844ef1e381e1, type: 2}
+    second: {fileID: 2100000, guid: 49e1a79267b1c4949b752cda2aebe610, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Screen
-    second: {fileID: 2100000, guid: b855a5bea1421c14c80ff364926b30d8, type: 2}
+    second: {fileID: 2100000, guid: 5d610fd392516ba40b60a51795d3c33d, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -69,7 +56,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     extraUserProperties: []
     clipAnimations: []
-    isReadable: 1
+    isReadable: 0
   meshes:
     lODScreenPercentages: []
     globalScale: 0.4
@@ -78,23 +65,24 @@ ModelImporter:
     useSRGBMaterialColor: 1
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 1
-    importLights: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
     preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
-    previousCalculatedGlobalScale: 1
-    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -103,10 +91,11 @@ ModelImporter:
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 0
   copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -116,6 +105,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 0.4
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
