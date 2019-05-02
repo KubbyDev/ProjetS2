@@ -549,7 +549,7 @@ PrefabInstance:
     - target: {fileID: 6572717544643566008, guid: 37ac5d17c94012e438cc2d162c2accc4,
         type: 3}
       propertyPath: pregameDuration
-      value: 120
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6241107992965290905, guid: 37ac5d17c94012e438cc2d162c2accc4,
         type: 3}
@@ -1202,12 +1202,12 @@ PrefabInstance:
     - target: {fileID: 5760628669590826989, guid: 63002e16e041ff04ba3dbb008ca076c6,
         type: 3}
       propertyPath: viewIdField
-      value: 998
+      value: 997
       objectReference: {fileID: 0}
     - target: {fileID: 5760628669590826989, guid: 63002e16e041ff04ba3dbb008ca076c6,
         type: 3}
       propertyPath: InstantiationId
-      value: 998
+      value: 997
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 63002e16e041ff04ba3dbb008ca076c6, type: 3}
@@ -2404,7 +2404,12 @@ PrefabInstance:
     - target: {fileID: 7742924780462279435, guid: 5acdb0b58e2dfb341958771eb5112d0c,
         type: 3}
       propertyPath: viewIdField
-      value: 3
+      value: 998
+      objectReference: {fileID: 0}
+    - target: {fileID: 7742924780462279435, guid: 5acdb0b58e2dfb341958771eb5112d0c,
+        type: 3}
+      propertyPath: InstantiationId
+      value: 998
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5acdb0b58e2dfb341958771eb5112d0c, type: 3}
