@@ -34,4 +34,14 @@ public class BallParticles : MonoBehaviour
             timeToSpawn -= Time.deltaTime;
         }
     }
+
+    public void OnFreeze()
+    {
+        
+    }
+
+    public void OnFreezeStop()
+    {
+        
+    }
 }

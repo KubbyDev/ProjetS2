@@ -1,4 +1,5 @@
-﻿using Photon.Pun;
+﻿using System.Collections;
+using Photon.Pun;
 using UnityEngine;
 
 //Le but de cette classe et de donner a Brain.cs l'acces a tout un tas de fonctionnalites
@@ -71,7 +72,15 @@ public class Skills : MonoBehaviour
     /// <param name="targetPosition"></param>
     public void Shoot(Vector3 targetPosition)
     {
+        StartCoroutine(ShootCoroutine(targetPosition));
+    }
+
+    IEnumerator ShootCoroutine(Vector3 targetPosition)
+    {
         LookAt(targetPosition);
+        
+        //Attend que la balle arrete de bouger avant de tirer (elle bouge parce qu'il vient de se tourner)
+        yield return new WaitForSeconds(0.5f);
         
         //Calcule l'angle de tir en prenant en compte la gravite
         float launchSpeed = ballManager.GetLaunchSpeed();  //La vitesse initiale
@@ -82,15 +91,15 @@ public class Skills : MonoBehaviour
         SetPitch(
             - Mathf.Atan(
                 (vSqr - Mathf.Sqrt(
-                    vSqr*vSqr - g*(g*x*x + 2*y*vSqr)
-                    ))
+                     vSqr*vSqr - g*(g*x*x + 2*y*vSqr)
+                 ))
                 /(g*x)
-                )
+            )
             *180/Mathf.PI
-            );
+        );
         
         infos.cameraRotation = cam.rotation;
-        ballManager.Shoot();
+        ballManager.Shoot();       
     }
 
     /// <summary>

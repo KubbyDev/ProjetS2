@@ -18,6 +18,7 @@ public class Ball : MonoBehaviour
     public GameObject shooterOrange;     //Le dernier joueur orange a avoir lance la balle (enregistre quand possessor passe a null)
     public bool lastTeamIsBlue;          //True: La derniere equipe a avoir possede la balle est l'equipe bleue
 
+    private BallParticles ballParticles;
     private float freeze1Time = 0f;
     private float freeze2Time = 0f;
 
@@ -26,6 +27,7 @@ public class Ball : MonoBehaviour
         ball = this.gameObject;
         script = this;
         rigidBody = GetComponent<Rigidbody>();
+        ballParticles = GetComponent<BallParticles>();
     }
     
     void Start()
@@ -51,7 +53,10 @@ public class Ball : MonoBehaviour
 
         //Freeze2 = Balle bloquee en l'air mais attrapable
         if (freeze2Time <= 0)
+        {
             rigidBody.useGravity = true; //reset la gravite de la ball   
+            ballParticles.OnFreezeStop();
+        }
     }
 
     //Met a jour le possesseur de la balle chez tous les clients
@@ -85,8 +90,13 @@ public class Ball : MonoBehaviour
             player.GetComponent<BallManager>().hasBall = player == possessor;
         
         //On reset le temps de freeze au cas ou il serait encore en cours
-        freeze1Time = 0;
-        freeze2Time = 0;
+        if (freeze2Time > 0)
+        {
+            freeze1Time = 0;
+            freeze2Time = 0;
+        
+            ballParticles.OnFreezeStop();
+        }
     }
 
     //Attire la balle au joueur qui la possede
@@ -157,5 +167,7 @@ public class Ball : MonoBehaviour
         //Freeze2 = Balle bloquee en l'air mais attrapable
         freeze1Time = freeze1 - latency;
         freeze2Time = freeze2 - latency;
+        
+        ballParticles.OnFreeze();
     }
 }
