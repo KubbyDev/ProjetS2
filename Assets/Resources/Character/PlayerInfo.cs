@@ -84,6 +84,7 @@ public class PlayerInfo : MonoBehaviour
         team = t;
         GetComponent<MeshRenderer>().material = t.GetMaterial();
         GetComponent<ParticleSystem>().startColor = t.GetMaterial().color;
+        transform.Find("Light").GetComponent<Light>().color = t.GetMaterial().color;
     }
     
     public void SetHero(Hero h)

@@ -97,6 +97,9 @@ public class Ball : MonoBehaviour
         
             ballParticles.OnFreezeStop();
         }
+        
+        //Change la couleur de la balle
+        ballParticles.UpdateColor(lastTeamIsBlue);
     }
 
     //Attire la balle au joueur qui la possede
@@ -141,6 +144,7 @@ public class Ball : MonoBehaviour
         ResetSpeed();
         UpdatePossessor(null);
         rigidBody.useGravity = true;
+        script.ballParticles.ResetColor();
     }
 
     //Cache la balle (on la place en fait sous le terrain)

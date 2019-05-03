@@ -10,7 +10,13 @@ public class BallParticles : MonoBehaviour
     [SerializeField] [Range(0.01f, 1)] private float spawnPeriod = 0.1f;       //Le temps entre deux spawns d'eclairs
 
     private float timeToSpawn;  //Le temps restant avant le prochain spawn d'eclair
+    private MeshRenderer meshRenderer;
     
+    void Awake()
+    {
+        meshRenderer = GetComponent<MeshRenderer>();
+    }
+
     void Update()
     {
         //Si le temps est ecoule et que quelqu'un a la balle
@@ -35,6 +41,16 @@ public class BallParticles : MonoBehaviour
         }
     }
 
+    public void UpdateColor(bool lastTeamIsBlue)
+    {
+        meshRenderer.material = (lastTeamIsBlue ? Team.Blue : Team.Orange).GetMaterial();
+    }
+
+    public void ResetColor()
+    {
+        meshRenderer.material = Team.None.GetMaterial();
+    }
+    
     public void OnFreeze()
     {
         

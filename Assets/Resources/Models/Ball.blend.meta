@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 88c7b626fd779a442aeef0afabd1180a
+guid: 081cd49932ba3234e9bb15cdf76fff95
 ModelImporter:
   serializedVersion: 25
   internalIDToNameTable: []
@@ -7,33 +7,18 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Black_
-    second: {fileID: 2100000, guid: 1b6f0e703380f3f41923e3032ef81334, type: 2}
+      name: Base
+    second: {fileID: 2100000, guid: 9a24a970d1b2df5458fa068478342fcc, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Glass
-    second: {fileID: 2100000, guid: b205582a637b95b4ebb6a34ba81b4643, type: 2}
+    second: {instanceID: 0}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Ground Glass
-    second: {fileID: 2100000, guid: 118756dbcb73e8449a88560ee830aa2e, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Material
-    second: {fileID: 2100000, guid: b9c29d259408a4242bb3fbc3cbda1d65, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Neon Blue
-    second: {fileID: 2100000, guid: 9bb1c9372392c9e44924b14f9bafc501, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Neon Orange
-    second: {fileID: 2100000, guid: fb30137de5169ae4bb34f655ee993c88, type: 2}
+      name: Neons
+    second: {fileID: 2100000, guid: 164c580ba742b8248b28c1bb67081164, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -64,16 +49,16 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 0.2
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 1
-    importLights: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
-    generateSecondaryUV: 1
+    generateSecondaryUV: 0
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1
@@ -97,7 +82,7 @@ ModelImporter:
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
   referencedClips: []
-  importAnimation: 1
+  importAnimation: 0
   copyAvatar: 0
   humanDescription:
     serializedVersion: 3
@@ -110,7 +95,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 1
+    globalScale: 0.2
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
