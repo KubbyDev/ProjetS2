@@ -30,11 +30,16 @@ public class Brain : MonoBehaviour
         // A gnee gneee taper ballon
         currentState = State.GoToTheBall;
         
-        if (currentState == State.GoToTheBall && !infos.hasBall)
+        if (currentState == State.GoToTheBall)
         {
-            skills.MoveTo(Ball.ball.transform.position);
-            skills.CatchBall();
-            if(skills.HasBall()) skills.Shoot();
+            if(skills.HasBall())
+                skills.Shoot();
+            else
+            {
+                skills.MoveTo(Ball.ball.transform.position);
+                if(Vector3.Distance(transform.position, Ball.ball.transform.position) < 2f)
+                    skills.CatchBall();   
+            }
         }
     }
 }

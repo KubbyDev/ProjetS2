@@ -80,7 +80,7 @@ public class Skills : MonoBehaviour
         LookAt(targetPosition);
         
         //Attend que la balle arrete de bouger avant de tirer (elle bouge parce qu'il vient de se tourner)
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         
         //Calcule l'angle de tir en prenant en compte la gravite
         float launchSpeed = ballManager.GetLaunchSpeed();  //La vitesse initiale
@@ -89,7 +89,7 @@ public class Skills : MonoBehaviour
         float x = Vector3.Distance(transform.position, targetPosition); //La distance de la cible
         float y = targetPosition.y - transform.position.y; //La difference de hauteur entre la cible l'IA
         SetPitch(
-            - Mathf.Atan(
+            Mathf.Atan(
                 (vSqr - Mathf.Sqrt(
                      vSqr*vSqr - g*(g*x*x + 2*y*vSqr)
                  ))
@@ -98,7 +98,6 @@ public class Skills : MonoBehaviour
             *180/Mathf.PI
         );
         
-        infos.cameraRotation = cam.rotation;
         ballManager.Shoot();       
     }
 
@@ -189,18 +188,24 @@ public class Skills : MonoBehaviour
     public void Turn(float newRotation)
     {
         transform.eulerAngles = new Vector3(0, newRotation, 0);
+        
+        infos.cameraRotation = cam.rotation;
     }
     
     private void SetPitch(float pitch)
     {
         cam.eulerAngles = new Vector3(pitch, cam.rotation.eulerAngles.y, 0);
+        
+        infos.cameraRotation = cam.rotation;
     }
     
     //Regarde le point specifie
     public void LookAt(Vector3 point)
     {
         cam.LookAt(point);
-        //transform.eulerAngles = new Vector3(0, cam.rotation.eulerAngles.y, 0);
+        transform.eulerAngles = new Vector3(0, cam.rotation.eulerAngles.y, 0);
+        
+        infos.cameraRotation = cam.rotation;
     }
 
     public void Jump()
