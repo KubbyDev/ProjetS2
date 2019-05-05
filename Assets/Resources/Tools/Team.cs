@@ -14,9 +14,12 @@ static class Teams
     
     //Team.Orange.OtherTeam() => Team.Blue
     //Team.Blue.OtherTeam() => Team.Orange
-    //Team.None.OtherTeam() => Team.Blue
+    //Team.None.OtherTeam() => Team.None
     public static Team OtherTeam(this Team team)
     {
+        if (team == Team.None)
+            return Team.None;
+        
         return (Team) (((int) team+1)%2);
     }
 

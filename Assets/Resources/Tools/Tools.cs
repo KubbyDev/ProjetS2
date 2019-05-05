@@ -1,5 +1,6 @@
 ﻿using Photon.Pun;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Tools : MonoBehaviour
 {
@@ -89,4 +90,30 @@ public class Tools : MonoBehaviour
     // Messages sur le menu principal ----------------------------------------------------------------------------------
 
     public static string message;
+    
+    // Formattage du temps ---------------------------------------------------------------------------------------------
+    
+    //Met le temps en format MinMin:SecSec
+    //Ajoute un + si le temps est negatif (overtime)
+    public static string FormatTime(float time)
+    {
+        string res = "";
+
+        if (time < 0)
+        {
+            time *= -1;
+            res = "+";
+        }
+
+        res += ((int) (time+0.99f)/60).ToString().PadLeft(2, '0') + ":" + ((int) (time+0.99f)%60).ToString().PadLeft(2, '0');
+        return res;
+    }
+    
+    // Modification de Transparence ------------------------------------------------------------------------------------
+
+    public static void ModifyAlpha(float newAlpha, Graphic element)
+    {
+        Color color = element.color;
+        element.color = new Color(color.r, color.g, color.b, newAlpha);
+    }
 }

@@ -21,7 +21,7 @@ public class ErrorMessage : MonoBehaviour
 
         //Fondu de fin: On modifie le channel alpha (transparence) en fonction du temps
         if(animTime > 1-fadeTime)
-            modifyAlpha(1 - (animTime - 1 + fadeTime) / fadeTime);
+            ModifyAlpha(1 - (animTime - 1 + fadeTime) / fadeTime);
 
         //Disparition du message
         if (Time.time - lastUpdate > displayTime)
@@ -34,7 +34,7 @@ public class ErrorMessage : MonoBehaviour
         this.gameObject.SetActive(true);
 
         //Reset de la transparence
-        modifyAlpha(1);
+        ModifyAlpha(1);
 
         //Mise a jour du texte et du temps de depart
         errorMessage.text = message;
@@ -42,11 +42,9 @@ public class ErrorMessage : MonoBehaviour
     }
 
     //Modifie la transparence de l'image et du texte du message d'erreur
-    private void modifyAlpha(float newAlpha)
+    private void ModifyAlpha(float newAlpha)
     {
-        Color color = errorMessage.color;
-        errorMessage.color = new Color(color.r, color.g, color.b, newAlpha);
-        color = GetComponent<Image>().color;
-        GetComponent<Image>().color = new Color(color.r, color.g, color.b, newAlpha);
+        Tools.ModifyAlpha(newAlpha, errorMessage);
+        Tools.ModifyAlpha(newAlpha, GetComponent<Image>());
     }
 }

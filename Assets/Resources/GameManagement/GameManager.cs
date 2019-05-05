@@ -17,14 +17,10 @@ public class GameManager : MonoBehaviour
     public static int blueScore;             //Score de l'equipe bleu
     public static int orangeScore;           //Score de l'equipe orange
     public static bool gameStarted;          //Passe a true des que la partie demarre
-    public static bool gameFinished =false;  //Passe a true des que la partie se termine
+    public static bool gameFinished = false; //Passe a true des que la partie se termine
     
     [SerializeField] private Transform menus;                  //Contient les affichages
     [SerializeField] private Vector3 ballSpawn = Vector3.zero; //Position de spawn de la balle
-    
-    private Text timeDisplayer;          //Le component qui affiche le temps restant
-    private Text blueScoreDisplayer;     //Le component qui affiche le score de l'equipe bleu
-    private Text orangeScoreDisplayer;   //Le component qui affiche le score de l'equipe orange
     
     void Awake()
     {
@@ -33,12 +29,6 @@ public class GameManager : MonoBehaviour
         //Met a jour la configuration de la partie
         gameConfig = PhotonNetwork.CurrentRoom.CustomProperties.Config();
         PreGameManager.maxPlayers = 2 * gameConfig.playersPerTeam;
-        
-        //Recuperation des afficheurs en haut de l'ecran
-        Transform gameMenu = menus.Find("GameMenu");
-        timeDisplayer = gameMenu.Find("Background").Find("Time").GetComponent<Text>();
-        blueScoreDisplayer = gameMenu.Find("Background").Find("BlueBackground").Find("BlueScore").GetComponent<Text>();
-        orangeScoreDisplayer = gameMenu.Find("Background").Find("OrangeBackground").Find("OrangeScore").GetComponent<Text>();
     }
 
     void Start()
@@ -53,30 +43,14 @@ public class GameManager : MonoBehaviour
     
     void Update()
     {
-        if (gamePlaying)  // Si la partie joue on enleve le temps ecoule au temps restant
+        if (gamePlaying) // Si la partie joue on enleve le temps ecoule au temps restant
+        {           
             timeLeft -= Time.deltaTime;
+            GameMenu.script.UpdateTimeDisplay(timeLeft);
+        }
 
         if (timeLeftForKickoff > 0)
             timeLeftForKickoff -= Time.deltaTime;
-        
-        //Met a jour le temps en haut de l'ecran
-        timeDisplayer.text = FormatTime(timeLeft);
-    }
-    
-    //Met le temps en format MinMin:SecSec
-    //Ajoute un + si le temps est negatif (overtime)
-    public static string FormatTime(float time)
-    {
-        string res = "";
-
-        if (time < 0)
-        {
-            time *= -1;
-            res = "+";
-        }
-
-        res += ((int) (time+0.99f)/60).ToString().PadLeft(2, '0') + ":" + ((int) (time+0.99f)%60).ToString().PadLeft(2, '0');
-        return res;
     }
     
     // Debut de partie -------------------------------------------------------------------------------------------------
@@ -86,12 +60,6 @@ public class GameManager : MonoBehaviour
     //Puis que le GameDataSync envoie l'evenement a ce client dans PreGameManager.StartGame, puis que ca arrive a cette methode 
     public void StartGame()
     {
-        //Affiche le temps en haut de l'ecran
-        menus.Find("GameMenu").gameObject.SetActive(true);
-        
-        //Separe les teams dans le menu tab
-        menus.Find("Tab").GetComponent<TabMenu>().SeparateTeams();
-        
         gameStarted = true;
         timeLeft = gameConfig.gameDuration;
         
@@ -123,16 +91,17 @@ public class GameManager : MonoBehaviour
             return;
             
         //Incremente le nombre de buts marques du joueur qui a marque
+        GameObject playerWhoScored = null;
         if (isForBlue)
-        {
             if(Ball.script.shooterBlue != null)
-                Ball.script.shooterBlue.GetComponent<PlayerInfo>().goalsScored++; 
-        }
+                playerWhoScored = Ball.script.shooterBlue; 
         else
-        {
             if(Ball.script.shooterOrange != null)
-                Ball.script.shooterOrange.GetComponent<PlayerInfo>().goalsScored++; 
-        }
+                playerWhoScored = Ball.script.shooterOrange; 
+
+        if (playerWhoScored != null)
+            playerWhoScored.GetComponent<PlayerInfo>().goalsScored++;
+        
         Ball.script.shooterBlue = Ball.script.shooterOrange = null;
         
         if (isForBlue)
@@ -141,8 +110,7 @@ public class GameManager : MonoBehaviour
             orangeScore++;  // Ajoute un point aux oranges
         
         //Met a jour les points en haut de l'ecran
-        blueScoreDisplayer.text = blueScore.ToString();
-        orangeScoreDisplayer.text = orangeScore.ToString();
+        GameMenu.script.OnScore(playerWhoScored, blueScore, orangeScore);
         
         //Si la partie est deja finie on ne fait que l'explosion et l'incrementation des points
         if (gameFinished)
@@ -204,6 +172,7 @@ public class GameManager : MonoBehaviour
         }
 
         //On attend 3 secondes puis on relance la game
+        GameMenu.script.DisplayKickoffCountdown();
         StartCoroutine(Kickoff_Coroutine());
     }
 
@@ -226,6 +195,7 @@ public class GameManager : MonoBehaviour
         gameFinished = true;
         Ball.Hide();
         
+        GameMenu.script.OnWin(losingTeam.OtherTeam());
         EndGameManager.script.EndGame(losingTeam);
     }
 }

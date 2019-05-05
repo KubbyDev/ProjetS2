@@ -50,7 +50,7 @@ public class PreGameManager : MonoBehaviour
             timeLeftToStart = 15;
 
         //On affiche le temps
-        timeDisplayer.text = "The game starts in " + GameManager.FormatTime(timeLeftToStart);
+        timeDisplayer.text = "The game starts in " + Tools.FormatTime(timeLeftToStart);
         playersDisplayer.text = "Players: (" + PhotonNetwork.CurrentRoom.PlayerCount + "/" + maxPlayers + ")";
         
         //Quand le timer est fini, uniquement sur le host
@@ -71,6 +71,12 @@ public class PreGameManager : MonoBehaviour
         Ball.Hide();  //On cache la balle
         timeDisplayer.text = "The game is starting...";
         gameStarting = true;
+        
+        //Affiche le temps en haut de l'ecran
+        GameObject.Find("Menus").transform.Find("GameMenu").gameObject.SetActive(true);
+        
+        //Separe les teams dans le menu tab
+        GameObject.Find("Menus").transform.Find("Tab").GetComponent<TabMenu>().SeparateTeams();
         
         //timeLeftToStart est set par le GameManagerHost a 3 sec (- la latence)
         StartCoroutine(StartGame_Coroutine());

@@ -10,11 +10,12 @@ public class PlayerSetup : MonoBehaviour, IPunInstantiateMagicCallback {
 
     void Awake()
     {
-        //Si le joueur qui vient de spawn est celui du client on laisse tout active sauf le nickname
+        //Si le joueur qui vient de spawn est celui du client on laisse tout active sauf le nickname et les particules
         if (GetComponent<PhotonView>().IsMine)
         {
             PlayerInfo.localPlayer = this.gameObject;
             transform.Find("Nickname").GetComponent<MeshRenderer>().enabled = false;
+            GetComponent<ParticleSystem>().Stop();
 
             CooldownDisplay.localPlayerInfos = this.gameObject.GetComponent<PlayerInfo>();
         }
