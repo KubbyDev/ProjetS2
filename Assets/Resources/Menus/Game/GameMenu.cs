@@ -66,7 +66,7 @@ public class GameMenu : MonoBehaviour
                 return "Defeat";
         }
             
-        DisplayOnCentral(VictoryOrDefeat());
+        DisplayOnCentral(VictoryOrDefeat(), 3, 100);
     }
 
     //Affiche un texte au milieu (et gere les animations)

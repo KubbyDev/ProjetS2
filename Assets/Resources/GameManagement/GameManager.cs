@@ -167,8 +167,7 @@ public class GameManager : MonoBehaviour
         {
             PlayerInfo infos = player.GetComponent<PlayerInfo>();
             infos.lastMovementInput = Vector3.zero;
-            infos.firstCooldown = 0f;
-            infos.secondCooldown = 0f;
+            infos.ResetCooldowns();
         }
 
         //On attend 3 secondes puis on relance la game

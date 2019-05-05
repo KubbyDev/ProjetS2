@@ -118,4 +118,11 @@ public class PlayerInfo : MonoBehaviour
         SetHero((Hero) hero);
         SetTeam((Team) team);
     }
+
+    public void ResetCooldowns()
+    {
+        BACooldown = 0;
+        firstCooldown = 0;
+        secondCooldown = 0;
+    }
 }

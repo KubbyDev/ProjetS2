@@ -11,10 +11,12 @@ public class BallParticles : MonoBehaviour
 
     private float timeToSpawn;  //Le temps restant avant le prochain spawn d'eclair
     private MeshRenderer meshRenderer;
+    private Light light;
     
     void Awake()
     {
         meshRenderer = GetComponent<MeshRenderer>();
+        light = GetComponent<Light>();
     }
 
     void Update()
@@ -44,6 +46,7 @@ public class BallParticles : MonoBehaviour
     public void UpdateColor(bool lastTeamIsBlue)
     {
         meshRenderer.material = (lastTeamIsBlue ? Team.Blue : Team.Orange).GetMaterial();
+        light.color = (lastTeamIsBlue ? Team.Blue : Team.Orange).GetMaterial().color;
     }
 
     public void ResetColor()
