@@ -58,7 +58,8 @@ public class Room : MonoBehaviourPunCallbacks
     public override void OnDisconnected(DisconnectCause cause)
     {
         base.OnDisconnected(cause);
-        
+
+        Tools.message = "The connection was lost";
         PhotonNetwork.LeaveRoom();
     }
 

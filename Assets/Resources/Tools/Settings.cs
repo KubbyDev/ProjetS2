@@ -37,9 +37,9 @@ public class Settings
         KeyCode.F,         //7: Basic Attack
         KeyCode.A,         //8: 1st Spell
         KeyCode.E,         //9: 2nd Spell
-        KeyCode.Alpha1,    //10: 1st powerup
-        KeyCode.Alpha2,    //11: 2nd powerup
-        KeyCode.Alpha3,    //12: 3rd powerup
+        KeyCode.Alpha1,    //10: 1st powerup: back
+        KeyCode.Alpha2,    //11: 2nd powerup: hook
+        KeyCode.Alpha3,    //12: 3rd powerup: power
         KeyCode.F1,        //13: Change cam
         KeyCode.Tab,       //14: Player List
         KeyCode.H,         //15: Change Hero

@@ -48,7 +48,7 @@ public class GameMenu : MonoBehaviour
 
     public void OnScore(GameObject playerWhoScored, int blueScore, int orangeScore)
     {
-        DisplayOnCentral((playerWhoScored == null ? "" : playerWhoScored.name) + " Scored !", 3, 100);
+        DisplayOnCentral((playerWhoScored == null ? "" : playerWhoScored.GetComponent<PlayerInfo>().nickname) + " Scored !", 3, 60);
         blueScoreDisplayer.text = blueScore.ToString();
         orangeScoreDisplayer.text = orangeScore.ToString();
     }
