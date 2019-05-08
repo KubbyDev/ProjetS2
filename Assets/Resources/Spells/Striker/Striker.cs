@@ -15,6 +15,10 @@ public class Striker : MonoBehaviour
         pv = GetComponent<PhotonView>();
     }
     
+    public void StopSpells()
+    {
+    }
+    
     // TURBO -----------------------------------------------------------------------------------------------------------
     
     [SerializeField] private float speedDuration = 3f;        //Duree du speed

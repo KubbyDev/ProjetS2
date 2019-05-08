@@ -1,6 +1,4 @@
-﻿using System;
-using Photon.Pun;
-using Photon.Realtime;
+﻿using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -40,7 +38,7 @@ public class MainMenu : MonoBehaviourPunCallbacks
             Tools.message = null;
         }
     }
-
+    
     public override void OnConnectedToMaster()
     {
         connected = true;

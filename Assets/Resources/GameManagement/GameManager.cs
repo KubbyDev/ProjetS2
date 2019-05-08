@@ -168,6 +168,14 @@ public class GameManager : MonoBehaviour
             PlayerInfo infos = player.GetComponent<PlayerInfo>();
             infos.lastMovementInput = Vector3.zero;
             infos.ResetCooldowns();
+            infos.StopSpells();
+        }
+        
+        //On kill tous les elements lances par des spells
+        foreach (GameObject spellItem in GameObject.FindGameObjectsWithTag("Spell"))
+        {
+            Destroy(spellItem);
+            spellItem.SetActive(false);
         }
 
         //On attend 3 secondes puis on relance la game
@@ -187,7 +195,7 @@ public class GameManager : MonoBehaviour
     
     //Pour que cette methode soit appelle, il faut que le Host declenche l'evenement de fin de partie
     //Puis que le GameDataSync envoie l'evenement a ce client, et appelle cette methode
-    public void EndGame(Team losingTeam)
+    public static void EndGame(Team losingTeam)
     {
         timeLeft = 0;
         gamePlaying = false;

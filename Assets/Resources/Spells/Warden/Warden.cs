@@ -10,6 +10,12 @@ public class Warden : MonoBehaviour
     {
         Info = GetComponent<PlayerInfo>();    // Recuperation des informations du joueur
     }
+
+    public void StopSpells()
+    {
+        StopCoroutine(MagnetCoroutine());
+        Info.maxCatchRange = Info.baseCatchRange;
+    }
     
     // FREEZE ----------------------------------------------------------------------------------------------------------
     

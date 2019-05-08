@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 594529112}
-  m_IndirectSpecularColor: {r: 0.4368849, g: 0.4845369, b: 0.56479293, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -131,7 +131,6 @@ GameObject:
   - component: {fileID: 79561673}
   - component: {fileID: 79561676}
   - component: {fileID: 79561675}
-  - component: {fileID: 79561674}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -153,19 +152,6 @@ Transform:
   m_Father: {fileID: 1602593684}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &79561674
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 79561672}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &79561675
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -222,7 +208,6 @@ GameObject:
   - component: {fileID: 90264824}
   - component: {fileID: 90264827}
   - component: {fileID: 90264826}
-  - component: {fileID: 90264825}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -244,19 +229,6 @@ Transform:
   m_Father: {fileID: 235848708}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &90264825
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 90264823}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &90264826
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -313,7 +285,6 @@ GameObject:
   - component: {fileID: 226667261}
   - component: {fileID: 226667264}
   - component: {fileID: 226667263}
-  - component: {fileID: 226667262}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -335,19 +306,6 @@ Transform:
   m_Father: {fileID: 1272327500}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &226667262
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 226667260}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &226667263
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -486,6 +444,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 229167758269573134, guid: 37ac5d17c94012e438cc2d162c2accc4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 3815523872723979497, guid: 37ac5d17c94012e438cc2d162c2accc4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -612,6 +575,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlueSpawns
       objectReference: {fileID: 0}
+    - target: {fileID: 5032990970253841188, guid: 9bac07fddce9301479a09d37b0ac8e8b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 5032990970253841189, guid: 9bac07fddce9301479a09d37b0ac8e8b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -666,6 +634,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5032990970179209493, guid: 9bac07fddce9301479a09d37b0ac8e8b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5032990971158066738, guid: 9bac07fddce9301479a09d37b0ac8e8b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5032990971178769873, guid: 9bac07fddce9301479a09d37b0ac8e8b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5032990971817370142, guid: 9bac07fddce9301479a09d37b0ac8e8b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9bac07fddce9301479a09d37b0ac8e8b, type: 3}
@@ -886,6 +874,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7998972774062290923, guid: f69a067788358b947906614c82f24936,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 3773624837763550813, guid: f69a067788358b947906614c82f24936,
         type: 3}
       propertyPath: team
@@ -1088,6 +1081,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Powershoot Blue
       objectReference: {fileID: 0}
+    - target: {fileID: 1280659542229473069, guid: 722faf76947d69246bf8f925ea5d7753,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 2683057906170459696, guid: 722faf76947d69246bf8f925ea5d7753,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1171,6 +1169,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ball
       objectReference: {fileID: 0}
+    - target: {fileID: 1707275841529428, guid: 63002e16e041ff04ba3dbb008ca076c6, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 4658570002345904, guid: 63002e16e041ff04ba3dbb008ca076c6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 330
@@ -1239,6 +1241,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: OrangeSpawns
       objectReference: {fileID: 0}
+    - target: {fileID: 1327135363902743581, guid: 0161253c5fd2aa24aa8d742be236708c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 1327135363902743580, guid: 0161253c5fd2aa24aa8d742be236708c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1294,6 +1301,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1327135362089066641, guid: 0161253c5fd2aa24aa8d742be236708c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1327135362378984332, guid: 0161253c5fd2aa24aa8d742be236708c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1327135362556564820, guid: 0161253c5fd2aa24aa8d742be236708c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1327135363486640306, guid: 0161253c5fd2aa24aa8d742be236708c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0161253c5fd2aa24aa8d742be236708c, type: 3}
 --- !u!4 &1024683058 stripped
@@ -1313,7 +1340,6 @@ GameObject:
   - component: {fileID: 1052859203}
   - component: {fileID: 1052859206}
   - component: {fileID: 1052859205}
-  - component: {fileID: 1052859204}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -1335,19 +1361,6 @@ Transform:
   m_Father: {fileID: 1726344463}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1052859204
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1052859202}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1052859205
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1404,6 +1417,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hook Red
+      objectReference: {fileID: 0}
+    - target: {fileID: 1280659542229473069, guid: 722faf76947d69246bf8f925ea5d7753,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2683057906170459696, guid: 722faf76947d69246bf8f925ea5d7753,
         type: 3}
@@ -1577,6 +1595,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hook Blue
       objectReference: {fileID: 0}
+    - target: {fileID: 1280659542229473069, guid: 722faf76947d69246bf8f925ea5d7753,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 2683057906170459696, guid: 722faf76947d69246bf8f925ea5d7753,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1655,7 +1678,6 @@ GameObject:
   - component: {fileID: 1228808153}
   - component: {fileID: 1228808156}
   - component: {fileID: 1228808155}
-  - component: {fileID: 1228808154}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -1677,19 +1699,6 @@ Transform:
   m_Father: {fileID: 1024683058}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1228808154
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1228808152}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1228808155
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1911,6 +1920,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Powershoot Red
       objectReference: {fileID: 0}
+    - target: {fileID: 1280659542229473069, guid: 722faf76947d69246bf8f925ea5d7753,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 2683057906170459696, guid: 722faf76947d69246bf8f925ea5d7753,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2010,6 +2024,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Back 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1280659542229473069, guid: 722faf76947d69246bf8f925ea5d7753,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2683057906170459696, guid: 722faf76947d69246bf8f925ea5d7753,
         type: 3}
@@ -2160,16 +2179,21 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 3773624837763550813, guid: f69a067788358b947906614c82f24936,
-        type: 3}
-      propertyPath: team
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 694886129165988979, guid: f69a067788358b947906614c82f24936,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 5fc471d9227d9164b8e7bcb1d6456b33, type: 2}
+    - target: {fileID: 7998972774062290923, guid: f69a067788358b947906614c82f24936,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3773624837763550813, guid: f69a067788358b947906614c82f24936,
+        type: 3}
+      propertyPath: team
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f69a067788358b947906614c82f24936, type: 3}
 --- !u!4 &1726344463 stripped
@@ -2189,6 +2213,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Back 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1280659542229473069, guid: 722faf76947d69246bf8f925ea5d7753,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2683057906170459696, guid: 722faf76947d69246bf8f925ea5d7753,
         type: 3}
@@ -2269,6 +2298,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: NetworkManager
       objectReference: {fileID: 0}
+    - target: {fileID: 7742924780462279434, guid: 5acdb0b58e2dfb341958771eb5112d0c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 7742924780462279433, guid: 5acdb0b58e2dfb341958771eb5112d0c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2347,7 +2381,6 @@ GameObject:
   - component: {fileID: 1908958971}
   - component: {fileID: 1908958974}
   - component: {fileID: 1908958973}
-  - component: {fileID: 1908958972}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -2369,19 +2402,6 @@ Transform:
   m_Father: {fileID: 573221596}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1908958972
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1908958970}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1908958973
 MeshRenderer:
   m_ObjectHideFlags: 0

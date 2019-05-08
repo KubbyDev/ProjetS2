@@ -170,6 +170,6 @@ public class GameDataSync : MonoBehaviour
     public void GetEndGameEvent_RPC(int losingTeam)
     {
         //Informe le game manager que la partie est terminee
-        GameManager.script.EndGame((Team) losingTeam);
+        GameManager.EndGame((Team) losingTeam);
     }
 }

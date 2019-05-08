@@ -8,6 +8,8 @@ public class PlayerInfo : MonoBehaviour
 {
     public static GameObject localPlayer;  //Une reference au GameObject de ce client (initialise dans PlayerSetup)
 
+    [SerializeField] public float baseCatchRange = 6f; //Valeur de base du catch range de la balle
+    
     //Ces variables sont stockees ici, si vous les modifiez,
     //ca aura une influence sur le jeu
     public int goalsScored;                //Le nombre de buts que le joueur a marque
@@ -16,10 +18,11 @@ public class PlayerInfo : MonoBehaviour
     public bool isPlayer;                  //False: C'est une IA
     public int ping;                       //Le ping de ce joueur
     public string nickname;                //Le pseudo du joueur
-    public float maxCatchRange = 6.0f;     //La distance max a laquelle la balle peut etre attrapee
+    public float maxCatchRange;            //La distance max a laquelle la balle peut etre attrapee
     public float BACooldown = 0f;          //Le cooldown de la basic attack
     public float firstCooldown = 0f;       //Le cooldown du A
     public float secondCooldown = 0f;      //Le cooldown du E
+    
 
     //Ces variables sont simplement copiees ici
     //Les modifier n'aura aucun effet
@@ -46,6 +49,7 @@ public class PlayerInfo : MonoBehaviour
 
         cameraPosition = transform.Find("CameraAnchor").position;
         cameraRotation = Camera.main.transform.rotation;
+        maxCatchRange = baseCatchRange;
     }
 
     void Update()
@@ -124,5 +128,12 @@ public class PlayerInfo : MonoBehaviour
         BACooldown = 0;
         firstCooldown = 0;
         secondCooldown = 0;
+    }
+
+    public void StopSpells()
+    {
+        GetComponent<Striker>().StopSpells();
+        GetComponent<Warden>().StopSpells();
+        GetComponent<Ninja>().StopSpells();
     }
 }

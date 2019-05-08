@@ -77,7 +77,7 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
         
         //Appelle EndGame sur le GameManager de tous les clients
         GameDataSync.SendEndGameEvent(losingTeam);
-        GameManager.script.EndGame(losingTeam);
+        GameManager.EndGame(losingTeam);
     }
 
     // Debut de partie -------------------------------------------------------------------------------------------------

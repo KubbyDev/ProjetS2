@@ -15,6 +15,12 @@ public class Ninja : MonoBehaviour
         pv = GetComponent<PhotonView>();
     }
     
+    public void StopSpells()
+    {
+        StopCoroutine(ExplodeCoroutine());
+        StopCoroutine(SmokeCoroutine());
+    }
+    
     // EXPLODE ---------------------------------------------------------------------------------------------------------
     
     [SerializeField] private float Explode_Spell_Duration = 1f;   //Duree du speed
@@ -48,7 +54,9 @@ public class Ninja : MonoBehaviour
             float distance = (player.transform.position - this.transform.position).magnitude;
             
             //Si le joueur est trop proche, et que ce n'est pas celui qui a lance le spell
-            if (player != this.gameObject && distance <= Explosion_Radius)
+            if (player != this.gameObject &&
+                player.GetComponent<PlayerInfo>().team.IsOpponnentOf(info.team) &&
+                distance <= Explosion_Radius)
             {
                 //On le propulse
                 Vector3 Blast = (new Vector3(player.transform.position.x - transform.position.x, 
@@ -73,10 +81,10 @@ public class Ninja : MonoBehaviour
     public void Smoke()
     {
         if (info.secondCooldown <= 0f) //secondCooldown = cooldown du E = cooldown de Smoke
-            StartCoroutine(SmokeCouroutine());
+            StartCoroutine(SmokeCoroutine());
     }
 
-    IEnumerator SmokeCouroutine()
+    IEnumerator SmokeCoroutine()
     {
         info.secondCooldown = Smoke_Cooldown;
         

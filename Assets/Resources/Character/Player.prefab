@@ -257,6 +257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e42acf813f59564e9db0338a165682a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseCatchRange: 6
   goalsScored: 0
   team: -1
   hero: 0

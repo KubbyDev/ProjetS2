@@ -145,6 +145,7 @@ public class Ball : MonoBehaviour
         UpdatePossessor(null);
         rigidBody.useGravity = true;
         script.ballParticles.ResetColor();
+        script.ballParticles.OnFreezeStop();
     }
 
     //Cache la balle (on la place en fait sous le terrain)
