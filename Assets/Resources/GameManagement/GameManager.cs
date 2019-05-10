@@ -63,6 +63,9 @@ public class GameManager : MonoBehaviour
         gameStarted = true;
         timeLeft = gameConfig.gameDuration;
         
+        //Initialise le tableau des scores
+        GameMenu.script.OnStartGame();
+        
         // Parcours les joueurs
         foreach(GameObject player in GameObject.FindGameObjectsWithTag("Player"))                      
         {

@@ -18,11 +18,32 @@ public class GameMenu : MonoBehaviour
     void Awake()
     {
         script = this;
+        centralDisplay = transform.Find("Central").GetComponent<Text>();   
+    }
+
+    public void OnStartGame()
+    {
+        //Team du joueur local
+        Team localPlayerTeam = PlayerInfo.localPlayer.GetComponent<PlayerInfo>().team;
+
+        //Recuperation des brackgrounds
+        Transform background = transform.Find("Background");
+        Transform leftBackground = background.Find("LeftBackground");
+        Transform rightBackground = background.Find("RightBackground");
         
-        timeDisplayer = transform.Find("Background").Find("Time").GetComponent<Text>();
-        blueScoreDisplayer = transform.Find("Background").Find("BlueBackground").Find("BlueScore").GetComponent<Text>();
-        orangeScoreDisplayer = transform.Find("Background").Find("OrangeBackground").Find("OrangeScore").GetComponent<Text>();
-        centralDisplay = transform.Find("Central").GetComponent<Text>();
+        //Affichage du scoreboard
+        background.gameObject.SetActive(true);
+
+        //Couleurs des carres des scores
+        leftBackground.GetComponent<Image>().color = localPlayerTeam.GetMaterial().color;
+        rightBackground.GetComponent<Image>().color = localPlayerTeam.OtherTeam().GetMaterial().color;
+        Tools.ModifyAlpha(0.55f, leftBackground.GetComponent<Image>());
+        Tools.ModifyAlpha(0.55f, rightBackground.GetComponent<Image>());
+        
+        //Recuperation de tous les composants de texte qui seront modifies souvent
+        timeDisplayer = background.Find("Time").GetComponent<Text>();
+        blueScoreDisplayer = (localPlayerTeam == Team.Blue ? leftBackground : rightBackground).Find("Score").GetComponent<Text>();
+        orangeScoreDisplayer = (localPlayerTeam == Team.Orange ? leftBackground : rightBackground).Find("Score").GetComponent<Text>();
     }
 
     public void UpdateTimeDisplay(float timeLeft)
@@ -48,7 +69,7 @@ public class GameMenu : MonoBehaviour
 
     public void OnScore(GameObject playerWhoScored, int blueScore, int orangeScore)
     {
-        DisplayOnCentral((playerWhoScored == null ? "" : playerWhoScored.GetComponent<PlayerInfo>().nickname) + " Scored !", 3, 60);
+        DisplayOnCentral((playerWhoScored == null ? "" : playerWhoScored.GetComponent<PlayerInfo>().nickname) + " scored !", 3, 60);
         blueScoreDisplayer.text = blueScore.ToString();
         orangeScoreDisplayer.text = orangeScore.ToString();
     }
