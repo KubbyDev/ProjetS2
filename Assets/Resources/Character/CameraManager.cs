@@ -11,14 +11,16 @@ public class CameraManager : MonoBehaviour {
     private bool isFps;                 //true: Premiere personne, false: 3e personne
     private Transform camAnchor;        //Le pivot de la camera
     private MeshRenderer meshRenderer;  //Desactiver ca pour rendre le joueur invisible
+    private ParticleSystem particles;   //Le component qui gere les particules rondes sous le joueur
     private PlayerInfo infos;           //Le script qui contient les infos sur le joueur
-    private Transform cam;               //La position de la camera
+    private Transform cam;              //La position de la camera
 
     void Start()
     {
         cam = Camera.main.transform;
         camAnchor = transform.Find("CameraAnchor");
         meshRenderer = GetComponent<MeshRenderer>();
+        particles = GetComponent<ParticleSystem>();
         infos = GetComponent<PlayerInfo>();
     }
 
@@ -39,13 +41,22 @@ public class CameraManager : MonoBehaviour {
         infos.cameraRotation = cam.rotation;
     }
 
-    public void changeCamera()
+    public void ChangeCamera()
     {
         //On passe a l'autre camera
         isFps = !isFps;
 
-        //On affiche l'avatar du joueur en tps, pas en fps
-        meshRenderer.enabled = !isFps;
+        //On affiche l'avatar et les particules du joueur en tps, pas en fps
+        if (isFps)
+        {
+            meshRenderer.enabled = false;
+            particles.Stop();
+        }
+        else
+        {
+            meshRenderer.enabled = true;
+            particles.Play();
+        }  
     }
 
     private void ThirdPerson()

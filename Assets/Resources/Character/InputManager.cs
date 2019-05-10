@@ -153,7 +153,7 @@ public class InputManager : MonoBehaviour
         
         //Changement de camera
         if (Input.GetKeyDown(inputs[13]))
-            cam.changeCamera();
+            cam.ChangeCamera();
     }
     
     private void MenusInputs()

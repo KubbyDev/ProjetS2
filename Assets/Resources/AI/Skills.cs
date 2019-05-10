@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Photon.Pun;
 using UnityEngine;
 
@@ -45,6 +46,8 @@ public class Skills : MonoBehaviour
     }
 
     // Competences -----------------------------------------------------------------------------------------------------
+
+    private bool shooting;
     
     //Bouger jusqu'a position
     public void MoveTo(Vector3 position)
@@ -72,11 +75,13 @@ public class Skills : MonoBehaviour
     /// <param name="targetPosition"></param>
     public void Shoot(Vector3 targetPosition)
     {
-        StartCoroutine(ShootCoroutine(targetPosition));
+        if(!shooting)
+            StartCoroutine(ShootCoroutine(targetPosition));
     }
 
     IEnumerator ShootCoroutine(Vector3 targetPosition)
     {
+        shooting = true; 
         LookAt(targetPosition);
         
         //Attend que la balle arrete de bouger avant de tirer (elle bouge parce qu'il vient de se tourner)
@@ -88,17 +93,19 @@ public class Skills : MonoBehaviour
         float g = Physics.gravity.magnitude;               //La gravite (9.81)
         float x = Vector3.Distance(transform.position, targetPosition); //La distance de la cible
         float y = targetPosition.y - transform.position.y; //La difference de hauteur entre la cible l'IA
-        SetPitch(
-            Mathf.Atan(
-                (vSqr - Mathf.Sqrt(
-                     vSqr*vSqr - g*(g*x*x + 2*y*vSqr)
-                 ))
-                /(g*x)
-            )
-            *180/Mathf.PI
-        );
+
+        float newPitch = -Mathf.Atan(
+                             (vSqr - Mathf.Sqrt(
+                                  vSqr * vSqr - g * (g * x * x + 2 * y * vSqr)
+                             ))
+                             / (g * x)
+                         ) * 180 / Mathf.PI;
+        
+        if(!float.IsNaN(newPitch))
+            SetPitch(newPitch);
         
         ballManager.Shoot();       
+        shooting = false;
     }
 
     /// <summary>
@@ -194,7 +201,7 @@ public class Skills : MonoBehaviour
     
     private void SetPitch(float pitch)
     {
-        cam.eulerAngles = new Vector3(pitch, cam.rotation.eulerAngles.y, 0);
+        cam.eulerAngles = new Vector3(pitch, cam.eulerAngles.y, 0);
         
         infos.cameraRotation = cam.rotation;
     }
@@ -204,6 +211,7 @@ public class Skills : MonoBehaviour
     {
         cam.LookAt(point);
         transform.eulerAngles = new Vector3(0, cam.rotation.eulerAngles.y, 0);
+        cam.eulerAngles = new Vector3(cam.eulerAngles.x, transform.eulerAngles.y, 0);
         
         infos.cameraRotation = cam.rotation;
     }

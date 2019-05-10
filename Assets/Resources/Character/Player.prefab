@@ -226,7 +226,7 @@ MonoBehaviour:
   launchStrength: 2
   catchCooldown: 1
   catchWidth: 1
-  PowerShootMultiplier: 5
+  PowerShootMultiplier: 2
   PowerShootCooldown: 5
   hasBall: 0
   catchTimeLeft: 0
@@ -311,8 +311,8 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 3606593971257085751}
-  viewIdField: 5
-  InstantiationId: 5
+  viewIdField: 1
+  InstantiationId: 1
   isRuntimeInstantiated: 0
 --- !u!114 &3606593971257085751
 MonoBehaviour:

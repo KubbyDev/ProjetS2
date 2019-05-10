@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3d668becf7aacd14f9c804eed6154c0b
+guid: 3d4d26b0c3cc69a46ab7fa2410173956
 ModelImporter:
   serializedVersion: 25
   internalIDToNameTable: []
@@ -8,22 +8,12 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Base
-    second: {fileID: 2100000, guid: 05a8dbc0e2420994f8a38b4ace2aad37, type: 2}
+    second: {fileID: 2100000, guid: 5025191bbec9b1642979f64477b7f45b, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Glass
-    second: {fileID: 2100000, guid: c8195334ee205a14d8be553f27eaf5b1, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Material
-    second: {fileID: 2100000, guid: 87e5350457aba6a4a8491a1240923d69, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Neons
-    second: {fileID: 2100000, guid: 01ab18903514b374f9ae0f88d429e954, type: 2}
+      name: Neon
+    second: {fileID: 2100000, guid: bc2bbdb963e15b4439cf1eb99a5634df, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -54,14 +44,14 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 0.25
+    globalScale: 0.3
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 1
-    importLights: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
@@ -87,7 +77,7 @@ ModelImporter:
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
   referencedClips: []
-  importAnimation: 1
+  importAnimation: 0
   copyAvatar: 0
   humanDescription:
     serializedVersion: 3
@@ -100,7 +90,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.25
+    globalScale: 0.3
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

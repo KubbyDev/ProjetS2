@@ -67,6 +67,6 @@ public class BallManager : MonoBehaviour
 
     public float GetLaunchSpeed()
     {
-        return launchStrength * 1000 * (PowerShootTimeLeft > 0 ? PowerShootMultiplier : 1) / Ball.rigidBody.mass;
+        return 0.017f * launchStrength * 1000 * (PowerShootTimeLeft > 0 ? PowerShootMultiplier : 1) / Ball.rigidBody.mass;
     }
 }

@@ -2781,7 +2781,7 @@ MonoBehaviour:
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 1
-    m_VerticalOverflow: 1
+    m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 
 --- !u!1 &4583286939946189647
@@ -3340,11 +3340,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3955972449897914277}
     m_Modifications:
-    - target: {fileID: 1852062878195450214, guid: b1cae04928271d046b43c121481d094a,
-        type: 3}
-      propertyPath: m_Name
-      value: Tab
-      objectReference: {fileID: 0}
     - target: {fileID: 1766406581576719716, guid: b1cae04928271d046b43c121481d094a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3449,6 +3444,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1852062878195450214, guid: b1cae04928271d046b43c121481d094a,
+        type: 3}
+      propertyPath: m_Name
+      value: Tab
       objectReference: {fileID: 0}
     - target: {fileID: 6914266585359676955, guid: b1cae04928271d046b43c121481d094a,
         type: 3}
@@ -3611,16 +3611,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3955972449897914277}
     m_Modifications:
-    - target: {fileID: 3072036548454387405, guid: 2591c9e1293e8b444984b1459a0108e3,
-        type: 3}
-      propertyPath: m_Name
-      value: Options
-      objectReference: {fileID: 0}
-    - target: {fileID: 3072036548454387405, guid: 2591c9e1293e8b444984b1459a0108e3,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3072036548454387404, guid: 2591c9e1293e8b444984b1459a0108e3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3724,6 +3714,16 @@ PrefabInstance:
     - target: {fileID: 3072036548454387404, guid: 2591c9e1293e8b444984b1459a0108e3,
         type: 3}
       propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3072036548454387405, guid: 2591c9e1293e8b444984b1459a0108e3,
+        type: 3}
+      propertyPath: m_Name
+      value: Options
+      objectReference: {fileID: 0}
+    - target: {fileID: 3072036548454387405, guid: 2591c9e1293e8b444984b1459a0108e3,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3072036548384533911, guid: 2591c9e1293e8b444984b1459a0108e3,
@@ -3797,16 +3797,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3955972449897914277}
     m_Modifications:
-    - target: {fileID: 1339758062848919994, guid: 32bd6968949b75748ba8accc6fcf1dc5,
+    - target: {fileID: 4171996418373240486, guid: 32bd6968949b75748ba8accc6fcf1dc5,
         type: 3}
-      propertyPath: m_Name
-      value: Pause
-      objectReference: {fileID: 0}
-    - target: {fileID: 1339758062848919994, guid: 32bd6968949b75748ba8accc6fcf1dc5,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
+      propertyPath: optionsMenu
+      value: 
+      objectReference: {fileID: 2036892625375494215}
     - target: {fileID: 3421477209301205305, guid: 32bd6968949b75748ba8accc6fcf1dc5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3912,11 +3907,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4171996418373240486, guid: 32bd6968949b75748ba8accc6fcf1dc5,
+    - target: {fileID: 1339758062848919994, guid: 32bd6968949b75748ba8accc6fcf1dc5,
         type: 3}
-      propertyPath: optionsMenu
-      value: 
-      objectReference: {fileID: 2036892625375494215}
+      propertyPath: m_Name
+      value: Pause
+      objectReference: {fileID: 0}
+    - target: {fileID: 1339758062848919994, guid: 32bd6968949b75748ba8accc6fcf1dc5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 32bd6968949b75748ba8accc6fcf1dc5, type: 3}
 --- !u!224 &6827049126880592782 stripped

@@ -15,7 +15,6 @@ public class PlayerSetup : MonoBehaviour, IPunInstantiateMagicCallback {
         {
             PlayerInfo.localPlayer = this.gameObject;
             transform.Find("Nickname").GetComponent<MeshRenderer>().enabled = false;
-            GetComponent<ParticleSystem>().Stop();
 
             CooldownDisplay.localPlayerInfos = this.gameObject.GetComponent<PlayerInfo>();
         }
