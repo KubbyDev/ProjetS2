@@ -19,6 +19,7 @@ public class GameMenu : MonoBehaviour
     {
         script = this;
         centralDisplay = transform.Find("Central").GetComponent<Text>();   
+        timeDisplayer = transform.Find("Background").Find("Time").GetComponent<Text>();
     }
 
     public void OnStartGame()
@@ -41,7 +42,6 @@ public class GameMenu : MonoBehaviour
         Tools.ModifyAlpha(0.55f, rightBackground.GetComponent<Image>());
         
         //Recuperation de tous les composants de texte qui seront modifies souvent
-        timeDisplayer = background.Find("Time").GetComponent<Text>();
         blueScoreDisplayer = (localPlayerTeam == Team.Blue ? leftBackground : rightBackground).Find("Score").GetComponent<Text>();
         orangeScoreDisplayer = (localPlayerTeam == Team.Orange ? leftBackground : rightBackground).Find("Score").GetComponent<Text>();
     }

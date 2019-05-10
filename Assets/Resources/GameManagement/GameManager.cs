@@ -43,14 +43,13 @@ public class GameManager : MonoBehaviour
     
     void Update()
     {
-        if (gamePlaying) // Si la partie joue on enleve le temps ecoule au temps restant
-        {           
+        if (gamePlaying) // Si la partie joue on enleve le temps ecoule au temps restant   
             timeLeft -= Time.deltaTime;
-            GameMenu.script.UpdateTimeDisplay(timeLeft);
-        }
 
         if (timeLeftForKickoff > 0)
             timeLeftForKickoff -= Time.deltaTime;
+        
+        GameMenu.script.UpdateTimeDisplay(timeLeft);
     }
     
     // Debut de partie -------------------------------------------------------------------------------------------------
@@ -159,7 +158,7 @@ public class GameManager : MonoBehaviour
         //Quand un spawn est utilise, il n'est plus utilisable apres, cette methode rend tous les spawns utilisables
         Spawns.ResetUsage(); 
         
-        //On bloque les inputs du joueur local pendant 3 sec
+        //On bloque les inputs du joueur local pendant 3 sec et reinitialise sa vitesse
         PlayerInfo.localPlayer.GetComponent<InputManager>().StopInputs(3);
         PlayerInfo.localPlayer.GetComponent<MovementManager>().ResetSpeed();
         
@@ -200,7 +199,6 @@ public class GameManager : MonoBehaviour
     //Puis que le GameDataSync envoie l'evenement a ce client, et appelle cette methode
     public static void EndGame(Team losingTeam)
     {
-        timeLeft = 0;
         gamePlaying = false;
         gameFinished = true;
         Ball.Hide();

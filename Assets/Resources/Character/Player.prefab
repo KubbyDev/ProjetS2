@@ -189,13 +189,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpStrength: 12
   maxJumps: 3
-  maxDashes: 3
-  dashesStrength: 10
-  movementSpeed: 500
+  baseMovementSpeed: 500
   inAirControl: 0.03
   withBallSpeed: 0.8
   maxSpeed: 20
   velocity: {x: 0, y: 0, z: 0}
+  movementSpeed: 500
 --- !u!114 &87
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5249,7 +5248,7 @@ TextMesh:
   m_CharacterSize: 1
   m_LineSpacing: 1
   m_Anchor: 4
-  m_Alignment: 0
+  m_Alignment: 1
   m_TabSize: 4
   m_FontSize: 0
   m_FontStyle: 1

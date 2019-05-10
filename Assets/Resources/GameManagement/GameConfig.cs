@@ -10,14 +10,16 @@ public class GameConfig
 {
     public readonly int maxGoals;         //Nombre max de buts: 0 = infini
     public readonly int playersPerTeam;   //Nombre de joueurs par equipe
-    public readonly float gameDuration;   //Duree de la partie
+    public readonly float gameDuration;   //Duree de la partie: 0 = infini
+    public readonly bool enableOvertime;  //Si on autorise les prolongations
 
     //Constructeur
-    public GameConfig(int pMaxGoals, float pGameDuration, int pPlayersPerTeam)
+    public GameConfig(int pMaxGoals, float pGameDuration, int pPlayersPerTeam, bool pEnableOvertime)
     {
         maxGoals = pMaxGoals;
         gameDuration = pGameDuration;
         playersPerTeam = pPlayersPerTeam;
+        enableOvertime = pEnableOvertime;
     }
 }
 
@@ -36,7 +38,7 @@ internal static class ConfigMethods
         switch (name)
         {
             case GamePreset.Classic:
-                GameConfig config = new GameConfig(0, 5 * 60, 3);
+                GameConfig config = new GameConfig(0, 5 * 60, 3, true);
                 return config;
             
             default:
@@ -50,6 +52,6 @@ internal static class ConfigMethods
     //Cette methode sert a creer une config a partir des CustomProperties
     public static GameConfig Config(this ExitGames.Client.Photon.Hashtable config)
     {
-        return new GameConfig((int) config["g"], (int) config["d"], (int) config["p"]);
+        return new GameConfig((int) config["g"], (int) config["d"], (int) config["p"], (bool) config["o"]);
     }
 }

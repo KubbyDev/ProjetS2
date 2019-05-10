@@ -52,9 +52,7 @@ public class InputManager : MonoBehaviour
         classMenu = menus.transform.Find("ClassMenu").gameObject;
         ReloadInputs();
         
-        //Bloque la souris
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        ToggleClassMenu();
     }
     
     void Update()
@@ -138,10 +136,6 @@ public class InputManager : MonoBehaviour
         //Sauts
         if (Input.GetKeyDown(inputs[4]))
             movement.Jump();
-        
-        //Dashes
-        if (Input.GetKeyDown(KeyCode.LeftAlt))
-            movement.Dash(move.normalized);
     }
 
     private void CameraInputs()

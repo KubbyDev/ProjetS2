@@ -3807,11 +3807,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4171996418373240486, guid: 32bd6968949b75748ba8accc6fcf1dc5,
-        type: 3}
-      propertyPath: optionsMenu
-      value: 
-      objectReference: {fileID: 2036892625375494215}
     - target: {fileID: 3421477209301205305, guid: 32bd6968949b75748ba8accc6fcf1dc5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3917,6 +3912,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4171996418373240486, guid: 32bd6968949b75748ba8accc6fcf1dc5,
+        type: 3}
+      propertyPath: optionsMenu
+      value: 
+      objectReference: {fileID: 2036892625375494215}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 32bd6968949b75748ba8accc6fcf1dc5, type: 3}
 --- !u!224 &6827049126880592782 stripped

@@ -11,25 +11,15 @@ public class ClassMenu : MonoBehaviour
     private GameObject strickerInfo;      //Les informations sur le stricker
     private GameObject wardenInfo;        //Les informations sur le warden
     private GameObject ninjaInfo;         //Les informations sur le ninja
-    private bool inMainMenu;              //True: Ce menu est ouvert depuis le menu pricipal, pas depuis une partie
+    private bool init = false;            //Permet de savoir si les infos ont ete initialisee (les infos venant du playerinfo)
     
+    [SerializeField] private bool inMainMenu;       //True: Ce menu est ouvert depuis le menu pricipal, pas depuis une partie
     [SerializeField] private Texture strickerImage; //L'image qui s'affiche quand on le selectionne
     [SerializeField] private Texture wardenImage;   //L'image qui s'affiche quand on le selectionne
     [SerializeField] private Texture ninjaImage;    //L'image qui s'affiche quand on le selectionne
     
     void Start()
     {
-        //Si le localPlayer est null, il n'a pas encore ete set, donc on est dans le menu principal, pas en jeu
-        inMainMenu = PlayerInfo.localPlayer == null;
-        
-        //Recuperation des references aux scripts
-        //Si on est en jeu (pas dans le menu principal)
-        if (!inMainMenu)
-        {
-            infos = PlayerInfo.localPlayer.GetComponent<PlayerInfo>();
-            inputManager = PlayerInfo.localPlayer.GetComponent<InputManager>();   
-        }
-
         //Recuperation des zones de textes pour chaque classe, et de l'image
         //Les 3 zones de textes sont fixes, et sont juste masquees
         //Mais il n'y a qu'une seule image, qui est modifiee quand on change de hero
@@ -39,7 +29,18 @@ public class ClassMenu : MonoBehaviour
         ninjaInfo = infoBackground.Find("NinjaInfo").gameObject;
         image = transform.Find("Image").GetComponent<RawImage>();
         
-        UpdateDisplay(inMainMenu ? Hero.Stricker : infos.hero);
+        UpdateDisplay(Settings.settings.defaultHero);
+    }
+
+    void Update()
+    {
+        if (!inMainMenu && !init && PlayerInfo.localPlayer != null)
+        {
+            //Recuperation des references aux scripts
+            //Si on est en jeu (pas dans le menu principal)
+            infos = PlayerInfo.localPlayer.GetComponent<PlayerInfo>();
+            inputManager = PlayerInfo.localPlayer.GetComponent<InputManager>();  
+        }
     }
 
     //Methode appellee quand on clique sur le bouton Stricker
@@ -51,12 +52,10 @@ public class ClassMenu : MonoBehaviour
             infos.SetHero(Hero.Stricker);
             infos.UpdateInfos();
         }
-        else
-        {
-            //Settings.settings contient toutes les variables enregistrees
-            Settings.settings.defaultHero = Hero.Stricker;
-            Settings.Save();
-        }
+        
+        //Settings.settings contient toutes les variables enregistrees
+        Settings.settings.defaultHero = Hero.Stricker;
+        Settings.Save();
         
         UpdateDisplay(Hero.Stricker);
     }
@@ -70,12 +69,10 @@ public class ClassMenu : MonoBehaviour
             infos.SetHero(Hero.Warden);
             infos.UpdateInfos();
         }
-        else 
-        {
-            //Settings.settings contient toutes les variables enregistrees
-            Settings.settings.defaultHero = Hero.Warden;
-            Settings.Save();
-        }
+        
+        //Settings.settings contient toutes les variables enregistrees
+        Settings.settings.defaultHero = Hero.Warden;
+        Settings.Save();
         
         UpdateDisplay(Hero.Warden);
     }
@@ -89,12 +86,10 @@ public class ClassMenu : MonoBehaviour
             infos.SetHero(Hero.Ninja);
             infos.UpdateInfos();
         }
-        else 
-        {         
-            //Settings.settings contient toutes les variables enregistrees
-            Settings.settings.defaultHero = Hero.Ninja;
-            Settings.Save();
-        }
+        
+        //Settings.settings contient toutes les variables enregistrees
+        Settings.settings.defaultHero = Hero.Ninja;
+        Settings.Save();
         
         UpdateDisplay(Hero.Ninja);
     }

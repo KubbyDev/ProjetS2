@@ -17,6 +17,7 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
     [SerializeField] private Dropdown teamsSizeDropdown;  //La taille des teams choisies (1v1, 2v2, 3v3, 4v4)
     [SerializeField] private Dropdown maxGoalsDropdown;   //Le nombre de buts max avant que la partie s'arrete
     [SerializeField] private Dropdown maxTimeDropdown;    //La duree de la partie
+    [SerializeField] private Toggle enableOvertime;       //La duree de la partie
     [SerializeField] private GameObject createRoomMenu;   //Le menu de creation de room (sans avoir clique sur advanced)
     [SerializeField] private GameObject advCreateRoomMenu;//Le menu de creation de room (apres avoir clique sur advanced)
     
@@ -144,7 +145,7 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
         if (maxGoalsDropdown.captionText.text != "Unlimited")
             maxGoals = int.Parse(maxGoalsDropdown.captionText.text);
         
-        CreateRoom(roomName, teamsSizeDropdown.value +1, maxGoals, maxTime);
+        CreateRoom(roomName, teamsSizeDropdown.value +1, maxGoals, maxTime, enableOvertime.isOn);
     }
 
     public void OnAdvancedClicked()
@@ -264,13 +265,14 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
 
     // Creation de salles ---------------------------------------------------------------------
 
-    private static void CreateRoom(string name, int playersPerTeam, int maxGoals, int gameDurationInSec)
+    private static void CreateRoom(string name, int playersPerTeam, int maxGoals, int gameDurationInSec, bool enableOvertime)
     {
         Hashtable gameConfig = new Hashtable
         {
             {"p", playersPerTeam}, 
             {"g", maxGoals},
-            {"d", gameDurationInSec}
+            {"d", gameDurationInSec},
+            {"o", enableOvertime}
         };
 
         RoomOptions rops = new RoomOptions

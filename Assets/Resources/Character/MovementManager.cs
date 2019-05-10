@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
@@ -9,15 +10,14 @@ public class MovementManager : MonoBehaviour
     [Header("Jumps")]
     [SerializeField] [Range(0, 50)] private float jumpStrength = 10;      //La force des sauts
     [SerializeField] [Range(0, 10)] private int maxJumps = 3;             //Le nombre max de sauts sans toucher le sol
-    [SerializeField] [Range(0, 10)] private int maxDashes = 3;            //Le nombre max de dashes sans toucher le sol
-    [SerializeField] [Range(0, 50)] private float dashesStrength = 10f;   //La force des dashes (forces horizontales quand le joueur appuie sur espace + ZQSD)
     [Space] [Header("Movements")]
-    [SerializeField] [Range(0, 2000)] private float movementSpeed = 500;  //La vitesse des deplacements au sol
-    [SerializeField] [Range(0, 0.5f)] private float inAirControl = 0.03f; //La force des inputs en l'air (en l'air: inputs *= inAirControl/vitesse^2)
-    [SerializeField] [Range(0, 1f)] private float withBallSpeed = 0.80f;  //Le multiplicateur de vitesse quand le joueur a la balle
-    [SerializeField] [Range(1, 100)] private float maxSpeed = 20f;        //La vitesse maximale de deplacement du joueur
+    [SerializeField] [Range(0, 2000)] private float baseMovementSpeed = 500; //La vitesse de deplacements de base (reste constante)
+    [SerializeField] [Range(0, 0.5f)] private float inAirControl = 0.03f;    //La force des inputs en l'air (en l'air: inputs *= inAirControl/vitesse^2)
+    [SerializeField] [Range(0, 1f)] private float withBallSpeed = 0.80f;     //Le multiplicateur de vitesse quand le joueur a la balle
+    [SerializeField] [Range(1, 100)] private float maxSpeed = 20f;           //La vitesse maximale de deplacement du joueur
 
     public Vector3 velocity = Vector3.zero;   //La vitesse actuelle du joueur
+    public float movementSpeed;               //La vitesse de deplacement actuelle (peut etre modifiee)
     
     private CharacterController cc;           //Le script qui gere les deplacements du joueur (dans Unity)
     private int usableJumps;                  //Le nombre de sauts restants (Reset quand le sol est touche)
@@ -25,12 +25,15 @@ public class MovementManager : MonoBehaviour
     private Vector3 movementInput;            //Le dernier input ZQSD du joueur (sert pour la synchronisation)
     private PhotonView pv;                    //Le script qui gere ce joueur sur le reseau
     private PlayerInfo infos;                 //Le script qui contient les infos sur le joueur
+    private List<IEnumerator> speedCoroutines;      //References aux coroutines MultiplySpeed lancees (permet de les stopper a l'engagement)
 
     void Start()
-	{
+    {
+        movementSpeed = baseMovementSpeed;
         cc = GetComponent<CharacterController>();
         pv = GetComponent<PhotonView>();
 	    infos = GetComponent<PlayerInfo>();
+        speedCoroutines = new List<IEnumerator>();
     }
 
     void Update()
@@ -53,7 +56,6 @@ public class MovementManager : MonoBehaviour
         {
             velocity = Vector3.zero;
             usableJumps = maxJumps;
-            usableDashes = maxDashes;
         }
         else               //Quand le joueur est en l'air
         {
@@ -90,26 +92,6 @@ public class MovementManager : MonoBehaviour
         //On ajoute la force: Une force vers le haut, un peu penchee dans la direction des inputs
         AddForce(new Vector3(0,jumpStrength, 0));
     }
-    
-    //Appellee par InputManager
-    public void Dash(Vector3 moveInput) 
-    {
-        //On ne fait rien si le joueur est au sol ou n'a plus de dashes
-        if (usableDashes <= 0 || cc.isGrounded) 
-            return;
-        
-        usableDashes--;
-
-        //On reduit la vitesse verticale
-        velocity.y /= 2;
-        
-        //Si les inputs sont en direction opposee a la vitesse, on reduit la vitesse horizontale
-        if (Vector3.Dot(velocity, moveInput) < 0)
-            velocity = new Vector3(velocity.x/2, velocity.y, velocity.z/2);
-        
-        //On ajoute la force: Une force vers le haut, un peu penchee dans la direction des inputs
-        AddForce((moveInput + new Vector3(0,0.1f, 0)).normalized * dashesStrength);
-    }
 
     //Applique une force sur le joueur (sur son client)
     public void AddForce(Vector3 force)  
@@ -139,7 +121,9 @@ public class MovementManager : MonoBehaviour
     [PunRPC]
     public void MultiplySpeed_RPC(float multiplier, float duration, double sendMoment)
     {
-        StartCoroutine(MultiplySpeedCoroutine(multiplier, duration - Tools.GetLatency(sendMoment)));
+        IEnumerator speedCoroutine = MultiplySpeedCoroutine(multiplier, duration - Tools.GetLatency(sendMoment));
+        speedCoroutines.Add(speedCoroutine);
+        StartCoroutine(speedCoroutine);
     }
 
     IEnumerator MultiplySpeedCoroutine(float multiplier, float duration)
@@ -152,5 +136,9 @@ public class MovementManager : MonoBehaviour
     public void ResetSpeed()
     {
         velocity = Vector3.zero;
+        movementSpeed = baseMovementSpeed;
+        foreach (IEnumerator speedCoroutine in speedCoroutines)
+            StopCoroutine(speedCoroutine);
+        speedCoroutines = new List<IEnumerator>();
     }
 }

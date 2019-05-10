@@ -1,4 +1,3 @@
-using System.IO;
 using Photon.Pun;
 using UnityEngine;
 
@@ -20,12 +19,14 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.IsMasterClient)
             return;
         
-        if (GameManager.timeLeft < 0 && !inOvertime) // Si le temps est ecoule, soit on lance l'overtime, soit on termine la partie
+        // Si le temps est ecoule, soit on lance l'overtime, soit on termine la partie
+        //GameDuration = 0 => illimite
+        if (GameManager.gameConfig.gameDuration > 0 && GameManager.timeLeft < 0 && !inOvertime) 
         {
             inOvertime = true;
             GameManager.timeLeft = 0;
 
-            if (GameManager.blueScore == GameManager.orangeScore)
+            if (GameManager.gameConfig.enableOvertime && GameManager.blueScore == GameManager.orangeScore)
             {
                 Ball.Hide();
                 GameManager.timeLeftForKickoff = 3;

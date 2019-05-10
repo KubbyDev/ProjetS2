@@ -38,7 +38,7 @@ public class EndGameManager : MonoBehaviour
 
     IEnumerator EndGameCoroutine(Team losingTeam)
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(8);
         
         //Place tout le monde sur le podium
         MakePodium(losingTeam);
