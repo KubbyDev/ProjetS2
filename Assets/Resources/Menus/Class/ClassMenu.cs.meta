@@ -3,7 +3,10 @@ guid: 8734d71a514d0674ba1a06a4ee9899a7
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - strickerImage: {fileID: 2800000, guid: 8767bcd30e75f5745a2741c6bbce07c3, type: 3}
+  - wardenImage: {fileID: 2800000, guid: 84594112b84b4064aa4804e6fd4f2460, type: 3}
+  - ninjaImage: {fileID: 2800000, guid: e801496895f6e2c41af2ac03b0b026e3, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

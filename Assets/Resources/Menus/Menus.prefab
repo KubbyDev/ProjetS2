@@ -291,7 +291,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 70025e573c477e546a11d992cc028595, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 06187d67c1090e046ac563270ebd29b9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3091,7 +3091,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 70025e573c477e546a11d992cc028595, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d678da20589a7ab4c95b54933b52d201, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3324,7 +3324,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 70025e573c477e546a11d992cc028595, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e476fb84e0d96e4438f721592c2920c6, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3807,6 +3807,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4171996418373240486, guid: 32bd6968949b75748ba8accc6fcf1dc5,
+        type: 3}
+      propertyPath: optionsMenu
+      value: 
+      objectReference: {fileID: 2036892625375494215}
     - target: {fileID: 3421477209301205305, guid: 32bd6968949b75748ba8accc6fcf1dc5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3912,11 +3917,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4171996418373240486, guid: 32bd6968949b75748ba8accc6fcf1dc5,
-        type: 3}
-      propertyPath: optionsMenu
-      value: 
-      objectReference: {fileID: 2036892625375494215}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 32bd6968949b75748ba8accc6fcf1dc5, type: 3}
 --- !u!224 &6827049126880592782 stripped
