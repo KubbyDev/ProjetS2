@@ -39,59 +39,64 @@ public class ClassMenu : MonoBehaviour
             //Recuperation des references aux scripts
             //Si on est en jeu (pas dans le menu principal)
             infos = PlayerInfo.localPlayer.GetComponent<PlayerInfo>();
-            inputManager = PlayerInfo.localPlayer.GetComponent<InputManager>();  
+            inputManager = PlayerInfo.localPlayer.GetComponent<InputManager>();
+
+            init = true;
         }
     }
 
     //Methode appellee quand on clique sur le bouton Stricker
     public void OnStrikerButtonCliked()
     {
+        UpdateDisplay(Hero.Stricker);
+        
         //Si on est en jeu (pas dans le menu principal)
         if (!inMainMenu)
         {
             infos.SetHero(Hero.Stricker);
             infos.UpdateInfos();
+            inputManager.ToggleClassMenu();
         }
-        
+
         //Settings.settings contient toutes les variables enregistrees
         Settings.settings.defaultHero = Hero.Stricker;
         Settings.Save();
-        
-        UpdateDisplay(Hero.Stricker);
     }
 
     //Methode appellee quand on clique sur le bouton Warden
     public void OnWardenButtonCliked()
     {
+        UpdateDisplay(Hero.Warden);
+        
         //Si on est en jeu (pas dans le menu principal)
         if (!inMainMenu)
         {
             infos.SetHero(Hero.Warden);
             infos.UpdateInfos();
+            inputManager.ToggleClassMenu();
         }
         
         //Settings.settings contient toutes les variables enregistrees
         Settings.settings.defaultHero = Hero.Warden;
         Settings.Save();
-        
-        UpdateDisplay(Hero.Warden);
     }
 
     //Methode appellee quand on clique sur le bouton Ninja
     public void OnNinjaButtonCliked()
     {
+        UpdateDisplay(Hero.Ninja);
+        
         //Si on est en jeu (pas dans le menu principal)
         if (!inMainMenu)
         {
             infos.SetHero(Hero.Ninja);
             infos.UpdateInfos();
+            inputManager.ToggleClassMenu();
         }
         
         //Settings.settings contient toutes les variables enregistrees
         Settings.settings.defaultHero = Hero.Ninja;
         Settings.Save();
-        
-        UpdateDisplay(Hero.Ninja);
     }
 
     public void UpdateDisplay(Hero selected)

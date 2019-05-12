@@ -28,16 +28,11 @@ public class CameraManager : MonoBehaviour {
     {
         //Lance la fonction de positionnement de la camera adaptee en fonction de si le joueur est en FPS ou en TPS
         if (isFps)
-        {
             FirstPerson();
-            infos.cameraPosition = camAnchor.position - new Vector3(0,0.2f,0);
-        }
         else
-        {
             ThirdPerson();
-            infos.cameraPosition = camAnchor.position;
-        }
-        
+
+        infos.cameraPosition = cam.position;
         infos.cameraRotation = cam.rotation;
     }
 
@@ -67,8 +62,7 @@ public class CameraManager : MonoBehaviour {
 
         Vector3 newPosition;
         //On trace un raycast en arriere
-        RaycastHit hitInfo;
-        if (Physics.SphereCast(camAnchor.transform.position, 0.25f, -1 * camAnchor.transform.forward, out hitInfo, camDistance + 1, LayerMask.NameToLayer("IgnoreCamRaycast")))
+        if (Physics.SphereCast(camAnchor.transform.position, 0.25f, -1 * camAnchor.transform.forward, out RaycastHit hitInfo, camDistance + 1, LayerMask.NameToLayer("IgnoreCamRaycast")))
             //s'il touche un mur on place la camera un peu avant le point d'impact
             newPosition = camAnchor.transform.position - Mathf.Min(hitInfo.distance - 0.5f, camDistance) * camAnchor.transform.forward;
         else

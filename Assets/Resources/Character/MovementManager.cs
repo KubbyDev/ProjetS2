@@ -21,7 +21,6 @@ public class MovementManager : MonoBehaviour
     
     private CharacterController cc;           //Le script qui gere les deplacements du joueur (dans Unity)
     private int usableJumps;                  //Le nombre de sauts restants (Reset quand le sol est touche)
-    private int usableDashes;                 //Le nombre de dashes restants (Reset quand le sol est touche)
     private Vector3 movementInput;            //Le dernier input ZQSD du joueur (sert pour la synchronisation)
     private PhotonView pv;                    //Le script qui gere ce joueur sur le reseau
     private PlayerInfo infos;                 //Le script qui contient les infos sur le joueur
@@ -44,7 +43,7 @@ public class MovementManager : MonoBehaviour
 
         //Gravity
         //Pour supprimer l'impression de faible gravite on l'augmente quand le joueur tombe
-        velocity += Physics.gravity * Time.deltaTime * (velocity.y < 0 ? 2f : 1.0f);
+        velocity += Physics.gravity * (Time.deltaTime * (velocity.y < 0 ? 2f : 1.0f));
 
         //Fait bouger le joueur
         cc.Move(velocity * Time.deltaTime);
@@ -71,9 +70,9 @@ public class MovementManager : MonoBehaviour
         infos.lastMovementInput = input;
         
         if (input.sqrMagnitude > 0)
-            velocity += input * Time.deltaTime * movementSpeed  //Le vecteur d'inputs en temps normal
+            velocity += input * (Time.deltaTime * movementSpeed  //Le vecteur d'inputs en temps normal
                 * (cc.isGrounded ? 1 : inAirControl)            //Quand le joueur est en l'air on multiplie par inAirControl
-                * (infos.hasBall ? withBallSpeed : 1);          //Quand le joueur a la balle on reduit sa vitesse
+                * (infos.hasBall ? withBallSpeed : 1));          //Quand le joueur a la balle on reduit sa vitesse
     }
 
     //Appellee par InputManager

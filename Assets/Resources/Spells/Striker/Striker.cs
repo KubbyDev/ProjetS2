@@ -44,7 +44,7 @@ public class Striker : MonoBehaviour
         if (infos.secondCooldown > 0f) //secondCooldown = cooldown du E = cooldown de escape
             return;
         
-        Vector3 position = transform.position + new Vector3(0, 1.5f, 0);
+        Vector3 position = transform.position + new Vector3(0,1,0);
         Vector3 direction = infos.cameraRotation * Vector3.forward;
         
         //Cree escapeBullet

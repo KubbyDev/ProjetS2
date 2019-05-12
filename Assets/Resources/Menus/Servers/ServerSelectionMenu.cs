@@ -121,8 +121,7 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
 
     public void OnNickNameChanged(string value)
     {
-        PhotonNetwork.LocalPlayer.NickName = value == "" ? RandomName.Generate() : value;
-        Settings.settings.nickname = PhotonNetwork.LocalPlayer.NickName;
+        Settings.settings.nickname = PhotonNetwork.LocalPlayer.NickName = value;
         Settings.Save();
     }
     
@@ -165,6 +164,12 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.GetCustomRoomList(TypedLobby.Default, "");
         //RemoveAllRooms();
+    }
+
+    public void OnRandomizeNickname()
+    {
+        Settings.settings.nickname = PhotonNetwork.LocalPlayer.NickName = nicknameInput.text = RandomName.Generate();
+        Settings.Save();
     }
 
     // Liste des salles ------------------------------------------------------------------------

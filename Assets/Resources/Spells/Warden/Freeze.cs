@@ -16,7 +16,7 @@ public class Freeze : MonoBehaviour
 
     void Update()
     {
-        transform.position += transform.forward * Time.deltaTime * speed; //envoie la ball dans la direction de la camera
+        transform.position += transform.forward * (Time.deltaTime * speed); //envoie la ball dans la direction de la camera
     }
 
     private void OnTriggerEnter(Collider other)
