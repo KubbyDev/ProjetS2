@@ -179,6 +179,6 @@ public class Ball : MonoBehaviour
         freeze1Time = freeze1 - latency;
         freeze2Time = freeze2 - latency;
         
-        ballParticles.OnFreeze();
+        ballParticles.OnFreeze(freeze1,freeze2);
     }
 }

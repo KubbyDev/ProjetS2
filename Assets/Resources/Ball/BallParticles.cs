@@ -12,6 +12,7 @@ public class BallParticles : MonoBehaviour
 
     private float timeToSpawn;  //Le temps restant avant le prochain spawn d'eclair
     private MeshRenderer meshRenderer;
+    private float FrozenCooldown;
     private Light light;
     
     void Awake()
@@ -38,9 +39,17 @@ public class BallParticles : MonoBehaviour
             //On remet le temps avant d'en spawn un nouveau a spawnPeriod
             timeToSpawn = spawnPeriod;
         }
+        
         else
         {
             timeToSpawn -= Time.deltaTime;
+        }
+
+        if (FrozenCooldown > 0)
+        {
+            FrozenCooldown -= Time.deltaTime;
+            if (FrozenCooldown < 0)
+                this.transform.Find("SnowParticle").GetComponent<ParticleSystem>().Play();
         }
     }
 
@@ -55,9 +64,17 @@ public class BallParticles : MonoBehaviour
         meshRenderer.material = Team.None.GetMaterial();
     }
     
-    public void OnFreeze()
-    {
-        GameObject frozenParticle = Instantiate(frozenParticles, this.gameObject.transform.position , Quaternion.identity);
+    public void OnFreeze(float freeze1, float freeze2)
+    { 
+        ParticleSystem.MainModule Frozen = this.transform.Find("FrozenParticle").GetComponent<ParticleSystem>().main;
+        ParticleSystem.MainModule Snow = this.transform.Find("SnowParticle").GetComponent<ParticleSystem>().main;
+        
+        Frozen.duration = freeze1;
+        Snow.duration = freeze2;
+
+        FrozenCooldown = freeze1;
+        
+        this.transform.Find("FrozenParticle").GetComponent<ParticleSystem>().Play();
     }
 
     public void OnFreezeStop()
