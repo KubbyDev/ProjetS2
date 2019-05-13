@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    [SerializeField] [Range(1, 20)] private float pullStrength = 9;            //La force avec laquelle la balle est attiree au joueur qui la possede
+    [SerializeField] private float pullStrength = 140;            //La force avec laquelle la balle est attiree au joueur qui la possede
     
     public static GameObject ball;       //Reference a la balle, visible partout
     public static Ball script;           //Reference a ce script, visible partout
@@ -108,7 +108,7 @@ public class Ball : MonoBehaviour
         rigidBody.velocity /= 1.2f;   //Amorti la vitesse
         rigidBody.AddForce((possessor.transform.position + new Vector3(0, 0.0f, 0) + 5f * (possessor.GetComponent<PlayerInfo>().cameraRotation * Vector3.forward)   //Un peu devant le torse du joueur
                           - transform.position    //Pour que le vecteur aille de la balle au joueur
-                           ) * Time.deltaTime * pullStrength * 1000);
+                           ) * pullStrength);
     }
 
     public void Shoot(Vector3 force, bool powershoot)

@@ -33,12 +33,11 @@ public class Brain : MonoBehaviour
         if (currentState == State.GoToTheBall)
         {
             if(skills.HasBall())
-                skills.Shoot();
+                skills.Pass(GameObject.FindGameObjectsWithTag("Player")[0]);
             else
             {
                 skills.MoveTo(Ball.ball.transform.position);
-                if(Vector3.Distance(transform.position, Ball.ball.transform.position) < 2f)
-                    skills.CatchBall();   
+                skills.CatchBall();   
             }
         }
     }

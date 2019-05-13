@@ -82,7 +82,7 @@ Transform:
   - {fileID: 30}
   - {fileID: 6989003422666225397}
   - {fileID: 6779608389315465461}
-  - {fileID: 1069246550724262687}
+  - {fileID: 3144145625210645339}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -228,8 +228,6 @@ MonoBehaviour:
   catchWidth: 1
   PowerShootMultiplier: 2
   PowerShootCooldown: 5
-  FlameParticle: {fileID: 1000010823978654, guid: 3228a22491941734bb83ad691d17fcb9,
-    type: 3}
   hasBall: 0
   catchTimeLeft: 0
 --- !u!114 &89
@@ -313,7 +311,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 3606593971257085751}
-  viewIdField: 0
+  viewIdField: 5
   InstantiationId: 5
   isRuntimeInstantiated: 0
 --- !u!114 &3606593971257085751
@@ -5437,7 +5435,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3228a22491941734bb83ad691d17fcb9, type: 3}
---- !u!4 &1069246550724262687 stripped
+--- !u!4 &3144145625210645339 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2698929252513633319, guid: 3228a22491941734bb83ad691d17fcb9,
     type: 3}

@@ -88,11 +88,11 @@ public class Skills : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         
         //Calcule l'angle de tir en prenant en compte la gravite
-        float launchSpeed = ballManager.GetLaunchSpeed();  //La vitesse initiale
-        float vSqr = launchSpeed * launchSpeed;            //Au carre
-        float g = Physics.gravity.magnitude;               //La gravite (9.81)
-        float x = Vector3.Distance(transform.position, targetPosition); //La distance de la cible
-        float y = targetPosition.y - transform.position.y; //La difference de hauteur entre la cible l'IA
+        float launchSpeed = ballManager.GetLaunchSpeed();                     //La vitesse initiale
+        float vSqr = launchSpeed * launchSpeed;                               //Au carre
+        float g = Physics.gravity.magnitude;                                  //La gravite (9.81)
+        float y = targetPosition.y - transform.position.y;                    //La distance verticale entre la cible l'IA
+        float x = (targetPosition-transform.position-y*Vector3.up).magnitude; //La distance horizontale entre la cible l'IA
 
         float newPitch = -Mathf.Atan(
                              (vSqr - Mathf.Sqrt(
@@ -120,9 +120,13 @@ public class Skills : MonoBehaviour
     /// Fait une passe
     /// </summary>
     /// <param name="target"></param>
-    public void Pass(GameObject target)                //TODO: prendre en compte la vitesse
+    public void Pass(GameObject target)                
     {
-        Shoot(target.transform.position);
+        Shoot(target.transform.position + //Tire vers la cible en predisant sa trajectoire
+              target.GetComponent<PlayerInfo>().velocity 
+              * Vector3.Distance(target.transform.position, transform.position)
+              / ballManager.GetLaunchSpeed());
+              //Le vecteur a ajouter pour faire la predition est v_target * d / v_balle (c'est pas parfait mais c'est suffisant)
     }
     
     // Spells et PowerUps ----------------------------------------------------------------------------------------------

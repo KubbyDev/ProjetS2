@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 084b2209d57d8ba4f8c3f7dc2b67bbac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pullStrength: 9
+  pullStrength: 140
   canBeCaught: 1
   shooterBlue: {fileID: 0}
   shooterOrange: {fileID: 0}

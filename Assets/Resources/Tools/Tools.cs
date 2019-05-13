@@ -49,15 +49,15 @@ public class Tools : MonoBehaviour
 
     [SerializeField] private Sprite turbo;
     [SerializeField] private Sprite escape;
-    [SerializeField] private Sprite magnet;
     [SerializeField] private Sprite freeze;
+    [SerializeField] private Sprite magnet;
     [SerializeField] private Sprite explode;
     [SerializeField] private Sprite smoke;
 
     public static class SpellsSprites
     {
         public static readonly Sprite[] stricker = {tools.turbo, tools.escape};
-        public static readonly Sprite[] warden = {tools.magnet, tools.freeze};
+        public static readonly Sprite[] warden = {tools.freeze, tools.magnet};
         public static readonly Sprite[] ninja = {tools.explode, tools.smoke};
     }
     
