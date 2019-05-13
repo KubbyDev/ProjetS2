@@ -11,7 +11,7 @@ public class MovementManager : MonoBehaviour
     [SerializeField] [Range(0, 50)] private float jumpStrength = 10;      //La force des sauts
     [SerializeField] [Range(0, 10)] private int maxJumps = 3;             //Le nombre max de sauts sans toucher le sol
     [Space] [Header("Movements")]
-    [SerializeField] [Range(0, 2000)] private float baseMovementSpeed = 500; //La vitesse de deplacements de base (reste constante)
+    [SerializeField] [Range(0, 2000)] private float baseMovementSpeed = 12;  //La vitesse de deplacements de base (reste constante)
     [SerializeField] [Range(0, 0.5f)] private float inAirControl = 0.03f;    //La force des inputs en l'air (en l'air: inputs *= inAirControl/vitesse^2)
     [SerializeField] [Range(0, 1f)] private float withBallSpeed = 0.80f;     //Le multiplicateur de vitesse quand le joueur a la balle
     [SerializeField] [Range(1, 100)] private float maxSpeed = 20f;           //La vitesse maximale de deplacement du joueur
@@ -19,12 +19,12 @@ public class MovementManager : MonoBehaviour
     public Vector3 velocity = Vector3.zero;   //La vitesse actuelle du joueur
     public float movementSpeed;               //La vitesse de deplacement actuelle (peut etre modifiee)
     
-    private CharacterController cc;           //Le script qui gere les deplacements du joueur (dans Unity)
-    private int usableJumps;                  //Le nombre de sauts restants (Reset quand le sol est touche)
-    private Vector3 movementInput;            //Le dernier input ZQSD du joueur (sert pour la synchronisation)
-    private PhotonView pv;                    //Le script qui gere ce joueur sur le reseau
-    private PlayerInfo infos;                 //Le script qui contient les infos sur le joueur
-    private List<IEnumerator> speedCoroutines;      //References aux coroutines MultiplySpeed lancees (permet de les stopper a l'engagement)
+    private CharacterController cc;            //Le script qui gere les deplacements du joueur (dans Unity)
+    private int usableJumps;                   //Le nombre de sauts restants (Reset quand le sol est touche)
+    private Vector3 movementInput;             //Le dernier input ZQSD du joueur (sert pour la synchronisation)
+    private PhotonView pv;                     //Le script qui gere ce joueur sur le reseau
+    private PlayerInfo infos;                  //Le script qui contient les infos sur le joueur
+    private List<IEnumerator> speedCoroutines; //References aux coroutines MultiplySpeed lancees (permet de les stopper a l'engagement)
 
     void Start()
     {
@@ -70,9 +70,9 @@ public class MovementManager : MonoBehaviour
         infos.lastMovementInput = input;
         
         if (input.sqrMagnitude > 0)
-            velocity += input * (Time.deltaTime * movementSpeed  //Le vecteur d'inputs en temps normal
+            velocity += input * (movementSpeed                  //Le vecteur d'inputs en temps normal
                 * (cc.isGrounded ? 1 : inAirControl)            //Quand le joueur est en l'air on multiplie par inAirControl
-                * (infos.hasBall ? withBallSpeed : 1));          //Quand le joueur a la balle on reduit sa vitesse
+                * (infos.hasBall ? withBallSpeed : 1));         //Quand le joueur a la balle on reduit sa vitesse
     }
 
     //Appellee par InputManager

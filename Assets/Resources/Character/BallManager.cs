@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 
@@ -17,11 +18,13 @@ public class BallManager : MonoBehaviour
     public float catchTimeLeft = 0;                     //Le temps restant avant de pouvoir reutiliser le catch
     
     private PlayerInfo infos;                           //Le script qui contient les infos sur le joueur
+    private PhotonView pv;                              //Le script qui gere ce joueur sur le reseau
     private float PowerShootTimeLeft = 0;               //Le temps restant pour utiliser le powershoot
     
     void Start()
     {
         infos = GetComponent<PlayerInfo>();
+        pv = GetComponent<PhotonView>();
     }
 
     //Recuperation de la balle
@@ -58,20 +61,30 @@ public class BallManager : MonoBehaviour
     //Lance la balle devant lui
     public void Shoot()
     {
-        if (hasBall)
-        {
-            Ball.script.Shoot(infos.cameraRotation * Vector3.forward * launchStrength * 1000 * (PowerShootTimeLeft>0 ? PowerShootMultiplier : 1));
-            if (PowerShootTimeLeft > 0)
-                Ball.ball.transform.Find("FlamesParticles").GetComponent<ParticleSystem>().Play();
-        }
-        
-    }                                        //Si le joueur peut utiliser powershoot, on applique le multiplieur, sinon non
+        if (!hasBall)
+            return;
+            
+        //Si le joueur peut utiliser powershoot, on applique le multiplieur, sinon non
+        Ball.script.Shoot(infos.cameraRotation * Vector3.forward * launchStrength * 1000 * (PowerShootTimeLeft>0 ? PowerShootMultiplier : 1), 
+            PowerShootTimeLeft>0);  //Vrai si le joueur a utilise le powershoot, faut sinon
+    }                                       
 
     public void Use_PowerShoot()
     {
+        pv.RPC("Use_PowerShoot_RPC", RpcTarget.Others, PhotonNetwork.Time);
+       
         PowerShootTimeLeft = PowerShootCooldown; //Indique au script que le joueur a utilise le powerup powershoot
         ParticleSystem.MainModule Flames = this.transform.Find("FlamesParticles").GetComponent<ParticleSystem>().main;
-        Flames.duration = PowerShootCooldown;
+        Flames.duration = PowerShootTimeLeft;
+        this.transform.Find("FlamesParticles").GetComponent<ParticleSystem>().Play();
+    }
+    
+    [PunRPC]
+    public void Use_PowerShoot_RPC(double sendMoment)
+    {
+        PowerShootTimeLeft = PowerShootCooldown - Tools.GetLatency(sendMoment); //Indique au script que le joueur a utilise le powerup powershoot
+        ParticleSystem.MainModule Flames = this.transform.Find("FlamesParticles").GetComponent<ParticleSystem>().main;
+        Flames.duration = PowerShootTimeLeft;
         this.transform.Find("FlamesParticles").GetComponent<ParticleSystem>().Play();
     }
 

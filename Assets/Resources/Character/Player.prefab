@@ -82,7 +82,7 @@ Transform:
   - {fileID: 30}
   - {fileID: 6989003422666225397}
   - {fileID: 6779608389315465461}
-  - {fileID: 3144145625210645339}
+  - {fileID: 1069246550724262687}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -190,12 +190,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpStrength: 12
   maxJumps: 3
-  baseMovementSpeed: 500
+  baseMovementSpeed: 12
   inAirControl: 0.03
   withBallSpeed: 0.8
   maxSpeed: 20
   velocity: {x: 0, y: 0, z: 0}
-  movementSpeed: 500
+  movementSpeed: 12
 --- !u!114 &87
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,7 +314,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 3606593971257085751}
   viewIdField: 0
-  InstantiationId: 7
+  InstantiationId: 5
   isRuntimeInstantiated: 0
 --- !u!114 &3606593971257085751
 MonoBehaviour:
@@ -5437,7 +5437,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3228a22491941734bb83ad691d17fcb9, type: 3}
---- !u!4 &3144145625210645339 stripped
+--- !u!4 &1069246550724262687 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2698929252513633319, guid: 3228a22491941734bb83ad691d17fcb9,
     type: 3}

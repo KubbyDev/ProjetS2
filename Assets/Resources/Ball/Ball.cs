@@ -111,22 +111,28 @@ public class Ball : MonoBehaviour
                            ) * Time.deltaTime * pullStrength * 1000);
     }
 
-    public void Shoot(Vector3 force)
+    public void Shoot(Vector3 force, bool powershoot)
     {
         //Execute la fonction ShootBall_RPC sur tous les autres joueurs
-        photonView.RPC("ShootBall_RPC", RpcTarget.Others, rigidBody.velocity, force);
+        photonView.RPC("ShootBall_RPC", RpcTarget.Others, rigidBody.velocity, force, powershoot);
 
         rigidBody.AddForce(force);
         UpdatePossessor(null);
+        
+        if(powershoot)
+            transform.Find("FlamesParticles").GetComponent<ParticleSystem>().Play();
     }
 
     [PunRPC]
     //Cette fonction s'execute chez tous les clients
     //Elle met a jour le possesseur de balle et la vitesse de la balle
-    private void ShootBall_RPC(Vector3 newVelocity, Vector3 force)
+    private void ShootBall_RPC(Vector3 newVelocity, Vector3 force, bool powershoot)
     {
         rigidBody.velocity = newVelocity;
         rigidBody.AddForce(force);
+        
+        if(powershoot)
+            transform.Find("FlamesParticles").GetComponent<ParticleSystem>().Play();
     }
 
     //Remet a 0 la vitesse, la rotation et la vitesse angulaire de la balle

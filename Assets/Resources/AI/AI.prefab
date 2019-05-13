@@ -408,12 +408,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpStrength: 10
   maxJumps: 3
-  baseMovementSpeed: 500
+  baseMovementSpeed: 12
   inAirControl: 0.03
   withBallSpeed: 0.8
   maxSpeed: 20
   velocity: {x: 0, y: 0, z: 0}
-  movementSpeed: 500
+  movementSpeed: 12
 --- !u!114 &8294962191097149399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -500,7 +500,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 8587176882192532044}
-  viewIdField: 6
+  viewIdField: 0
   InstantiationId: 6
   isRuntimeInstantiated: 0
 --- !u!114 &8587176882192532044

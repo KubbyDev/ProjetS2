@@ -16,5 +16,5 @@ public class PowerShoot : MonoBehaviour
             GetComponent<BallManager>().Use_PowerShoot();
             Player_Has_PowerShoot = false;
         }
-    } 
+    }
 }

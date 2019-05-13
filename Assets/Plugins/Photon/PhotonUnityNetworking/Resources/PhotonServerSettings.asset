@@ -55,4 +55,5 @@ MonoBehaviour:
   - Freeze
   - MultiplySpeed
   - MultiplySpeed_RPC
+  - Use_PowerShoot_RPC
   DisableAutoOpenWizard: 1
