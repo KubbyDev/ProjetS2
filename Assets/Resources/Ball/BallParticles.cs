@@ -57,7 +57,7 @@ public class BallParticles : MonoBehaviour
     
     public void OnFreeze()
     {
-        GameObject frozenParticle = Instantiate(frozenParticles, Vector3.zero, Quaternion.identity);
+        GameObject frozenParticle = Instantiate(frozenParticles, this.gameObject.transform.position , Quaternion.identity);
     }
 
     public void OnFreezeStop()

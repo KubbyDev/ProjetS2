@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Photon.Realtime;
 using UnityEngine;
 
 //Ce script gere les interaction entre le joueur et la balle
@@ -10,6 +11,7 @@ public class BallManager : MonoBehaviour
     [SerializeField] [UnityEngine.Range(0, 5)] public float catchWidth = 1;             //L'imprecision autorisee pour attraper la balle
     [SerializeField] [UnityEngine.Range(1, 10)] private float PowerShootMultiplier = 5;  //La puissance du powershooot
     [SerializeField] private float PowerShootCooldown = 5;                               //Le temps pendant lequel le joueur peur utiliser powershoot    
+    [SerializeField] private GameObject FlameParticle;
     
     public bool hasBall = false;                        //Si le joueur a la balle
     public float catchTimeLeft = 0;                     //Le temps restant avant de pouvoir reutiliser le catch
@@ -57,12 +59,20 @@ public class BallManager : MonoBehaviour
     public void Shoot()
     {
         if (hasBall)
+        {
             Ball.script.Shoot(infos.cameraRotation * Vector3.forward * launchStrength * 1000 * (PowerShootTimeLeft>0 ? PowerShootMultiplier : 1));
+            if (PowerShootTimeLeft > 0)
+                Ball.ball.transform.Find("FlamesParticles").GetComponent<ParticleSystem>().Play();
+        }
+        
     }                                        //Si le joueur peut utiliser powershoot, on applique le multiplieur, sinon non
 
     public void Use_PowerShoot()
     {
         PowerShootTimeLeft = PowerShootCooldown; //Indique au script que le joueur a utilise le powerup powershoot
+        ParticleSystem.MainModule Flames = this.transform.Find("FlamesParticles").GetComponent<ParticleSystem>().main;
+        Flames.duration = PowerShootCooldown;
+        this.transform.Find("FlamesParticles").GetComponent<ParticleSystem>().Play();
     }
 
     public float GetLaunchSpeed()

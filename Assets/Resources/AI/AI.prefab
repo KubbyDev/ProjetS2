@@ -363,7 +363,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8294962191097149335}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3100f1643ced1ac42b73ee9880c3cfe5, type: 3}
   m_Name: 
@@ -431,6 +431,7 @@ MonoBehaviour:
   catchWidth: 1
   PowerShootMultiplier: 2
   PowerShootCooldown: 30
+  FlameParticle: {fileID: 0}
   hasBall: 0
   catchTimeLeft: 0
 --- !u!114 &6042739075857147334
