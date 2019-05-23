@@ -37,8 +37,8 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
     void Start()
     {
         errorMessage = online.GetComponentInChildren<ErrorMessage>(true);
-        selectedGamemodes = new bool[5];
-        for (int i = 0; i < 5; i++)
+        selectedGamemodes = new bool[4];
+        for (int i = 0; i < 4; i++)
             selectedGamemodes[i] = true;
         availableRooms = new List<RoomInfo>();
         
@@ -105,12 +105,6 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
     public void On4v4ToggleClicked(bool value)
     {
         selectedGamemodes[3] = value;
-        RefreshRoomsList();
-    }
-    
-    public void OnSpecialToggleClicked(bool value)
-    {
-        selectedGamemodes[4] = value;
         RefreshRoomsList();
     }
 

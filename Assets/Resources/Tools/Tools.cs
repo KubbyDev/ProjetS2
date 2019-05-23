@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class Tools : MonoBehaviour
 {
     private static Tools tools;
-    private bool initialised = false;
+    private static bool initialised = false;
     
     void Awake()
     {

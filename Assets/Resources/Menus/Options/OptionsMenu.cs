@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
@@ -113,8 +114,7 @@ public class OptionsMenu : MonoBehaviour
     //Changement de sensibilite avec le texte
     public void OnChangeSensitivityX(string value)
     {
-        float res;
-        if(float.TryParse(value, out res))
+        if(float.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out float res))
             OnChangeSensitivityX(res);
         else
             OnChangeSensitivityX(Settings.settings.sensitivity[0]);
@@ -123,8 +123,7 @@ public class OptionsMenu : MonoBehaviour
     //Changement de sensibilite avec le texte
     public void OnChangeSensitivityY(string value)
     {
-        float res;
-        if(float.TryParse(value, out res))
+        if(float.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out float res))
             OnChangeSensitivityY(res);
         else
             OnChangeSensitivityY(Settings.settings.sensitivity[0]);
@@ -134,14 +133,14 @@ public class OptionsMenu : MonoBehaviour
     public void OnChangeSensitivityX(float value)
     {
         sensitivity[0].value = value;                //Slider
-        sensitivityTexts[0].text = value.ToString(); //Texte
+        sensitivityTexts[0].text = value.ToString(CultureInfo.InvariantCulture.NumberFormat); //Texte
     }
 
     //Changement de sensibilite avec le slider
     public void OnChangeSensitivityY(float value)
     {
         sensitivity[1].value = value; //Slider
-        sensitivityTexts[1].text = value.ToString(); //Texte
+        sensitivityTexts[1].text = value.ToString(CultureInfo.InvariantCulture.NumberFormat); //Texte
     }
 
     //  Enregistrement, chargement et lecture des settings  --------------------------------------------------------------------
@@ -185,14 +184,14 @@ public class OptionsMenu : MonoBehaviour
         shadowsDropdown.value = Settings.settings.shadowsQuality;
         fullscreenToggle.isOn = Settings.settings.fullscreen;
         volumeSlider.value = Settings.settings.volume;
-        
+
         //Controles
         for (int i = 0; i < controlsButtonsTexts.Length; i++)
             controlsButtonsTexts[i].text = Settings.settings.controls[i].ToString();
         sensitivity[0].value = Settings.settings.sensitivity[0];
         sensitivity[1].value = Settings.settings.sensitivity[1];
-        sensitivityTexts[0].text = Settings.settings.sensitivity[0].ToString();
-        sensitivityTexts[1].text = Settings.settings.sensitivity[1].ToString();
+        sensitivityTexts[0].text = Settings.settings.sensitivity[0].ToString(CultureInfo.InvariantCulture.NumberFormat);
+        sensitivityTexts[1].text = Settings.settings.sensitivity[1].ToString(CultureInfo.InvariantCulture.NumberFormat);
         invert.isOn = Settings.settings.invertY;
     }
 }
