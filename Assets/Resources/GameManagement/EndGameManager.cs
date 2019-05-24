@@ -58,6 +58,10 @@ public class EndGameManager : MonoBehaviour
         Transform cameraPosition = podium.Find("CameraPosition");
         Camera.main.transform.SetPositionAndRotation(cameraPosition.position, cameraPosition.rotation);
         
+        //Rend le podium visible
+        podium.Find("Winners").Find("Mesh").gameObject.SetActive(true);
+        podium.Find("Losers").Find("Mesh").gameObject.SetActive(true);
+        
         int winFilling = 0;
         int loseFilling = 0;
         

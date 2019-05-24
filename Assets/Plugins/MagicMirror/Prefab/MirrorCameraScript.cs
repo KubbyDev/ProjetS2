@@ -42,8 +42,9 @@ public class MirrorCameraScript : MonoBehaviour
             }
         }
         mirrorMaterial = mirrorRenderer.sharedMaterial;
-
-        CreateRenderTexture();
+        
+        if(ReflectionsQuality.quality > 0)
+            CreateRenderTexture();
     }
 
     private void CreateRenderTexture()
@@ -71,12 +72,14 @@ public class MirrorCameraScript : MonoBehaviour
         }
     }
 
-    private void Update()
+    void Update()
     {
 		if (VRMode && Camera.current == Camera.main) {
 			return;
 		}
-        CreateRenderTexture();
+        
+        if(ReflectionsQuality.quality > 0)
+            CreateRenderTexture();
     }
 
     private void UpdateCameraProperties(Camera src, Camera dest)
@@ -113,6 +116,9 @@ public class MirrorCameraScript : MonoBehaviour
 
     internal void RenderMirror()
     {
+        if (ReflectionsQuality.quality == 0)
+            return;
+        
         Camera cameraLookingAtThisMirror;
 
         // bail if we don't have a camera or renderer

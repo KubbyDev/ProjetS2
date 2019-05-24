@@ -20,6 +20,7 @@ public class OptionsMenu : MonoBehaviour
     [SerializeField] private AudioSource audioSource;       //Reference au systeme de gestion du son        //TODO
     [SerializeField] private Dropdown resolutionDropdown;   //Reference au dropdown des resolutions
     [SerializeField] private Dropdown shadowsDropdown;      //Reference au dropdown des ombres
+    [SerializeField] private Dropdown reflectionsDropdown;  //Reference au dropdown des reflections
     [SerializeField] private Dropdown aaDropdown;           //Reference au dropdown de l'anti aliasing
     [SerializeField] private Toggle fullscreenToggle;       //Reference au toggle du fullscreen
     [SerializeField] private Slider volumeSlider;           //Reference au slider du volume
@@ -166,6 +167,8 @@ public class OptionsMenu : MonoBehaviour
         Screen.SetResolution(resolutions[resolutionDropdown.value].width, resolutions[resolutionDropdown.value].height, fullscreenToggle.isOn);
         Settings.settings.resolutionIndex = resolutionDropdown.value;
         Settings.settings.fullscreen = fullscreenToggle.isOn;
+        Settings.settings.reflectionsQuality = reflectionsDropdown.value;
+        ReflectionsQuality.Set(reflectionsDropdown.value);
         
         //Controles
         for (int i = 0; i < controlsButtonsTexts.Length; i++)
@@ -182,6 +185,7 @@ public class OptionsMenu : MonoBehaviour
         aaDropdown.value = Settings.settings.aaLevel;
         resolutionDropdown.value = Settings.settings.resolutionIndex;
         shadowsDropdown.value = Settings.settings.shadowsQuality;
+        reflectionsDropdown.value = Settings.settings.reflectionsQuality;
         fullscreenToggle.isOn = Settings.settings.fullscreen;
         volumeSlider.value = Settings.settings.volume;
 

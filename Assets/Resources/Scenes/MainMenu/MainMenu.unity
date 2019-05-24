@@ -25368,7 +25368,7 @@ GameObject:
   - component: {fileID: 2033607311}
   m_Layer: 0
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: ReflectiveSurface
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

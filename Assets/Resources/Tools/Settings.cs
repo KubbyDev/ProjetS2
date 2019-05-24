@@ -22,6 +22,9 @@ public class Settings
     public int aaLevel = 3;
     public int resolutionIndex = 0;
     public int shadowsQuality = 3;
+    public int reflectionsQuality = 2;
+    
+    //Son
     public float volume = 0.5f;
 
     //Controles (les controles definis ici sont les controles par defaut)

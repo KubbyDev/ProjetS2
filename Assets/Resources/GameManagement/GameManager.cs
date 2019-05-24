@@ -95,11 +95,15 @@ public class GameManager : MonoBehaviour
         //Incremente le nombre de buts marques du joueur qui a marque
         GameObject playerWhoScored = null;
         if (isForBlue)
-            if(Ball.script.shooterBlue != null)
-                playerWhoScored = Ball.script.shooterBlue; 
+        {
+            if (Ball.script.shooterBlue != null)
+                playerWhoScored = Ball.script.shooterBlue;
+        }
         else
+        {
             if(Ball.script.shooterOrange != null)
-                playerWhoScored = Ball.script.shooterOrange; 
+                playerWhoScored = Ball.script.shooterOrange;    
+        }
 
         if (playerWhoScored != null)
             playerWhoScored.GetComponent<PlayerInfo>().goalsScored++;
