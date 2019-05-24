@@ -89,6 +89,10 @@ public class BallManager : MonoBehaviour
 
     public float GetLaunchSpeed()
     {
-        return 0.016f * launchStrength * 1000 * (PowerShootTimeLeft > 0 ? PowerShootMultiplier : 1) / Ball.rigidBody.mass;
+        return (
+                   infos.cameraRotation * Vector3.forward * Time.fixedDeltaTime * launchStrength * 1000 * (PowerShootTimeLeft > 0 ? PowerShootMultiplier : 1)
+                   + Ball.rigidBody.velocity
+                ).magnitude
+               / (Ball.rigidBody.mass * 1.05f); //Le 1.05 permet de prendre a peu pres en compte la resistance de l'air
     }
 }

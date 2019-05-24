@@ -6,7 +6,6 @@ public class CameraManager : MonoBehaviour {
 
     [SerializeField] [Range(0,90)] private float pitchLimit = 60;     //L'angle max de camera en vertical
     [SerializeField] [Range(0,10)] private float camDistance = 4;     //La distance entre la camera et la tete du joueur
-    [SerializeField] [Range(0, 1)] private float camRigidity = 0.6f; //(En 3e personne) La rigidite de la camera (si cette valeur est basse, les mouvements seront plus fluides)
 
     private bool isFps;                 //true: Premiere personne, false: 3e personne
     private Transform camAnchor;        //Le pivot de la camera
@@ -69,8 +68,7 @@ public class CameraManager : MonoBehaviour {
             //Si aucun mur n'est detecte, on place la camera a la bonne distance
             newPosition = camAnchor.transform.position - camDistance * camAnchor.transform.forward;
 
-        //On deplace la camera sur sa nouvelle position en appliquant un petit smooth
-        cam.position = newPosition * camRigidity + cam.position * (1 - camRigidity);
+        cam.position = newPosition;
 
         //On affiche l'avatar du joueur seulement si la camera n'est pas dedans
         meshRenderer.enabled = (newPosition - camAnchor.position).sqrMagnitude > 0.5f*0.5f;
