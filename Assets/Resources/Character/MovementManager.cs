@@ -50,7 +50,7 @@ public class MovementManager : MonoBehaviour
 
         infos.velocity = cc.velocity;
         infos.isGrounded = cc.isGrounded;
-        
+
         if (cc.isGrounded) //Quand le joueur est au sol
         {
             velocity = Vector3.zero;

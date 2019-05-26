@@ -29,18 +29,29 @@ public class BallManager : MonoBehaviour
     //Recuperation de la balle
     public void Catch()
     {
+        if(CanCatch())
+            //On enleve la possession de balle sur tous les joueurs et
+            //on la donne au joueur qui vient de la recuperer
+            Ball.UpdatePossessor(this.gameObject);
+
+        catchTimeLeft = catchCooldown;
+    }
+
+    public bool CanCatch()
+    {
         if (catchTimeLeft > 0 || !Ball.script.canBeCaught) 
-            return;
+            return false;
         
         //On regarde si la balle est devant la camera a une distance inferieure a maxCatchDistance
         foreach (RaycastHit hit in Physics.SphereCastAll(infos.cameraPosition, catchWidth, infos.cameraRotation*Vector3.forward, infos.maxCatchRange))
             //On recupere la balle si on la touche ou si on touche son porteur
-            if (hit.collider.CompareTag("Ball") || hit.collider.CompareTag("Player") && hit.collider.gameObject.GetComponent<BallManager>().hasBall)
-                //On enleve la possession de balle sur tous les joueurs et
-                //on la donne au joueur qui vient de la recuperer
-                Ball.UpdatePossessor(this.gameObject);
+            if (hit.collider.CompareTag("Ball") || hit.collider.CompareTag("Player") &&
+                hit.collider.gameObject.GetComponent<BallManager>().hasBall)
+            {
+                return true;   
+            }
 
-        catchTimeLeft = catchCooldown;
+        return false;
     }
     
     void Update()

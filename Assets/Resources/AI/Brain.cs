@@ -36,7 +36,7 @@ public class Brain : MonoBehaviour
                 skills.Shoot();
             else
             {
-                skills.MoveTo(Ball.ball.transform.position);
+                skills.MoveTo(Ball.ball);
                 skills.CatchBall();   
             }
         }
