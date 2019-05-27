@@ -29,10 +29,11 @@ public class BallManager : MonoBehaviour
     //Recuperation de la balle
     public void Catch()
     {
-        if(CanCatch())
-            //On enleve la possession de balle sur tous les joueurs et
-            //on la donne au joueur qui vient de la recuperer
-            Ball.UpdatePossessor(this.gameObject);
+        if (!CanCatch())
+            return;
+            
+        //On enleve la possession de balle sur tous les joueurs et on la donne au joueur qui vient de la recuperer
+        Ball.UpdatePossessor(this.gameObject);
 
         catchTimeLeft = catchCooldown;
     }

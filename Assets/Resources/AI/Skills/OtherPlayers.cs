@@ -48,7 +48,7 @@ public partial class Skills
     {
         return GetNearestPlayer(
             player => player.GetComponent<PlayerInfo>().team.IsOpponnentOf(infos.team),
-            GetAllyGoal().transform.position
+            AllyGoal().transform.position
         );  
     }
 }

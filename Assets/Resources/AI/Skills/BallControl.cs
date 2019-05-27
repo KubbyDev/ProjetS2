@@ -23,7 +23,7 @@ public partial class Skills
     /// </summary>
     public void Shoot()
     {
-        Shoot(GetEnemyGoal().transform.position);
+        Shoot(EnemyGoal().transform.position);
     }
 
     IEnumerator ShootCoroutine(Vector3 target)
@@ -35,8 +35,8 @@ public partial class Skills
         float launchSpeed = ballManager.GetLaunchSpeed();                     //La vitesse initiale
         float vSqr = launchSpeed * launchSpeed;                               //Au carre
         float g = Physics.gravity.magnitude;                                  //La gravite (9.81)
-        float y = target.y - transform.position.y;                            //La distance verticale entre la cible l'IA
-        float x = (target-transform.position-y*Vector3.up).magnitude;         //La distance horizontale entre la cible l'IA
+        float y = GetVerticalDistance(transform.position, target);            //La distance verticale entre la cible l'IA
+        float x = GetHorizontalDistance(target, transform.position);          //La distance horizontale entre la cible l'IA
 
         float newPitch = -Mathf.Atan(
                              (vSqr - Mathf.Sqrt(
@@ -89,15 +89,15 @@ public partial class Skills
                 ballManager.Catch();   
         }
     }
-    
+
     // Goals -----------------------------------------------------------------------------------------------------------
     
-    public GameObject GetAllyGoal()
+    public GameObject AllyGoal()
     {
         return GoalDetector.goals[infos.team == Team.Blue ? 0 : 1];
     }
 
-    public GameObject GetEnemyGoal()
+    public GameObject EnemyGoal()
     {
         return GoalDetector.goals[infos.team == Team.Blue ? 1 : 0];
     }
@@ -112,6 +112,16 @@ public partial class Skills
     public float DistanceToBall()
     {
         return Vector3.Distance(Ball.ball.transform.position, infos.cameraPosition);
+    }
+    
+    public float HorizontalDistanceToBall()
+    {
+        return GetHorizontalDistance(Ball.ball.transform.position, infos.cameraPosition);
+    }
+
+    public float HorizontalDistanceFromGoalToBall()
+    {
+        return GetHorizontalDistance(Ball.ball.transform.position, AllyGoal().transform.position);
     }
     
     /// <summary>

@@ -62,6 +62,7 @@ public class BallParticles : MonoBehaviour
     public void ResetColor()
     {
         meshRenderer.material = Team.None.GetMaterial();
+        light.color = Team.None.GetMaterial().color;
     }
     
     public void OnFreeze(float freeze1, float freeze2)

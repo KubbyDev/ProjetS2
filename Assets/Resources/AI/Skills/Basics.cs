@@ -38,25 +38,32 @@ public partial class Skills
     /// <param name="point"></param>
     public void LookAt(Vector3 point)
     {
-        targetRotation = Quaternion.LookRotation(point - transform.position);
+        if(point - transform.position != Vector3.zero)
+            targetRotation = Quaternion.LookRotation(point - transform.position);
     }
     
-    // Movements -------------------------------------------------------------------------------------------------------
+    // Tools -----------------------------------------------------------------------------------------------------------
 
-    public void Jump()
+    public float GetHorizontalDistance(Vector3 a, Vector3 b)
     {
-        if(timeToMove <= 0)
-            move.Jump();
+        return Vector3.Distance(new Vector3(a.x, 0, a.z), new Vector3(b.x, 0, b.z));
     }
     
+    public float GetVerticalDistance(Vector3 a, Vector3 b)
+    {
+        return b.y - a.y;
+    }
+
+    private Vector3 ProjectOnGround(Vector3 a)
+    {
+        return new Vector3(a.x, 0, a.z);
+    }
+
     /// <summary>
-    /// Bouge jusqu'a position. UpdateRotation = true => regarde devant lui en marchant
+    /// Revoie la hauteur max atteinte avec la vitesse et la position actuelle
     /// </summary>
-    public void MoveTo(Vector3 position, bool updateRotation = true)
+    private float MaxHeight()
     {
-        if(updateRotation)
-            LookAt(position);
-
-        targetPosition = position;
-    }
+        return transform.position.y + 0.5f * infos.velocity.y * infos.velocity.y / -Physics.gravity.y;
+    } 
 }

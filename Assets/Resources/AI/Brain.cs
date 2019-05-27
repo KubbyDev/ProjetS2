@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-//Cette classe gere les strategies de l'IA, elle a acces a Skills sui est une list de competences de haut niveau
+//Cette classe gere les strategies de l'IA, elle a acces a Skills qui est une list de competences de haut niveau
 //Comme aller vers la balle, tirer, faire une passe, se demarquer etc
 
 public class Brain : MonoBehaviour
@@ -29,14 +29,19 @@ public class Brain : MonoBehaviour
     {
         // A gnee gneee taper ballon
         currentState = State.GoToTheBall;
-        
+
+
         if (currentState == State.GoToTheBall)
         {
             if(skills.HasBall())
                 skills.Shoot();
             else
             {
-                skills.MoveTo(Ball.ball);
+                skills.MoveToDefensivePosition();
+                
+                if(skills.HorizontalDistanceFromGoalToBall() < 50)
+                    skills.MoveTo(Ball.ball, true); 
+                
                 skills.CatchBall();   
             }
         }
