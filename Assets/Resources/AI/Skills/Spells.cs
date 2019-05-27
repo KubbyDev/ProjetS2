@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public partial class Skills
 {
@@ -75,4 +76,59 @@ public partial class Skills
     public bool HasHook () => hook.Player_Has_Hook;
     public bool HasBack () => back.Player_Has_Back;
     public bool HasPowerShoot () => powerShoot.Player_Has_PowerShoot;
+    public bool InRangeForFreeze() => DistanceToBall() < Freeze.bulletSpeed * Freeze.lifeTime;
+    public bool InRangeForHook() => DistanceToBall() < HookBall.Speed * Hook.lifeTime;
+
+    // Utilisation intelligente des spells  ----------------------------------------------------------------------------
+
+    /// <summary>
+    /// Utilise explode et fonce derriere le joueur target
+    /// </summary>
+    /// <param name="target"></param>
+    public void UseExplodeSmartly(GameObject target)
+    {
+        UseExplode();
+
+        MoveTo(target.transform.position + 2.0f * (EnemyGoal().transform.position - target.transform.position).normalized, true, true, 0.1f);
+    }
+    
+    public void UseFreezeSmartly()
+    {
+        //Calcul de l'orientation cible
+        LookAt(PredictContactPoint(Ball.ball, Ball.rigidBody.velocity, Freeze.bulletSpeed));
+
+        if (!usingFreeze)
+            StartCoroutine(FreezeCoroutine());
+    }
+
+    private bool usingFreeze;
+    IEnumerator FreezeCoroutine()
+    {
+        usingFreeze = true;
+
+        yield return new WaitForSeconds(0.4f);
+
+        UseFreeze();
+        usingFreeze = false;
+    }
+    
+    public void UseHookSmartly()
+    {
+        //Calcul de l'orientation cible
+        LookAt(PredictContactPoint(Ball.ball, Ball.rigidBody.velocity, HookBall.Speed));
+
+        if (!usingHook)
+            StartCoroutine(HookCoroutine());
+    }
+
+    private bool usingHook;
+    IEnumerator HookCoroutine()
+    {
+        usingHook = true;
+
+        yield return new WaitForSeconds(0.4f);
+
+        UseHook();
+        usingHook = false;
+    }
 }

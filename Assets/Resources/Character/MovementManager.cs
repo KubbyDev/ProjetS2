@@ -8,13 +8,13 @@ using UnityEngine;
 public class MovementManager : MonoBehaviour
 {
     [Header("Jumps")]
-    [SerializeField] [Range(0, 50)] private float jumpStrength = 10;      //La force des sauts
-    [SerializeField] [Range(0, 10)] private int maxJumps = 3;             //Le nombre max de sauts sans toucher le sol
+    public const float jumpStrength = 10;      //La force des sauts
+    public const int maxJumps = 3;             //Le nombre max de sauts sans toucher le sol
     [Space] [Header("Movements")]
-    [SerializeField] [Range(0, 2000)] private float baseMovementSpeed = 12;  //La vitesse de deplacements de base (reste constante)
-    [SerializeField] [Range(0, 0.5f)] private float inAirControl = 0.03f;    //La force des inputs en l'air (en l'air: inputs *= inAirControl/vitesse^2)
-    [SerializeField] [Range(0, 1f)] private float withBallSpeed = 0.80f;     //Le multiplicateur de vitesse quand le joueur a la balle
-    [SerializeField] [Range(1, 100)] private float maxSpeed = 20f;           //La vitesse maximale de deplacement du joueur
+    public const float baseMovementSpeed = 12;  //La vitesse de deplacements de base (reste constante)
+    public const float inAirControl = 0.03f;    //La force des inputs en l'air (en l'air: inputs *= inAirControl/vitesse^2)
+    public const float withBallSpeed = 0.80f;     //Le multiplicateur de vitesse quand le joueur a la balle
+    public const float maxSpeed = 20f;           //La vitesse maximale de deplacement du joueur
 
     public Vector3 velocity = Vector3.zero;   //La vitesse actuelle du joueur
     public float movementSpeed;               //La vitesse de deplacement actuelle (peut etre modifiee)

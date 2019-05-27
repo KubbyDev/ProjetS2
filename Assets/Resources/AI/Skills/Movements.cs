@@ -20,7 +20,7 @@ public partial class Skills
         targetPosition = position;
         
         if(Vector3.Distance(position, transform.position) < stopDistance)
-            targetPosition = transform.position;
+            targetPosition = Vector3.zero; //Annule tout mouvement
 
         if (jumping &&
             GetVerticalDistance(transform.position, position) > 3 &&
@@ -56,11 +56,8 @@ public partial class Skills
             else Debug.Log("Couldn't find the speed of " + target);
             
             //Premiere prediction (position + v_target * d_ia_target / v_ia)
-            Vector3 predictedPosition = target.transform.position 
-                                        + velocity 
-                                        * Vector3.Distance(target.transform.position, transform.position)
-                                        / move.movementSpeed;
-            
+            Vector3 predictedPosition = PredictContactPoint(target, velocity, move.movementSpeed);
+
             //Si la cible vient vers l'IA on ignore la prediction
             if (Vector3.Dot(ProjectOnGround(target.transform.position - transform.position).normalized, ProjectOnGround(velocity).normalized) < -0.5)
             {
@@ -75,8 +72,8 @@ public partial class Skills
                     < velocity.magnitude * 7.0f * GetVerticalDistance(transform.position, target.transform.position) &&
                 MaxHeight() < target.transform.position.y)
             {
-                targetPosition = transform.position;
-                Jump();   
+                targetPosition = Vector3.zero; //Annule tout mouvement
+                Jump();    
             }
             
             MoveTo(predictedPosition, lookAtPredictedPosition);
@@ -88,7 +85,7 @@ public partial class Skills
     /// </summary>
     public void MoveToSupportPosition()
     {
-        MoveTo((GetNearestOpponentFromGoal().transform.position + AllyGoal().transform.position)/2, false);
+        MoveTo((GetNearestOpponentFromAllyGoal().transform.position + AllyGoal().transform.position)/2, false);
     }
 
     /// <summary>
@@ -97,6 +94,14 @@ public partial class Skills
     public void MoveToDefensivePosition()
     {
         MoveTo(AllyGoal().transform.position, false, false, 10f);
+    }
+    
+    /// <summary>
+    /// Avance aux 2/3 du terrain
+    /// </summary>
+    public void MoveToOffensivePosition()
+    {
+        MoveTo((EnemyGoal().transform.position*2 + AllyGoal().transform.position)/3, false);
     }
 
     /// <summary>

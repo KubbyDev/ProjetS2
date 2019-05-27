@@ -23,11 +23,11 @@ public class Ninja : MonoBehaviour
     
     // EXPLODE ---------------------------------------------------------------------------------------------------------
     
-    [SerializeField] private float Explode_Spell_Duration = 1f;   //Duree du speed
-    [SerializeField] private float Explode_Cooldown = 20f;        //Cooldown du spell
-    [SerializeField] private float Explode_Speed_Boost = 2f;      //Force du speed
-    [SerializeField] private float Explosion_Radius = 2.0f;       //Rayon dans lequel les joueurs subissent l'explosion
-    [SerializeField] private float Explosion_Power = 2f;          //Puissance de l'explosion
+    public const float Explode_Spell_Duration = 1f;   //Duree du speed
+    public const float Explode_Cooldown = 20f;        //Cooldown du spell
+    public const float Explode_Speed_Boost = 2f;      //Force du speed
+    public const float Explosion_Radius = 2.0f;       //Rayon dans lequel les joueurs subissent l'explosion
+    public const float Explosion_Power = 2f;          //Puissance de l'explosion
 
     public void Explode_Spell()
     {
@@ -72,9 +72,10 @@ public class Ninja : MonoBehaviour
 
     // SMOKE -----------------------------------------------------------------------------------------------------------
     
-    [SerializeField] private float Smoke_Spell_Duration = 5f;     //Duree d'emission de la smoke            
-    [SerializeField] private float Smoke_Cooldown = 15f;          //Cooldown du spell smoke
-    [SerializeField] private float Smoke_Delay = 2f;              //Duree de l'existence de SmokeBomb avant d'exploser
+    public const float Smoke_Spell_Duration = 5f;     //Duree d'emission de la smoke            
+    public const float Smoke_Cooldown = 15f;          //Cooldown du spell smoke
+    public const float Smoke_Delay = 2f;              //Duree de l'existence de SmokeBomb avant d'exploser
+    
     [SerializeField] private GameObject SmokeBomb;                //Prefab de la bombe pour le smoke
     [SerializeField] private GameObject SmokeExplosion;           //Prefab du ParticleSystem
     

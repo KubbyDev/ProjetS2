@@ -8,7 +8,7 @@ public class PlayerInfo : MonoBehaviour
 {
     public static GameObject localPlayer;  //Une reference au GameObject de ce client (initialise dans PlayerSetup)
 
-    [SerializeField] public float baseCatchRange = 6f; //Valeur de base du catch range de la balle
+    public const float baseCatchRange = 6f; //Valeur de base du catch range de la balle
     
     //Ces variables sont stockees ici, si vous les modifiez,
     //ca aura une influence sur le jeu
@@ -54,19 +54,6 @@ public class PlayerInfo : MonoBehaviour
 
     void Update()
     {
-        //Si ce n'est pas le joueur local on ne fait rien
-        if ( ! (isPlayer && pv.IsMine))
-            return;
-        
-        //Sinon on update le ping toutes les 2 secondes
-        if (timeToPingUpdate > 0)
-            timeToPingUpdate -= Time.deltaTime;
-        else
-        {
-            timeToPingUpdate = 2;
-            pv.RPC("UpdatePing", RpcTarget.All, PhotonNetwork.GetPing());
-        }
-        
         if (BACooldown > 0)
             BACooldown -= Time.deltaTime;
         
@@ -75,6 +62,19 @@ public class PlayerInfo : MonoBehaviour
         
         if (secondCooldown > 0)
             secondCooldown -= Time.deltaTime;
+        
+        //Si c'est le joueur local
+        if (isPlayer && pv.IsMine)
+        {
+            //On update le ping toutes les 2 secondes
+            if (timeToPingUpdate > 0)
+                timeToPingUpdate -= Time.deltaTime;
+            else
+            {
+                timeToPingUpdate = 2;
+                pv.RPC("UpdatePing", RpcTarget.All, PhotonNetwork.GetPing());
+            }
+        }
     }
 
     [PunRPC]

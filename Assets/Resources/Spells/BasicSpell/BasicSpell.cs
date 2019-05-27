@@ -6,8 +6,9 @@ using UnityEngine;
 public class BasicSpell : MonoBehaviour
 {
     [SerializeField] private GameObject BasicSpellbullet;
-    [SerializeField] private float BasicSpellCooldown = 15f;
-    [SerializeField] private float BulletLifeTime = 3f;
+    
+    public const float BasicSpellCooldown = 15f;
+    public const float BulletLifeTime = 3f;
 
     private PlayerInfo playerinfocaster;
     private PhotonView pv;

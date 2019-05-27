@@ -3,8 +3,9 @@ using UnityEngine;
 
 public class Hook : MonoBehaviour
 {
+        public const float lifeTime = 3.0f;
+        
         [SerializeField] private GameObject hookObject;
-        [SerializeField] private float lifeTime = 3.0f;
 
         public bool Player_Has_Hook = false;
 

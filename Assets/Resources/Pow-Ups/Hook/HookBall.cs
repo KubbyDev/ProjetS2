@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class HookBall : MonoBehaviour
 {
-    [SerializeField] private float Speed = 1.0f;
+    public const float Speed = 1.0f;
     
     private GameObject hooker;
     private Vector3 direction;
@@ -18,7 +18,7 @@ public class HookBall : MonoBehaviour
 
     private void Update()
     {
-        transform.position += direction*Time.deltaTime*Speed;
+        transform.position += Time.deltaTime * Speed * direction;
     }
 
     private void OnTriggerEnter(Collider other)

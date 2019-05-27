@@ -4,8 +4,8 @@
 
 public class CameraManager : MonoBehaviour {
 
-    [SerializeField] [Range(0,90)] private float pitchLimit = 60;     //L'angle max de camera en vertical
-    [SerializeField] [Range(0,10)] private float camDistance = 4;     //La distance entre la camera et la tete du joueur
+    public const float pitchLimit = 60;     //L'angle max de camera en vertical
+    public const float camDistance = 4;     //La distance entre la camera et la tete du joueur
 
     private bool isFps;                 //true: Premiere personne, false: 3e personne
     private Transform camAnchor;        //Le pivot de la camera

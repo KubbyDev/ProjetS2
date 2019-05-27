@@ -5,7 +5,6 @@ using UnityEngine;
 
 public partial class Skills
 {
-    private bool shooting;
     private int BallNear = 20;                                        // Distance a partir de laquelle on considere que la balle est assez proche pour qu on aille la chercher (a ajuster)
 
     // Actions ---------------------------------------------------------------------------------------------------------
@@ -16,21 +15,6 @@ public partial class Skills
     /// <param name="target"></param>
     public void Shoot(Vector3 target)
     {
-        if(!shooting)
-            StartCoroutine(ShootCoroutine(target));
-    }
-    
-    /// <summary>
-    /// Tire dans les cages
-    /// </summary>
-    public void Shoot()
-    {
-        Shoot(EnemyGoal().transform.position);
-    }
-
-    IEnumerator ShootCoroutine(Vector3 target)
-    {
-        shooting = true; 
         LookAt(target);
 
         //Calcule l'angle de tir en prenant en compte la gravite
@@ -43,13 +27,30 @@ public partial class Skills
         float newPitch = -Mathf.Atan(
                              (vSqr - Mathf.Sqrt(
                                   vSqr * vSqr - g * (g * x * x + 2 * y * vSqr)
-                             ))
+                              ))
                              / (g * x)
                          ) * 180 / Mathf.PI;
 
         if(!float.IsNaN(newPitch))
             SetPitch(newPitch);
+        
+        if(!shooting)
+            StartCoroutine(ShootCoroutine(target));
+    }
+    
+    /// <summary>
+    /// Tire dans les cages
+    /// </summary>
+    public void Shoot()
+    {
+        Shoot(EnemyGoal().transform.position);
+    }
 
+    private bool shooting;
+    IEnumerator ShootCoroutine(Vector3 target)
+    {
+        shooting = true;
+        
         //Attend que la balle arrete de bouger avant de tirer (elle bouge parce qu'il vient de se tourner)
         yield return new WaitForSeconds(0.5f);
 
@@ -61,13 +62,9 @@ public partial class Skills
     /// Fait une passe
     /// </summary>
     /// <param name="target"></param>
-    public void Pass(GameObject target)                
+    public void Pass(GameObject target)
     {
-        Shoot(target.transform.position + //Tire vers la cible en predisant sa trajectoire
-              target.GetComponent<PlayerInfo>().velocity 
-              * Vector3.Distance(target.transform.position, transform.position)
-              / ballManager.GetLaunchSpeed());
-              //Le vecteur a ajouter pour faire la predition est v_target * d / v_balle (c'est pas parfait mais c'est suffisant)
+        Shoot(PredictContactPoint(target, target.GetComponent<PlayerInfo>().velocity, ballManager.GetLaunchSpeed())); //Tire vers la cible en predisant sa trajectoire
     }
     
     /// <summary>

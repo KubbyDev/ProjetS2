@@ -42,7 +42,7 @@ public class Crosshair : MonoBehaviour
         //Affichage du cooldown pour attraper la balle
         if (ballManager.catchTimeLeft > 0)
         {
-            circle.fillAmount = (1 - ballManager.catchTimeLeft) / ballManager.catchCooldown;
+            circle.fillAmount = (1 - ballManager.catchTimeLeft) / BallManager.catchCooldown;
             Tools.ModifyAlpha(0.5f, circle);
         }
         else
@@ -68,7 +68,7 @@ public class Crosshair : MonoBehaviour
         
         //On regarde si la balle est devant la camera a une distance inferieure a maxCatchDistance
         foreach (RaycastHit hit in Physics.SphereCastAll(
-            infos.cameraPosition, ballManager.catchWidth, infos.cameraRotation * Vector3.forward, infos.maxCatchRange))
+            infos.cameraPosition, BallManager.catchWidth, infos.cameraRotation * Vector3.forward, infos.maxCatchRange))
         {
             if (hit.collider.CompareTag("Ball") || 
                 hit.collider.CompareTag("Player") && hit.collider.gameObject.GetComponent<BallManager>().hasBall)

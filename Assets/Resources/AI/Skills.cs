@@ -46,7 +46,7 @@ public partial class Skills : MonoBehaviour
             //Met a jour le temps restant pour pouvoir bouger
             timeToMove -= Time.deltaTime;
         }
-        else
+        else if(targetPosition != Vector3.zero)
         {
             //Se deplace vers targetPosition
             Vector3 moveInput = targetPosition - transform.position;

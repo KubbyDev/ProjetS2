@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class PlayerSync : MonoBehaviour, IPunObservable
 {
-    [SerializeField] private float rotationSpeed = 500;       //La vitesse de l'interpolation de l'orientation
-    [SerializeField] private float interpolationSpeed = 0.5f; //La vitesse de l'interpolation de la position
+    public const float rotationSpeed = 500;       //La vitesse de l'interpolation de l'orientation
+    public const float interpolationSpeed = 0.5f; //La vitesse de l'interpolation de la position
     
     private Vector3 movementInput;     //Le dernier input ZQSD du joueur concerne
     private Quaternion targetRotation; //La derniere orientation recue

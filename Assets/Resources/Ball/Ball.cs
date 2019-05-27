@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    [SerializeField] private float pullStrength = 140;            //La force avec laquelle la balle est attiree au joueur qui la possede
+    public const float pullStrength = 140;            //La force avec laquelle la balle est attiree au joueur qui la possede
     
     public static GameObject ball;       //Reference a la balle, visible partout
     public static Ball script;           //Reference a ce script, visible partout

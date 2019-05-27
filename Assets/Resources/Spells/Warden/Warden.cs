@@ -14,12 +14,13 @@ public class Warden : MonoBehaviour
     public void StopSpells()
     {
         StopCoroutine(MagnetCoroutine());
-        Info.maxCatchRange = Info.baseCatchRange;
+        Info.maxCatchRange = PlayerInfo.baseCatchRange;
     }
     
     // FREEZE ----------------------------------------------------------------------------------------------------------
     
-    [SerializeField] private float Freeze_Cooldown = 20f;  //Duree du cooldown
+    public const float Freeze_Cooldown = 20f;  //Duree du cooldown
+    
     [SerializeField] private GameObject FreezeBall;        //Prefab de la FreezeBall
 
     public void Freeze()
@@ -54,9 +55,9 @@ public class Warden : MonoBehaviour
     
     // MAGNET ----------------------------------------------------------------------------------------------------------
     
-    [SerializeField] private float MagnetSpellDuration = 5f;                // Duree du bonus de range
-    [SerializeField] private float MagnetCooldown = 20f;                    // Cooldown du Magnet
-    [SerializeField] private float MagnetBonusRange = 4f;                   // Bonus de range
+    public const float MagnetSpellDuration = 5f;                // Duree du bonus de range
+    public const float MagnetCooldown = 20f;                    // Cooldown du Magnet
+    public const float MagnetBonusRange = 4f;                   // Bonus de range
     
     public void MagnetSpell()
     {

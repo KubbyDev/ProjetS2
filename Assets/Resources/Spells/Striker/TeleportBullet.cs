@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class TeleportBullet : MonoBehaviour
 {
-    [SerializeField] private float maxTime = 2f;
+    public const float maxTime = 2f;  //Temps de vie de la balle
     
     private GameObject shooter;    //Reference au joueur
     private float startTime;       //Moment du lancer

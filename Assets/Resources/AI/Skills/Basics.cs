@@ -84,5 +84,28 @@ public partial class Skills
     private float MaxHeight()
     {
         return transform.position.y + 0.5f * infos.velocity.y * infos.velocity.y / -Physics.gravity.y;
-    } 
+    }
+
+    /// <summary>
+    /// Imagine qu'on va tirer sur target un projectile ayant une vitesse objectVelocity
+    /// Renvoie le point de contact entre le projectile et la cible en supposant que le projectile suit une trajectoire (presque) optimale (droite)
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="targetVelocity"></param>
+    /// <param name="objectVelocity"></param>
+    /// <param name="targetUsesGravity"></param>
+    /// <returns></returns>
+    private Vector3 PredictContactPoint(GameObject target, Vector3 targetVelocity, float objectVelocity, bool targetUsesGravity = true)
+    {
+        float travelTime = Vector3.Distance(target.transform.position, transform.position) / objectVelocity;
+
+        //Le vecteur a ajouter pour faire la predition est v_target * d_target_objet / v_objet (c'est pas parfait mais c'est suffisant)
+        Vector3 predicted = target.transform.position + targetVelocity * travelTime;
+
+        //On ajoute ensuite une estimation rapide de la gravite
+        if (targetUsesGravity)
+            predicted += timeToMove * Physics.gravity;
+
+        return predicted;
+    }
 }

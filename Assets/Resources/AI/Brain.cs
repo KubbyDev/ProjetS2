@@ -57,6 +57,8 @@ public class Brain : MonoBehaviour
         
     }
 
+        if(skills.DistanceToBall() < 50)
+            skills.UseFreezeSmartly();
 
     public State StateUpdate()
     {
@@ -95,5 +97,6 @@ public class Brain : MonoBehaviour
                 
             skills.CatchBall();   
         }
+        */
     }
 }

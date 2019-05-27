@@ -7,11 +7,11 @@ using UnityEngine;
 
 public class BallManager : MonoBehaviour
 {
-    [SerializeField] [UnityEngine.Range(0, 10)] private float launchStrength = 2;        //La force avec laquelle la balle est jetee
-    [SerializeField] [UnityEngine.Range(0, 5)] public float catchCooldown = 1;          //Le temps entre 2 tentative pour attraper la balle
-    [SerializeField] [UnityEngine.Range(0, 5)] public float catchWidth = 1;             //L'imprecision autorisee pour attraper la balle
-    [SerializeField] [UnityEngine.Range(1, 10)] private float PowerShootMultiplier = 5;  //La puissance du powershooot
-    [SerializeField] private float PowerShootCooldown = 5;                               //Le temps pendant lequel le joueur peur utiliser powershoot    
+    public const float launchStrength = 2;        //La force avec laquelle la balle est jetee
+    public const float catchCooldown = 1;         //Le temps entre 2 tentative pour attraper la balle
+    public const float catchWidth = 1;            //L'imprecision autorisee pour attraper la balle
+    public const float PowerShootMultiplier = 5;  //La puissance du powershooot
+    public const float PowerShootCooldown = 5;    //Le temps pendant lequel le joueur peur utiliser powershoot    
     
     public bool hasBall = false;                        //Si le joueur a la balle
     public float catchTimeLeft = 0;                     //Le temps restant avant de pouvoir reutiliser le catch

@@ -12,7 +12,7 @@ public partial class Skills
     /// <returns></returns>
     public GameObject GetNearestPlayer(Func<GameObject, bool> filter, Vector3 fromPosition)
     {
-        float minDist = 0;
+        float minDist = float.PositiveInfinity;
         GameObject nearest = null;
 
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player").Where(filter))
@@ -44,11 +44,23 @@ public partial class Skills
     /// Renvoie l'adversaire le plus proche des buts allies
     /// </summary>
     /// <returns></returns>
-    public GameObject GetNearestOpponentFromGoal()
+    public GameObject GetNearestOpponentFromAllyGoal()
     {
         return GetNearestPlayer(
             player => player.GetComponent<PlayerInfo>().team.IsOpponnentOf(infos.team),
             AllyGoal().transform.position
+        );  
+    }
+    
+    /// <summary>
+    /// Renvoie l'adversaire le plus proche des buts adverse
+    /// </summary>
+    /// <returns></returns>
+    public GameObject GetNearestOpponentFromEnemyGoal()
+    {
+        return GetNearestPlayer(
+            player => player.GetComponent<PlayerInfo>().team.IsOpponnentOf(infos.team),
+            EnemyGoal().transform.position
         );  
     }
 }

@@ -407,12 +407,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ba63bd12d20e28448faf6a24ef07e18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpStrength: 10
-  maxJumps: 3
-  baseMovementSpeed: 12
-  inAirControl: 0.03
-  withBallSpeed: 0.8
-  maxSpeed: 20
   velocity: {x: 0, y: 0, z: 0}
   movementSpeed: 12
 --- !u!114 &8294962191097149399
@@ -427,11 +421,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e7955ea00533d44884f9a959bc30e06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchStrength: 2
-  catchCooldown: 1
-  catchWidth: 1
-  PowerShootMultiplier: 2
-  PowerShootCooldown: 30
   hasBall: 0
   catchTimeLeft: 0
 --- !u!114 &6042739075857147334
@@ -446,7 +435,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e42acf813f59564e9db0338a165682a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseCatchRange: 6
   goalsScored: 0
   team: -1
   hero: 0
@@ -548,10 +536,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c85fb784732122444a6ec679bb7512b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedDuration: 3
-  speedCooldown: 3
-  speedMultiplier: 1.5
-  escapeCooldown: 3
   escapeBullet: {fileID: 2279490531893371813, guid: cc855b50ae5d8ef44b2a48017f6fdb8c,
     type: 3}
 --- !u!114 &3716507366201891263
@@ -566,11 +550,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bdb04c73e142374483b41a7c521ad16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Freeze_Cooldown: 20
-  FreezeBall: {fileID: 0}
-  MagnetSpellDuration: 5
-  MagnetCooldown: 20
-  MagnetBonusRange: 4
+  FreezeBall: {fileID: 1649765847160556575, guid: 506cae3fe5dfbf94d8780c9904b4a909,
+    type: 3}
 --- !u!114 &6112727337460792220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -583,16 +564,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb0eff6cfb10a4e49b0de9b60346e78e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Explode_Spell_Duration: 1
-  Explode_Cooldown: 20
-  Explode_Speed_Boost: 2
-  Explosion_Radius: 50
-  Explosion_Power: 2
-  Smoke_Spell_Duration: 5
-  Smoke_Cooldown: 8
-  Smoke_Delay: 2
-  SmokeBomb: {fileID: 0}
-  SmokeExplosion: {fileID: 0}
+  SmokeBomb: {fileID: 3892075379919057841, guid: 255bf681b8d2a0945b2a84b40df57072,
+    type: 3}
+  SmokeExplosion: {fileID: 6081345925805640053, guid: 03b9bd779f9829c46be88d4ad9fbff64,
+    type: 3}
 --- !u!114 &4557467466495060799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -607,7 +582,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hookObject: {fileID: 2279490531893371813, guid: 45ff461ff93047de902865534d3ae7eb,
     type: 3}
-  lifeTime: 3
   Player_Has_Hook: 0
 --- !u!114 &6654715581222393996
 MonoBehaviour:

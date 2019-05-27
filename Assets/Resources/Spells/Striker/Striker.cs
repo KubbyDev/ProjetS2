@@ -21,9 +21,9 @@ public class Striker : MonoBehaviour
     
     // TURBO -----------------------------------------------------------------------------------------------------------
     
-    [SerializeField] private float speedDuration = 3f;        //Duree du speed
-    [SerializeField] private float speedCooldown = 6f;        //Cooldown du speed
-    [SerializeField] private float speedMultiplier = 1.5f;    //Force du speed
+    public const float speedDuration = 3f;        //Duree du speed
+    public const float speedCooldown = 6f;        //Cooldown du speed
+    public const float speedMultiplier = 1.5f;    //Force du speed
 
     public void Speed()
     {
@@ -36,7 +36,8 @@ public class Striker : MonoBehaviour
     
     // ESCAPE ----------------------------------------------------------------------------------------------------------
 
-    [SerializeField] private float escapeCooldown = 3f;       //Cooldown du escape
+    public const float escapeCooldown = 3f;       //Cooldown du escape
+    
     [SerializeField] private GameObject escapeBullet;         //Prefab de la balle pour escape
     
     public void Escape()
