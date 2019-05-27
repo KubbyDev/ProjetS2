@@ -2,6 +2,25 @@
 
 public partial class Skills
 {
+    // IDK -------------------------------------------------------------------------------------------------------------
+    //Retroune la distanace par rapport au but allie
+    public float AllyGoalDist()
+    {
+        return Vector3.Distance(AllyGoal().transform.position, infos.transform.position);
+    }
+
+    //Retourne la distance par rapport au but ennemi
+    public float EnnemyGoalDist()
+    {
+        return Vector3.Distance(EnemyGoal().transform.position, infos.transform.position);
+    }
+    
+    //Retourne la taille du terrain/ distance entre les 2 buts
+    public float GoalsDist()
+    {
+        return Vector3.Distance(AllyGoal().transform.position, EnemyGoal().transform.position);
+    }
+    
     // Orientation -----------------------------------------------------------------------------------------------------
     
     /// <summary>

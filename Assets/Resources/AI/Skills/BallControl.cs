@@ -1,11 +1,13 @@
 ﻿using System.Collections;
+using System.Security.AccessControl;
 using Photon.Pun;
 using UnityEngine;
 
 public partial class Skills
 {
     private bool shooting;
-    
+    private int BallNear = 20;                                        // Distance a partir de laquelle on considere que la balle est assez proche pour qu on aille la chercher (a ajuster)
+
     // Actions ---------------------------------------------------------------------------------------------------------
     
     /// <summary>
@@ -131,6 +133,11 @@ public partial class Skills
     public bool IsBallCloseEnough()
     {
         return DistanceToBall() < infos.maxCatchRange;
+    }
+
+    public bool IsBallClose()
+    {
+        return DistanceToBall() < BallNear;
     }
 
     /// <summary>
