@@ -8,7 +8,6 @@ public class Brain : MonoBehaviour
 { 
     private Skills skills;       //Le script qui effectue les mouvement que ce script ordonne
     private PlayerInfo infos;    //Le script qui contient plein d'informations sur l'IA
-    private Ball ball;
 
     // Setup des infos importantes -------------------------------------------------------------------------------------
     
@@ -16,7 +15,6 @@ public class Brain : MonoBehaviour
     {
         skills = GetComponent<Skills>();
         infos = GetComponent<PlayerInfo>();
-        ball = GetComponent<Ball>();
     }
 
     // Strategies ------------------------------------------------------------------------------------------------------
@@ -57,12 +55,10 @@ public class Brain : MonoBehaviour
         
     }
 
-        if(skills.DistanceToBall() < 50)
-            skills.UseFreezeSmartly();
 
     public State StateUpdate()
     {
-        if (ball.lastTeamIsBlue && infos.team == Team.Blue)     // Son equipe a la balle ils sont donc en position d'attaque
+        if (Ball.script.lastTeamIsBlue && infos.team == Team.Blue)     // Son equipe a la balle ils sont donc en position d'attaque
         {
             
         }
@@ -97,6 +93,5 @@ public class Brain : MonoBehaviour
                 
             skills.CatchBall();   
         }
-        */
     }
 }
