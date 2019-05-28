@@ -11,10 +11,11 @@ public enum Team
 static class Teams
 {
     static readonly System.Random rng = new System.Random();
-    
-    //Team.Orange.OtherTeam() => Team.Blue
-    //Team.Blue.OtherTeam() => Team.Orange
-    //Team.None.OtherTeam() => Team.None
+
+    /// <summary> Team.Orange.OtherTeam() => Team.Blue </summary>
+    /// <summary> Team.Blue.OtherTeam() => Team.Orange </summary>
+    /// <summary> Team.None.OtherTeam() => Team.None </summary>
+    /// <param name="team"></param>
     public static Team OtherTeam(this Team team)
     {
         if (team == Team.None)

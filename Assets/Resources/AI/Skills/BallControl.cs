@@ -4,8 +4,6 @@ using UnityEngine;
 
 public partial class Skills
 {
-    private int BallNear = 20;                                        // Distance a partir de laquelle on considere que la balle est assez proche pour qu on aille la chercher (a ajuster)
-
     // Actions ---------------------------------------------------------------------------------------------------------
     
     /// <summary>
@@ -131,11 +129,6 @@ public partial class Skills
         return DistanceToBall() < infos.maxCatchRange;
     }
 
-    public bool IsBallClose()
-    {
-        return DistanceToBall() < BallNear;
-    }
-
     /// <summary>
     /// Renvoie vrai si un clic suffirait pour attraper la balle
     /// </summary>
@@ -143,5 +136,15 @@ public partial class Skills
     public bool CanCatchBall()
     {
         return IsBallCloseEnough() && ballManager.CanCatch();
+    }
+
+    public bool AllyPossessBall()
+    {
+        return Ball.possessor.GetComponent<PlayerInfo>().team == infos.team;
+    }
+    
+    public bool OpponnentPossessBall()
+    {
+        return Ball.possessor.GetComponent<PlayerInfo>().team == infos.team.OtherTeam();
     }
 }

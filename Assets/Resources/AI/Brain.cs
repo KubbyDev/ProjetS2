@@ -19,6 +19,8 @@ public class Brain : MonoBehaviour
 
     // Strategies ------------------------------------------------------------------------------------------------------
     
+    private int BallNear = 20;  // Distance a partir de laquelle on considere que la balle est assez proche pour qu on aille la chercher (a ajuster)
+    
     public enum State
     {
         None = 0,
@@ -65,7 +67,7 @@ public class Brain : MonoBehaviour
 
         else                                                    // Ils sont en position de defense
         {
-            if (skills.IsBallClose())                            // Si la balle ets assez proche, on se dirige vers elle pour l'attraper
+            if (skills.DistanceToBall() < BallNear)                            // Si la balle ets assez proche, on se dirige vers elle pour l'attraper
                 return State.BallIsClose;
             // Inserer la partie avec le HOOK
 

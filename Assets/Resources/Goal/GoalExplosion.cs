@@ -7,7 +7,7 @@ public class GoalExplosion : MonoBehaviour
 {
     [SerializeField] private int lightningCount = 10;
     [SerializeField] private GameObject lightningPrefab;
-    [SerializeField] private ParticleSystem goalExplosion;     //Reference a la particule de but
+    [SerializeField] private GameObject goalExplosion;     //Reference a la particule de but
     [SerializeField] private float goalRadius;
     
     //Quand il y a une explosion de but, on fait partir des eclairs de la balle vers des points sur l'anneau
@@ -38,6 +38,16 @@ public class GoalExplosion : MonoBehaviour
         }
         
         //Fait pop les particules de goal explosion
-        Instantiate(goalExplosion, ballPosition, Quaternion.identity);
+        GameObject explosion = Instantiate(goalExplosion, ballPosition, Quaternion.identity);
+        
+        //Modifie la couleur de l'explosion suivant la team qui a marque
+        Color color1 = Ball.script.lastTeamIsBlue ? new Color(0.36f, 0.87f, 1f) : new Color(1f, 0.61f, 0f, 1f);
+        Color color2 = Ball.script.lastTeamIsBlue ? new Color(0.08f, 0.18f, 1f) : new Color(1f, 0.29f, 0f, 1f);
+
+        ParticleSystem.MainModule dots = explosion.transform.Find("Dots").GetComponent<ParticleSystem>().main;
+        dots.startColor = new ParticleSystem.MinMaxGradient(color1, color2);
+        ParticleSystem.MainModule centralCircle = explosion.transform.Find("CentralCircle").GetComponent<ParticleSystem>().main;
+        centralCircle.startColor = new ParticleSystem.MinMaxGradient(color1, color2);
+        explosion.transform.Find("CentralCircle").GetComponent<ParticleSystemRenderer>().trailMaterial = (Ball.script.lastTeamIsBlue ? Team.Blue : Team.Orange).GetMaterial();
     }
 }

@@ -74,9 +74,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lightningCount: 10
   lightningPrefab: {fileID: 106988, guid: 15dec7b07032b2f4aa6f855bfbe120f7, type: 3}
-  goalExplosion: {fileID: 3967828855364067634, guid: ea81a243a13ec334eb5cca945160cb5f,
+  goalExplosion: {fileID: 8321905705952047045, guid: ea81a243a13ec334eb5cca945160cb5f,
     type: 3}
-  goalRadius: 10.5
+  goalRadius: 8
 --- !u!1 &9022384220284048390
 GameObject:
   m_ObjectHideFlags: 0
