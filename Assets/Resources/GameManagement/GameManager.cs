@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     public static int blueScore;             //Score de l'equipe bleu
     public static int orangeScore;           //Score de l'equipe orange
     public static bool gameStarted;          //Passe a true des que la partie demarre
-    public static bool gameFinished = false; //Passe a true des que la partie se termine
+    public static bool gameFinished;         //Passe a true des que la partie se termine
     
     [SerializeField] private Transform menus;                  //Contient les affichages
     [SerializeField] private Vector3 ballSpawn = Vector3.zero; //Position de spawn de la balle
@@ -60,19 +60,13 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         gameStarted = true;
+        gamePlaying = true;
         timeLeft = gameConfig.gameDuration;
+        timeLeftForKickoff = 3;
         
         //Initialise le tableau des scores
         GameMenu.script.OnStartGame();
-        
-        // Parcours les joueurs
-        foreach(GameObject player in GameObject.FindGameObjectsWithTag("Player"))                      
-        {
-            //Si c'est une IA on lui dit de ne pas bouger jusqu'a l'engagement
-            if (! player.GetComponent<PlayerInfo>().isPlayer)
-                player.GetComponent<Skills>().timeToMove = 3;
-        }
-        
+
         //Cette methode remet tout le monde a sa place (AI, joueurs et balle)
         //Et demarre les temps avant de pouvoir bouger
         RespawnAll();
@@ -169,12 +163,17 @@ public class GameManager : MonoBehaviour
         //On reset tous les enregistrement des derniers inputs
         //Sans ca, les avatars des autres joueurs pourraient se mettre a bouger au debut des 3 secondes
         // + Reset des cooldowns
+        // + Blocage des IA
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
         {
             PlayerInfo infos = player.GetComponent<PlayerInfo>();
             infos.lastMovementInput = Vector3.zero;
             infos.ResetCooldowns();
             infos.StopSpells();
+            
+            //Si c'est une IA on lui dit de ne pas bouger jusqu'a l'engagement (3 secondes)
+            if (! player.GetComponent<PlayerInfo>().isPlayer)
+                player.GetComponent<Skills>().timeToMove = timeLeftForKickoff;
         }
         
         //On kill tous les elements lances par des spells

@@ -157,6 +157,9 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
             
             //Informe les autres clients de la team choisie
             newIaInfos.UpdateInfos();
+            
+            //Donne un nom a l'IA et informe les autres clients du nom choisi
+            newIaInfos.GetComponent<IASetup>().Init();
         }
 
         //On rempli les trous dans la team Orange
@@ -166,6 +169,7 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
             newIaInfos.SetHero(Heroes.Random());
             newIaInfos.SetTeam(Team.Orange);
             newIaInfos.UpdateInfos();
+            newIaInfos.GetComponent<IASetup>().Init();
         }
     }
 } 

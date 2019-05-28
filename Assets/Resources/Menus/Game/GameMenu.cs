@@ -91,7 +91,7 @@ public class GameMenu : MonoBehaviour
     }
 
     //Affiche un texte au milieu (et gere les animations)
-    private void DisplayOnCentral(string text, float time = 1, int fontSize = 150)
+    private void DisplayOnCentral(string text, float time = 1, int fontSize = 120)
     {
         centralDisplay.fontSize = fontSize;
         centralDisplay.text = text;

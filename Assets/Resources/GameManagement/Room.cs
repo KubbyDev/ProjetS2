@@ -49,8 +49,10 @@ public class Room : MonoBehaviourPunCallbacks
         PlayerInfo oldPlayerInfo = ((GameObject) player.TagObject).GetComponent<PlayerInfo>();
         
         PlayerInfo newIaInfos = PhotonNetwork.InstantiateSceneObject(Path.Combine("AI", "AI"), oldPlayerInfo.transform.position, oldPlayerInfo.transform.rotation).GetComponent<PlayerInfo>();
-        newIaInfos.GetComponent<PlayerInfo>().SetTeam(oldPlayerInfo.team);
-        newIaInfos.GetComponent<PlayerInfo>().UpdateInfos();
+        newIaInfos.SetTeam(oldPlayerInfo.team);
+        newIaInfos.SetHero(oldPlayerInfo.hero);
+        newIaInfos.UpdateInfos();
+        newIaInfos.GetComponent<IASetup>().Init();
         newIaInfos.GetComponent<Skills>().timeToMove = GameManager.timeLeftForKickoff; //Bloque l'IA si elle rejoint pendant un engagement
     }
 
