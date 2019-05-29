@@ -57,4 +57,5 @@ MonoBehaviour:
   - MultiplySpeed_RPC
   - Use_PowerShoot_RPC
   - SetNickname_RPC
+  - LaunchExplode_RPC
   DisableAutoOpenWizard: 1

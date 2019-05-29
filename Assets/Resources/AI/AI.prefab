@@ -383,6 +383,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 540
   timeToMove: 0
+  usingEscape: 0
 --- !u!114 &9116349749165957529
 MonoBehaviour:
   m_ObjectHideFlags: 0

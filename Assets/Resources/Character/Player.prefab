@@ -297,8 +297,8 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 3606593971257085751}
-  viewIdField: 0
-  InstantiationId: 1
+  viewIdField: 5
+  InstantiationId: 5
   isRuntimeInstantiated: 0
 --- !u!114 &3606593971257085751
 MonoBehaviour:
@@ -5418,11 +5418,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 32}
     m_Modifications:
-    - target: {fileID: 2541585892110792171, guid: 90fb01bf4bb29ad4bb22b40b54f3e1a8,
-        type: 3}
-      propertyPath: m_Name
-      value: SpeedParticle
-      objectReference: {fileID: 0}
     - target: {fileID: 2984312505097371093, guid: 90fb01bf4bb29ad4bb22b40b54f3e1a8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5476,6 +5471,16 @@ PrefabInstance:
     - target: {fileID: 2984312505097371093, guid: 90fb01bf4bb29ad4bb22b40b54f3e1a8,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2541585892110792171, guid: 90fb01bf4bb29ad4bb22b40b54f3e1a8,
+        type: 3}
+      propertyPath: m_Name
+      value: SpeedParticle
+      objectReference: {fileID: 0}
+    - target: {fileID: -8614110367870813764, guid: 90fb01bf4bb29ad4bb22b40b54f3e1a8,
+        type: 3}
+      propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -116,4 +116,6 @@ public class Tools : MonoBehaviour
         Color color = element.color;
         element.color = new Color(color.r, color.g, color.b, newAlpha);
     }
+
+    public static Color SetAlpha(Color color, float newAlpha) => new Color(color.r, color.g, color.b, newAlpha);
 }

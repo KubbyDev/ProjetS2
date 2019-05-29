@@ -35,14 +35,23 @@ public class Ninja : MonoBehaviour
         if (info.firstCooldown <= 0f) //firstCooldown = cooldown du A = cooldown de Explode
         {
             StartCoroutine(ExplodeCoroutine());
-            //ParticleSystemRenderer SpeedParticle = this.gameObject.transform.Find("SpeedParticle").GetComponent<ParticleSystemRenderer>();
-            ParticleSystem.MinMaxGradient Bidule = this.gameObject.transform.Find("SpeedParticle").GetComponent<ParticleSystem>().main.startColor;
-            Bidule.color = GetComponent<PlayerInfo>().team.GetMaterial().color;
             
-            //SpeedParticle.material.color = GetComponent<PlayerInfo>().team.GetMaterial().color;
+            ParticleSystem.MainModule main = transform.Find("SpeedParticle").GetComponent<ParticleSystem>().main;
+            main.duration = Explode_Spell_Duration;
+            main.startColor = new ParticleSystem.MinMaxGradient(Tools.SetAlpha(GetComponent<PlayerInfo>().team.GetMaterial().color, 0.02f));
+            transform.Find("SpeedParticle").GetComponent<ParticleSystem>().Play();
             
-            this.gameObject.transform.Find("SpeedParticle").GetComponent<ParticleSystem>().Play();
+            pv.RPC("LaunchExplode_RPC", RpcTarget.Others, PhotonNetwork.Time);
         }
+    }
+
+    [PunRPC]
+    public void LaunchExplode_RPC(double sendMoment)
+    {
+        ParticleSystem.MainModule main = transform.Find("SpeedParticle").GetComponent<ParticleSystem>().main;
+        main.duration = Explode_Spell_Duration - Tools.GetLatency(sendMoment);
+        main.startColor = new ParticleSystem.MinMaxGradient(Tools.SetAlpha(GetComponent<PlayerInfo>().team.GetMaterial().color, 0.02f));
+        transform.Find("SpeedParticle").GetComponent<ParticleSystem>().Play();
     }
 
     IEnumerator ExplodeCoroutine()

@@ -111,11 +111,10 @@ public partial class Skills
     }
     
     /// <summary> Se dirige entre le but et le joueur le plus proche du but (en regardant le but adverse) </summary>
-    public void MoveToSupportPosition() => MoveTo((GetNearestOpponentFromAllyGoal().transform.position + AllyGoal().transform.position)/2, false);
+    public void MoveToSupportPosition() => MoveTo(SupportPosition(), false);
 
-    public Vector3 SupportPosition() =>
-        (GetNearestOpponentFromAllyGoal().transform.position + AllyGoal().transform.position) / 2;
-
+    /// <summary> Renvoie la position entre le but et le joueur le plus proche du but </summary>
+    public Vector3 SupportPosition() => (GetNearestOpponentFromAllyGoal().transform.position + AllyGoal().transform.position) / 2;
 
     /// <summary> Se dirige sous les cages pour un arret eventuel </summary>
     public void MoveToDefensivePosition() => MoveTo(AllyGoal().transform.position, false, false, 10f);

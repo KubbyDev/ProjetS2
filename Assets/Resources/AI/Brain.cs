@@ -1,8 +1,4 @@
-﻿using System;
-using System.Security.AccessControl;
-using Unity.Jobs.LowLevel.Unsafe;
-using UnityEditor.Experimental.GraphView;
-using UnityEngine;
+﻿using UnityEngine;
 
 //Cette classe gere les strategies de l'IA, elle a acces a Skills qui est une list de competences de haut niveau
 //Comme aller vers la balle, tirer, faire une passe, se demarquer etc

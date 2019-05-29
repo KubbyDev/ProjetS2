@@ -140,11 +140,17 @@ public partial class Skills
 
     public bool AllyPossessBall()
     {
+        if (Ball.possessor == null)
+            return false;
+                
         return Ball.possessor.GetComponent<PlayerInfo>().team == infos.team;
     }
     
     public bool OpponnentPossessBall()
     {
+        if (Ball.possessor == null)
+            return false;
+        
         return Ball.possessor.GetComponent<PlayerInfo>().team == infos.team.OtherTeam();
     }
 }
