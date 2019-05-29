@@ -81,34 +81,47 @@ public partial class Skills
     }
     
     /// <summary>
-    /// Se dirige entre le but et le joueur le plus proche du but (en regardant le but adverse)
+    /// Se dirige vers position en evitant de s'approcher des adversaires
     /// </summary>
-    public void MoveToSupportPosition()
+    /// <param name="position"></param>
+    public void MoveToAvoidingEnnemies(Vector3 position)
     {
-        MoveTo((GetNearestOpponentFromAllyGoal().transform.position + AllyGoal().transform.position)/2, false);
-    }
+        GameObject nearestPlayer = GetNearestOpponent();
+        
+        if (nearestPlayer == null)
+        {
+            MoveTo(position);
+            return;
+        }
+        
+        Vector3 targetDirection = (position - transform.position).normalized;
+        Vector3 toNearestPlayer = nearestPlayer.transform.position - transform.position;
+        float distToNearestPlayer = toNearestPlayer.magnitude;
+        
+        //Si le joueur le plus proche est trop loin on l'ignore
+        if(distToNearestPlayer > 50)
+        {
+            MoveTo(position);
+            return;
+        }
 
-    /// <summary>
-    /// Se dirige sous les cages pour un arret eventuel
-    /// </summary>
-    public void MoveToDefensivePosition()
-    {
-        MoveTo(AllyGoal().transform.position, false, false, 10f);
+        targetDirection += -toNearestPlayer.normalized * (50 - toNearestPlayer.magnitude)/50;
+        
+        MoveTo(transform.position + targetDirection*5);
     }
     
-    /// <summary>
-    /// Avance aux 2/3 du terrain
-    /// </summary>
-    public void MoveToOffensivePosition()
-    {
-        MoveTo((EnemyGoal().transform.position*2 + AllyGoal().transform.position)/3, false);
-    }
+    /// <summary> Se dirige entre le but et le joueur le plus proche du but (en regardant le but adverse) </summary>
+    public void MoveToSupportPosition() => MoveTo((GetNearestOpponentFromAllyGoal().transform.position + AllyGoal().transform.position)/2, false);
 
-    /// <summary>
-    /// Se dirige dans les buts pour defendre
-    /// </summary>
-    public void MoveInGoal()
-    {
-        MoveTo(AllyGoal().transform.position, false, true, 5f);
-    }
+    /// <summary> Se dirige sous les cages pour un arret eventuel </summary>
+    public void MoveToDefensivePosition() => MoveTo(AllyGoal().transform.position, false, false, 10f);
+    
+    /// <summary> Avance aux 2/3 du terrain </summary>
+    public void MoveToOffensivePosition() => MoveTo((EnemyGoal().transform.position*2 + AllyGoal().transform.position)/3, false);
+
+    /// <summary> Se dirige dans les buts pour defendre </summary>
+    public void MoveInGoal() => MoveTo(AllyGoal().transform.position, false, true, 5f);
+
+    /// <summary> Se dirige vers les buts adverse en evitant de s'approcher des adversaires </summary>
+    public void MoveToGoalAvoidingEnnemies() => MoveToAvoidingEnnemies(EnemyGoal().transform.position);
 }

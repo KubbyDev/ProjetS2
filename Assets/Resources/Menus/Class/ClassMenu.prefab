@@ -109,7 +109,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6492189464111443969}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -157,7 +157,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Gains movement speed boost.
+  m_Text: Throws a teleportation module. The Striker then teleports to its position.
 --- !u!1 &889237832560430091
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,10 +185,10 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 2299721585536422808}
-  - {fileID: 5931751252238965992}
   - {fileID: 2922194937637226442}
   - {fileID: 5340642557073566655}
+  - {fileID: 2299721585536422808}
+  - {fileID: 5931751252238965992}
   m_Father: {fileID: 5279708664676288551}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -784,7 +784,7 @@ GameObject:
   - component: {fileID: 2675067264443821237}
   - component: {fileID: 3661529043088471570}
   m_Layer: 5
-  m_Name: Turbo
+  m_Name: Escape
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -802,7 +802,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6492189464111443969}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -850,7 +850,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Turbo
+  m_Text: Escape
 --- !u!1 &2300696770845088944
 GameObject:
   m_ObjectHideFlags: 0
@@ -863,7 +863,7 @@ GameObject:
   - component: {fileID: 4966369787093936819}
   - component: {fileID: 7203821536757741479}
   m_Layer: 5
-  m_Name: Escape
+  m_Name: Turbo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -881,7 +881,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6492189464111443969}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -929,7 +929,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Escape
+  m_Text: 'Turbo
+
+'
 --- !u!1 &2452440958929017651
 GameObject:
   m_ObjectHideFlags: 0
@@ -960,7 +962,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6492189464111443969}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1008,7 +1010,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Throws a teleportation module. The Striker then teleports to its position.
+  m_Text: Gains movement speed boost.
 --- !u!1 &2525138956515493593
 GameObject:
   m_ObjectHideFlags: 0
@@ -2319,6 +2321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8734d71a514d0674ba1a06a4ee9899a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inMainMenu: 0
   strickerImage: {fileID: 2800000, guid: 8767bcd30e75f5745a2741c6bbce07c3, type: 3}
   wardenImage: {fileID: 2800000, guid: 84594112b84b4064aa4804e6fd4f2460, type: 3}
   ninjaImage: {fileID: 2800000, guid: e801496895f6e2c41af2ac03b0b026e3, type: 3}
