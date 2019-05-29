@@ -88,6 +88,9 @@ public partial class Skills
         MoveTo((GetNearestOpponentFromAllyGoal().transform.position + AllyGoal().transform.position)/2, false);
     }
 
+    public Vector3 SupportPosition() =>
+        (GetNearestOpponentFromAllyGoal().transform.position + AllyGoal().transform.position) / 2;
+
     /// <summary>
     /// Se dirige sous les cages pour un arret eventuel
     /// </summary>

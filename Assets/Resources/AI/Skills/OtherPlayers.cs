@@ -79,6 +79,22 @@ public partial class Skills
     }
 
     /// <summary>
+    /// Renvoie l'adversaire le plus proche des buts adverse
+    /// </summary>
+    /// <returns></returns>
+    public GameObject GetNearestAllyFromBall()
+    {
+        return GetNearestPlayer(player => player.GetComponent<PlayerInfo>().team == infos.team,
+            Ball.ball.transform.position);
+    }
+
+    public GameObject GetNearestOpponentFromBall()
+    {
+        return GetNearestPlayer(player => player.GetComponent<PlayerInfo>().team.IsOpponnentOf(infos.team),
+            Ball.ball.transform.position);
+    }
+
+    /// <summary>
     /// Renvoie l'allie le plus proche parmi ceux qui sont devant (plus proche du but)
     /// null si il n'y a pas d'allie devant
     /// </summary>
