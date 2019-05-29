@@ -88,12 +88,16 @@ public class Brain : MonoBehaviour
                 Hook();
                 break;
             }
+            // Attaque
             
-         
-            
+            //Autre
+            case State.GoToBall:
+            {
+                skills.MoveTo(Ball.ball);
+                break;
+            }
+
         }
-        
-        
         
     }
 
@@ -114,11 +118,11 @@ public class Brain : MonoBehaviour
                 return State.Hooking;
 
             if (!skills.IsDefenderReady())                                    // S il n y a pas de defenseur de pret bah mdr c est la merde
-            {
                 return State.ImminentDangerOMG;
-            }
 
-
+            if (Vector3.Distance(Ball.ball.transform.position, skills.AllyGoal().transform.position) <= WAYTOOCLOSEFROMGOAL)
+                return State.Defend;
+            
         }
 
         // Dans le cas ou la balle est en l'air sans possesseur, le joueur le plus proche va vers celle-ci
@@ -171,6 +175,9 @@ public class Brain : MonoBehaviour
             skills.UseExplodeSmartly(skills.GetNearestOpponentFromBall());
         if (Vector3.Distance(skills.GetNearestOpponentFromBall().transform.position, skills.AllyGoal().transform.position) < WAYTOOCLOSEFROMGOAL )
             skills.MoveInGoal();
+        else
+            skills.MoveTo(Ball.ball.transform.position);
+        
     }
 
     public void ImminentDangerONG()
@@ -182,5 +189,6 @@ public class Brain : MonoBehaviour
             
             skills.MoveToSupportPosition();
         }
+        skills.MoveInGoal();
     }
 }
