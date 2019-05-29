@@ -10,9 +10,7 @@ public class BallManager : MonoBehaviour
     public const float launchStrength = 2;        //La force avec laquelle la balle est jetee
     public const float catchCooldown = 1;         //Le temps entre 2 tentative pour attraper la balle
     public const float catchWidth = 1;            //L'imprecision autorisee pour attraper la balle
-    public const float PowerShootMultiplier = 5;  //La puissance du powershooot
-    public const float PowerShootCooldown = 5;    //Le temps pendant lequel le joueur peur utiliser powershoot    
-    
+
     public bool hasBall = false;                        //Si le joueur a la balle
     public float catchTimeLeft = 0;                     //Le temps restant avant de pouvoir reutiliser le catch
     
@@ -76,7 +74,7 @@ public class BallManager : MonoBehaviour
             return;
             
         //Si le joueur peut utiliser powershoot, on applique le multiplieur, sinon non
-        Ball.script.Shoot(infos.cameraRotation * Vector3.forward * launchStrength * 1000 * (PowerShootTimeLeft>0 ? PowerShootMultiplier : 1), 
+        Ball.script.Shoot(infos.cameraRotation * Vector3.forward * launchStrength * 1000 * (PowerShootTimeLeft>0 ? PowerShoot.multiplier : 1), 
             PowerShootTimeLeft>0);  //Vrai si le joueur a utilise le powershoot, faux sinon
     }                                       
 
@@ -84,7 +82,7 @@ public class BallManager : MonoBehaviour
     {
         pv.RPC("Use_PowerShoot_RPC", RpcTarget.Others, PhotonNetwork.Time);
        
-        PowerShootTimeLeft = PowerShootCooldown; //Indique au script que le joueur a utilise le powerup powershoot
+        PowerShootTimeLeft = PowerShoot.cooldown; //Indique au script que le joueur a utilise le powerup powershoot
         ParticleSystem.MainModule Flames = this.transform.Find("FlamesParticles").GetComponent<ParticleSystem>().main;
         Flames.duration = PowerShootTimeLeft;
         this.transform.Find("FlamesParticles").GetComponent<ParticleSystem>().Play();
@@ -93,7 +91,7 @@ public class BallManager : MonoBehaviour
     [PunRPC]
     public void Use_PowerShoot_RPC(double sendMoment)
     {
-        PowerShootTimeLeft = PowerShootCooldown - Tools.GetLatency(sendMoment); //Indique au script que le joueur a utilise le powerup powershoot
+        PowerShootTimeLeft = PowerShoot.cooldown - Tools.GetLatency(sendMoment); //Indique au script que le joueur a utilise le powerup powershoot
         ParticleSystem.MainModule Flames = this.transform.Find("FlamesParticles").GetComponent<ParticleSystem>().main;
         Flames.duration = PowerShootTimeLeft;
         this.transform.Find("FlamesParticles").GetComponent<ParticleSystem>().Play();
@@ -102,7 +100,7 @@ public class BallManager : MonoBehaviour
     public float GetLaunchSpeed()
     {
         return (
-                   infos.cameraRotation * Vector3.forward * Time.fixedDeltaTime * launchStrength * 1000 * (PowerShootTimeLeft > 0 ? PowerShootMultiplier : 1)
+                   infos.cameraRotation * Vector3.forward * Time.fixedDeltaTime * launchStrength * 1000 * (PowerShootTimeLeft > 0 ? PowerShoot.multiplier : 1)
                    + Ball.rigidBody.velocity
                 ).magnitude
                / (Ball.rigidBody.mass * 1.05f); //Le 1.05 permet de prendre a peu pres en compte la resistance de l'air

@@ -1,14 +1,12 @@
 ﻿using Photon.Pun;
-using System.Collections;
-using Photon.Realtime;
 using UnityEngine;
 
 public class BasicSpell : MonoBehaviour
 {
     [SerializeField] private GameObject BasicSpellbullet;
     
-    public const float BasicSpellCooldown = 15f;
-    public const float BulletLifeTime = 3f;
+    public const float BasicSpellCooldown = 3f;
+    public const float BulletLifeTime = 2f;
 
     private PlayerInfo playerinfocaster;
     private PhotonView pv;

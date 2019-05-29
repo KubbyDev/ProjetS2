@@ -24,6 +24,10 @@ public class MainMenu : MonoBehaviourPunCallbacks
         //Quand le serveur change de scene, les clients aussi
         PhotonNetwork.AutomaticallySyncScene = true;
         
+        //Limite les FPS a 100 sinon ca cause des problemes
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 100;
+        
         serversMenuScript = GameObject.Find("Scripts").GetComponent<ServerSelectionMenu>();
         optionsMenu.transform.Find("Options").GetComponent<OptionsMenu>().RefreshSettings();
         

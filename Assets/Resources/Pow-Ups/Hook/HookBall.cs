@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class HookBall : MonoBehaviour
 {
-    public const float Speed = 1.0f;
+    public const float Speed = 100.0f;
     
     private GameObject hooker;
     private Vector3 direction;

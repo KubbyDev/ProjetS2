@@ -45,10 +45,10 @@ public class BallParticles : MonoBehaviour
         }
     }
 
-    public void UpdateColor(bool lastTeamIsBlue)
+    public void UpdateColor(Team lastTeam)
     {
-        meshRenderer.material = (lastTeamIsBlue ? Team.Blue : Team.Orange).GetMaterial();
-        light.color = (lastTeamIsBlue ? Team.Blue : Team.Orange).GetMaterial().color;
+        meshRenderer.material = lastTeam.GetMaterial();
+        light.color = lastTeam.GetMaterial().color;
     }
 
     public void ResetColor()

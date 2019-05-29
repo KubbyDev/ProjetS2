@@ -41,13 +41,23 @@ public class GoalExplosion : MonoBehaviour
         GameObject explosion = Instantiate(goalExplosion, ballPosition, Quaternion.identity);
         
         //Modifie la couleur de l'explosion suivant la team qui a marque
-        Color color1 = Ball.script.lastTeamIsBlue ? new Color(0.36f, 0.87f, 1f) : new Color(1f, 0.61f, 0f, 1f);
-        Color color2 = Ball.script.lastTeamIsBlue ? new Color(0.08f, 0.18f, 1f) : new Color(1f, 0.29f, 0f, 1f);
+        Color color1 = new Color(1f, 1f, 1f);
+        Color color2 = new Color(0.91f, 0.91f, 0.91f);
+        if (Ball.script.lastTeam == Team.Blue)
+        {
+            color1 = new Color(0.36f, 0.87f, 1f);
+            color2 = new Color(0.19f, 0.45f, 1f);
+        }
+        if (Ball.script.lastTeam == Team.Orange)
+        {
+            color1 = new Color(1f, 0.61f, 0f, 1f);
+            color2 = new Color(1f, 0.46f, 0.15f);
+        }
 
         ParticleSystem.MainModule dots = explosion.transform.Find("Dots").GetComponent<ParticleSystem>().main;
         dots.startColor = new ParticleSystem.MinMaxGradient(color1, color2);
         ParticleSystem.MainModule centralCircle = explosion.transform.Find("CentralCircle").GetComponent<ParticleSystem>().main;
         centralCircle.startColor = new ParticleSystem.MinMaxGradient(color1, color2);
-        explosion.transform.Find("CentralCircle").GetComponent<ParticleSystemRenderer>().trailMaterial = (Ball.script.lastTeamIsBlue ? Team.Blue : Team.Orange).GetMaterial();
+        explosion.transform.Find("CentralCircle").GetComponent<ParticleSystemRenderer>().trailMaterial = Ball.script.lastTeam.GetMaterial();
     }
 }

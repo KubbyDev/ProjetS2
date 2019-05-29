@@ -55,9 +55,9 @@ public class Warden : MonoBehaviour
     
     // MAGNET ----------------------------------------------------------------------------------------------------------
     
-    public const float MagnetSpellDuration = 5f;                // Duree du bonus de range
+    public const float MagnetSpellDuration = 3f;                // Duree du bonus de range
     public const float MagnetCooldown = 20f;                    // Cooldown du Magnet
-    public const float MagnetBonusRange = 4f;                   // Bonus de range
+    public const float MagnetBonusRange = 10f;                  // Bonus de range
     
     public void MagnetSpell()
     {

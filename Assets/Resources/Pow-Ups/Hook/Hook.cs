@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Hook : MonoBehaviour
 {
-        public const float lifeTime = 3.0f;
+        public const float lifeTime = 1f;
         
         [SerializeField] private GameObject hookObject;
 

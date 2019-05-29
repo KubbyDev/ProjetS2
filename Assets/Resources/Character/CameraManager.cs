@@ -31,7 +31,7 @@ public class CameraManager : MonoBehaviour {
         else
             ThirdPerson();
 
-        infos.cameraPosition = cam.position;
+        infos.cameraPosition = isFps ? cam.position : camAnchor.position;
         infos.cameraRotation = cam.rotation;
     }
 

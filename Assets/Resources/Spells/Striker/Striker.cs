@@ -36,7 +36,8 @@ public class Striker : MonoBehaviour
     
     // ESCAPE ----------------------------------------------------------------------------------------------------------
 
-    public const float escapeCooldown = 3f;       //Cooldown du escape
+    public const float escapeCooldown = 10f;       //Cooldown du escape
+    public const float bulletSpeed = 20f;          //Vitesse de la balle de tp
     
     [SerializeField] private GameObject escapeBullet;         //Prefab de la balle pour escape
     
@@ -53,7 +54,7 @@ public class Striker : MonoBehaviour
         
         pv.RPC("SpawnEscape", RpcTarget.Others, position, direction);
         
-        bullet.GetComponent<Rigidbody>().AddForce(direction * 1000);  //Applique une force
+        bullet.GetComponent<Rigidbody>().AddForce(100 * bulletSpeed * direction);  //Applique une force
         
         //Donne a la balle une reference au joueur qu'elle va devoir tp
         bullet.GetComponent<TeleportBullet>().Init(this.gameObject, Time.time, true, direction);

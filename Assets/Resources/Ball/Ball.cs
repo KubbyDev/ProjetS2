@@ -16,7 +16,7 @@ public class Ball : MonoBehaviour
     public bool canBeCaught = true;      //Vrai si la balle peut etre recuperee
     public GameObject shooterBlue;       //Le dernier joueur bleu a avoir lance la balle (enregistre quand possessor passe a null)
     public GameObject shooterOrange;     //Le dernier joueur orange a avoir lance la balle (enregistre quand possessor passe a null)
-    public bool lastTeamIsBlue;          //True: La derniere equipe a avoir possede la balle est l'equipe bleue
+    public Team lastTeam;                //La derniere equipe a avoir possede la balle
 
     private BallParticles ballParticles;
     private float freeze1Time = 0f;
@@ -78,8 +78,8 @@ public class Ball : MonoBehaviour
         else
         {
             possessor = PhotonView.Find(viewID).gameObject;
-            lastTeamIsBlue = possessor.GetComponent<PlayerInfo>().team == Team.Blue;
-            if (lastTeamIsBlue)
+            lastTeam = possessor.GetComponent<PlayerInfo>().team;
+            if (lastTeam == Team.Blue)
                 shooterBlue = possessor;
             else
                 shooterOrange = possessor;
@@ -99,7 +99,7 @@ public class Ball : MonoBehaviour
         }
         
         //Change la couleur de la balle
-        ballParticles.UpdateColor(lastTeamIsBlue);
+        ballParticles.UpdateColor(lastTeam);
     }
 
     //Attire la balle au joueur qui la possede

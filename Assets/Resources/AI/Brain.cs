@@ -60,7 +60,7 @@ public class Brain : MonoBehaviour
 
     public State StateUpdate()
     {
-        if (Ball.script.lastTeamIsBlue && infos.team == Team.Blue)     // Son equipe a la balle ils sont donc en position d'attaque
+        if (Ball.script.lastTeam == Team.Blue && infos.team == Team.Blue)     // Son equipe a la balle ils sont donc en position d'attaque
         {
             
         }

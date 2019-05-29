@@ -6,7 +6,7 @@ public class Freeze : MonoBehaviour
     public const float Freeze1_Duration = 1f;  //Duree du freeze complet (pas de recuperation, pas de mouvement)
     public const float Freeze2_Duration = 4f;  //Duree du freeze partiel (pas de mouvement mais recuperation possible)
     public const float lifeTime = 1f;          //Temps de vie du projectile en secondes
-    public const float bulletSpeed = 50f;      //Vitesse du projectile
+    public const float bulletSpeed = 100f;      //Vitesse du projectile
     
     void Start()
     {

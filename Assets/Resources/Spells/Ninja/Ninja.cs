@@ -25,9 +25,9 @@ public class Ninja : MonoBehaviour
     
     public const float Explode_Spell_Duration = 1f;   //Duree du speed
     public const float Explode_Cooldown = 20f;        //Cooldown du spell
-    public const float Explode_Speed_Boost = 2f;      //Force du speed
-    public const float Explosion_Radius = 2.0f;       //Rayon dans lequel les joueurs subissent l'explosion
-    public const float Explosion_Power = 2f;          //Puissance de l'explosion
+    public const float Explode_Speed_Boost = 3f;      //Force du speed
+    public const float Explosion_Radius = 10.0f;      //Rayon dans lequel les joueurs subissent l'explosion
+    public const float Explosion_Power = 30f;         //Puissance de l'explosion
 
     public void Explode_Spell()
     {
@@ -74,7 +74,7 @@ public class Ninja : MonoBehaviour
     
     public const float Smoke_Spell_Duration = 5f;     //Duree d'emission de la smoke            
     public const float Smoke_Cooldown = 15f;          //Cooldown du spell smoke
-    public const float Smoke_Delay = 2f;              //Duree de l'existence de SmokeBomb avant d'exploser
+    public const float Smoke_Delay = 1f;              //Duree de l'existence de SmokeBomb avant d'exploser
     
     [SerializeField] private GameObject SmokeBomb;                //Prefab de la bombe pour le smoke
     [SerializeField] private GameObject SmokeExplosion;           //Prefab du ParticleSystem
@@ -98,7 +98,7 @@ public class Ninja : MonoBehaviour
         //Envoie la requete de spawn de la bombe
         pv.RPC("SpawnSmoke", RpcTarget.Others, position, direction, PhotonNetwork.Time);   
         //Applique une force
-        bomb.GetComponent<Rigidbody>().AddForce(direction * 1000); 
+        bomb.GetComponent<Rigidbody>().AddForce(direction * 2000); 
         
         yield return new WaitForSeconds(Smoke_Delay); //la duree avant l'explosion de la bombe
 

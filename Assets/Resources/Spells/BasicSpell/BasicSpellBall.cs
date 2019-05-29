@@ -2,9 +2,9 @@
 
 public class BasicSpellBall : MonoBehaviour
 {
-    public const int BulletSpeed = 1;
-    public const float SlowMultiplier = 0.8f;
-    public const float SlowDuration = 3.5f;
+    public const int BulletSpeed = 50;
+    public const float SlowMultiplier = 0.5f;
+    public const float SlowDuration = 1f;
     
     private Vector3 direction;
     private GameObject shooter;

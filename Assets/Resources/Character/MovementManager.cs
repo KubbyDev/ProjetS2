@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
@@ -11,13 +12,13 @@ public class MovementManager : MonoBehaviour
     public const float jumpStrength = 10;      //La force des sauts
     public const int maxJumps = 3;             //Le nombre max de sauts sans toucher le sol
     [Space] [Header("Movements")]
-    public const float baseMovementSpeed = 12;  //La vitesse de deplacements de base (reste constante)
-    public const float inAirControl = 0.03f;    //La force des inputs en l'air (en l'air: inputs *= inAirControl/vitesse^2)
-    public const float withBallSpeed = 0.80f;     //Le multiplicateur de vitesse quand le joueur a la balle
-    public const float maxSpeed = 20f;           //La vitesse maximale de deplacement du joueur
+    public const float baseMovementSpeed = 12; //La vitesse de deplacements de base (reste constante)
+    public const float inAirControl = 0.03f;   //La force des inputs en l'air (en l'air: inputs *= inAirControl/vitesse^2)
+    public const float withBallSpeed = 0.80f;  //Le multiplicateur de vitesse quand le joueur a la balle
+    public const float maxSpeed = 20f;         //La vitesse maximale de deplacement du joueur (horizontale)
 
-    public Vector3 velocity = Vector3.zero;   //La vitesse actuelle du joueur
-    public float movementSpeed;               //La vitesse de deplacement actuelle (peut etre modifiee)
+    public Vector3 velocity = Vector3.zero;    //La vitesse actuelle du joueur
+    public float movementSpeed;                //La vitesse de deplacement actuelle (peut etre modifiee)
     
     private CharacterController cc;            //Le script qui gere les deplacements du joueur (dans Unity)
     private int usableJumps;                   //Le nombre de sauts restants (Reset quand le sol est touche)
@@ -37,13 +38,12 @@ public class MovementManager : MonoBehaviour
 
     void Update()
     {
-        //Vitesse max
-        if(velocity.sqrMagnitude > maxSpeed*maxSpeed)
-            velocity -= velocity * Time.deltaTime; //Revient a la vitesse max autorisee
+        //Vitesse horizontale max
+        if (new Vector3(velocity.x,0,velocity.z).sqrMagnitude > maxSpeed * maxSpeed)
+            velocity = new Vector3(velocity.x/1.05f, velocity.y, velocity.z/1.05f); //Revient a la vitesse max autorisee
 
         //Gravity
-        //Pour supprimer l'impression de faible gravite on l'augmente quand le joueur tombe
-        velocity += Physics.gravity * (Time.deltaTime * (velocity.y < 0 ? 2f : 1.0f));
+        velocity += Time.deltaTime * (velocity.y <= 0 ? 2f : 1) * Physics.gravity;
 
         //Fait bouger le joueur
         cc.Move(velocity * Time.deltaTime);
