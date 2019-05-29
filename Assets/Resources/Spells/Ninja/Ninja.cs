@@ -1,5 +1,6 @@
 ﻿using Photon.Pun;
 using System.Collections;
+using Photon.Realtime;
 using UnityEngine;
 
 public class Ninja : MonoBehaviour
@@ -32,7 +33,16 @@ public class Ninja : MonoBehaviour
     public void Explode_Spell()
     {
         if (info.firstCooldown <= 0f) //firstCooldown = cooldown du A = cooldown de Explode
+        {
             StartCoroutine(ExplodeCoroutine());
+            //ParticleSystemRenderer SpeedParticle = this.gameObject.transform.Find("SpeedParticle").GetComponent<ParticleSystemRenderer>();
+            ParticleSystem.MinMaxGradient Bidule = this.gameObject.transform.Find("SpeedParticle").GetComponent<ParticleSystem>().main.startColor;
+            Bidule.color = GetComponent<PlayerInfo>().team.GetMaterial().color;
+            
+            //SpeedParticle.material.color = GetComponent<PlayerInfo>().team.GetMaterial().color;
+            
+            this.gameObject.transform.Find("SpeedParticle").GetComponent<ParticleSystem>().Play();
+        }
     }
 
     IEnumerator ExplodeCoroutine()
