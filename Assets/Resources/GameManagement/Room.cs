@@ -1,4 +1,5 @@
-﻿using Photon.Pun;
+﻿using System.Collections;
+using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -47,6 +48,14 @@ public class Room : MonoBehaviourPunCallbacks
         //on cree une IA pour remplacer le joueur qui vient de quitter
         
         PlayerInfo oldPlayerInfo = ((GameObject) player.TagObject).GetComponent<PlayerInfo>();
+
+        StartCoroutine(SpawnReplacingIACoroutine(oldPlayerInfo));
+    }
+
+    IEnumerator SpawnReplacingIACoroutine(PlayerInfo oldPlayerInfo)
+    {
+        //Evite d'avoir un duplicate
+        yield return new WaitForSeconds(1);
         
         GameManagerHost.script.GetComponent<PhotonView>().RPC(
             "SpawnIA_RPC",
