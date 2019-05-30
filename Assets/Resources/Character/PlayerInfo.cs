@@ -23,7 +23,6 @@ public class PlayerInfo : MonoBehaviour
     public float firstCooldown = 0f;       //Le cooldown du A
     public float secondCooldown = 0f;      //Le cooldown du E
     
-
     //Ces variables sont simplement copiees ici
     //Les modifier n'aura aucun effet
     public Vector3 cameraPosition;         //La position de l'ancre de la camera
@@ -36,20 +35,22 @@ public class PlayerInfo : MonoBehaviour
     private float timeToPingUpdate;
     private PhotonView pv;
 
-    void Awake()
+    void Start()
     {
         pv = GetComponent<PhotonView>();
         
+        cameraPosition = transform.Find("CameraAnchor").position;
+        cameraRotation = Camera.main.transform.rotation;
+        maxCatchRange = baseCatchRange;
+
+        transform.Find("CirclesParticles").GetComponent<ParticleSystem>().Play();
+        
         //Si c'est le joueur local, on utilise le hero par defaut
-        if (isPlayer && pv.IsMine)
+        if (isPlayer && pv != null && pv.IsMine)
         {
             SetHero(Settings.settings.defaultHero);
             UpdateInfos();
         }
-
-        cameraPosition = transform.Find("CameraAnchor").position;
-        cameraRotation = Camera.main.transform.rotation;
-        maxCatchRange = baseCatchRange;
     }
 
     void Update()
@@ -87,7 +88,7 @@ public class PlayerInfo : MonoBehaviour
     {
         team = t;
         GetComponent<MeshRenderer>().material = t.GetMaterial();
-        GetComponent<ParticleSystem>().startColor = t.GetMaterial().color;
+        transform.Find("CirclesParticles").GetComponent<ParticleSystem>().startColor = t.GetMaterial().color;
         transform.Find("Light").GetComponent<Light>().color = t.GetMaterial().color;
     }
     
@@ -100,7 +101,7 @@ public class PlayerInfo : MonoBehaviour
         GetComponent<MeshFilter>().mesh = hero.GetModel().mesh;
         
         //Change les images pour les cooldowns des spells (si c'est le joueur local)
-        if(isPlayer && pv.IsMine)
+        if(isPlayer && pv != null && pv.IsMine)
             CooldownDisplay.cooldownDisplayer.UpdateSprites(hero.GetSpellsSprites());
     }
 

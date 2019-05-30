@@ -7,6 +7,9 @@ public partial class Skills
 
     public void UseTurbo()
     {
+        if (blockInputs > 0)
+            return;
+        
         if (infos.hero == Hero.Stricker)
             striker.Speed();
         else
@@ -15,6 +18,9 @@ public partial class Skills
 
     public void UseEscape()
     {
+        if (blockInputs > 0)
+            return;
+        
         if (infos.hero == Hero.Stricker)
             striker.Escape();
         else
@@ -23,6 +29,9 @@ public partial class Skills
 
     public void UseMagnet()
     {
+        if (blockInputs > 0)
+            return;
+        
         if (infos.hero == Hero.Warden)
             warden.MagnetSpell();
         else
@@ -31,6 +40,9 @@ public partial class Skills
 
     public void UseFreeze()
     {
+        if (blockInputs > 0)
+            return;
+        
         if (infos.hero == Hero.Warden)
             warden.Freeze();
         else
@@ -39,6 +51,9 @@ public partial class Skills
 
     public void UseExplode()
     {
+        if (blockInputs > 0)
+            return;
+        
         if (infos.hero == Hero.Ninja)
             ninja.Explode_Spell();
         else
@@ -47,6 +62,9 @@ public partial class Skills
 
     public void UseSmoke()
     {
+        if (blockInputs > 0)
+            return;
+        
         if (infos.hero == Hero.Ninja)
             ninja.Smoke();
         else
@@ -55,16 +73,25 @@ public partial class Skills
 
     public void UseHook()
     {
+        if (blockInputs > 0)
+            return;
+        
         hook.Use_Hook();
     }
 
     public void UseBack()
     {
+        if (blockInputs > 0)
+            return;
+        
         back.TP_Back();
     }
 
     public void UsePowerShoot()
     {
+        if (blockInputs > 0)
+            return;
+        
         powerShoot.Use_PowerShoot();
     }
 

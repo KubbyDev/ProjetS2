@@ -38,6 +38,7 @@ public class Striker : MonoBehaviour
 
     public const float escapeCooldown = 10f;       //Cooldown du escape
     public const float bulletSpeed = 20f;          //Vitesse de la balle de tp
+    public const int networkIdentifier = 3;
     
     [SerializeField] private GameObject escapeBullet;         //Prefab de la balle pour escape
     
@@ -49,11 +50,15 @@ public class Striker : MonoBehaviour
         Vector3 position = transform.position + new Vector3(0,1,0);
         Vector3 direction = infos.cameraRotation * Vector3.forward;
         
+        pv.RPC("SpawnEscape", RpcTarget.Others, position, direction);
+        
         //Cree escapeBullet
         GameObject bullet = Instantiate(escapeBullet, position, Quaternion.identity);
         
-        pv.RPC("SpawnEscape", RpcTarget.Others, position, direction);
-        
+        //Met en place le composant qui gere le projectile sur le reseau
+        PhotonView view = bullet.AddComponent<PhotonView>();
+        view.ViewID = pv.ViewID + networkIdentifier;
+
         bullet.GetComponent<Rigidbody>().AddForce(100 * bulletSpeed * direction);  //Applique une force
         
         //Donne a la balle une reference au joueur qu'elle va devoir tp
@@ -70,7 +75,11 @@ public class Striker : MonoBehaviour
         GameObject bullet = Instantiate(escapeBullet,
             position + latency*direction,
             Quaternion.identity);
-                
+        
+        //Met en place le composant qui gere le projectile sur le reseau
+        PhotonView view = bullet.AddComponent<PhotonView>();
+        view.ViewID = pv.ViewID + networkIdentifier;
+        
         bullet.GetComponent<Rigidbody>().AddForce(direction*1000);  //Applique une force
         bullet.GetComponent<TeleportBullet>().Init(null, 0, false, direction);
     }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using UnityEngine;
 
 //Cette classe gere les strategies de l'IA, elle a acces a Skills qui est une list de competences de haut niveau
 //Comme aller vers la balle, tirer, faire une passe, se demarquer etc
@@ -48,6 +49,9 @@ public class Brain : MonoBehaviour
     
     void Update()
     {
+        if (!PhotonNetwork.IsMasterClient)
+            return;
+        
         //Determiner le state
         currentState = StateUpdate();
         

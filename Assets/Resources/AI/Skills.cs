@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
 //Le but de cette classe et de donner a Brain.cs l'acces a tout un tas de fonctionnalites
 //de haut niveau (aller a un endroit, se demarquer, tirer, faire une passe, aller aux cages etc...)
@@ -9,7 +7,7 @@ public partial class Skills : MonoBehaviour
 {
     [SerializeField] private float rotationSpeed = 540;
     
-    public float timeToMove;          //Le temps restant avant que l'IA puisse bouger
+    public float blockInputs;         //Le temps restant avant que l'IA puisse bouger et utiliser ses spells
     
     private Transform cam;            //Une fausse camera qui symbolise la direction du regard de l'IA  
     private MovementManager move;     //Reference au MovementManager de l'IA
@@ -41,10 +39,10 @@ public partial class Skills : MonoBehaviour
 
     void Update()
     {
-        if (timeToMove > 0)
+        if (blockInputs > 0)
         {
             //Met a jour le temps restant pour pouvoir bouger
-            timeToMove -= Time.deltaTime;
+            blockInputs -= Time.deltaTime;
         }
         else if(targetPosition != Vector3.zero)
         {

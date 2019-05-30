@@ -4,7 +4,7 @@ public partial class Skills
 {
     public void Jump()
     {
-        if(timeToMove <= 0)
+        if(blockInputs <= 0)
             move.Jump();
     }
     

@@ -59,5 +59,7 @@ public class GoalExplosion : MonoBehaviour
         ParticleSystem.MainModule centralCircle = explosion.transform.Find("CentralCircle").GetComponent<ParticleSystem>().main;
         centralCircle.startColor = new ParticleSystem.MinMaxGradient(color1, color2);
         explosion.transform.Find("CentralCircle").GetComponent<ParticleSystemRenderer>().trailMaterial = Ball.script.lastTeam.GetMaterial();
+        
+        Destroy(explosion, 10f);
     }
 }

@@ -19,7 +19,7 @@ public class CameraManager : MonoBehaviour {
         cam = Camera.main.transform;
         camAnchor = transform.Find("CameraAnchor");
         meshRenderer = GetComponent<MeshRenderer>();
-        particles = GetComponent<ParticleSystem>();
+        particles = transform.Find("CirclesParticles").GetComponent<ParticleSystem>();
         infos = GetComponent<PlayerInfo>();
     }
 

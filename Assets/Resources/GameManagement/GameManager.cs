@@ -130,7 +130,7 @@ public class GameManager : MonoBehaviour
         {
             //Si c'est une IA on lui dit de ne pas bouger jusqu'a l'engagement (8 secondes)
             if (! player.GetComponent<PlayerInfo>().isPlayer)
-                player.GetComponent<Skills>().timeToMove = timeLeftForKickoff;
+                player.GetComponent<Skills>().blockInputs = timeLeftForKickoff;
         }
         
         //Attend 5 secondes
@@ -173,7 +173,7 @@ public class GameManager : MonoBehaviour
             
             //Si c'est une IA on lui dit de ne pas bouger jusqu'a l'engagement (3 secondes)
             if (! player.GetComponent<PlayerInfo>().isPlayer)
-                player.GetComponent<Skills>().timeToMove = timeLeftForKickoff;
+                player.GetComponent<Skills>().blockInputs = timeLeftForKickoff;
         }
         
         //On kill tous les elements lances par des spells

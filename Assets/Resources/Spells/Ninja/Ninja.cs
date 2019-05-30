@@ -94,6 +94,7 @@ public class Ninja : MonoBehaviour
     public const float Smoke_Spell_Duration = 5f;     //Duree d'emission de la smoke            
     public const float Smoke_Cooldown = 15f;          //Cooldown du spell smoke
     public const float Smoke_Delay = 1f;              //Duree de l'existence de SmokeBomb avant d'exploser
+    public const int networkIdentifier = 2;
     
     [SerializeField] private GameObject SmokeBomb;                //Prefab de la bombe pour le smoke
     [SerializeField] private GameObject SmokeExplosion;           //Prefab du ParticleSystem
@@ -110,15 +111,22 @@ public class Ninja : MonoBehaviour
         
         Vector3 position = transform.position + new Vector3(0,1,0) + transform.forward * 1.0f;
         Vector3 direction = info.cameraRotation * Vector3.forward;
+        
+        //Envoie la requete de spawn de la bombe
+        pv.RPC("SpawnSmoke", RpcTarget.Others, position, direction, PhotonNetwork.Time);
+
         //Cree SmokeBomb
         GameObject bomb = Instantiate(SmokeBomb, 
             position, 
             Quaternion.identity);
-        //Envoie la requete de spawn de la bombe
-        pv.RPC("SpawnSmoke", RpcTarget.Others, position, direction, PhotonNetwork.Time);   
-        //Applique une force
-        bomb.GetComponent<Rigidbody>().AddForce(direction * 2000); 
         
+        //Applique une force
+        bomb.GetComponent<Rigidbody>().AddForce(direction * 2000);
+        
+        //Met en place le composant qui gere le projectile sur le reseau
+        PhotonView view = bomb.AddComponent<PhotonView>();
+        view.ViewID = pv.ViewID + networkIdentifier;
+
         yield return new WaitForSeconds(Smoke_Delay); //la duree avant l'explosion de la bombe
 
         position = bomb.transform.position;
@@ -145,6 +153,10 @@ public class Ninja : MonoBehaviour
         
         bomb.GetComponent<Rigidbody>().AddForce(direction*1000 + latency*Physics.gravity); //Applique une force
 
+        //Met en place le composant qui gere le projectile sur le reseau
+        PhotonView view = bomb.AddComponent<PhotonView>();
+        view.ViewID = pv.ViewID + networkIdentifier;
+        
         Destroy(bomb, Smoke_Delay-latency);
     }
 

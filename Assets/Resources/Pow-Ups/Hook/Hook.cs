@@ -4,6 +4,7 @@ using UnityEngine;
 public class Hook : MonoBehaviour
 {
         public const float lifeTime = 1f;
+        public const int networkIdentifier = 1;
         
         [SerializeField] private GameObject hookObject;
 
@@ -31,11 +32,15 @@ public class Hook : MonoBehaviour
                 Vector3 position = transform.position + new Vector3(0,1,0) + transform.forward * 1.0f;
                 Vector3 direction = playerinfo.cameraRotation * Vector3.forward;
                         
-                GameObject hook = Instantiate(hookObject, position, Quaternion.identity);
-                        
                 //Informe les autres clients
-                pv.RPC("SpawnHook", RpcTarget.Others, position, direction);   
-                        
+                pv.RPC("SpawnHook", RpcTarget.Others, position, direction);
+
+                GameObject hook = Instantiate(hookObject, position, Quaternion.identity);
+
+                //Met en place le composant qui gere le projectile sur le reseau
+                PhotonView view = hook.AddComponent<PhotonView>();
+                view.ViewID = pv.ViewID + networkIdentifier;
+
                 Destroy(hook, lifeTime);
                 hook.GetComponent<HookBall>().UpdateDirection(this.gameObject, direction, true);
                 Player_Has_Hook = false;
@@ -49,6 +54,10 @@ public class Hook : MonoBehaviour
                 GameObject hook = Instantiate(hookObject,
                         position + latency*direction,
                         Quaternion.identity);
+                
+                //Met en place le composant qui gere le projectile sur le reseau
+                PhotonView view = hook.AddComponent<PhotonView>();
+                view.ViewID = pv.ViewID + networkIdentifier;
                 
                 Destroy(hook, lifeTime - latency);
                 hook.GetComponent<HookBall>().UpdateDirection(this.gameObject, direction, false);

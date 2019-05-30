@@ -104,7 +104,7 @@ public partial class Skills
 
         //On ajoute ensuite une estimation rapide de la gravite
         if (targetUsesGravity)
-            predicted += timeToMove * Physics.gravity;
+            predicted += travelTime * Physics.gravity;
 
         return predicted;
     }

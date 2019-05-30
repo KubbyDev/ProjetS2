@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
@@ -7,6 +8,14 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
 {
     public static int maxGoals;  //Le nombre de but pour que la partie se termine: 0 = infini
     public static bool inOvertime = false;
+
+    [SerializeField] private GameObject iaPrefab;
+    public static GameManagerHost script;
+
+    void Awake()
+    {
+        script = this;
+    }
     
     void Start()
     {
@@ -143,33 +152,60 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
             else
                 orange++;
 
+        int nextID = (GameObject.FindGameObjectsWithTag("Player").Length + 1) * 1000 + 1;
+        
         //On rempli les trous dans la team Bleu
         for (int i = blue; i < playersPerTeam; i++)
         {
-            //Cree une IA et recupere son PlayerInfo
-            PlayerInfo newIaInfos = PhotonNetwork.Instantiate("AI/AI", new Vector3(0, 10, 0), Quaternion.identity).GetComponent<PlayerInfo>();
-            
-            //Change le hero de l'IA
-            newIaInfos.SetHero(Heroes.Random());
-            
-            //Change la team de l'IA
-            newIaInfos.SetTeam(Team.Blue);
-            
-            //Informe les autres clients de la team choisie
-            newIaInfos.UpdateInfos();
-            
-            //Donne un nom a l'IA et informe les autres clients du nom choisi
-            newIaInfos.GetComponent<IASetup>().Init();
+            script.GetComponent<PhotonView>().RPC(
+                "SpawnIA_RPC",
+                RpcTarget.All,
+                (int) Team.Blue, 
+                (int) Heroes.Random(), 
+                RandomName.GenerateAI(),
+                nextID
+            );
+            nextID += 1000;
         }
-
+        
         //On rempli les trous dans la team Orange
         for (int i = orange; i < playersPerTeam; i++)
         {
-            PlayerInfo newIaInfos = PhotonNetwork.Instantiate("AI/AI", new Vector3(0, 10, 0), Quaternion.identity).GetComponent<PlayerInfo>();
-            newIaInfos.SetHero(Heroes.Random());
-            newIaInfos.SetTeam(Team.Orange);
-            newIaInfos.UpdateInfos();
-            newIaInfos.GetComponent<IASetup>().Init();
+            script.GetComponent<PhotonView>().RPC(
+                "SpawnIA_RPC",
+                RpcTarget.All,
+                (int) Team.Orange, 
+                (int) Heroes.Random(), 
+                RandomName.GenerateAI(),
+                nextID
+            );
+            nextID += 1000;
         }
+    }
+
+    [PunRPC]
+    public void SpawnIA_RPC(int team, int hero, string nickname, int viewID)
+    {
+        //Cree une IA
+        GameObject newIa = Instantiate(iaPrefab, new Vector3(0, 10, 0), Quaternion.identity);
+        PlayerInfo newIaInfos = newIa.GetComponent<PlayerInfo>();
+
+        //Change le hero de l'IA
+        newIaInfos.SetHero((Hero) hero);
+
+        //Change la team de l'IA
+        newIaInfos.SetTeam((Team) team);
+
+        //Donne un nom a l'IA et informe les autres clients du nom choisi
+        newIa.transform.Find("Nickname").GetComponent<TextMesh>().text = newIaInfos.nickname = nickname;
+
+        //Donne l'identifiant unique sur le reseau
+        PhotonTransformViewClassic transformView = newIa.AddComponent<PhotonTransformViewClassic>();
+        transformView.m_PositionModel.SynchronizeEnabled = true;
+        transformView.m_RotationModel.SynchronizeEnabled = true;
+        transformView.m_RotationModel.InterpolateRotateTowardsSpeed = 540;
+        PhotonView view = newIa.GetComponent<PhotonView>(); //Ajoutee automatiquement par le PhotonTransformViewClassic
+        view.ViewID = viewID;
+        view.ObservedComponents = new List<Component>() {transformView};
     }
 } 
