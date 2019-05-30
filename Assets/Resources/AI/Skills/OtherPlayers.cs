@@ -67,7 +67,29 @@ public partial class Skills
     }
     
     /// <summary>
-    /// Renvoie l'adversaire le plus proche des buts adverse
+    /// Renvoie l'allie le plus proche des buts allies
+    /// </summary>
+    /// <returns></returns>
+    public GameObject GetNearestAllyFromAllyGoal()
+    {
+        return GetNearestPlayer(
+            player => player.GetComponent<PlayerInfo>().team == infos.team,
+            AllyGoal().transform.position
+        );  
+    }
+
+    /// <summary>
+    /// Renvoie le joueur le plus proche des buts allies
+    /// </summary>
+    /// <returns></returns>
+    public GameObject GetNearestPlayerFromAllyGoal()
+    {
+        return GetNearestPlayer(player => player, AllyGoal().transform.position);
+    }
+    
+    
+    /// <summary>
+    /// Renvoie l'adversaire le plus proche de la balle
     /// </summary>
     /// <returns></returns>
     public GameObject GetNearestOpponentFromEnemyGoal()
@@ -79,7 +101,7 @@ public partial class Skills
     }
 
     /// <summary>
-    /// Renvoie l'adversaire le plus proche des buts adverse
+    /// Renvoie l'allie le plus proche de la balle
     /// </summary>
     /// <returns></returns>
     public GameObject GetNearestAllyFromBall()
@@ -154,7 +176,7 @@ public partial class Skills
     /// <summary>
     /// Renvoie l'allie demarque le plus proche
     /// </summary>
-    public bool GetNearestFreeAlly()
+    public GameObject GetNearestFreeAlly()
     {
         return GetNearestPlayer(
             player => player.GetComponent<PlayerInfo>().team == infos.team && IsFree(player),
@@ -162,4 +184,18 @@ public partial class Skills
             true
         );
     }
+
+    /// <summary>
+    /// Renvoie l'ennemi demarque le plus proche
+    /// </summary>
+    /// <returns></returns>
+    public GameObject GetNearestFreeEnemy()
+    {
+        return GetNearestPlayer(
+            player => player.GetComponent<PlayerInfo>().team != infos.team && IsFree(player),
+            transform.position,
+            true
+            );
+    }
+    
 }

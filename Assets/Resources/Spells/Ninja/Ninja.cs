@@ -121,7 +121,7 @@ public class Ninja : MonoBehaviour
             Quaternion.identity);
         
         //Applique une force
-        bomb.GetComponent<Rigidbody>().AddForce(direction * 2000);
+        bomb.GetComponent<Rigidbody>().AddForce(direction * 2000, ForceMode.Acceleration);
         
         //Met en place le composant qui gere le projectile sur le reseau
         PhotonView view = bomb.AddComponent<PhotonView>();
@@ -151,7 +151,7 @@ public class Ninja : MonoBehaviour
             position + direction * latency + 0.5f*latency*latency*Physics.gravity,
             Quaternion.identity);
         
-        bomb.GetComponent<Rigidbody>().AddForce(direction*1000 + latency*Physics.gravity); //Applique une force
+        bomb.GetComponent<Rigidbody>().AddForce(direction*2000 + latency*Physics.gravity, ForceMode.Acceleration); //Applique une force
 
         //Met en place le composant qui gere le projectile sur le reseau
         PhotonView view = bomb.AddComponent<PhotonView>();
