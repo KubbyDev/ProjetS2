@@ -49,10 +49,19 @@ public class Room : MonoBehaviourPunCallbacks
         
         PlayerInfo oldPlayerInfo = ((GameObject) player.TagObject).GetComponent<PlayerInfo>();
 
-        StartCoroutine(SpawnReplacingIACoroutine(oldPlayerInfo));
+        StartCoroutine(SpawnReplacingIACoroutine(
+            oldPlayerInfo.team, 
+            oldPlayerInfo.hero,
+            oldPlayerInfo.GetComponent<PhotonView>().ViewID,
+            oldPlayerInfo.transform.position,
+            oldPlayerInfo.transform.rotation,
+            oldPlayerInfo.velocity
+        ));
+        
+        Destroy(oldPlayerInfo.gameObject);
     }
 
-    IEnumerator SpawnReplacingIACoroutine(PlayerInfo oldPlayerInfo)
+    IEnumerator SpawnReplacingIACoroutine(Team team, Hero hero, int viewID, Vector3 position, Quaternion rotation, Vector3 velocity)
     {
         //Evite d'avoir un duplicate
         yield return new WaitForSeconds(1);
@@ -60,12 +69,19 @@ public class Room : MonoBehaviourPunCallbacks
         GameManagerHost.script.GetComponent<PhotonView>().RPC(
             "SpawnIA_RPC",
             RpcTarget.All,
-            (int) oldPlayerInfo.team, 
-            (int) oldPlayerInfo.hero, 
+            (int) team, 
+            (int) hero, 
             RandomName.GenerateAI(),
-            oldPlayerInfo.GetComponent<PhotonView>().ViewID
+            viewID,
+            position,
+            rotation,
+            velocity
         );
-        PhotonView.Find(oldPlayerInfo.GetComponent<PhotonView>().ViewID).GetComponent<Skills>().blockInputs = GameManager.timeLeftForKickoff; //Bloque l'IA si elle rejoint pendant un engagement
+        
+        GameObject newIa = PhotonView.Find(viewID).gameObject;
+
+        //Bloque l'IA si elle rejoint pendant un engagement
+        newIa.GetComponent<Skills>().blockInputs = GameManager.timeLeftForKickoff > 0 ? GameManager.timeLeftForKickoff : 0.1f; 
     }
 
     //Quand la connection est perdue

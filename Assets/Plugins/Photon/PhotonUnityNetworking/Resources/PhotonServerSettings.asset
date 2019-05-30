@@ -59,4 +59,5 @@ MonoBehaviour:
   - SetNickname_RPC
   - LaunchExplode_RPC
   - SpawnIA_RPC
+  - GetItem_RPC
   DisableAutoOpenWizard: 1

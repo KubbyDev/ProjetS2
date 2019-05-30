@@ -163,7 +163,10 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
                 (int) Team.Blue, 
                 (int) Heroes.Random(), 
                 RandomName.GenerateAI(),
-                nextID
+                nextID,
+                new Vector3(0, 10, 0), 
+                Quaternion.identity,
+                Vector3.zero
             );
             nextID += 1000;
         }
@@ -177,18 +180,22 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
                 (int) Team.Orange, 
                 (int) Heroes.Random(), 
                 RandomName.GenerateAI(),
-                nextID
+                nextID,
+                new Vector3(0, 10, 0), 
+                Quaternion.identity,
+                Vector3.zero
             );
             nextID += 1000;
         }
     }
 
     [PunRPC]
-    public void SpawnIA_RPC(int team, int hero, string nickname, int viewID)
+    public void SpawnIA_RPC(int team, int hero, string nickname, int viewID, Vector3 position, Quaternion rotation, Vector3 velocity)
     {
         //Cree une IA
-        GameObject newIa = Instantiate(iaPrefab, new Vector3(0, 10, 0), Quaternion.identity);
+        GameObject newIa = Instantiate(iaPrefab, position, rotation);
         PlayerInfo newIaInfos = newIa.GetComponent<PlayerInfo>();
+        newIaInfos.GetComponent<MovementManager>().velocity = velocity;
 
         //Change le hero de l'IA
         newIaInfos.SetHero((Hero) hero);
@@ -206,6 +213,10 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
         transformView.m_RotationModel.InterpolateRotateTowardsSpeed = 540;
         PhotonView view = newIa.GetComponent<PhotonView>(); //Ajoutee automatiquement par le PhotonTransformViewClassic
         view.ViewID = viewID;
+        view.Synchronization = ViewSynchronization.Unreliable;
         view.ObservedComponents = new List<Component>() {transformView};
+        
+        //Empeche l'IA d'utiliser ses spells pour l'instant (cette valeur est modifiee par GameManager ensuite)
+        newIa.GetComponent<Skills>().blockInputs = 1000;
     }
 } 

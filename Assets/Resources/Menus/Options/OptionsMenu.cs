@@ -41,7 +41,7 @@ public class OptionsMenu : MonoBehaviour
     {
         //On rempli le dropdown des resolutions avec toutes les resolutions que l'ecran peut afficher
         resolutionDropdown.options.Clear();
-        resolutions = Screen.resolutions.Where(res => res.refreshRate == Screen.currentResolution.refreshRate).ToArray();
+        resolutions = Screen.resolutions.Where(res => res.refreshRate == Screen.currentResolution.refreshRate).Reverse().ToArray();
         foreach (Resolution res in resolutions)
             resolutionDropdown.options.Add(new Dropdown.OptionData(ToString(res)));
 
