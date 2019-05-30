@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 public class Trigger : MonoBehaviour
@@ -36,44 +37,56 @@ public class Trigger : MonoBehaviour
         }
     }
 
-    public void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other) 
     {
-        bool alreadyHadPU = false;
+        //Si ce n'est pas le joueur local on ne fait rien
+        if (!(other.gameObject.CompareTag("Player") && other.GetComponent<PhotonView>().IsMine)) 
+            return;
         
-        if (other.gameObject.CompareTag("Player"))
+        bool alreadyHadPU = false;
+            
+        switch (use)
         {
-            switch (use)
+            case 1:
             {
-                case 1:
-                {
-                    alreadyHadPU = other.GetComponent<Back>().Player_Has_Back;
-                    other.GetComponent<Back>().Player_Got_Back();
-                    break;
-                }
-
-                case 2:
-                {
-                    alreadyHadPU = other.GetComponent<Hook>().Player_Has_Hook;
-                    other.GetComponent<Hook>().Player_Got_Hook();
-                    break;
-                }
-
-                case 3:
-                {
-                    alreadyHadPU = other.GetComponent<PowerShoot>().Player_Has_PowerShoot;
-                    other.GetComponent<PowerShoot>().Player_Got_PowerShoot();
-                    break;
-                }
+                alreadyHadPU = other.GetComponent<Back>().Player_Has_Back;
+                other.GetComponent<Back>().Player_Got_Back();
+                break;
             }
 
-            //Empeche de recuperer un powerup si le joueur l'a deja
-            if (alreadyHadPU)
-                return;
-            
-            transform.GetChild(0).gameObject.SetActive(false);
-            GetComponent<Light>().enabled = false;
-            exists = false;
-            timer = cooldown;
+            case 2:
+            {
+                alreadyHadPU = other.GetComponent<Hook>().Player_Has_Hook;
+                other.GetComponent<Hook>().Player_Got_Hook();
+                break;
+            }
+
+            case 3:
+            {
+                alreadyHadPU = other.GetComponent<PowerShoot>().Player_Has_PowerShoot;
+                other.GetComponent<PowerShoot>().Player_Got_PowerShoot();
+                break;
+            }
         }
+
+        //Empeche de recuperer un powerup si le joueur l'a deja
+        if (alreadyHadPU)
+            return;
+            
+        transform.GetChild(0).gameObject.SetActive(false);
+        GetComponent<Light>().enabled = false;
+        exists = false;
+        timer = cooldown;
+            
+        GetComponent<PhotonView>().RPC("GetItem_RPC", RpcTarget.Others, PhotonNetwork.Time);
+    }
+
+    [PunRPC]
+    public void GetItem_RPC(double sendMoment)
+    {
+        transform.GetChild(0).gameObject.SetActive(false);
+        GetComponent<Light>().enabled = false;
+        exists = false;
+        timer = cooldown - Tools.GetLatency(sendMoment);
     }
 }

@@ -57,9 +57,13 @@ public class Brain : MonoBehaviour
     
     void Update()
     {
+        //Fait en sorte que ce soit toujours l'hote qui gere les IA
         if (!PhotonNetwork.IsMasterClient)
             return;
-        
+        else
+            if (GetComponent<PhotonView>().Owner != PhotonNetwork.MasterClient)
+                GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.MasterClient);
+                
         //Determiner le state
         currentState = StateUpdate();
         

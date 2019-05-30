@@ -53,7 +53,7 @@ public class Settings
 
     //Autres
     public Hero defaultHero = Hero.Stricker;
-    public string nickname = "";
+    public string nickname = RandomName.Generate();
     
     //------------------------------------------------------------------------------------------------------------------
     

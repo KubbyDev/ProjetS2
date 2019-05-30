@@ -280,7 +280,8 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
             IsOpen = true,                               //Si la salle est joinable
             MaxPlayers = (byte) (playersPerTeam*2),      //Le nombre max de joueurs dans la salle
             CustomRoomProperties = gameConfig,           //La liste des parametres a enregistrer avec la salle
-            CustomRoomPropertiesForLobby = new []{"p"}   //La liste des parametres qui doivent etre transmis pour la liste des salles disponibles
+            CustomRoomPropertiesForLobby = new []{"p"},  //La liste des parametres qui doivent etre transmis pour la liste des salles disponibles
+            CleanupCacheOnLeave = false                  //Empeche les objets lies a tel ou tel joueur de disparaitre
         };
         
         PhotonNetwork.CreateRoom(name, rops);
