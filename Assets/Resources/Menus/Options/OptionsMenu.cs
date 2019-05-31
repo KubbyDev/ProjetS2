@@ -2,9 +2,8 @@
 using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
-using System.IO;
 using System.Linq;
-using UnityEditor;
+using UnityEngine.Audio;
 
 public class OptionsMenu : MonoBehaviour
 {
@@ -27,7 +26,7 @@ public class OptionsMenu : MonoBehaviour
     [SerializeField] private InputField[] sensitivityTexts; //References aux valeurs a droite des sliders
     [SerializeField] private Toggle invert;                 //Reference au toggle invert
     [Header("Audio")]
-    [SerializeField] private AudioSource audioSource;       //Reference au systeme de gestion du son        //TODO
+    [SerializeField] private AudioMixer masterVolume;       //Reference au systeme de gestion du son
     [SerializeField] private Slider volumeSlider;           //Reference au slider du volume
  
     private Resolution[] resolutions;     //Liste des resolutions que l'ecran peut afficher
@@ -167,8 +166,9 @@ public class OptionsMenu : MonoBehaviour
     private void ApplySettings()
     {
         //Graphics
-        QualitySettings.antiAliasing = Settings.settings.aaLevel = (int) Mathf.Pow(2, aaDropdown.value);
-        //audioSource.volume = Settings.settings.volume = volumeSlider.value; TODO
+        QualitySettings.antiAliasing = Settings.settings.aaLevel = (int) Mathf.Pow(2, aaDropdown.value); 
+        masterVolume.SetFloat("MasterVolume", volumeSlider.value);
+        Settings.settings.volume = volumeSlider.value;
         QualitySettings.shadows = (ShadowQuality) shadowsDropdown.value; 
         Settings.settings.shadowsQuality = shadowsDropdown.value;
         Screen.SetResolution(resolutions[resolutionDropdown.value].width, resolutions[resolutionDropdown.value].height, fullscreenToggle.isOn);

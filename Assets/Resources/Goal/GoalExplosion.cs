@@ -61,5 +61,8 @@ public class GoalExplosion : MonoBehaviour
         explosion.transform.Find("CentralCircle").GetComponent<ParticleSystemRenderer>().trailMaterial = Ball.script.lastTeam.GetMaterial();
         
         Destroy(explosion, 10f);
+        
+        //Son
+        GetComponent<AudioSource>().Play();
     }
 }
