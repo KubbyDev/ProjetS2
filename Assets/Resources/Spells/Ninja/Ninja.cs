@@ -9,7 +9,7 @@ public class Ninja : MonoBehaviour
     private PhotonView pv;                       //Le script qui gere cet objet sur le reseau
     private PlayerInfo info;                     //Reference au script qui gere la camera du joueur
 
-    void Awake()
+    void Start()
     {
         move = GetComponent<MovementManager>();
         info = GetComponent<PlayerInfo>();

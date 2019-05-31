@@ -1,14 +1,17 @@
 ﻿using System.Collections;
 using Photon.Pun;
+using UnityEditor;
 using UnityEngine;
 
 public class Warden : MonoBehaviour
 {
     private PlayerInfo Info;        // Informations du joueur
+    private PhotonView pv;          // Identifiant sur le reseau
 
     void Start()                                                            
     {
         Info = GetComponent<PlayerInfo>();    // Recuperation des informations du joueur
+        pv = GetComponent<PhotonView>();
     }
 
     public void StopSpells()
@@ -64,11 +67,9 @@ public class Warden : MonoBehaviour
         if (Info.secondCooldown <= 0f) //secondCooldown = cooldown du E = cooldown de Magnet
         {
             StartCoroutine(MagnetCoroutine());
-            
-            ParticleSystem.MainModule main = transform.Find("ElectricParticles").GetComponent<ParticleSystem>().main;
-            main.duration = MagnetSpellDuration;
-            main.startColor = GetComponent<PlayerInfo>().team.GetMaterial().color;
-            transform.Find("ElectricParticles").GetComponent<ParticleSystem>().Play();
+
+            //Active les particules
+            pv.RPC("UseMagnet_RPC", RpcTarget.All, PhotonNetwork.Time);
         }
     }
 
@@ -78,5 +79,14 @@ public class Warden : MonoBehaviour
         Info.maxCatchRange += MagnetBonusRange;                         // Application du bonus de range
         yield return new WaitForSeconds(MagnetSpellDuration);           // Duree du bonus
         Info.maxCatchRange -= MagnetBonusRange;                         // Retour a la normale de la range
+    }
+
+    [PunRPC]
+    public void UseMagnet_RPC(double sendMoment)
+    {
+        ParticleSystem.MainModule main = transform.Find("ElectricParticles").GetComponent<ParticleSystem>().main;
+        main.duration = MagnetSpellDuration - Tools.GetLatency(sendMoment);
+        main.startColor = GetComponent<PlayerInfo>().team.GetMaterial().color;
+        transform.Find("ElectricParticles").GetComponent<ParticleSystem>().Play();
     }
 }

@@ -192,10 +192,9 @@ public partial class Skills
     public GameObject GetNearestFreeEnemy()
     {
         return GetNearestPlayer(
-            player => player.GetComponent<PlayerInfo>().team != infos.team && IsFree(player),
-            transform.position,
-            true
-            );
+            player => player.GetComponent<PlayerInfo>().team.IsOpponnentOf(infos.team) && IsFree(player),
+            transform.position
+        );
     }
     
 }

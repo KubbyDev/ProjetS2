@@ -60,4 +60,6 @@ MonoBehaviour:
   - LaunchExplode_RPC
   - SpawnIA_RPC
   - GetItem_RPC
+  - UseSpeed_RPC
+  - UseMagnet_RPC
   DisableAutoOpenWizard: 1

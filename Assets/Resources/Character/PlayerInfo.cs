@@ -32,7 +32,6 @@ public class PlayerInfo : MonoBehaviour
     public bool hasBall;                   //Si le joueur a la balle
     public Vector3 lastMovementInput;      //Le dernier input ZQSD entre
     
-
     private float timeToPingUpdate;
     private PhotonView pv;
 
@@ -64,9 +63,8 @@ public class PlayerInfo : MonoBehaviour
         
         if (secondCooldown > 0)
             secondCooldown -= Time.deltaTime;
-        
 
-            //Si c'est le joueur local
+        //Si c'est le joueur local
         if (isPlayer && pv.IsMine)
         {
             //On update le ping toutes les 2 secondes

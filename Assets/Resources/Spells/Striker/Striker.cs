@@ -32,9 +32,16 @@ public class Striker : MonoBehaviour
         
         infos.firstCooldown = speedCooldown;
         movement.MultiplySpeed(speedMultiplier, speedDuration);  //Augmente la vitesse pendant la duree du spell
-        
+
+        //Active les particules
+        pv.RPC("UseSpeed_RPC", RpcTarget.All, PhotonNetwork.Time);
+    }
+
+    [PunRPC]
+    public void UseSpeed_RPC(double sendMoment)
+    {
         ParticleSystem.MainModule main = transform.Find("SpeedParticle").GetComponent<ParticleSystem>().main;
-        main.duration = speedDuration;
+        main.duration = speedDuration - Tools.GetLatency(sendMoment);
         main.startColor = new ParticleSystem.MinMaxGradient(Tools.SetAlpha(GetComponent<PlayerInfo>().team.GetMaterial().color, 0.02f));
         transform.Find("SpeedParticle").GetComponent<ParticleSystem>().Play();
     }

@@ -153,8 +153,7 @@ public partial class Skills
         
     }
 
-    public bool usingEscape;
-
+    private bool usingEscape;
     IEnumerator EscapeCoroutine()
     {
         usingEscape = true;

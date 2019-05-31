@@ -8,21 +8,26 @@ using UnityEditor;
 
 public class OptionsMenu : MonoBehaviour
 {
-    [SerializeField] private Text[] controlsButtonsTexts;   //References aux textes des boutons des controls (les index sont les memes que pour les cles dans GameSettings)
+    [Header("Tabs")]
     [SerializeField] private GameObject graphicsMenu;       //Reference a l'onglet Graphics
     [SerializeField] private GameObject controlsMenu;       //Reference a l'onglet Controls
+    [SerializeField] private GameObject audioMenu;          //Reference a l'onglet Audio
     [SerializeField] private Button graphicsButton;         //Reference au bouton de l'onglet Graphics
     [SerializeField] private Button controlsButton;         //Reference au bouton de l'onglet Controls
-    [SerializeField] private Slider[] sensitivity;          //References aux sliders de la sensibilite
-    [SerializeField] private InputField[] sensitivityTexts; //References aux valeurs a droite des sliders
-    [SerializeField] private Toggle invert;                 //Reference au toggle invert
-
-    [SerializeField] private AudioSource audioSource;       //Reference au systeme de gestion du son        //TODO
+    [SerializeField] private Button audioButton;            //Reference au bouton de l'onglet Audio
+    [Header("Graphics")]
     [SerializeField] private Dropdown resolutionDropdown;   //Reference au dropdown des resolutions
     [SerializeField] private Dropdown shadowsDropdown;      //Reference au dropdown des ombres
     [SerializeField] private Dropdown reflectionsDropdown;  //Reference au dropdown des reflections
     [SerializeField] private Dropdown aaDropdown;           //Reference au dropdown de l'anti aliasing
     [SerializeField] private Toggle fullscreenToggle;       //Reference au toggle du fullscreen
+    [Header("Controls")]
+    [SerializeField] private Text[] controlsButtonsTexts;   //References aux textes des boutons des controls (les index sont les memes que pour les cles dans GameSettings)
+    [SerializeField] private Slider[] sensitivity;          //References aux sliders de la sensibilite
+    [SerializeField] private InputField[] sensitivityTexts; //References aux valeurs a droite des sliders
+    [SerializeField] private Toggle invert;                 //Reference au toggle invert
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;       //Reference au systeme de gestion du son        //TODO
     [SerializeField] private Slider volumeSlider;           //Reference au slider du volume
  
     private Resolution[] resolutions;     //Liste des resolutions que l'ecran peut afficher
@@ -57,32 +62,34 @@ public class OptionsMenu : MonoBehaviour
 
     // Changement de Menu  -----------------------------------------------------------------------------------------------------
 
+    private void ToggleTab(Button tabButton, GameObject tab, bool selected)
+    {
+        tab.SetActive(selected);
+
+        tabButton.interactable = !selected;
+        tabButton.GetComponent<Image>().color = selected ? new Color(1,1,1,1) : new Color(0.6f,0.6f,0.6f,1);
+        tabButton.transform.Find("Text").GetComponent<Text>().color = selected ? new Color(1,1,1,1) : new Color(0.6f,0.6f,0.6f,1);
+    }
+
     public void OnGraphicsClick()
     {
-        graphicsMenu.SetActive(true);
-        controlsMenu.SetActive(false);
-
-        graphicsButton.interactable = false;
-        controlsButton.interactable = true;
-        
-        graphicsButton.GetComponent<Image>().color = new Color(1,1,1,1);
-        controlsButton.GetComponent<Image>().color = new Color(0.6f,0.6f,0.6f,1);
-        graphicsButton.transform.Find("Text").GetComponent<Text>().color = new Color(1,1,1,1);
-        controlsButton.transform.Find("Text").GetComponent<Text>().color = new Color(0.6f,0.6f,0.6f,1);
+        ToggleTab(graphicsButton, graphicsMenu, true);
+        ToggleTab(controlsButton, controlsMenu, false);
+        ToggleTab(audioButton, audioMenu, false);
     }
 
     public void OnControlsClick()
     {
-        graphicsMenu.SetActive(false);
-        controlsMenu.SetActive(true);
-        
-        graphicsButton.interactable = true;
-        controlsButton.interactable = false;
-        
-        graphicsButton.GetComponent<Image>().color = new Color(0.6f,0.6f,0.6f,1);
-        controlsButton.GetComponent<Image>().color = new Color(1,1,1,1);
-        graphicsButton.transform.Find("Text").GetComponent<Text>().color = new Color(0.6f,0.6f,0.6f,1);
-        controlsButton.transform.Find("Text").GetComponent<Text>().color = new Color(1,1,1,1);
+        ToggleTab(graphicsButton, graphicsMenu, false);
+        ToggleTab(controlsButton, controlsMenu, true);
+        ToggleTab(audioButton, audioMenu, false);
+    }
+    
+    public void OnAudioClick()
+    {
+        ToggleTab(graphicsButton, graphicsMenu, false);
+        ToggleTab(controlsButton, controlsMenu, false);
+        ToggleTab(audioButton, audioMenu, true);
     }
 
     //  Actions des boutons, Menu Controls  ------------------------------------------------------------------------------------

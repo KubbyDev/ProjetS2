@@ -7,7 +7,6 @@ using UnityEngine;
 public class BallParticles : MonoBehaviour
 {
     [SerializeField] private GameObject lightningPrefab;                       //La prefab des eclairs
-    [SerializeField] private GameObject frozenParticles;
     [SerializeField] [Range(0.01f, 1)] private float lightningLifeTime = 0.2f; //Le temps durant lequel chaque eclair reste
     [SerializeField] [Range(0.01f, 1)] private float spawnPeriod = 0.1f;       //Le temps entre deux spawns d'eclairs
 
@@ -23,8 +22,6 @@ public class BallParticles : MonoBehaviour
 
     void Update()
     {
-        
-        
         //Si le temps est ecoule et que quelqu'un a la balle
         if (timeToSpawn < 0 && Ball.possessor != null)
         {
@@ -41,7 +38,6 @@ public class BallParticles : MonoBehaviour
             //On remet le temps avant d'en spawn un nouveau a spawnPeriod
             timeToSpawn = spawnPeriod;
         }
-
         else
         {
             if (Ball.possessor != null)
