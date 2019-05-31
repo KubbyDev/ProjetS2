@@ -32,6 +32,11 @@ public class Striker : MonoBehaviour
         
         infos.firstCooldown = speedCooldown;
         movement.MultiplySpeed(speedMultiplier, speedDuration);  //Augmente la vitesse pendant la duree du spell
+        
+        ParticleSystem.MainModule main = transform.Find("SpeedParticle").GetComponent<ParticleSystem>().main;
+        main.duration = speedDuration;
+        main.startColor = new ParticleSystem.MinMaxGradient(Tools.SetAlpha(GetComponent<PlayerInfo>().team.GetMaterial().color, 0.02f));
+        transform.Find("SpeedParticle").GetComponent<ParticleSystem>().Play();
     }
     
     // ESCAPE ----------------------------------------------------------------------------------------------------------

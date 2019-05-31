@@ -62,7 +62,14 @@ public class Warden : MonoBehaviour
     public void MagnetSpell()
     {
         if (Info.secondCooldown <= 0f) //secondCooldown = cooldown du E = cooldown de Magnet
+        {
             StartCoroutine(MagnetCoroutine());
+            
+            ParticleSystem.MainModule main = transform.Find("ElectricParticles").GetComponent<ParticleSystem>().main;
+            main.duration = MagnetSpellDuration;
+            main.startColor = GetComponent<PlayerInfo>().team.GetMaterial().color;
+            transform.Find("ElectricParticles").GetComponent<ParticleSystem>().Play();
+        }
     }
 
     IEnumerator MagnetCoroutine()

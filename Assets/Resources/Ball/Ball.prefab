@@ -130,11 +130,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 084b2209d57d8ba4f8c3f7dc2b67bbac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pullStrength: 140
   canBeCaught: 1
   shooterBlue: {fileID: 0}
   shooterOrange: {fileID: 0}
-  lastTeamIsBlue: 0
+  lastTeam: 0
 --- !u!114 &5749005734830630919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -341,7 +340,7 @@ PrefabInstance:
     - target: {fileID: 1083781928347819247, guid: acf7f5d6f6e50a4439b27a8ee15fddb6,
         type: 3}
       propertyPath: InitialModule.startSpeed.scalar
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1083781928347819247, guid: acf7f5d6f6e50a4439b27a8ee15fddb6,
         type: 3}
@@ -422,6 +421,16 @@ PrefabInstance:
         type: 3}
       propertyPath: EmissionModule.rateOverDistance.scalar
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1083781928347819247, guid: acf7f5d6f6e50a4439b27a8ee15fddb6,
+        type: 3}
+      propertyPath: ShapeModule.type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1083781928347819247, guid: acf7f5d6f6e50a4439b27a8ee15fddb6,
+        type: 3}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acf7f5d6f6e50a4439b27a8ee15fddb6, type: 3}
@@ -581,12 +590,27 @@ PrefabInstance:
     - target: {fileID: 1600539890926247894, guid: 90f0589995559f44784b31da52bb87cd,
         type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
-      value: 20
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1600539890926247894, guid: 90f0589995559f44784b31da52bb87cd,
         type: 3}
       propertyPath: InitialModule.startSpeed.scalar
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1600539890926247894, guid: 90f0589995559f44784b31da52bb87cd,
+        type: 3}
+      propertyPath: ShapeModule.type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1600539890926247894, guid: 90f0589995559f44784b31da52bb87cd,
+        type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1600539890926247894, guid: 90f0589995559f44784b31da52bb87cd,
+        type: 3}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90f0589995559f44784b31da52bb87cd, type: 3}

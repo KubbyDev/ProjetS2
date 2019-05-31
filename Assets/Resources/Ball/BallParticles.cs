@@ -1,4 +1,5 @@
 ﻿using DigitalRuby.LightningBolt;
+using Photon.Realtime;
 using UnityEngine;
 
 //Ce script gere toute la partie graphique de la balle (eclairs vers le player qui la possede etc)
@@ -22,6 +23,8 @@ public class BallParticles : MonoBehaviour
 
     void Update()
     {
+        
+        
         //Si le temps est ecoule et que quelqu'un a la balle
         if (timeToSpawn < 0 && Ball.possessor != null)
         {
@@ -38,9 +41,18 @@ public class BallParticles : MonoBehaviour
             //On remet le temps avant d'en spawn un nouveau a spawnPeriod
             timeToSpawn = spawnPeriod;
         }
-        
+
         else
         {
+            if (Ball.possessor != null)
+            {
+                PlayerInfo playerInfo = Ball.possessor.GetComponent<PlayerInfo>();
+            
+                if (playerInfo.hero == Hero.Warden &&
+                    playerInfo.secondCooldown > Warden.MagnetCooldown - Warden.MagnetSpellDuration)
+                    timeToSpawn -= Time.deltaTime*5;
+            }
+            
             timeToSpawn -= Time.deltaTime;
         }
     }
@@ -73,4 +85,5 @@ public class BallParticles : MonoBehaviour
     {
         this.transform.Find("SnowParticle").GetComponent<ParticleSystem>().Stop();
     }
+    
 }
