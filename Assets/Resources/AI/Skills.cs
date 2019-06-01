@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using UnityEngine;
 
 //Le but de cette classe et de donner a Brain.cs l'acces a tout un tas de fonctionnalites
 //de haut niveau (aller a un endroit, se demarquer, tirer, faire une passe, aller aux cages etc...)
@@ -39,23 +40,27 @@ public partial class Skills : MonoBehaviour
 
     void Update()
     {
+        //Les IA sont controllees par le host
+        if (!PhotonNetwork.IsMasterClient)
+            return;
+        
         if (blockInputs > 0)
         {
             //Met a jour le temps restant pour pouvoir bouger
             blockInputs -= Time.deltaTime;
         }
-        else if(targetPosition != Vector3.zero)
+        else if (targetPosition != Vector3.zero)
         {
             //Se deplace vers targetPosition
             Vector3 moveInput = targetPosition - transform.position;
             moveInput.y = 0;
-            move.Move(moveInput.normalized);   
+            move.Move(moveInput.normalized);
         }
 
         //Se tourne vers targetRotation
         cam.rotation = Quaternion.RotateTowards(cam.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         transform.rotation = Quaternion.Euler(new Vector3(0, cam.rotation.eulerAngles.y, 0));
-        
+
         infos.cameraRotation = cam.rotation;
         infos.cameraPosition = cam.position;
     }

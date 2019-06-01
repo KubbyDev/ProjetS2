@@ -1,4 +1,5 @@
-﻿using Photon.Pun;
+﻿using System;
+using Photon.Pun;
 using UnityEngine;
 
 //Cette classe gere la synchronisation des joueurs sur le reseau
@@ -19,8 +20,12 @@ public class PlayerSync : MonoBehaviour, IPunObservable
     void Awake()
     {
         move = GetComponent<MovementManager>();
-        pv = GetComponent<PhotonView>();
         infos = GetComponent<PlayerInfo>();
+    }
+
+    void Start()
+    {
+        pv = GetComponent<PhotonView>();
     }
 
     void Update()

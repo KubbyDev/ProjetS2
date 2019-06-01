@@ -43,6 +43,10 @@ public class Trigger : MonoBehaviour
         //Si ce n'est pas le joueur local on ne fait rien
         if (!(other.gameObject.CompareTag("Player") && other.GetComponent<PhotonView>().IsMine)) 
             return;
+
+        //Si le powerup n'a pas spawn on ne fait rien
+        if (timer > 0)
+            return;
         
         bool alreadyHadPU = false;
             

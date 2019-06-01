@@ -47,15 +47,6 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
         }
     }
 
-    //Evenement de debut de partie
-    //Cette methode va informer tous les clients que la partie demarre
-    public static void StartGame()
-    {
-        GameDataSync.SendStartGameEvent();
-        PreGameManager.timeLeftToStart = 3;
-        PreGameManager.script.StartGame();
-    }
-    
     //Evenement de but
     //Cette methode va informer tous les clients qu'il y a un but
     public static void OnGoal(bool isForBlue, Vector3 ballPosition)
@@ -207,14 +198,10 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
         newIa.transform.Find("Nickname").GetComponent<TextMesh>().text = newIaInfos.nickname = nickname;
 
         //Donne l'identifiant unique sur le reseau
-        PhotonTransformViewClassic transformView = newIa.AddComponent<PhotonTransformViewClassic>();
-        transformView.m_PositionModel.SynchronizeEnabled = true;
-        transformView.m_RotationModel.SynchronizeEnabled = true;
-        transformView.m_RotationModel.InterpolateRotateTowardsSpeed = 540;
-        PhotonView view = newIa.GetComponent<PhotonView>(); //Ajoutee automatiquement par le PhotonTransformViewClassic
+        PhotonView view = newIa.AddComponent<PhotonView>();
         view.ViewID = viewID;
         view.Synchronization = ViewSynchronization.Unreliable;
-        view.ObservedComponents = new List<Component>() {transformView};
+        view.ObservedComponents = new List<Component>() {newIa.GetComponent<PlayerSync>()};
         
         //Empeche l'IA d'utiliser ses spells pour l'instant (cette valeur est modifiee par GameManager ensuite)
         newIa.GetComponent<Skills>().blockInputs = 1000;

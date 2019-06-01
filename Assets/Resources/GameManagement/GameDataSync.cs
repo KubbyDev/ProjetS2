@@ -72,7 +72,7 @@ public class GameDataSync : MonoBehaviour
     {      
         //On met a jour le temps restant avant le debut de la game 
         //En prenant en compte le temps de trajet du message
-        PreGameManager.timeLeftToStart =  (float) (3 - (PhotonNetwork.Time - sendMoment));
+        PreGameManager.timeLeftToStart =  (float) (2 - (PhotonNetwork.Time - sendMoment));
         
         //La seed du LCG des Spawns (Pour que tous les clients aient les memes nombres random)
         Spawns.randomSeed = spawnsSeed;

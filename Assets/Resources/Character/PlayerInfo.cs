@@ -8,7 +8,8 @@ public class PlayerInfo : MonoBehaviour
 {
     public static GameObject localPlayer;  //Une reference au GameObject de ce client (initialise dans PlayerSetup)
 
-    public const float baseCatchRange = 6f; //Valeur de base du catch range de la balle
+    public const float baseCatchRange = 10f; //Valeur de base du catch range de la balle
+    public const float baseCatchWidth = 6f;  //Valeur de base du catch width de la balle
     
     //Ces variables sont stockees ici, si vous les modifiez,
     //ca aura une influence sur le jeu
@@ -19,6 +20,7 @@ public class PlayerInfo : MonoBehaviour
     public int ping;                       //Le ping de ce joueur
     public string nickname;                //Le pseudo du joueur
     public float maxCatchRange;            //La distance max a laquelle la balle peut etre attrapee
+    public float catchWidth;               //L'imprecision autorisee pour attraper la balle
     public float BACooldown = 0f;          //Le cooldown de la basic attack
     public float firstCooldown = 0f;       //Le cooldown du A
     public float secondCooldown = 0f;      //Le cooldown du E
@@ -42,6 +44,7 @@ public class PlayerInfo : MonoBehaviour
         cameraPosition = transform.Find("CameraAnchor").position;
         cameraRotation = Camera.main.transform.rotation;
         maxCatchRange = baseCatchRange;
+        catchWidth = baseCatchWidth;
 
         transform.Find("CirclesParticles").GetComponent<ParticleSystem>().Play();
         

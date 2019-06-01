@@ -251,6 +251,7 @@ MonoBehaviour:
   ping: 0
   nickname: 
   maxCatchRange: 6
+  catchWidth: 0
   BACooldown: 0
   firstCooldown: 0
   secondCooldown: 0

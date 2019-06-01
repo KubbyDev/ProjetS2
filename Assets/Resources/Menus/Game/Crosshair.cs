@@ -52,30 +52,13 @@ public class Crosshair : MonoBehaviour
         }
 
         //Animation de la croix centrale
-        if (CanCatchBall())
+        if (ballManager.CanCatch())
             animProgress += Time.deltaTime;
         else
             animProgress -= Time.deltaTime;
 
         animProgress = Math.Max(0, Math.Min(animProgress, scaleAnimDuration));
         ScaleCross(animProgress / scaleAnimDuration);
-    }
-
-    private bool CanCatchBall()
-    {
-        if (ballManager.catchTimeLeft > 0 || !Ball.script.canBeCaught) 
-            return false;
-        
-        //On regarde si la balle est devant la camera a une distance inferieure a maxCatchDistance
-        foreach (RaycastHit hit in Physics.SphereCastAll(
-            infos.cameraPosition, BallManager.catchWidth, infos.cameraRotation * Vector3.forward, infos.maxCatchRange))
-        {
-            if (hit.collider.CompareTag("Ball") || 
-                hit.collider.CompareTag("Player") && hit.collider.gameObject.GetComponent<BallManager>().hasBall)
-                return true;   
-        }
-
-        return false;
     }
 
     //0: scale de base, 1: scale quand la balle est attrapable

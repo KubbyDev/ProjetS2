@@ -55,13 +55,26 @@ public class PreGameManager : MonoBehaviour
         
         //Quand le timer est fini, uniquement sur le host
         if (timeLeftToStart < 0 && PhotonNetwork.IsMasterClient)
-        {
-            PhotonNetwork.CurrentRoom.IsOpen = false; //On ferme la salle
+            StartCoroutine(HandleGameStart_Coroutine());
+    }
 
-            GameManagerHost.SetTeams();     //On met tous les joueurs dans une team
-            GameManagerHost.FillWithAIs();  //On met des IA a la place des joueurs manquants
-            GameManagerHost.StartGame();    //Demarrage de la partie
-        }
+    //Executee sur le host au moment du demarrage de la partie
+    IEnumerator HandleGameStart_Coroutine()
+    {
+        PhotonNetwork.CurrentRoom.IsOpen = false; //On ferme la salle
+        
+        Ball.Hide();  //On cache la balle
+        timeDisplayer.text = "The game is starting...";
+        gameStarting = true;
+        
+        yield return new WaitForSeconds(2);
+        
+        GameManagerHost.SetTeams();     //On met tous les joueurs dans une team
+        GameManagerHost.FillWithAIs();  //On met des IA a la place des joueurs manquants
+
+        GameDataSync.SendStartGameEvent();
+        timeLeftToStart = 2;
+        StartGame();
     }
     
     //Pour que cette methode soit appelle, il faut que le Host declenche l'evenement de debut de partie
@@ -82,6 +95,7 @@ public class PreGameManager : MonoBehaviour
         StartCoroutine(StartGame_Coroutine());
     }
 
+    //Executee sur tous les joueurs
     IEnumerator StartGame_Coroutine()
     {
         yield return new WaitForSeconds(timeLeftToStart);
