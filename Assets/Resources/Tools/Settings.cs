@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Reflection;
 using UnityEngine;
@@ -25,7 +25,7 @@ public class Settings
     public int reflectionsQuality = 2;
     
     //Son
-    public float volume = 0.5f;
+    public float volume = 0f;
 
     //Controles (les controles definis ici sont les controles par defaut)
     public KeyCode[] controls =
