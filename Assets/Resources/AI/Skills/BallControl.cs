@@ -92,7 +92,7 @@ public partial class Skills
     {
         return GoalDetector.goals[infos.team == Team.Blue ? 1 : 0];
     }
-    
+
     // Getters ---------------------------------------------------------------------------------------------------------
     
     public bool HasBall()
@@ -147,5 +147,10 @@ public partial class Skills
             return false;
         
         return Ball.possessor.GetComponent<PlayerInfo>().team == infos.team.OtherTeam();
+    }
+
+    public bool InPositionToShoot()
+    {
+        return EnnemyGoalDist() <= Vector3.Distance(EnemyGoal().transform.position, OffensivePosition());
     }
 }

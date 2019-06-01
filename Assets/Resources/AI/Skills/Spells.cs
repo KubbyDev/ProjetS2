@@ -139,6 +139,7 @@ public partial class Skills
 
         return nearest;
     }
+    
 
     // Utilisation intelligente des spells  ----------------------------------------------------------------------------
 

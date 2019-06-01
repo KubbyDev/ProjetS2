@@ -14,6 +14,8 @@ public class Brain : MonoBehaviour
     private Hero classe;
     private float WAYTOOCLOSEFROMGOAL = 25f;
     private float CloseEnoughToShoot = 20f;
+    private float PUveryclose = 5f;
+    private float PUprettyclose = 10f;
 
     // Setup des infos importantes -------------------------------------------------------------------------------------
     
@@ -51,8 +53,6 @@ public class Brain : MonoBehaviour
         
         //Neutral
         GoToBall = 42,
-        Engagement = 43,
-        GetPowerUp = 44,
     }
 
     public State currentState;
@@ -112,7 +112,7 @@ public class Brain : MonoBehaviour
             // Attaque
             case State.Shoot:
             {
-                skills.Shoot();
+                Shoot();
                 break;
             }
 
@@ -141,13 +141,7 @@ public class Brain : MonoBehaviour
                 break;
             }
 
-            case State.Engagement:
-            {
-                Engage();
-                break;
-            }
 
-            
         }
         
     }
@@ -190,7 +184,7 @@ public class Brain : MonoBehaviour
         if (Vector3.Distance(Ball.ball.transform.position, skills.AllyGoal().transform.position) <= WAYTOOCLOSEFROMGOAL)
             return State.Defend;
             
-        if (skills.GetNearestAllyFromAllyGoal().GetComponent<PlayerInfo>() != infos)
+        if (skills.GetNearestAllyFromAllyGoal() != infos.gameObject)
             return State.MarkEnemy;
 
         return State.GoBackToDef;
@@ -207,6 +201,15 @@ public class Brain : MonoBehaviour
 
     public State ThisGotBall()
     {
+        if (!skills.IsDefenderReady())
+            return State.Shoot;
+        
+        if (!skills.IsFree(infos.gameObject))
+            return State.Pass;
+        
+        if (skills.InPositionToShoot())
+            return State.Shoot;
+        
         if (infos.hero == Hero.Warden && skills.GetNearestFreeAlly())
             return State.Pass;
         if (skills.EnnemyGoalDist() >= Vector3.Distance(skills.OffensivePosition(), skills.EnemyGoal().transform.position))
@@ -254,11 +257,18 @@ public class Brain : MonoBehaviour
 
     public void GoBackToDef()
     {
+        
+        if(!skills.HasBack())
+        {
+            var PU = skills.GetNearestPowerUp(PowerUp.Back);
+            if (PU != null && Vector3.Distance(infos.gameObject.transform.position, PU.transform.position) < skills.AllyGoalDist())
+            skills.MoveTo(PU);
+        }
         if (skills.HasBack())
             skills.UseBack();
-        
 
-        if (classe == Hero.Stricker)
+
+        else if (classe == Hero.Stricker)
         {
             if ( skills.CanUseSecondSpell())
                 skills.UseEscapeSmartly(skills.AllyGoal().transform.position);
@@ -275,8 +285,19 @@ public class Brain : MonoBehaviour
             skills.UseFreezeSmartly();
         if (classe == Hero.Ninja && skills.CanUseFirstSpell())
             skills.UseExplodeSmartly(skills.GetNearestOpponentFromBall());
-        if (Vector3.Distance(skills.GetNearestOpponentFromBall().transform.position, skills.AllyGoal().transform.position) < WAYTOOCLOSEFROMGOAL )
+        if (skills.GetNearestAllyFromAllyGoal() == infos.gameObject && Vector3.Distance(skills.GetNearestOpponentFromBall().transform.position, skills.AllyGoal().transform.position) < WAYTOOCLOSEFROMGOAL )
             skills.MoveInGoal();
+        
+        if (!skills.HasHook())
+        {
+            var PU = skills.GetNearestPowerUp(PowerUp.Hook);
+            if (PU!=null && Vector3.Distance(PU.transform.position, infos.gameObject.transform.position) <= PUveryclose) 
+                skills.MoveTo(PU);
+        }
+
+        if (skills.CanUseHook())
+            skills.UseHookSmartly();
+
         else
             GoToBall();
         
@@ -284,7 +305,7 @@ public class Brain : MonoBehaviour
 
     public void GoToBall()
     {
-        if (skills.DistanceToBall() > infos.maxCatchRange + 2f && Ball.possessor )
+        if (skills.DistanceToBall() > infos.maxCatchRange + 2f && Ball.possessor!= null )
             skills.MoveTo(Ball.possessor);
         else
             skills.MoveTo(Ball.ball, true);
@@ -326,15 +347,19 @@ public class Brain : MonoBehaviour
     
     public void MarkEnnemy()
     {
-        skills.MoveTo(skills.GetNearestPlayer(
+        var target = skills.GetNearestPlayer(
             player => player.GetComponent<PlayerInfo>().team.IsOpponnentOf(infos.team) && skills.IsFree(player),
             transform.position,
-            true).transform.position);
+            true);
+        if (target != null)
+            skills.MoveTo(target.transform.position);
+        else
+            skills.MoveTo(skills.SupportPosition());
     }
 
     public void GoSupport()
     {
-        if (skills.IsFree(Ball.possessor) && Ball.possessor.GetComponent<PlayerInfo>().team == infos.team)
+        if (Ball.possessor!= null && skills.IsFree(Ball.possessor) && Ball.possessor.GetComponent<PlayerInfo>().team == infos.team)
         {
             if (infos.hero == Hero.Stricker && skills.CanUseFirstSpell())            // On garde a TP en cas de contre attaque rapide
                     skills.UseTurbo();
@@ -357,13 +382,29 @@ public class Brain : MonoBehaviour
 
     public void Pass()
     {
-        GameObject allytopass = skills.GetNearestFreeAlly() ? skills.GetNearestFreeAlly() : skills.GetNearestAlly();
-        skills.Pass(allytopass);
+        GameObject allytopass = skills.GetNearestAllyInFront();
+        if (allytopass == null)
+            allytopass = skills.GetNearestFreeAlly();
+        if (allytopass != null) 
+            skills.Pass(allytopass);
+        else
+            skills.Shoot();
+        
+        
     }
 
-    public void Engage()
+    public void Shoot()
     {
-        skills.MoveTo(Ball.ball);
-        currentState = State.BallIsClose;
+        if (!skills.HasPowerShoot())
+        {
+            var PU = skills.GetNearestPowerUp(PowerUp.PowerShoot);
+            if (PU!=null && Vector3.Distance(PU.transform.position, infos.gameObject.transform.position) <= PUveryclose) 
+                skills.MoveTo(PU);
+        }
+
+        if (skills.HasPowerShoot())
+            skills.UsePowerShoot();
+        
+       skills.Shoot();
     }
 }
