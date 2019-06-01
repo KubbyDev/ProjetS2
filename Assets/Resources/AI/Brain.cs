@@ -12,8 +12,8 @@ public class Brain : MonoBehaviour
     private Skills skills;       //Le script qui effectue les mouvement que ce script ordonne
     private PlayerInfo infos;    //Le script qui contient plein d'informations sur l'IA
     private Hero classe;
-    private float WAYTOOCLOSEFROMGOAL = 3f;
-    private float CloseEnoughToShoot = 10f;
+    private float WAYTOOCLOSEFROMGOAL = 25f;
+    private float CloseEnoughToShoot = 20f;
 
     // Setup des infos importantes -------------------------------------------------------------------------------------
     
@@ -26,7 +26,7 @@ public class Brain : MonoBehaviour
 
     // Strategies ------------------------------------------------------------------------------------------------------
     
-    private int BallNear = 20;  // Distance a partir de laquelle on considere que la balle est assez proche pour qu on aille la chercher (a ajuster)
+    private float BallNear = 13f;  // Distance a partir de laquelle on considere que la balle est assez proche pour qu on aille la chercher (a ajuster)
     
     public enum State
     {
@@ -51,6 +51,8 @@ public class Brain : MonoBehaviour
         
         //Neutral
         GoToBall = 42,
+        Engagement = 43,
+        GetPowerUp = 44,
     }
 
     public State currentState;
@@ -60,8 +62,8 @@ public class Brain : MonoBehaviour
         //Fait en sorte que ce soit toujours l'hote qui gere les IA
         if (!PhotonNetwork.IsMasterClient)
             return;
-        else
-            if (GetComponent<PhotonView>().Owner != PhotonNetwork.MasterClient)
+       
+        if (GetComponent<PhotonView>().Owner != PhotonNetwork.MasterClient)
                 GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.MasterClient);
                 
         //Determiner le state
@@ -110,6 +112,7 @@ public class Brain : MonoBehaviour
             // Attaque
             case State.Shoot:
             {
+                skills.LookAt(skills.EnemyGoal().transform.position);
                 skills.Shoot();
                 break;
             }
@@ -139,6 +142,12 @@ public class Brain : MonoBehaviour
                 break;
             }
 
+            case State.Engagement:
+            {
+                Engage();
+                break;
+            }
+
             
         }
         
@@ -147,6 +156,10 @@ public class Brain : MonoBehaviour
 
     public State StateUpdate()
     {
+        if (skills.GetNearestAllyFromBall().GetComponent<PlayerInfo>() == infos &&
+            skills.GetNearestAllyFromAllyGoal().GetComponent<PlayerInfo>() != infos)
+            return State.GoToBall;
+        
         if (skills.AllyPossessBall()) // Son equipe a la balle ils sont donc en position d'attaque
             return AttackStateUpdate();
 
@@ -154,11 +167,14 @@ public class Brain : MonoBehaviour
             return DefendStateUpdate();
 
         // Dans le cas ou la balle est en l'air sans possesseur, le joueur le plus proche va vers celle-ci
-        if (skills.GetNearestAllyFromBall().transform.position == infos.transform.position)
+        if (skills.GetNearestAllyFromBall().GetComponent<PlayerInfo>() == infos)
             return State.GoToBall;
+
+        // Si le joueur est le plus proche des cages, il va en defense
+        if (skills.GetNearestAllyFromAllyGoal().GetComponent<PlayerInfo>() == infos)
+            return State.GoBackToDef;
         
-        // Sinon, retour en defense (par defaut)
-        return State.GoBackToDef;
+        return State.GoSupport;
     }
 
     private State DefendStateUpdate()
@@ -175,7 +191,7 @@ public class Brain : MonoBehaviour
         if (Vector3.Distance(Ball.ball.transform.position, skills.AllyGoal().transform.position) <= WAYTOOCLOSEFROMGOAL)
             return State.Defend;
             
-        if (skills.GetNearestAllyFromAllyGoal() != infos.gameObject && skills.GetNearestFreeEnemy())
+        if (skills.GetNearestAllyFromAllyGoal().GetComponent<PlayerInfo>() != infos)
             return State.MarkEnemy;
 
         return State.GoBackToDef;
@@ -183,7 +199,7 @@ public class Brain : MonoBehaviour
 
     public State AttackStateUpdate()
     {
-        if (Ball.possessor == infos.gameObject)
+        if (skills.HasBall())
             return ThisGotBall();
 
         return AlliesGotBall();
@@ -194,7 +210,7 @@ public class Brain : MonoBehaviour
     {
         if (infos.hero == Hero.Warden && skills.GetNearestFreeAlly())
             return State.Pass;
-        if (skills.EnnemyGoalDist() <= CloseEnoughToShoot)
+        if (skills.EnnemyGoalDist() >= Vector3.Distance(skills.OffensivePosition(), skills.EnemyGoal().transform.position))
             return State.Shoot;
         if (skills.IsFree(infos.gameObject))
             return State.MoveForth;
@@ -205,6 +221,7 @@ public class Brain : MonoBehaviour
     {
         if (infos.hero != Hero.Warden)
         {
+            //////// Inserer partie qvec recuperqtion des powerups
             if (skills.GetNearestAllyFromAllyGoal() != infos.gameObject)
                 return State.GoSupport;
         }
@@ -222,8 +239,11 @@ public class Brain : MonoBehaviour
         if (classe == Hero.Warden && skills.CanUseMagnet() )
             skills.UseMagnet();
 
-        if (skills.CanCatchBall())
+        if (skills.IsBallCloseEnough())
+        {
+            skills.LookAt(Ball.ball.transform.position);
             skills.CatchBall();
+        }
         
         else
             skills.MoveTo(Ball.ball, true); 
@@ -265,10 +285,11 @@ public class Brain : MonoBehaviour
 
     public void GoToBall()
     {
-        if (skills.DistanceToBall() > infos.maxCatchRange + 2f && Ball.possessor!=null)
+        if (skills.DistanceToBall() > infos.maxCatchRange + 2f && Ball.possessor )
             skills.MoveTo(Ball.possessor);
         else
             skills.MoveTo(Ball.ball, true);
+        skills.CatchBall();
     }   
 
     public void ImminentDangerONG()
@@ -292,7 +313,6 @@ public class Brain : MonoBehaviour
                 skills.UseEscapeSmartly(skills.EnemyGoal().transform.position);
             if (skills.CanUseFirstSpell())
                 skills.UseTurbo();
-           
         }
 
         if (infos.hero == Hero.Ninja)
@@ -301,21 +321,21 @@ public class Brain : MonoBehaviour
                 skills.UseSmoke();
             if (skills.CanUseFirstSpell() && skills.IsDefenderReady())
                 skills.UseExplodeSmartly(skills.GetNearestOpponentFromEnemyGoal());
-            
         }
-        skills.MoveToGoalAvoidingEnnemies();
+        skills.MoveToAvoidingEnnemies(skills.OffensivePosition());
     }
+    
     public void MarkEnnemy()
     {
         skills.MoveTo(skills.GetNearestPlayer(
-            player => player.GetComponent<PlayerInfo>().team != infos.team && skills.IsFree(player),
+            player => player.GetComponent<PlayerInfo>().team.IsOpponnentOf(infos.team) && skills.IsFree(player),
             transform.position,
             true).transform.position);
     }
 
     public void GoSupport()
     {
-        if (skills.IsFree(Ball.possessor))
+        if (skills.IsFree(Ball.possessor) && Ball.possessor.GetComponent<PlayerInfo>().team == infos.team)
         {
             if (infos.hero == Hero.Stricker && skills.CanUseFirstSpell())            // On garde a TP en cas de contre attaque rapide
                     skills.UseTurbo();
@@ -330,19 +350,21 @@ public class Brain : MonoBehaviour
                     skills.UseSmoke();
                 }
             }
-            
-            skills.MoveToGoalAvoidingEnnemies();
+
+            else
+                skills.MoveToOffensivePosition();
         }
     }
 
     public void Pass()
     {
-        GameObject allytopass = skills.GetNearestAllyInFront();
-        if (allytopass == null)
-            allytopass = skills.GetNearestFreeAlly();
-        if (allytopass == null)
-            skills.MoveToAvoidingEnnemies(skills.AllyGoal().transform.position);
-        else
-            skills.Pass(allytopass);
+        GameObject allytopass = skills.GetNearestFreeAlly() ? skills.GetNearestFreeAlly() : skills.GetNearestAlly();
+        skills.Pass(allytopass);
+    }
+
+    public void Engage()
+    {
+        skills.MoveTo(Ball.ball);
+        currentState = State.BallIsClose;
     }
 }
