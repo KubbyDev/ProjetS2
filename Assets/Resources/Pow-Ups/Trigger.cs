@@ -5,11 +5,12 @@ using UnityEngine;
 
 public class Trigger : MonoBehaviour
 {
-    [SerializeField] public int cooldown;
-    [SerializeField] private int use;
+    public const int cooldown = 10;
+    
+    public PowerUp type;
+    public float timer;
     
     private bool exists = false;
-    private float timer;
 
     private void Start()
     {
@@ -45,23 +46,23 @@ public class Trigger : MonoBehaviour
         
         bool alreadyHadPU = false;
             
-        switch (use)
+        switch (type)
         {
-            case 1:
+            case PowerUp.Back:
             {
                 alreadyHadPU = other.GetComponent<Back>().Player_Has_Back;
                 other.GetComponent<Back>().Player_Got_Back();
                 break;
             }
 
-            case 2:
+            case PowerUp.Hook:
             {
                 alreadyHadPU = other.GetComponent<Hook>().Player_Has_Hook;
                 other.GetComponent<Hook>().Player_Got_Hook();
                 break;
             }
 
-            case 3:
+            case PowerUp.PowerShoot:
             {
                 alreadyHadPU = other.GetComponent<PowerShoot>().Player_Has_PowerShoot;
                 other.GetComponent<PowerShoot>().Player_Got_PowerShoot();

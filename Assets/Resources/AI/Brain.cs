@@ -112,7 +112,6 @@ public class Brain : MonoBehaviour
             // Attaque
             case State.Shoot:
             {
-                skills.LookAt(skills.EnemyGoal().transform.position);
                 skills.Shoot();
                 break;
             }

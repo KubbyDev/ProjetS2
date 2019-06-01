@@ -105,6 +105,7 @@ public partial class Skills
             return;
         }
 
+        //On devie le vecteur en fonction de la proximite du joueur le plus proche
         targetDirection += -toNearestPlayer.normalized * (50 - toNearestPlayer.magnitude)/50;
         
         MoveTo(transform.position + targetDirection*5);
@@ -120,8 +121,9 @@ public partial class Skills
     public void MoveToDefensivePosition() => MoveTo(AllyGoal().transform.position, false, false, 10f);
     
     /// <summary> Avance aux 2/3 du terrain </summary>
-    public void MoveToOffensivePosition() => MoveTo((EnemyGoal().transform.position*2 + AllyGoal().transform.position)/3, false);
+    public void MoveToOffensivePosition() => MoveTo(OffensivePosition(), false);
 
+    /// <summary> Renvoie la position aux 2/3 du terrain </summary>
     public Vector3 OffensivePosition() => (EnemyGoal().transform.position * 2 + AllyGoal().transform.position) / 3; 
 
     /// <summary> Se dirige dans les buts pour defendre </summary>

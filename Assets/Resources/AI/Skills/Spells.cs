@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public partial class Skills
@@ -103,15 +104,43 @@ public partial class Skills
     public bool HasHook() => hook.Player_Has_Hook;
     public bool HasBack() => back.Player_Has_Back;
     public bool HasPowerShoot() => powerShoot.Player_Has_PowerShoot;
+    
     public bool InRangeForFreeze() => DistanceToBall() < Freeze.bulletSpeed * Freeze.lifeTime;
     public bool InRangeForHook() => DistanceToBall() < HookBall.Speed * Hook.lifeTime;
+    
     public bool CanUseHook() => HasHook() && InRangeForHook();
-
     public bool CanUseMagnet() => CanUseSecondSpell() && DistanceToBall() < infos.maxCatchRange + Warden.MagnetBonusRange;
     public bool CanUseFreeze() => CanUseFirstSpell() && InRangeForFreeze();
-    
 
-// Utilisation intelligente des spells  ----------------------------------------------------------------------------
+    /// <summary> Renvoie le spawner le plus proche parmi ceux du type demande. </summary>
+    /// <summary> availableOnly = True => Ne renvera le spawner que si son PU est disponible </summary>
+    /// <param name="type"></param>
+    /// <param name="availableOnly"></param>
+    /// <returns></returns>
+    public GameObject GetNearestPowerUp(PowerUp type, bool availableOnly = true)
+    {
+        GameObject[] spawners = GameObject.FindGameObjectsWithTag("Spawner") //Tous les spawners
+            .Where(spawner => spawner.GetComponent<Trigger>().type == type)  //Les spawners qui donnent le bon type de PU
+            .Where(spawner => spawner.GetComponent<Trigger>().timer < 0)     //Les spawners ont deja fait pop leur PU
+            .ToArray();
+
+        float minDistance = float.PositiveInfinity;
+        GameObject nearest = null;
+
+        foreach (GameObject spawner in spawners)
+        {
+            float dist = Vector3.Distance(spawner.transform.position, transform.position);
+            if (dist < minDistance)
+            {
+                minDistance = dist;
+                nearest = spawner;
+            }
+        }
+
+        return nearest;
+    }
+
+    // Utilisation intelligente des spells  ----------------------------------------------------------------------------
 
     /// <summary>
     /// Utilise explode et fonce derriere le joueur target
