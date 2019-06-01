@@ -18,6 +18,7 @@ public class Warden : MonoBehaviour
     {
         StopCoroutine(MagnetCoroutine());
         Info.maxCatchRange = PlayerInfo.baseCatchRange;
+        Info.catchWidth = PlayerInfo.baseCatchWidth;
     }
     
     // FREEZE ----------------------------------------------------------------------------------------------------------
@@ -61,6 +62,7 @@ public class Warden : MonoBehaviour
     public const float MagnetSpellDuration = 3f;                // Duree du bonus de range
     public const float MagnetCooldown = 20f;                    // Cooldown du Magnet
     public const float MagnetBonusRange = 10f;                  // Bonus de range
+    public const float MagnetBonusWidth = 2f;                   // Bonus de width
     
     public void MagnetSpell()
     {
@@ -76,9 +78,12 @@ public class Warden : MonoBehaviour
     IEnumerator MagnetCoroutine()
     {
         Info.secondCooldown = MagnetCooldown;
+        
         Info.maxCatchRange += MagnetBonusRange;                         // Application du bonus de range
+        Info.catchWidth += MagnetBonusWidth;                            // Application du bonus de width
         yield return new WaitForSeconds(MagnetSpellDuration);           // Duree du bonus
         Info.maxCatchRange -= MagnetBonusRange;                         // Retour a la normale de la range
+        Info.catchWidth -= MagnetBonusWidth;                            // Retour a la normale de la width
     }
 
     [PunRPC]

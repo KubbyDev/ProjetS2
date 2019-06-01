@@ -21,7 +21,8 @@ public class Freeze : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Ball") && Ball.possessor == null)
+        if (other.gameObject.CompareTag("Ball"))
+        {
             Ball.photonView.RPC(
                 "Freeze", 
                 RpcTarget.All, 
@@ -29,5 +30,7 @@ public class Freeze : MonoBehaviour
                 Freeze1_Duration, 
                 Freeze2_Duration, 
                 PhotonNetwork.Time);
+            Ball.UpdatePossessor(null);
+        }
     }
 }

@@ -9,7 +9,6 @@ public class BallManager : MonoBehaviour
 {
     public const float launchStrength = 2;        //La force avec laquelle la balle est jetee
     public const float catchCooldown = 1;         //Le temps entre 2 tentative pour attraper la balle
-    public const float catchWidth = 1;            //L'imprecision autorisee pour attraper la balle
 
     public bool hasBall = false;                        //Si le joueur a la balle
     public float catchTimeLeft = 0;                     //Le temps restant avant de pouvoir reutiliser le catch
@@ -42,7 +41,7 @@ public class BallManager : MonoBehaviour
             return false;
         
         //On regarde si la balle est devant la camera a une distance inferieure a maxCatchDistance
-        foreach (RaycastHit hit in Physics.SphereCastAll(infos.cameraPosition, catchWidth, infos.cameraRotation*Vector3.forward, infos.maxCatchRange))
+        foreach (RaycastHit hit in Physics.SphereCastAll(infos.cameraPosition, infos.catchWidth, infos.cameraRotation*Vector3.forward, infos.maxCatchRange))
             //On recupere la balle si on la touche ou si on touche son porteur
             if (hit.collider.CompareTag("Ball") || hit.collider.CompareTag("Player") &&
                 hit.collider.gameObject.GetComponent<BallManager>().hasBall)

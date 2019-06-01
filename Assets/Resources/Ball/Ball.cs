@@ -21,6 +21,7 @@ public class Ball : MonoBehaviour
     private BallParticles ballParticles;
     private float freeze1Time = 0f;
     private float freeze2Time = 0f;
+    private float timeToPossessorUpdate = 2f;
 
     void Awake()
     {
@@ -56,6 +57,18 @@ public class Ball : MonoBehaviour
         {
             rigidBody.useGravity = true; //reset la gravite de la ball   
             ballParticles.OnFreezeStop();
+        }
+
+        if(PhotonNetwork.IsMasterClient)
+        {
+            if (timeToPossessorUpdate > 0)
+                timeToPossessorUpdate -= Time.deltaTime;
+            else
+            {
+                int id = possessor == null ? -1 : possessor.GetComponent<PhotonView>().ViewID;
+                photonView.RPC("UpdatePossessor_RPC", RpcTarget.Others, id);
+                timeToPossessorUpdate = 1;
+            }
         }
     }
 
@@ -167,7 +180,7 @@ public class Ball : MonoBehaviour
     public void Freeze(Vector3 position, float freeze1, float freeze2, double sendMoment)
     {
         float latency = Tools.GetLatency(sendMoment);
-        
+
         canBeCaught = false; //ne peut etre attrape
         rigidBody.useGravity = false;
         ResetSpeed();
