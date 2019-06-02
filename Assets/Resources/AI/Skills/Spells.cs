@@ -6,6 +6,14 @@ public partial class Skills
 {
     // Actions ---------------------------------------------------------------------------------------------------------
 
+    public void UseBasic()
+    {
+        if (blockInputs > 0)
+            return;
+        
+        basic.Basic_Spell();
+            
+    }
     public void UseTurbo()
     {
         if (blockInputs > 0)
@@ -139,6 +147,7 @@ public partial class Skills
 
         return nearest;
     }
+    
 
     // Utilisation intelligente des spells  ----------------------------------------------------------------------------
 
@@ -152,6 +161,7 @@ public partial class Skills
 
         MoveTo(target.transform.position + 2.0f * (EnemyGoal().transform.position - target.transform.position).normalized, true, true, 0.1f);
     }
+    
     
     public void UseFreezeSmartly()
     {
@@ -184,32 +194,55 @@ public partial class Skills
 
     private bool usingEscape;
     IEnumerator EscapeCoroutine()
-    {
-        usingEscape = true;
-        yield return new WaitForSeconds(0.4f);
-        
-        UseEscape();
-        usingEscape = false;
-    }
+         {
+             usingEscape = true;
+             yield return new WaitForSeconds(0.4f);
+             
+             UseEscape();
+             usingEscape = false;
+         }
+         
+         
+         public void UseHookSmartly()
+         {
+             //Calcul de l'orientation cible
+             LookAt(PredictContactPoint(Ball.ball, Ball.rigidBody.velocity, HookBall.Speed));
+     
+             if (!usingHook)
+                 StartCoroutine(HookCoroutine());
+         }
+     
+         private bool usingHook;
+         IEnumerator HookCoroutine()
+         {
+             usingHook = true;
+     
+             yield return new WaitForSeconds(0.4f);
+     
+             UseHook();
+             usingHook = false;
+         }
+         
     
     
-    public void UseHookSmartly()
-    {
-        //Calcul de l'orientation cible
-        LookAt(PredictContactPoint(Ball.ball, Ball.rigidBody.velocity, HookBall.Speed));
+         public void UseBasicSmartly(GameObject target)
+         {
+             //Calcul de l'orientation cible
+             LookAt(target.transform.position);
 
-        if (!usingHook)
-            StartCoroutine(HookCoroutine());
-    }
+             if (!usingBasic)
+                 StartCoroutine(BasicCoroutine());
+         }
 
-    private bool usingHook;
-    IEnumerator HookCoroutine()
-    {
-        usingHook = true;
+         private bool usingBasic;
+         IEnumerator BasicCoroutine()
+         {
+             usingBasic = true;
 
-        yield return new WaitForSeconds(0.4f);
+             yield return new WaitForSeconds(0.4f);
 
-        UseHook();
-        usingHook = false;
-    }
+             CanUseBasicAttack();
+             usingBasic= false;
+         }
+    
 }

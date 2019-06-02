@@ -20,6 +20,7 @@ public partial class Skills : MonoBehaviour
     private Striker striker;          //Reference au script des spells du stricker
     private Warden warden;            //Reference au script des spells du warden
     private Ninja ninja;              //Reference au script des spells du ninja
+    private BasicSpell basic;         //Reference au script du basic spell
 
     private Vector3 targetPosition;
     private Quaternion targetRotation;
@@ -36,6 +37,7 @@ public partial class Skills : MonoBehaviour
         striker = GetComponent<Striker>();
         warden = GetComponent<Warden>();
         ninja = GetComponent<Ninja>();
+        basic = GetComponent<BasicSpell>();
     }
 
     void Update()
