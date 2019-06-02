@@ -23,7 +23,7 @@ public class Trigger : MonoBehaviour
     {
         if (timer > 0)
             timer -= Time.deltaTime;
-        if (timer < 0)
+        if (timer <= 0)
             HandlePrefab();
             
     }

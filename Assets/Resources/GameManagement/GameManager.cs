@@ -168,9 +168,8 @@ public class GameManager : MonoBehaviour
         {
             PlayerInfo infos = player.GetComponent<PlayerInfo>();
             infos.lastMovementInput = Vector3.zero;
-            infos.ResetCooldowns();
-            infos.StopSpells();
-            
+            infos.ResetSpells();
+
             //Si c'est une IA on lui dit de ne pas bouger jusqu'a l'engagement (3 secondes)
             if (! player.GetComponent<PlayerInfo>().isPlayer)
                 player.GetComponent<Skills>().blockInputs = timeLeftForKickoff;
@@ -181,6 +180,12 @@ public class GameManager : MonoBehaviour
         {
             Destroy(spellItem);
             spellItem.SetActive(false);
+        }
+        
+        //On fait respawn tous les powerups
+        foreach (GameObject spawner in GameObject.FindGameObjectsWithTag("Spawner"))
+        {
+            spawner.GetComponent<Trigger>().timer = 0;
         }
 
         //On attend 3 secondes puis on relance la game

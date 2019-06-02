@@ -127,15 +127,16 @@ public class PlayerInfo : MonoBehaviour
         SetTeam((Team) team);
     }
 
-    public void ResetCooldowns()
+    public void ResetSpells()
     {
         BACooldown = 0;
         firstCooldown = 0;
         secondCooldown = 0;
-    }
 
-    public void StopSpells()
-    {
+        GetComponent<Back>().Player_Has_Back = false;
+        GetComponent<Hook>().Player_Has_Hook = false;
+        GetComponent<PowerShoot>().Player_Has_PowerShoot = false;
+        
         GetComponent<Striker>().StopSpells();
         GetComponent<Warden>().StopSpells();
         GetComponent<Ninja>().StopSpells();

@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using Photon.Pun;
 using UnityEngine;
 
 public partial class Skills
@@ -12,10 +11,13 @@ public partial class Skills
     /// <param name="target"></param>
     public void Shoot(Vector3 target)
     {
-        LookAt(target);
+        //Ce vecteur est la direction du lancer prennant en compte la vitesse actuelle de l'IA (puisqu'elle affecte la balle)
+        Vector3 launchDirection = (target - transform.position).normalized * ballManager.GetLaunchSpeed() - move.velocity;
+        
+        LookAt(transform.position + launchDirection);
 
         //Calcule l'angle de tir en prenant en compte la gravite
-        float launchSpeed = ballManager.GetLaunchSpeed();                     //La vitesse initiale
+        float launchSpeed = launchDirection.magnitude;                        //La vitesse initiale
         float vSqr = launchSpeed * launchSpeed;                               //Au carre
         float g = Physics.gravity.magnitude;                                  //La gravite (9.81)
         float y = GetVerticalDistance(transform.position, target);            //La distance verticale entre la cible l'IA
