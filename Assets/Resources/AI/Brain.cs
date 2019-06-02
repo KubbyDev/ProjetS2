@@ -359,6 +359,12 @@ public class Brain : MonoBehaviour
 
     public void GoSupport()
     {
+        if (skills.CanUseBasicAttack())
+        {
+            var target = skills.GetNearestOpponent();
+            if (target!=null)
+                skills.UseBasicSmartly(target);
+        }
         if (Ball.possessor!= null && skills.IsFree(Ball.possessor) && Ball.possessor.GetComponent<PlayerInfo>().team == infos.team)
         {
             if (infos.hero == Hero.Stricker && skills.CanUseFirstSpell())            // On garde a TP en cas de contre attaque rapide
