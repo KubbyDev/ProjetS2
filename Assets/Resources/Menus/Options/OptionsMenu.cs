@@ -166,7 +166,8 @@ public class OptionsMenu : MonoBehaviour
     private void ApplySettings()
     {
         //Graphics
-        QualitySettings.antiAliasing = Settings.settings.aaLevel = (int) Mathf.Pow(2, aaDropdown.value); 
+        QualitySettings.antiAliasing = (int) Mathf.Pow(2, aaDropdown.value);
+        Settings.settings.aaLevel = aaDropdown.value;
         masterVolume.SetFloat("MasterVolume", volumeSlider.value);
         Settings.settings.volume = volumeSlider.value;
         QualitySettings.shadows = (ShadowQuality) shadowsDropdown.value; 

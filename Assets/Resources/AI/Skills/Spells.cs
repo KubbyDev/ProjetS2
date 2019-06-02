@@ -12,7 +12,6 @@ public partial class Skills
             return;
         
         basic.Basic_Spell();
-            
     }
     public void UseTurbo()
     {

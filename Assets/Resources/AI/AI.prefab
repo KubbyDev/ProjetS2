@@ -4999,6 +4999,7 @@ GameObject:
   - component: {fileID: 8294962191097149405}
   - component: {fileID: 3716507366201891263}
   - component: {fileID: 6112727337460792220}
+  - component: {fileID: 6815204106924698374}
   - component: {fileID: 4557467466495060799}
   - component: {fileID: 6654715581222393996}
   - component: {fileID: 6954104503258413573}
@@ -5253,6 +5254,20 @@ MonoBehaviour:
   SmokeBomb: {fileID: 3892075379919057841, guid: 255bf681b8d2a0945b2a84b40df57072,
     type: 3}
   SmokeExplosion: {fileID: 6081345925805640053, guid: 03b9bd779f9829c46be88d4ad9fbff64,
+    type: 3}
+--- !u!114 &6815204106924698374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8294962191097149335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 928a2ecb632b5c647967d6f9b18a6a09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicSpellbullet: {fileID: 2819515107966463771, guid: ccf2bb1aee03eba488dfac8c701dd690,
     type: 3}
 --- !u!114 &4557467466495060799
 MonoBehaviour:
