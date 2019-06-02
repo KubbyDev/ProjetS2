@@ -27,6 +27,11 @@ public class HookBall : MonoBehaviour
         {
             Ball.UpdatePossessor(hooker);
             Destroy(gameObject);
+            
+            ParticleSystem.MainModule main = hooker.transform.Find("ElectricParticles").GetComponent<ParticleSystem>().main;
+            main.duration = 1f;
+            main.startColor = hooker.GetComponent<PlayerInfo>().team.GetMaterial().color;
+            hooker.transform.Find("ElectricParticles").GetComponent<ParticleSystem>().Play();
         }
     }
 }

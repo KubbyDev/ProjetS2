@@ -36,6 +36,11 @@ public class Hook : MonoBehaviour
                 pv.RPC("SpawnHook", RpcTarget.Others, position, direction);
 
                 GameObject hook = Instantiate(hookObject, position, Quaternion.identity);
+                
+                ParticleSystem.MainModule main = hook.transform.Find("ElectricParticles").GetComponent<ParticleSystem>().main;
+                main.duration = lifeTime;
+                main.startColor = GetComponent<PlayerInfo>().team.GetMaterial().color;
+                hook.transform.Find("ElectricParticles").GetComponent<ParticleSystem>().Play();
 
                 //Met en place le composant qui gere le projectile sur le reseau
                 PhotonView view = hook.AddComponent<PhotonView>();
@@ -61,5 +66,10 @@ public class Hook : MonoBehaviour
                 
                 Destroy(hook, lifeTime - latency);
                 hook.GetComponent<HookBall>().UpdateDirection(this.gameObject, direction, false);
+                
+                ParticleSystem.MainModule main = hook.transform.Find("ElectricParticles").GetComponent<ParticleSystem>().main;
+                main.duration = lifeTime;
+                main.startColor = GetComponent<PlayerInfo>().team.GetMaterial().color;
+                hook.transform.Find("ElectricParticles").GetComponent<ParticleSystem>().Play();
         }
 }
