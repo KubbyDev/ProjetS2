@@ -147,8 +147,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lightningPrefab: {fileID: 106988, guid: 15dec7b07032b2f4aa6f855bfbe120f7, type: 3}
-  frozenParticles: {fileID: 8493718747359444500, guid: acf7f5d6f6e50a4439b27a8ee15fddb6,
-    type: 3}
   lightningLifeTime: 0.2
   spawnPeriod: 0.1
 --- !u!114 &5760628669590826989

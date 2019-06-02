@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public partial class Skills
@@ -153,6 +154,6 @@ public partial class Skills
 
     public bool InPositionToShoot()
     {
-        return EnnemyGoalDist() <= Vector3.Distance(EnemyGoal().transform.position, OffensivePosition());
+        return EnnemyGoalDist() <= Math.Abs(Vector3.Distance(EnemyGoal().transform.position, OffensivePosition()));
     }
 }

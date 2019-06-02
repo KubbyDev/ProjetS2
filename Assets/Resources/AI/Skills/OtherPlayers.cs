@@ -152,6 +152,16 @@ public partial class Skills
             .Any(hit => hit.collider.CompareTag("Player") && 
                         hit.collider.GetComponent<PlayerInfo>().team.IsOpponnentOf(spInfos.team));
     }
+    
+    // Checke si la voie est libre pour tirer
+    public bool NoObstacle()
+    {
+        Vector3 aipos = infos.transform.position;
+        Vector3 goal = EnemyGoal().transform.position;
+        Vector3 direction = goal - aipos;
+
+        return Physics.Raycast(aipos, direction);
+    }
 
     /// <summary>
     /// Renvoie vrai si il y a un defenseur entre l'IA et les cages adverses
@@ -161,7 +171,7 @@ public partial class Skills
     /// <summary>
     /// Renvoie vrai si l'IA est demarquee
     /// </summary>
-    public bool IsFree(GameObject ai, float threshold = 20f)
+    public bool IsFree(GameObject ai, float threshold = 30f)
     {
         return Vector3.Distance(
                    GetNearestPlayer(
@@ -184,17 +194,6 @@ public partial class Skills
             true
         );
     }
-
-    /// <summary>
-    /// Renvoie l'ennemi demarque le plus proche
-    /// </summary>
-    /// <returns></returns>
-    public GameObject GetNearestFreeEnemy()
-    {
-        return GetNearestPlayer(
-            player => player.GetComponent<PlayerInfo>().team.IsOpponnentOf(infos.team) && IsFree(player),
-            transform.position
-        );
-    }
+    
     
 }

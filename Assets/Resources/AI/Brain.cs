@@ -12,10 +12,10 @@ public class Brain : MonoBehaviour
     private Skills skills;       //Le script qui effectue les mouvement que ce script ordonne
     private PlayerInfo infos;    //Le script qui contient plein d'informations sur l'IA
     private Hero classe;
-    private float WAYTOOCLOSEFROMGOAL = 25f;
-    private float CloseEnoughToShoot = 20f;
-    private float PUveryclose = 5f;
-    private float PUprettyclose = 10f;
+    private float WAYTOOCLOSEFROMGOAL = 65f;
+    private float CloseEnoughToShoot = 70f;
+    private float PUveryclose = 15f;
+    private float PUprettyclose = 30f;
 
     // Setup des infos importantes -------------------------------------------------------------------------------------
     
@@ -49,6 +49,7 @@ public class Brain : MonoBehaviour
         MoveForth = 52,
         Pass = 53,
         GoSupport = 54,
+        GotoEnemyGoal = 55,
             //Team has ball
         
         //Neutral
@@ -134,14 +135,19 @@ public class Brain : MonoBehaviour
                 break;
             }
             
+            case State.GotoEnemyGoal:                    //Si elle a la balle mais ne peut pas tirer, va essayer de dunker
+            {
+                skills.MoveTo(skills.EnemyGoal().transform.position, true, true, 0f);
+                break;
+            }
+            
             //Autre
             case State.GoToBall:
             {
                 GoToBall();
                 break;
             }
-
-
+            
         }
         
     }
@@ -201,21 +207,16 @@ public class Brain : MonoBehaviour
 
     public State ThisGotBall()
     {
-        if (!skills.IsDefenderReady())
+        if (!skills.IsDefenderReady() || skills.NoObstacle() || skills.EnnemyGoalDist() <= CloseEnoughToShoot || skills.InPositionToShoot())
             return State.Shoot;
         
-        if (!skills.IsFree(infos.gameObject))
+        if (!skills.IsFree(infos.gameObject) ||  infos.hero == Hero.Warden && skills.GetNearestFreeAlly())
             return State.Pass;
-        
-        if (skills.InPositionToShoot())
-            return State.Shoot;
-        
-        if (infos.hero == Hero.Warden && skills.GetNearestFreeAlly())
-            return State.Pass;
-        if (skills.EnnemyGoalDist() >= Vector3.Distance(skills.OffensivePosition(), skills.EnemyGoal().transform.position))
-            return State.Shoot;
+
         if (skills.IsFree(infos.gameObject))
             return State.MoveForth;
+        if (skills.EnnemyGoalDist() <= WAYTOOCLOSEFROMGOAL)
+            return State.GotoEnemyGoal;
         return State.Pass;
     }
 
@@ -262,7 +263,7 @@ public class Brain : MonoBehaviour
         {
             var PU = skills.GetNearestPowerUp(PowerUp.Back);
             if (PU != null && Vector3.Distance(infos.gameObject.transform.position, PU.transform.position) < skills.AllyGoalDist())
-            skills.MoveTo(PU);
+                skills.MoveTo(PU);
         }
         if (skills.HasBack())
             skills.UseBack();
@@ -285,7 +286,7 @@ public class Brain : MonoBehaviour
             skills.UseFreezeSmartly();
         if (classe == Hero.Ninja && skills.CanUseFirstSpell())
             skills.UseExplodeSmartly(skills.GetNearestOpponentFromBall());
-        if (skills.GetNearestAllyFromAllyGoal() == infos.gameObject && Vector3.Distance(skills.GetNearestOpponentFromBall().transform.position, skills.AllyGoal().transform.position) < WAYTOOCLOSEFROMGOAL )
+        if (skills.GetNearestAllyFromAllyGoal() == infos.gameObject && Vector3.Distance(Ball.possessor.transform.position, skills.AllyGoal().transform.position) < WAYTOOCLOSEFROMGOAL )
             skills.MoveInGoal();
         
         if (!skills.HasHook())
@@ -411,6 +412,7 @@ public class Brain : MonoBehaviour
         if (skills.HasPowerShoot())
             skills.UsePowerShoot();
         
-       skills.Shoot();
+        skills.Shoot();
+        Debug.Log(infos.nickname + " shot");
     }
 }
