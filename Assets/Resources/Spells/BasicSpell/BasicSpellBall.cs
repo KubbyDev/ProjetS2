@@ -20,6 +20,8 @@ public class BasicSpellBall : MonoBehaviour
         direction = p_direction;
         shooter = p_shooter;
         shooterTeam = shooter.GetComponent<PlayerInfo>().team;
+        
+        this.transform.Find("BulletParticles").GetComponent<ParticleSystem>().Play();
     }
 
     public void Update()
