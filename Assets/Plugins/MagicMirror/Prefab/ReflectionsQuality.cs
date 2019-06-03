@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ReflectionsQuality
 {
@@ -23,7 +24,7 @@ public class ReflectionsQuality
         switch (quality)
         {
             case 2: return 784;
-            case 1: return 196;
+            case 1: return 392;
             default: return 0;
         }
     }
@@ -34,8 +35,8 @@ public class ReflectionsQuality
         Update();
     }
 
-    public void OnLevelWasLoaded(int i)
+    public static void OnLoadLevel(Scene c, Scene n)
     {
-         Update();
+        Update();
     }
 }

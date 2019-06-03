@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 public class OptionsMenu : MonoBehaviour
 {
@@ -39,6 +40,7 @@ public class OptionsMenu : MonoBehaviour
     {
         currentKey = -1;
         RefreshSettings();
+        SceneManager.activeSceneChanged += ReflectionsQuality.OnLoadLevel;
     }
 
     public void RefreshSettings()
