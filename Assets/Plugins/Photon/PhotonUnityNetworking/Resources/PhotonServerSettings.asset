@@ -62,4 +62,5 @@ MonoBehaviour:
   - GetItem_RPC
   - UseSpeed_RPC
   - UseMagnet_RPC
+  - SpawnBackParticle_RPC
   DisableAutoOpenWizard: 1
