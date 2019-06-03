@@ -20,6 +20,11 @@ public class BasicSpellBall : MonoBehaviour
         direction = p_direction;
         shooter = p_shooter;
         shooterTeam = shooter.GetComponent<PlayerInfo>().team;
+        
+        ParticleSystem.MainModule main = this.transform.Find("BulletParticles").GetComponent<ParticleSystem>().main;
+        main.startColor = shooter.GetComponent<PlayerInfo>().team.GetMaterial().color;
+        
+        this.transform.Find("BulletParticles").GetComponent<ParticleSystem>().Play();
     }
 
     public void Update()

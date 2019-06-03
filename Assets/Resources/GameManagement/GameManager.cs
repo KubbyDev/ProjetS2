@@ -25,7 +25,11 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         script = this;
-        
+        timeLeft = 0;
+        gameStarted = false;
+        gameFinished = false;
+        gamePlaying = false;
+
         //Met a jour la configuration de la partie
         gameConfig = PhotonNetwork.CurrentRoom.CustomProperties.Config();
         PreGameManager.maxPlayers = 2 * gameConfig.playersPerTeam;

@@ -412,6 +412,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player_Has_Back: 0
+  theVoidPrefab: {fileID: 1891591314056610942, guid: 02cf2d9431a5cba46b327785062ebdfe,
+    type: 3}
 --- !u!1 &3438142728825950697
 GameObject:
   m_ObjectHideFlags: 0

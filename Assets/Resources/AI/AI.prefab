@@ -5116,7 +5116,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8294962191097149335}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3100f1643ced1ac42b73ee9880c3cfe5, type: 3}
   m_Name: 
@@ -5297,6 +5297,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player_Has_Back: 0
+  theVoidPrefab: {fileID: 1891591314056610942, guid: 02cf2d9431a5cba46b327785062ebdfe,
+    type: 3}
 --- !u!114 &6954104503258413573
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5329,11 +5331,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8294962191097149312}
     m_Modifications:
-    - target: {fileID: 1532105234190001597, guid: 859642c95aa3f2f4c85f5ce2c4c49cfe,
-        type: 3}
-      propertyPath: m_Name
-      value: ElectricParticles
-      objectReference: {fileID: 0}
     - target: {fileID: 7933463745419993954, guid: 859642c95aa3f2f4c85f5ce2c4c49cfe,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5388,6 +5385,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1532105234190001597, guid: 859642c95aa3f2f4c85f5ce2c4c49cfe,
+        type: 3}
+      propertyPath: m_Name
+      value: ElectricParticles
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 859642c95aa3f2f4c85f5ce2c4c49cfe, type: 3}
@@ -5479,11 +5481,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8294962191097149312}
     m_Modifications:
-    - target: {fileID: 2541585892110792171, guid: 90fb01bf4bb29ad4bb22b40b54f3e1a8,
-        type: 3}
-      propertyPath: m_Name
-      value: SpeedParticle
-      objectReference: {fileID: 0}
     - target: {fileID: 2984312505097371093, guid: 90fb01bf4bb29ad4bb22b40b54f3e1a8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5538,6 +5535,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2541585892110792171, guid: 90fb01bf4bb29ad4bb22b40b54f3e1a8,
+        type: 3}
+      propertyPath: m_Name
+      value: SpeedParticle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90fb01bf4bb29ad4bb22b40b54f3e1a8, type: 3}

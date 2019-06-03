@@ -102,8 +102,8 @@ public class Ball : MonoBehaviour
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
             player.GetComponent<BallManager>().hasBall = player == possessor;
         
-        //On reset le temps de freeze au cas ou il serait encore en cours
-        if (freeze2Time > 0)
+        //On reset le temps de freeze au cas ou il serait encore en cours et que quelqu'un a choppe la balle
+        if (viewID != -1 && freeze2Time > 0)
         {
             freeze1Time = 0;
             freeze2Time = 0;
