@@ -182,6 +182,15 @@ public partial class Skills
             true
         );
     }
+
+    /// <summary>
+    /// Renvoie la distance par rapport aux cages adverses de l'ennemie le plus proche
+    /// </summary>
+    public float GetNearestEnemyDistanceFromEnnemyGoal()
+    {
+        return Vector3.Distance(GetNearestOpponentFromEnemyGoal().transform.position, EnemyGoal().transform.position);
+    }
+    
     
     
 }

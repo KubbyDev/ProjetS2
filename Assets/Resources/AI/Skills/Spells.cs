@@ -225,7 +225,7 @@ public partial class Skills
      {
          //Calcul de l'orientation cible
          LookAt(PredictContactPoint(target, target.GetComponent<PlayerInfo>().velocity, BasicSpellBall.BulletSpeed));
-
+        
          if (!usingBasic)
              StartCoroutine(BasicCoroutine());
      }
