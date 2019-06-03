@@ -35,7 +35,7 @@ public partial class Skills
             SetPitch(newPitch);
         
         if(!shooting)
-            StartCoroutine(ShootCoroutine(target));
+            StartCoroutine(ShootCoroutine());
     }
     
     /// <summary>
@@ -47,12 +47,12 @@ public partial class Skills
     }
 
     private bool shooting;
-    IEnumerator ShootCoroutine(Vector3 target)
+    IEnumerator ShootCoroutine()
     {
         shooting = true;
         
         //Attend que la balle arrete de bouger avant de tirer (elle bouge parce qu'il vient de se tourner)
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
 
         ballManager.Shoot();       
         shooting = false;

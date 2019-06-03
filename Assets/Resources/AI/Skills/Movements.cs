@@ -43,7 +43,7 @@ public partial class Skills
     {
         if (!predictPath)
         {
-            MoveTo(transform.position, lookAtPredictedPosition, useJump);
+            MoveTo(transform.position, lookAtPredictedPosition, useJump, stopDistance);
         }
         else
         {

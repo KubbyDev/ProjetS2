@@ -1,8 +1,6 @@
-﻿using ExitGames.Client.Photon;
+﻿using System.Timers;
 using Photon.Pun;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Networking;
 
 //Cette classe gere les strategies de l'IA, elle a acces a Skills qui est une list de competences de haut niveau
 //Comme aller vers la balle, tirer, faire une passe, se demarquer etc
@@ -16,6 +14,8 @@ public class Brain : MonoBehaviour
     private float CloseEnoughToShoot = 70f;
     private float PUveryclose = 15f;
     private float PUprettyclose = 30f;
+
+    private float stateUpdateTimer = 0f;
 
     // Setup des infos importantes -------------------------------------------------------------------------------------
     
@@ -68,7 +68,13 @@ public class Brain : MonoBehaviour
                 GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.MasterClient);
                 
         //Determiner le state
-        currentState = StateUpdate();
+        if (stateUpdateTimer < 0)
+        {
+            currentState = StateUpdate();
+            stateUpdateTimer = 0.3f;
+        }
+        else
+            stateUpdateTimer -= Time.deltaTime;
         
         switch (currentState)
         {
@@ -147,19 +153,16 @@ public class Brain : MonoBehaviour
                 GoToBall();
                 break;
             }
-            
         }
-        
     }
-
 
     public State StateUpdate()
     {
         if (skills.AllyPossessBall()) // Son equipe a la balle ils sont donc en position d'attaque
             return AttackStateUpdate();
-        
-        if (skills.GetNearestAllyFromBall().GetComponent<PlayerInfo>() == infos &&
-            skills.GetNearestAllyFromAllyGoal().GetComponent<PlayerInfo>() != infos)
+
+        if (skills.GetNearestAllyFromBall() == this.gameObject &&
+            skills.GetNearestAllyFromAllyGoal() != this.gameObject)
             return State.GoToBall;
 
         if (skills.OpponnentPossessBall()) // Ils sont en position de defense
@@ -202,21 +205,22 @@ public class Brain : MonoBehaviour
             return ThisGotBall();
 
         return AlliesGotBall();
-        
     }
 
     public State ThisGotBall()
     {
-        if (!skills.IsDefenderReady() || InPositionToShoot())
-            return State.Shoot;
-        
-        if (!skills.IsFree(infos.gameObject) ||  infos.hero == Hero.Warden && skills.GetNearestFreeAlly())
+        if (!skills.IsFree(this.gameObject) || infos.hero == Hero.Warden && skills.GetNearestFreeAlly())
             return State.Pass;
+        
+        if (!skills.IsDefenderReady() && InPositionToShoot())
+            return State.Shoot;
 
         if (skills.IsFree(infos.gameObject))
             return State.MoveForth;
+        
         if (skills.EnnemyGoalDist() <= WAYTOOCLOSEFROMGOAL)
             return State.GotoEnemyGoal;
+        
         return State.Pass;
     }
 
@@ -254,11 +258,9 @@ public class Brain : MonoBehaviour
     }
 
     public void Hook() => skills.UseHookSmartly();
-    
 
     public void GoBackToDef()
     {
-        
         if(!skills.HasBack())
         {
             var PU = skills.GetNearestPowerUp(PowerUp.Back);
@@ -286,7 +288,7 @@ public class Brain : MonoBehaviour
             skills.UseFreezeSmartly();
         if (classe == Hero.Ninja && skills.CanUseFirstSpell())
             skills.UseExplodeSmartly(skills.GetNearestOpponentFromBall());
-        if (skills.GetNearestAllyFromAllyGoal() == infos.gameObject && Vector3.Distance(Ball.possessor.transform.position, skills.AllyGoal().transform.position) < WAYTOOCLOSEFROMGOAL )
+        if (skills.GetNearestAllyFromAllyGoal() == this.gameObject && Ball.possessor != null && Vector3.Distance(Ball.possessor.transform.position, skills.AllyGoal().transform.position) < WAYTOOCLOSEFROMGOAL )
             skills.MoveInGoal();
         
         if (!skills.HasHook())
@@ -312,7 +314,7 @@ public class Brain : MonoBehaviour
             skills.DistanceToBall())
         {
             var PU = skills.GetNearestPowerUp(PowerUp.Back);
-            if (PU!= null & !skills.HasBack() && Vector3.Distance(PU.transform.position, infos.transform.position) <= PUveryclose)
+            if (!skills.HasBack() && PU != null && Vector3.Distance(PU.transform.position, infos.transform.position) <= PUveryclose)
                 skills.MoveTo(PU.transform.position);
             if (skills.HasBack())
                 skills.UseBack();
@@ -407,8 +409,6 @@ public class Brain : MonoBehaviour
             skills.Pass(allytopass);
         else
             skills.Shoot();
-        
-        
     }
 
     public void Shoot()

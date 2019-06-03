@@ -159,7 +159,7 @@ public partial class Skills
     /// <summary>
     /// Renvoie vrai si l'IA est demarquee
     /// </summary>
-    public bool IsFree(GameObject ai, float threshold = 30f)
+    public bool IsFree(GameObject ai, float threshold = 40f)
     {
         return Vector3.Distance(
                    GetNearestPlayer(
