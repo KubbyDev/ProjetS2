@@ -91,7 +91,7 @@ public class Ninja : MonoBehaviour
 
     // SMOKE -----------------------------------------------------------------------------------------------------------
     
-    public const float Smoke_Spell_Duration = 5f;     //Duree d'emission de la smoke            
+    public const float Smoke_Spell_Duration = 9.5f;     //Duree d'emission de la smoke            
     public const float Smoke_Cooldown = 15f;          //Cooldown du spell smoke
     public const float Smoke_Delay = 1f;              //Duree de l'existence de SmokeBomb avant d'exploser
     public const int networkIdentifier = 2;

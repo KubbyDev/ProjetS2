@@ -300,10 +300,8 @@ public class Brain : MonoBehaviour
 
         if (skills.CanUseHook())
             skills.UseHookSmartly();
-
         else
             GoToBall();
-        
     }
 
     public void GoToBall()
@@ -394,7 +392,6 @@ public class Brain : MonoBehaviour
                     skills.UseSmoke();
                 }
             }
-
             else
                 skills.MoveToOffensivePosition();
         }
@@ -426,8 +423,7 @@ public class Brain : MonoBehaviour
         skills.Shoot();
         Debug.Log(infos.nickname + " shot");
     }
-    
-    
+
     public bool InPositionToShoot()
     {
         return Vector3.Distance(skills.OffensivePosition(), infos.transform.position) <= CloseEnoughToShoot;
