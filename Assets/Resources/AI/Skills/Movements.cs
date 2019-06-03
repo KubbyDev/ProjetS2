@@ -39,7 +39,7 @@ public partial class Skills
     /// <param name="useJump"></param>
     /// <param name="predictPath"></param>
     /// <param name="lookAtPredictedPosition"></param>
-    public void MoveTo(GameObject target, bool useJump = false, bool predictPath = true, bool lookAtPredictedPosition = true)
+    public void MoveTo(GameObject target, bool useJump = false, bool predictPath = true, bool lookAtPredictedPosition = true, float stopDistance = 2f)
     {
         if (!predictPath)
         {
@@ -76,7 +76,7 @@ public partial class Skills
                 Jump();    
             }
             
-            MoveTo(predictedPosition, lookAtPredictedPosition);
+            MoveTo(predictedPosition, lookAtPredictedPosition, false, stopDistance);
         }
     }
     
@@ -131,4 +131,7 @@ public partial class Skills
 
     /// <summary> Se dirige vers les buts adverse en evitant de s'approcher des adversaires </summary>
     public void MoveToGoalAvoidingEnnemies() => MoveToAvoidingEnnemies(EnemyGoal().transform.position);
+
+   
+    
 }

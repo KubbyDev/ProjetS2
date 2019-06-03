@@ -1,6 +1,5 @@
 ﻿using ExitGames.Client.Photon;
 using Photon.Pun;
-using Unity.Jobs.LowLevel.Unsafe;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -156,12 +155,12 @@ public class Brain : MonoBehaviour
 
     public State StateUpdate()
     {
+        if (skills.AllyPossessBall()) // Son equipe a la balle ils sont donc en position d'attaque
+            return AttackStateUpdate();
+        
         if (skills.GetNearestAllyFromBall().GetComponent<PlayerInfo>() == infos &&
             skills.GetNearestAllyFromAllyGoal().GetComponent<PlayerInfo>() != infos)
             return State.GoToBall;
-        
-        if (skills.AllyPossessBall()) // Son equipe a la balle ils sont donc en position d'attaque
-            return AttackStateUpdate();
 
         if (skills.OpponnentPossessBall()) // Ils sont en position de defense
             return DefendStateUpdate();
@@ -313,7 +312,7 @@ public class Brain : MonoBehaviour
             skills.DistanceToBall())
         {
             var PU = skills.GetNearestPowerUp(PowerUp.Back);
-            if (!skills.HasBack() && Vector3.Distance(PU.transform.position, infos.transform.position) <= PUveryclose)
+            if (PU!= null & !skills.HasBack() && Vector3.Distance(PU.transform.position, infos.transform.position) <= PUveryclose)
                 skills.MoveTo(PU.transform.position);
             if (skills.HasBack())
                 skills.UseBack();
@@ -365,7 +364,7 @@ public class Brain : MonoBehaviour
             transform.position,
             true);
         if (target != null)
-            skills.MoveTo(target);
+            skills.MoveTo(target, false, true, false, 10f);
         else
             skills.MoveTo(skills.SupportPosition());
     }

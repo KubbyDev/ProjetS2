@@ -19,6 +19,7 @@ public class Warden : MonoBehaviour
         StopCoroutine(MagnetCoroutine());
         Info.maxCatchRange = PlayerInfo.baseCatchRange;
         Info.catchWidth = PlayerInfo.baseCatchWidth;
+        transform.Find("ElectricParticles").GetComponent<ParticleSystem>().Stop();
     }
     
     // FREEZE ----------------------------------------------------------------------------------------------------------
