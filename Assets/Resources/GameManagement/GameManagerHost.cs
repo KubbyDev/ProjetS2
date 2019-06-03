@@ -7,13 +7,14 @@ using UnityEngine;
 public class GameManagerHost : MonoBehaviourPunCallbacks
 {
     public static int maxGoals;  //Le nombre de but pour que la partie se termine: 0 = infini
-    public static bool inOvertime = false;
+    public static bool inOvertime;
 
     [SerializeField] private GameObject iaPrefab;
     public static GameManagerHost script;
 
     void Awake()
     {
+        inOvertime = false;
         script = this;
     }
     
@@ -27,7 +28,7 @@ public class GameManagerHost : MonoBehaviourPunCallbacks
         //Seul le host execute ce code
         if (!PhotonNetwork.IsMasterClient)
             return;
-        
+
         // Si le temps est ecoule, soit on lance l'overtime, soit on termine la partie
         //GameDuration = 0 => illimite
         if (GameManager.gameConfig.gameDuration > 0 && GameManager.timeLeft < 0 && !inOvertime) 
