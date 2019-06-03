@@ -146,21 +146,9 @@ public partial class Skills
         return 
             //Sphere cast vers le but
             Physics.SphereCastAll(spPosition, 10, enemyGoalPosition - spPosition, enemyGoalDist)
-            //Sphere cast en dessous du but
-            .Concat(Physics.SphereCastAll(spPosition, 10, enemyGoalPosition + new Vector3(0, -20, 0) - spPosition, enemyGoalDist))
-            //Si un seul des elements touches est un adversaire, on renvoie true
+                //Si un seul des elements touches est un adversaire, on renvoie true
             .Any(hit => hit.collider.CompareTag("Player") && 
                         hit.collider.GetComponent<PlayerInfo>().team.IsOpponnentOf(spInfos.team));
-    }
-    
-    // Checke si la voie est libre pour tirer
-    public bool NoObstacle()
-    {
-        Vector3 aipos = infos.transform.position;
-        Vector3 goal = EnemyGoal().transform.position;
-        Vector3 direction = goal - aipos;
-
-        return Physics.Raycast(aipos, direction);
     }
 
     /// <summary>

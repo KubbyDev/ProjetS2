@@ -1,5 +1,6 @@
 ﻿using ExitGames.Client.Photon;
 using Photon.Pun;
+using Unity.Jobs.LowLevel.Unsafe;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -137,7 +138,7 @@ public class Brain : MonoBehaviour
             
             case State.GotoEnemyGoal:                    //Si elle a la balle mais ne peut pas tirer, va essayer de dunker
             {
-                skills.MoveTo(skills.EnemyGoal().transform.position, true, true, 0f);
+                skills.MoveTo(skills.EnemyGoal(), true);
                 break;
             }
             
@@ -207,7 +208,7 @@ public class Brain : MonoBehaviour
 
     public State ThisGotBall()
     {
-        if (!skills.IsDefenderReady() || skills.NoObstacle() || skills.EnnemyGoalDist() <= CloseEnoughToShoot || skills.InPositionToShoot())
+        if (!skills.IsDefenderReady() || InPositionToShoot())
             return State.Shoot;
         
         if (!skills.IsFree(infos.gameObject) ||  infos.hero == Hero.Warden && skills.GetNearestFreeAlly())
@@ -263,7 +264,7 @@ public class Brain : MonoBehaviour
         {
             var PU = skills.GetNearestPowerUp(PowerUp.Back);
             if (PU != null && Vector3.Distance(infos.gameObject.transform.position, PU.transform.position) < skills.AllyGoalDist())
-                skills.MoveTo(PU);
+                skills.MoveTo(PU.transform.position);
         }
         if (skills.HasBack())
             skills.UseBack();
@@ -293,7 +294,7 @@ public class Brain : MonoBehaviour
         {
             var PU = skills.GetNearestPowerUp(PowerUp.Hook);
             if (PU!=null && Vector3.Distance(PU.transform.position, infos.gameObject.transform.position) <= PUveryclose) 
-                skills.MoveTo(PU);
+                skills.MoveTo(PU.transform.position);
         }
 
         if (skills.CanUseHook())
@@ -306,8 +307,19 @@ public class Brain : MonoBehaviour
 
     public void GoToBall()
     {
+        if (infos.hero == Hero.Stricker && skills.CanUseFirstSpell())
+            skills.UseTurbo();
+        if (Vector3.Distance(Ball.ball.transform.position, skills.AllyGoal().transform.position) <
+            skills.DistanceToBall())
+        {
+            var PU = skills.GetNearestPowerUp(PowerUp.Back);
+            if (!skills.HasBack() && Vector3.Distance(PU.transform.position, infos.transform.position) <= PUveryclose)
+                skills.MoveTo(PU.transform.position);
+            if (skills.HasBack())
+                skills.UseBack();
+        }
         if (skills.DistanceToBall() > infos.maxCatchRange + 2f && Ball.possessor!= null )
-            skills.MoveTo(Ball.possessor);
+            skills.MoveTo(Ball.possessor, true);
         else
             skills.MoveTo(Ball.ball, true);
         skills.CatchBall();
@@ -353,7 +365,7 @@ public class Brain : MonoBehaviour
             transform.position,
             true);
         if (target != null)
-            skills.MoveTo(target.transform.position);
+            skills.MoveTo(target);
         else
             skills.MoveTo(skills.SupportPosition());
     }
@@ -406,7 +418,7 @@ public class Brain : MonoBehaviour
         {
             var PU = skills.GetNearestPowerUp(PowerUp.PowerShoot);
             if (PU!=null && Vector3.Distance(PU.transform.position, infos.gameObject.transform.position) <= PUveryclose) 
-                skills.MoveTo(PU);
+                skills.MoveTo(PU.transform.position);
         }
 
         if (skills.HasPowerShoot())
@@ -414,5 +426,11 @@ public class Brain : MonoBehaviour
         
         skills.Shoot();
         Debug.Log(infos.nickname + " shot");
+    }
+    
+    
+    public bool InPositionToShoot()
+    {
+        return Vector3.Distance(skills.OffensivePosition(), infos.transform.position) <= CloseEnoughToShoot;
     }
 }

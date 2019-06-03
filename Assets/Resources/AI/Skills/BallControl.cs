@@ -151,9 +151,5 @@ public partial class Skills
         
         return Ball.possessor.GetComponent<PlayerInfo>().team == infos.team.OtherTeam();
     }
-
-    public bool InPositionToShoot()
-    {
-        return EnnemyGoalDist() <= Math.Abs(Vector3.Distance(EnemyGoal().transform.position, OffensivePosition()));
-    }
+    
 }
