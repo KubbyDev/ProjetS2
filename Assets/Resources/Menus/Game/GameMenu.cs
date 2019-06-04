@@ -131,4 +131,18 @@ public class GameMenu : MonoBehaviour
     {
         return Math.Max(min, Math.Min(value, max));
     }
+
+    public void DisplayFinalCountdown()
+    {
+        StartCoroutine(Countdown_Coroutine());
+    }
+
+    IEnumerator Countdown_Coroutine()
+    {
+        for (int i = 10; i > 0; i--)
+        {
+            DisplayOnCentral(i.ToString(), 1, 80);
+            yield return new WaitForSeconds(1);
+        }
+    }
 }
