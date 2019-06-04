@@ -305,7 +305,7 @@ public class Brain : MonoBehaviour
         if (!skills.HasHook())
         {
             var PU = skills.GetNearestPowerUp(PowerUp.Hook);
-            if (PU!=null && Vector3.Distance(PU.transform.position, infos.gameObject.transform.position) <= PUveryclose) 
+            if (PU!=null && Vector3.Distance(PU.transform.position, infos.gameObject.transform.position) <= PUprettyclose) 
                 skills.MoveTo(PU.transform.position, true, false, 0f);
         }
 
@@ -411,9 +411,9 @@ public class Brain : MonoBehaviour
     public void Pass()
     {
         GameObject allytopass = skills.GetNearestAllyInFront();
-        if (allytopass == null)
+        if (allytopass == null || !skills.IsPassWayClear(allytopass))
             allytopass = skills.GetNearestFreeAlly();
-        if (allytopass != null)
+        if (allytopass != null && skills.IsPassWayClear(allytopass))
         {
             skills.Pass(allytopass);
             Debug.Log(infos.nickname + " passed to " + allytopass.GetComponent<PlayerInfo>().nickname);
