@@ -7,19 +7,21 @@ using UnityEngine.UI;
 public class GameMenu : MonoBehaviour
 {
     public static GameMenu script;
-    
+
     private Text timeDisplayer;          //Le component qui affiche le temps restant
     private Text blueScoreDisplayer;     //Le component qui affiche le score de l'equipe bleu
     private Text orangeScoreDisplayer;   //Le component qui affiche le score de l'equipe orange
     private Text centralDisplay;         //Sert a afficher le message de but, de win et le temps pendant l'engagement
     private float centralScaleAnimTime;  //Sert a faire la petite animation d'arrivee du texte sur le display central
     private float centralFadeAnimTime;   //Sert a faire la petite animation de sortie du texte sur le display central
+    private GameObject soundManager;     //Contient tous les sons independant qui peuvent etre joues
     
     void Awake()
     {
         script = this;
         centralDisplay = transform.Find("Central").GetComponent<Text>();   
         timeDisplayer = transform.Find("Background").Find("Time").GetComponent<Text>();
+        soundManager = GameObject.Find("SoundManager");
     }
 
     public void OnStartGame()
@@ -59,12 +61,16 @@ public class GameMenu : MonoBehaviour
     IEnumerator Kickoff_Coroutine()
     {
         DisplayOnCentral("3");
+        soundManager.transform.Find("Pwin").GetComponent<AudioSource>().Play();
         yield return new WaitForSeconds(1);
         DisplayOnCentral("2");
+        soundManager.transform.Find("Pwin").GetComponent<AudioSource>().Play();
         yield return new WaitForSeconds(1);
         DisplayOnCentral("1");
+        soundManager.transform.Find("Pwin").GetComponent<AudioSource>().Play();
         yield return new WaitForSeconds(1);
         DisplayOnCentral("Go");
+        soundManager.transform.Find("Pwin_aigu").GetComponent<AudioSource>().Play();
     }
 
     public void OnScore(GameObject playerWhoScored, int blueScore, int orangeScore)
