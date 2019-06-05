@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public static int orangeScore;           //Score de l'equipe orange
     public static bool gameStarted;          //Passe a true des que la partie demarre
     public static bool gameFinished;         //Passe a true des que la partie se termine
+    public static bool displayedFinalCD;     //Passe a true a 10 sec de la fin
     
     [SerializeField] private Transform menus;                  //Contient les affichages
     [SerializeField] private Vector3 ballSpawn = Vector3.zero; //Position de spawn de la balle
@@ -29,6 +30,7 @@ public class GameManager : MonoBehaviour
         gameStarted = false;
         gameFinished = false;
         gamePlaying = false;
+        displayedFinalCD = false;
 
         //Met a jour la configuration de la partie
         gameConfig = PhotonNetwork.CurrentRoom.CustomProperties.Config();
@@ -52,7 +54,13 @@ public class GameManager : MonoBehaviour
 
         if (timeLeftForKickoff > 0)
             timeLeftForKickoff -= Time.deltaTime;
-        
+
+        if (timeLeft < 10 && !displayedFinalCD && gameStarted && gamePlaying)
+        {
+            displayedFinalCD = true;
+            GameMenu.script.DisplayFinalCountdown();
+        }
+
         GameMenu.script.UpdateTimeDisplay(timeLeft);
     }
     

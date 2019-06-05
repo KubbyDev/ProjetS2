@@ -46,7 +46,7 @@ public class Settings
         KeyCode.F1,        //13: Change cam
         KeyCode.Tab,       //14: Player List
         KeyCode.H,         //15: Change Hero
-        KeyCode.Backspace, //16: Pause Menu
+        KeyCode.Escape,    //16: Pause Menu
     };
     public float[] sensitivity = {0.5f,0.5f};
     public bool invertY = false;

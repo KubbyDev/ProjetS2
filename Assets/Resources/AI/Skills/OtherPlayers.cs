@@ -157,6 +157,24 @@ public partial class Skills
     public bool IsDefenderReady() => IsDefenderReady(this.gameObject);
 
     /// <summary>
+    /// Renvoie vrai si il y a un ennemi entre le shooting player et la cible de sa passe
+    /// </summary>
+    public bool IsPassWayClear(GameObject target)
+    {
+        Vector3 spPosition = infos.transform.position;
+        PlayerInfo spInfos = infos;
+        Vector3 targetpos = target.transform.position ;
+        float dist = Vector3.Distance(targetpos, spPosition);
+        
+        return 
+            //Sphere cast vers le but
+            Physics.SphereCastAll(spPosition, 10, targetpos - spPosition, dist)
+                //Si un seul des elements touches est un adversaire, on renvoie true
+                .Any(hit => hit.collider.CompareTag("Player") && 
+                            hit.collider.GetComponent<PlayerInfo>().team.IsOpponnentOf(spInfos.team));
+    }
+    
+    /// <summary>
     /// Renvoie vrai si l'IA est demarquee
     /// </summary>
     public bool IsFree(GameObject ai, float threshold = 40f)

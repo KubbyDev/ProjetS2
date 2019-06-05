@@ -112,6 +112,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7968572718962025133}
     m_Modifications:
+    - target: {fileID: 824206991842981200, guid: 90f0589995559f44784b31da52bb87cd,
+        type: 3}
+      propertyPath: m_Name
+      value: FrozenParticle 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4077749245936773875, guid: 90f0589995559f44784b31da52bb87cd,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -167,11 +172,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 824206991842981200, guid: 90f0589995559f44784b31da52bb87cd,
-        type: 3}
-      propertyPath: m_Name
-      value: FrozenParticle 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1600539890926247894, guid: 90f0589995559f44784b31da52bb87cd,
         type: 3}
       propertyPath: playOnAwake
@@ -181,6 +181,16 @@ PrefabInstance:
         type: 3}
       propertyPath: lengthInSec
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1600539890926247894, guid: 90f0589995559f44784b31da52bb87cd,
+        type: 3}
+      propertyPath: EmissionModule.rateOverDistance.scalar
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1600539890926247894, guid: 90f0589995559f44784b31da52bb87cd,
+        type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90f0589995559f44784b31da52bb87cd, type: 3}

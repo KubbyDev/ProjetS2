@@ -27,8 +27,8 @@ public class Ninja : MonoBehaviour
     public const float Explode_Spell_Duration = 1f;   //Duree du speed
     public const float Explode_Cooldown = 20f;        //Cooldown du spell
     public const float Explode_Speed_Boost = 3f;      //Force du speed
-    public const float Explosion_Radius = 10.0f;      //Rayon dans lequel les joueurs subissent l'explosion
-    public const float Explosion_Power = 30f;         //Puissance de l'explosion
+    public const float Explosion_Radius = 20.0f;      //Rayon dans lequel les joueurs subissent l'explosion
+    public const float Explosion_Power = 50f;         //Puissance de l'explosion
 
     public void Explode_Spell()
     {
@@ -78,10 +78,7 @@ public class Ninja : MonoBehaviour
                 distance <= Explosion_Radius)
             {
                 //On le propulse
-                Vector3 Blast = (new Vector3(player.transform.position.x - transform.position.x, 
-                                    0f, 
-                                    player.transform.position.z - transform.position.z
-                                    ).normalized + new Vector3(0,1.0f,0))
+                Vector3 Blast = (new Vector3(player.transform.position.x - transform.position.x, 0f, player.transform.position.z - transform.position.z).normalized + new Vector3(0,1.0f,0))
                                 * (1 - distance/Explosion_Radius);
                 
                 player.GetComponent<MovementManager>().AddForce(Blast * Explosion_Power);
