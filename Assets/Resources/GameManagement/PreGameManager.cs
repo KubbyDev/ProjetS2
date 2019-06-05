@@ -58,6 +58,7 @@ public class PreGameManager : MonoBehaviour
         if (timeLeftToStart < 0 && PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.CurrentRoom.IsOpen = false; //On ferme la salle
+            PhotonNetwork.CurrentRoom.IsVisible = false;
         
             Ball.Hide();  //On cache la balle
             timeDisplayer.text = "The game is starting...";
