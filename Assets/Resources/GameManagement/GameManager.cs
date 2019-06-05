@@ -183,8 +183,11 @@ public class GameManager : MonoBehaviour
             infos.ResetSpells();
 
             //Si c'est une IA on lui dit de ne pas bouger jusqu'a l'engagement (3 secondes)
-            if (! player.GetComponent<PlayerInfo>().isPlayer)
+            if (!player.GetComponent<PlayerInfo>().isPlayer)
+            {
                 player.GetComponent<Skills>().blockInputs = timeLeftForKickoff;
+                player.GetComponent<MovementManager>().ResetSpeed();
+            }
         }
         
         //On kill tous les elements lances par des spells

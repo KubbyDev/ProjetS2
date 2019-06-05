@@ -25,7 +25,7 @@ public class Settings
     public int reflectionsQuality = 2;
     
     //Son
-    public float volume = 0f;
+    public float volume = 1f;
 
     //Controles (les controles definis ici sont les controles par defaut)
     public KeyCode[] controls =

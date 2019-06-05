@@ -29,7 +29,7 @@ public class MainMenu : MonoBehaviourPunCallbacks
         Application.targetFrameRate = 100;
         
         serversMenuScript = GameObject.Find("Scripts").GetComponent<ServerSelectionMenu>();
-        optionsMenu.transform.Find("Options").GetComponent<OptionsMenu>().RefreshSettings();
+
         
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
@@ -41,6 +41,11 @@ public class MainMenu : MonoBehaviourPunCallbacks
             messagesMenu.transform.Find("Menu").Find("Text").GetComponent<Text>().text = Tools.message;
             Tools.message = null;
         }
+    }
+
+    void Start()
+    {
+        optionsMenu.transform.Find("Options").GetComponent<OptionsMenu>().RefreshSettings();
     }
     
     public override void OnConnectedToMaster()

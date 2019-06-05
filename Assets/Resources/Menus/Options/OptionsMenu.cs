@@ -40,11 +40,12 @@ public class OptionsMenu : MonoBehaviour
     {
         currentKey = -1;
         RefreshSettings();
-        SceneManager.activeSceneChanged += ReflectionsQuality.OnLoadLevel;
     }
 
     public void RefreshSettings()
     {
+        SceneManager.activeSceneChanged += ReflectionsQuality.OnLoadLevel;
+        
         //On rempli le dropdown des resolutions avec toutes les resolutions que l'ecran peut afficher
         resolutionDropdown.options.Clear();
         resolutions = Screen.resolutions.Where(res => res.refreshRate == Screen.currentResolution.refreshRate).Reverse().ToArray();
@@ -170,7 +171,7 @@ public class OptionsMenu : MonoBehaviour
         //Graphics
         QualitySettings.antiAliasing = (int) Mathf.Pow(2, aaDropdown.value);
         Settings.settings.aaLevel = aaDropdown.value;
-        masterVolume.SetFloat("MasterVolume", volumeSlider.value);
+        masterVolume.SetFloat("MasterVolume", 20*Mathf.Log(volumeSlider.value));
         Settings.settings.volume = volumeSlider.value;
         QualitySettings.shadows = (ShadowQuality) shadowsDropdown.value; 
         Settings.settings.shadowsQuality = shadowsDropdown.value;
