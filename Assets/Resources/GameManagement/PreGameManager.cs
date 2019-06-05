@@ -41,7 +41,8 @@ public class PreGameManager : MonoBehaviour
             return;
         
         //On ferme la salle si elle est pleine
-        PhotonNetwork.CurrentRoom.IsOpen = PhotonNetwork.CurrentRoom.PlayerCount < maxPlayers;
+        PhotonNetwork.CurrentRoom.IsOpen = PhotonNetwork.CurrentRoom.IsVisible =
+            PhotonNetwork.CurrentRoom.PlayerCount < maxPlayers;
         
         if (timeLeftToStart > 0)
             timeLeftToStart -= Time.deltaTime;
