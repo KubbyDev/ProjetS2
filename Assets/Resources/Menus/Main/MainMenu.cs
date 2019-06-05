@@ -1,4 +1,5 @@
-﻿using Photon.Pun;
+﻿using System;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,8 +30,7 @@ public class MainMenu : MonoBehaviourPunCallbacks
         Application.targetFrameRate = 100;
         
         serversMenuScript = GameObject.Find("Scripts").GetComponent<ServerSelectionMenu>();
-        optionsMenu.transform.Find("Options").GetComponent<OptionsMenu>().RefreshSettings();
-        
+
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         
@@ -42,7 +42,12 @@ public class MainMenu : MonoBehaviourPunCallbacks
             Tools.message = null;
         }
     }
-    
+
+    void Start()
+    {
+        optionsMenu.transform.Find("Options").GetComponent<OptionsMenu>().RefreshSettings();
+    }
+
     public override void OnConnectedToMaster()
     {
         connected = true;

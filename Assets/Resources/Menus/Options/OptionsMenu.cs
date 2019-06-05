@@ -27,8 +27,10 @@ public class OptionsMenu : MonoBehaviour
     [SerializeField] private InputField[] sensitivityTexts; //References aux valeurs a droite des sliders
     [SerializeField] private Toggle invert;                 //Reference au toggle invert
     [Header("Audio")]
-    [SerializeField] private AudioMixer masterVolume;       //Reference au systeme de gestion du son
-    [SerializeField] private Slider volumeSlider;           //Reference au slider du volume
+    [SerializeField] private AudioMixer audioMixer;         //Reference au systeme de gestion du son
+    [SerializeField] private Slider masterVolumeSlider;     //Reference au slider du volume principal
+    [SerializeField] private Slider gameVolumeSlider;       //Reference au slider du volume du jeu
+    [SerializeField] private Slider musicVolumeSlider;      //Reference au slider du volume de la musique
  
     private Resolution[] resolutions;     //Liste des resolutions que l'ecran peut afficher
     private int currentKey = -1;          //L'index de la touche que l'utilisateur est en train d'assigner
@@ -40,7 +42,6 @@ public class OptionsMenu : MonoBehaviour
     {
         currentKey = -1;
         RefreshSettings();
-        SceneManager.activeSceneChanged += ReflectionsQuality.OnLoadLevel;
     }
 
     public void RefreshSettings()
@@ -50,7 +51,9 @@ public class OptionsMenu : MonoBehaviour
         resolutions = Screen.resolutions.Where(res => res.refreshRate == Screen.currentResolution.refreshRate).Reverse().ToArray();
         foreach (Resolution res in resolutions)
             resolutionDropdown.options.Add(new Dropdown.OptionData(ToString(res)));
-
+        
+        SceneManager.activeSceneChanged += ReflectionsQuality.OnLoadLevel;
+        
         //Met a jour les affichages et les parametres du jeu
         DisplaySettings();
         ApplySettings();
@@ -170,8 +173,6 @@ public class OptionsMenu : MonoBehaviour
         //Graphics
         QualitySettings.antiAliasing = (int) Mathf.Pow(2, aaDropdown.value);
         Settings.settings.aaLevel = aaDropdown.value;
-        masterVolume.SetFloat("MasterVolume", volumeSlider.value);
-        Settings.settings.volume = volumeSlider.value;
         QualitySettings.shadows = (ShadowQuality) shadowsDropdown.value; 
         Settings.settings.shadowsQuality = shadowsDropdown.value;
         Screen.SetResolution(resolutions[resolutionDropdown.value].width, resolutions[resolutionDropdown.value].height, fullscreenToggle.isOn);
@@ -186,6 +187,14 @@ public class OptionsMenu : MonoBehaviour
         Settings.settings.sensitivity[0] = sensitivity[0].value;
         Settings.settings.sensitivity[1] = sensitivity[1].value;
         Settings.settings.invertY = invert.isOn;
+        
+        //Audio
+        audioMixer.SetFloat("MasterVolume", 20*Mathf.Log10(masterVolumeSlider.value));
+        audioMixer.SetFloat("GameVolume", 20*Mathf.Log10(gameVolumeSlider.value));
+        audioMixer.SetFloat("MusicVolume", 20*Mathf.Log10(musicVolumeSlider.value));
+        Settings.settings.masterVolume = masterVolumeSlider.value;
+        Settings.settings.gameVolume = gameVolumeSlider.value;
+        Settings.settings.musicVolume = musicVolumeSlider.value;
     }
 
     //Met a jour les elements du menu en fonction de Settings.settings
@@ -197,7 +206,6 @@ public class OptionsMenu : MonoBehaviour
         shadowsDropdown.value = Settings.settings.shadowsQuality;
         reflectionsDropdown.value = Settings.settings.reflectionsQuality;
         fullscreenToggle.isOn = Settings.settings.fullscreen;
-        volumeSlider.value = Settings.settings.volume;
 
         //Controles
         for (int i = 0; i < controlsButtonsTexts.Length; i++)
@@ -207,5 +215,10 @@ public class OptionsMenu : MonoBehaviour
         sensitivityTexts[0].text = Settings.settings.sensitivity[0].ToString(CultureInfo.InvariantCulture.NumberFormat);
         sensitivityTexts[1].text = Settings.settings.sensitivity[1].ToString(CultureInfo.InvariantCulture.NumberFormat);
         invert.isOn = Settings.settings.invertY;
+        
+        //Audio
+        masterVolumeSlider.value = Settings.settings.masterVolume;
+        gameVolumeSlider.value = Settings.settings.gameVolume;
+        musicVolumeSlider.value = Settings.settings.musicVolume;
     }
 }
