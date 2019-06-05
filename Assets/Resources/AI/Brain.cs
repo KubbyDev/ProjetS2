@@ -416,7 +416,7 @@ public class Brain : MonoBehaviour
         if (allytopass != null)
         {
             skills.Pass(allytopass);
-            Debug.Log(infos.nickname + " passed to " + allytopass.GetComponent<PlayerInfo>().nickname);
+            //Debug.Log(infos.nickname + " passed to " + allytopass.GetComponent<PlayerInfo>().nickname);
         }
         else
             skills.Shoot();
@@ -435,7 +435,7 @@ public class Brain : MonoBehaviour
             skills.UsePowerShoot();
         
         skills.Shoot();
-        Debug.Log(infos.nickname + " shot");
+        //Debug.Log(infos.nickname + " shot");
     }
 
     public bool InPositionToShoot()

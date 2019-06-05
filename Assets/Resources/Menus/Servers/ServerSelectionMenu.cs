@@ -156,8 +156,7 @@ public class ServerSelectionMenu : MonoBehaviourPunCallbacks
      
     public void OnRefreshClicked()
     {
-        PhotonNetwork.GetCustomRoomList(TypedLobby.Default, "");
-        //RemoveAllRooms();
+        RefreshRoomsList();
     }
 
     public void OnRandomizeNickname()
