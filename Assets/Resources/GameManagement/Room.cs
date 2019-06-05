@@ -40,6 +40,9 @@ public class Room : MonoBehaviourPunCallbacks
     {
         base.OnPlayerLeftRoom(player);
         
+        PlayerInfo oldPlayerInfo = ((GameObject) player.TagObject).GetComponent<PlayerInfo>();
+        Destroy(oldPlayerInfo.gameObject);
+        
         //A moins que ce soit le host, que la game ait deja demarre et qu'elle ne soit pas finie, on ne fait rien
         if (! (PhotonNetwork.IsMasterClient && PreGameManager.script.gameStarting && !GameManager.gameFinished))
             return;
@@ -47,8 +50,6 @@ public class Room : MonoBehaviourPunCallbacks
         //Si c'est le host et que la game a deja demarre
         //on cree une IA pour remplacer le joueur qui vient de quitter
         
-        PlayerInfo oldPlayerInfo = ((GameObject) player.TagObject).GetComponent<PlayerInfo>();
-
         StartCoroutine(SpawnReplacingIACoroutine(
             oldPlayerInfo.team, 
             oldPlayerInfo.hero,
@@ -57,8 +58,6 @@ public class Room : MonoBehaviourPunCallbacks
             oldPlayerInfo.transform.rotation,
             oldPlayerInfo.velocity
         ));
-        
-        Destroy(oldPlayerInfo.gameObject);
     }
 
     IEnumerator SpawnReplacingIACoroutine(Team team, Hero hero, int viewID, Vector3 position, Quaternion rotation, Vector3 velocity)
