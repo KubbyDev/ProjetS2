@@ -63,4 +63,5 @@ MonoBehaviour:
   - UseSpeed_RPC
   - UseMagnet_RPC
   - SpawnBackParticle_RPC
+  - Teleport_RPC
   DisableAutoOpenWizard: 1

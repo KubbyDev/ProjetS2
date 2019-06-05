@@ -567,7 +567,7 @@ PrefabInstance:
     - target: {fileID: 6572717544643566008, guid: 37ac5d17c94012e438cc2d162c2accc4,
         type: 3}
       propertyPath: pregameDuration
-      value: 10
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 6241107992965290905, guid: 37ac5d17c94012e438cc2d162c2accc4,
         type: 3}
