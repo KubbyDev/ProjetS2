@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
         if (timeLeftForKickoff > 0)
             timeLeftForKickoff -= Time.deltaTime;
 
-        if (timeLeft < 10 && !displayedFinalCD && gameStarted && gamePlaying)
+        if (timeLeft > 1 && timeLeft < 10 && !displayedFinalCD && gameStarted && gamePlaying)
         {
             displayedFinalCD = true;
             GameMenu.script.DisplayFinalCountdown();

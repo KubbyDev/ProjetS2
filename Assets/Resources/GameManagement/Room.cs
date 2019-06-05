@@ -3,7 +3,6 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.IO;
 using System.Linq;
 
 //Ce script gere les entrees et sorties de la salle

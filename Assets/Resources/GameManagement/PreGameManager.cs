@@ -20,9 +20,10 @@ public class PreGameManager : MonoBehaviour
     private Text timeDisplayer;       //Le component qui affiche le texte pour le temps restant
     private Text playersDisplayer;    //Le component qui affiche le texte pour le nombre de joueurs
 
-    private void Awake()
+    void Awake()
     {
         script = this;
+        gameStarting = false;
         timeLeftToStart = pregameDuration;
     }
 
@@ -55,18 +56,20 @@ public class PreGameManager : MonoBehaviour
         
         //Quand le timer est fini, uniquement sur le host
         if (timeLeftToStart < 0 && PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.CurrentRoom.IsOpen = false; //On ferme la salle
+        
+            Ball.Hide();  //On cache la balle
+            timeDisplayer.text = "The game is starting...";
+            gameStarting = true;
+            
             StartCoroutine(HandleGameStart_Coroutine());
+        }
     }
 
     //Executee sur le host au moment du demarrage de la partie
     IEnumerator HandleGameStart_Coroutine()
     {
-        PhotonNetwork.CurrentRoom.IsOpen = false; //On ferme la salle
-        
-        Ball.Hide();  //On cache la balle
-        timeDisplayer.text = "The game is starting...";
-        gameStarting = true;
-        
         yield return new WaitForSeconds(2);
         
         GameManagerHost.SetTeams();     //On met tous les joueurs dans une team
