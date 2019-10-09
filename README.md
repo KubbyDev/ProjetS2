@@ -1,6 +1,6 @@
-# ProjetS2
+## ProjetS2
 
-Website: https://kubbydev.github.io/ProjetS2_Website/
+Website: https://kubbydev.github.io/ProjetS2_Website/  
 Game Trailer: https://www.youtube.com/watch?v=247wCE2lOHI
 
 ![ProjetS2](https://image.noelshack.com/fichiers/2019/41/3/1570653389-capture.png)
