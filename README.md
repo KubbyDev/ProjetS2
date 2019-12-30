@@ -1,6 +1,7 @@
 ## ProjetS2
 
-Website: https://kubbydev.github.io/ProjetS2_Website/  
-Game Trailer: https://www.youtube.com/watch?v=247wCE2lOHI
+The project I made with a group of 4 during the second semester of my first year of Epita prepa.  
+Website: [https://kubbydev.github.io/ProjetS2_Website/](https://kubbydev.github.io/ProjetS2_Website/)  
+![ProjetS2](https://i.imgur.com/ZCwHA8k.jpg)
 
-![ProjetS2](https://image.noelshack.com/fichiers/2019/41/3/1570654040-capture.png)
+[![Trailer](http://img.youtube.com/vi/247wCE2lOHI/0.jpg)](http://www.youtube.com/watch?v=247wCE2lOHI)
